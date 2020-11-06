@@ -9,7 +9,7 @@ namespace CulinaryPortal.API.DbContexts
 {
     public class CulinaryPortalContext : DbContext
     {
-        public CulinaryPortalContext() : base()
+        public CulinaryPortalContext(DbContextOptions<CulinaryPortalContext>options) : base(options)
         {
         }
         public DbSet<Cookbook> Cookbooks { get; set; }

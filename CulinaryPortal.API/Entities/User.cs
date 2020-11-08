@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,10 +8,7 @@ namespace CulinaryPortal.API.Entities
 {
     public class User
     {
-        //[Key]
-        //public Guid Id { get; set; } //not to do is use the GUID column as the clustering key
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] //id INT NOT NULL PRIMARY KEY IDENTITY
         public int Id { get; set; }
 
         [Required]
@@ -33,6 +29,10 @@ namespace CulinaryPortal.API.Entities
         [Required]
         [MaxLength(20)]
         public string Email { get; set; }
+
+        public Cookbook Cookbook { get; set; }
+
+        public IList<Recipe> Recipes { get; set; }
         //string/ zachashowane/password
         //string / enum / role
     }

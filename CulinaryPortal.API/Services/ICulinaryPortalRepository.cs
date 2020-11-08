@@ -16,9 +16,9 @@ namespace CulinaryPortal.API.Services
         void UpdateRecipe(Recipe recipe);
         void DeleteRecipe(Recipe recipe);
 
-        IEnumerable<User> GetUserss();
+        IEnumerable<User> GetUsers();
         User GetUser(int userId);
-        IEnumerable<User> GetUser(IEnumerable<int> userIds);
+        IEnumerable<User> GetUsers(IEnumerable<int> userIds);
         void AddUser(User user);
         void DeleteUser(User user);
         void UpdateUser(User user);

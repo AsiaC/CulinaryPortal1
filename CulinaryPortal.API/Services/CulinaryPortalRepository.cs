@@ -79,7 +79,7 @@ namespace CulinaryPortal.API.Services
             return _context.Users.FirstOrDefault(u => u.Id == userId);
         }
 
-        public IEnumerable<User> GetUser(IEnumerable<int> userIds)
+        public IEnumerable<User> GetUsers(IEnumerable<int> userIds)
         {
             if (userIds == null)
             {
@@ -88,7 +88,7 @@ namespace CulinaryPortal.API.Services
             return _context.Users.Where(u => userIds.Contains(u.Id)).OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToList();
         }
 
-        public IEnumerable<User> GetUserss()
+        public IEnumerable<User> GetUsers()
         {
             return _context.Users.ToList<User>();
         }       

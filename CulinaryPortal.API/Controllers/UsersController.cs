@@ -1,4 +1,6 @@
-﻿using CulinaryPortal.API.Entities;
+﻿using AutoMapper;
+using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,26 +12,31 @@ namespace CulinaryPortal.API.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UsersController :ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly ICulinaryPortalRepository _culinaryPortalRepository;
+        private readonly IMapper _mapper;
 
-        public UsersController(ICulinaryPortalRepository culinaryPortalRepository)
+        public UsersController(ICulinaryPortalRepository culinaryPortalRepository, IMapper mapper)
         {
             _culinaryPortalRepository = culinaryPortalRepository ?? throw new ArgumentNullException(nameof(culinaryPortalRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        [HttpGet]
-        //public ActionResult<IEnumerable<User>> GetUsers()
+
+        //[HttpGet]
+        //public IActionResult GetUsers()
         //{
-        //    var users = _culinaryPortalRepository.GetUsers();
-        //    return users; 
+        //    var authorsFromRepo = _culinaryPortalRepository.GetUsers();
+        //    return new JsonResult(authorsFromRepo);
         //}
-
-        public IActionResult GetUsers()
+        [HttpGet]
+        public ActionResult<IEnumerable<User>> GetUsers()
         {
-            var authorsFromRepo = _culinaryPortalRepository.GetUsers();
-            return new JsonResult(authorsFromRepo);
+            var usersFromRepo = _culinaryPortalRepository.GetUsers();
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(usersFromRepo));
         }
+
+
     }
 }

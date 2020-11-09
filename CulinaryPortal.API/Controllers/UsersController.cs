@@ -23,7 +23,6 @@ namespace CulinaryPortal.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-
         //[HttpGet]
         //public IActionResult GetUsers()
         //{
@@ -31,12 +30,45 @@ namespace CulinaryPortal.API.Controllers
         //    return new JsonResult(authorsFromRepo);
         //}
         [HttpGet]
-        public ActionResult<IEnumerable<User>> GetUsers()
+        public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
             var usersFromRepo = _culinaryPortalRepository.GetUsers();
             return Ok(_mapper.Map<IEnumerable<UserDto>>(usersFromRepo));
         }
 
+        [HttpGet("{userId}", Name ="GetUser")]
+        public ActionResult<UserDto> GetUser(int userId)
+        {
+            var checkIfUserExists = _culinaryPortalRepository.UserExists(userId);
+            if (!checkIfUserExists)
+            {
+                return NotFound();
+            }
+            var userFromRepo = _culinaryPortalRepository.GetUser(userId);
+            return Ok(_mapper.Map<UserDto>(userFromRepo));
+        }
 
+        [HttpPost]
+        public ActionResult<UserDto> CreateUser(User user)
+        {
+            _culinaryPortalRepository.AddUser(user);
+            _culinaryPortalRepository.Save();
+
+            var userToReturn = _mapper.Map<UserDto>(user);
+            return CreatedAtAction("GetUser", new { userId = userToReturn.Id }, userToReturn);
+        }
+
+        [HttpDelete("userId")]
+        public ActionResult DeleteUser(int userId)
+        {
+            var userFromRepo = _culinaryPortalRepository.GetUser(userId);
+            if (userFromRepo == null)
+            {
+                return NotFound();
+            }
+            _culinaryPortalRepository.DeleteUser(userFromRepo);
+            _culinaryPortalRepository.Save();
+            return NoContent();
+        }
     }
 }

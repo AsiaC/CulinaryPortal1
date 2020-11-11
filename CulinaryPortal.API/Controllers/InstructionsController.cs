@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Controllers
         {
             var checkIfInstructionExists = _culinaryPortalRepository.InstructionExists(instructionId);
 
-            if (checkIfInstructionExists == null)
+            if (checkIfInstructionExists == false)
             {
                 return NotFound();
             }

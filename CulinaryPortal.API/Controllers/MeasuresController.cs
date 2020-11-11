@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Controllers
         {
             var checkIfMeasureExists = _culinaryPortalRepository.IngredientExists(measureId);
 
-            if (checkIfMeasureExists == null)
+            if (checkIfMeasureExists == false)
             {
                 return NotFound();
             }

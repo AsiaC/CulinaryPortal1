@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Controllers
         {
             var checkIfCookbookExists = _culinaryPortalRepository.CookbookExists(cookbookId);
 
-            if (checkIfCookbookExists == null)
+            if (checkIfCookbookExists == false)
             {
                 return NotFound();
             }

@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Controllers
         {
             var checkIfRecipeExists = _culinaryPortalRepository.RecipeExists(recipeId);
 
-            if (checkIfRecipeExists == null)
+            if (checkIfRecipeExists == false)
             {
                 return NotFound();
             }

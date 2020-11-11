@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Controllers
         {
             var checkIfShoppingListExists = _culinaryPortalRepository.ShoppingListExists(shoppingListId);
 
-            if (checkIfShoppingListExists == null)
+            if (checkIfShoppingListExists == false)
             {
                 return NotFound();
             }

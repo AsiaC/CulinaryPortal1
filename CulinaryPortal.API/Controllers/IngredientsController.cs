@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace CulinaryPortal.API.Controllers
 {
-    [Route("api/ingredinets")]
+    [Route("api/ingredients")]
     [ApiController]
     public class IngredientsController : ControllerBase
     {

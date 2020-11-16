@@ -1,5 +1,6 @@
 ﻿using CulinaryPortal.API.DbContexts;
 using CulinaryPortal.API.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +34,13 @@ namespace CulinaryPortal.API.Services
             return (_context.SaveChanges() >= 0);
         }
 
+        public Task SaveChangesAsync()
+        {
+            return _context.SaveChangesAsync();
+        }
+
         #region Recipe
-        
+
         public void AddRecipe(int userId, Recipe recipe)
         {
             if (recipe == null)
@@ -132,6 +138,11 @@ namespace CulinaryPortal.API.Services
         public bool UserExists(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
         }
         #endregion
 
@@ -299,6 +310,10 @@ namespace CulinaryPortal.API.Services
         {
             _context.Cookbooks.Remove(cookbook);
         }
+
+
+
+
         #endregion
     }
 }

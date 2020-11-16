@@ -33,6 +33,9 @@ namespace CulinaryPortal.API.Entities
         public Cookbook Cookbook { get; set; }
 
         public IList<Recipe> Recipes { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         //string/ zachashowane/password
         //string / enum / role
     }

@@ -9,6 +9,7 @@ namespace CulinaryPortal.API.Services
     public interface ICulinaryPortalRepository
     {
         bool Save();
+        Task SaveChangesAsync();
 
         #region Recipe
 
@@ -34,6 +35,7 @@ namespace CulinaryPortal.API.Services
         void DeleteUser(User user);
         void UpdateUser(User user);
         bool UserExists(int userId);
+        Task<bool> UserExists(string username);
         #endregion
 
         #region Ingredient
@@ -47,6 +49,7 @@ namespace CulinaryPortal.API.Services
 
         #region Measure
         IEnumerable<Measure> GetMeasures();
+
         bool MeasureExists(int measureId);
         Measure GetMeasure(int measureId);
         void AddMeasure(Measure measure);
@@ -56,6 +59,7 @@ namespace CulinaryPortal.API.Services
 
         #region Instruction
         IEnumerable<Instruction> GetInstructions();
+
         bool InstructionExists(int instructionId);
         Instruction GetInstruction(int instructionId);
         void AddInstruction(Instruction instruction);

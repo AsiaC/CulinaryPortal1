@@ -2,6 +2,7 @@
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace CulinaryPortal.API.Controllers
         //    var authorsFromRepo = _culinaryPortalRepository.GetUsers();
         //    return new JsonResult(authorsFromRepo);
         //}
+        [AllowAnonymous ]
         [HttpGet]
         public ActionResult<IEnumerable<UserDto>> GetUsers()
         {
@@ -36,6 +38,7 @@ namespace CulinaryPortal.API.Controllers
             return Ok(_mapper.Map<IEnumerable<UserDto>>(usersFromRepo));
         }
 
+        [Authorize]
         [HttpGet("{userId}", Name ="GetUser")]
         public ActionResult<UserDto> GetUser(int userId)
         {

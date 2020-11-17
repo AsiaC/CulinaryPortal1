@@ -18,15 +18,17 @@ namespace CulinaryPortal.API.Controllers
     {
         private readonly ICulinaryPortalRepository _culinaryPortalRepository;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(ICulinaryPortalRepository culinaryPortalRepository, IMapper mapper)
+        public AccountController(ICulinaryPortalRepository culinaryPortalRepository, IMapper mapper, ITokenService tokenService)
         {
             _culinaryPortalRepository = culinaryPortalRepository ?? throw new ArgumentNullException(nameof(culinaryPortalRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             if (await UserExists(registerDto.Username))
             {
@@ -48,11 +50,16 @@ namespace CulinaryPortal.API.Controllers
 
             _culinaryPortalRepository.AddUser(user);
             await _culinaryPortalRepository.SaveChangesAsync();
-            return user;
+
+            return new UserDto
+            {
+                Username = user.Username,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _culinaryPortalRepository.GetUserAsync(loginDto.Username);
 
@@ -70,7 +77,11 @@ namespace CulinaryPortal.API.Controllers
                     return Unauthorized("Invalid password");
                 }
             }
-            return user;
+            return new UserDto
+            {
+                Username = user.Username,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         //metodapomocnicza do spr czy user o takiej nazwie uzytkownika istnieje

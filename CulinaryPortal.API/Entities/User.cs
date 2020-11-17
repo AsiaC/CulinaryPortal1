@@ -28,6 +28,7 @@ namespace CulinaryPortal.API.Entities
 
         [Required]
         [MaxLength(20)]
+        [EmailAddress]
         public string Email { get; set; }
 
         public Cookbook Cookbook { get; set; }

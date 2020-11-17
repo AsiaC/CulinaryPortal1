@@ -30,6 +30,7 @@ namespace CulinaryPortal.API.Services
 
         IEnumerable<User> GetUsers();
         User GetUser(int userId);
+        Task<User> GetUserAsync(string username);
         IEnumerable<User> GetUsers(IEnumerable<int> userIds);
         void AddUser(User user);
         void DeleteUser(User user);
@@ -59,12 +60,10 @@ namespace CulinaryPortal.API.Services
 
         #region Instruction
         IEnumerable<Instruction> GetInstructions();
-
         bool InstructionExists(int instructionId);
         Instruction GetInstruction(int instructionId);
         void AddInstruction(Instruction instruction);
         void DeleteInstruction(Instruction instruction);
-
         #endregion
 
         #region ShoppingList

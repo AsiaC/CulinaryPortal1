@@ -106,6 +106,12 @@ namespace CulinaryPortal.API.Services
             return _context.Users.FirstOrDefault(u => u.Id == userId);
         }
 
+        public async Task<User> GetUserAsync(string username)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+            return user;//to rzuca wyjatek jeśli znajdzie wiecej elementów, jesli tylko 1 to spuer. Tym sie rozni od FirstOrDefault 
+        }
+
         public void AddUser(User user)
         {
             if (user == null)

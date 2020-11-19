@@ -8,7 +8,7 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {}
-  loggedIn: boolean;
+  loggedIn: boolean; //jesli nie przypiszemy to jest zawsze false
 
   constructor(private accountService: AccountService) { }
 
@@ -24,6 +24,10 @@ export class NavComponent implements OnInit {
     }, error => {
       console.log(error);      
     })
+  }
+
+  logout(){
+    this.loggedIn = false;
   }
 
 }

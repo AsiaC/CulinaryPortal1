@@ -11,6 +11,7 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent implements OnInit {
   model: any = {}
   //loggedIn: boolean; //jesli nie przypiszemy to jest zawsze false
+  loginPane: boolean = false;
 
   constructor(public accountService: AccountService) { }
 
@@ -29,5 +30,9 @@ export class NavComponent implements OnInit {
   logout(){
     this.accountService.logout();
   } 
+
+  showLoginPane(){
+    this.loginPane = true;
+  }
 
 }

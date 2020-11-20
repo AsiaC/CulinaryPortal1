@@ -12,6 +12,7 @@ export class NavComponent implements OnInit {
   model: any = {}
   //loggedIn: boolean; //jesli nie przypiszemy to jest zawsze false
   loginPane: boolean = false;
+  registerPane: boolean = false;
 
   constructor(public accountService: AccountService) { }
 
@@ -33,6 +34,10 @@ export class NavComponent implements OnInit {
 
   showLoginPane(){
     this.loginPane = true;
+  }
+
+  showRegisterPane(){
+    this.registerPane = true;
   }
 
 }

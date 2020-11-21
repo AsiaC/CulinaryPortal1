@@ -1,5 +1,7 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { error } from 'protractor';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-register',
@@ -11,14 +13,21 @@ export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
   
   //pod przycieskiem Register
   register(){
+    console.log("przed rej");
     console.log(this.model);
+    this.accountService.register(this.model).subscribe(response=>{
+      console.log(response);
+      this.cancel();  
+    }, error=>{
+      console.log(error);
+    })
   }
 
   //pod przyciskiem cancel

@@ -1,0 +1,12 @@
+<div class="container mt-5">
+<h1>Home page!</h1>
+<div *ngIf="registerMode == false">
+
+    <p>tu bedzie lista, albo kafelki z grupami przepisów + mozliwosc zarejestrowqania sie</p>
+    <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()" >Register</button>
+</div>
+
+<div *ngIf="registerMode == true">
+    <app-register [usersFromHomeComponents] = "users"></app-register>
+</div>
+

@@ -37,7 +37,9 @@ export class NavComponent implements OnInit {
   }
 
   showRegisterPane(){
+    debugger;
     this.registerPane = true;
+    //this.registerPane = !this.registerPane;
   }
 
 }

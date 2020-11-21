@@ -1,5 +1,5 @@
 import { CompileShallowModuleMetadata } from '@angular/compiler';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-register',
@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
   @Input() usersFromHomeComponents: any;
+  @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
   constructor() { }
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
   //pod przyciskiem cancel
   cancel(){
-    console.log('canceled');
+    this.cancelRegister.emit(false);
   }
 
 }

@@ -7,6 +7,6 @@
 </div>
 
 <div *ngIf="registerMode == true">
-    <app-register [usersFromHomeComponents] = "users"></app-register>
+    <app-register [usersFromHomeComponents] = "users" (cancelRegister)="cancelRegisterMode($event)"></app-register>
 </div>
 

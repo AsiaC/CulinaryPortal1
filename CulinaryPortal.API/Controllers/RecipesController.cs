@@ -45,7 +45,8 @@ namespace CulinaryPortal.API.Controllers
                 return NotFound();
             }
             var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
-            return Ok(_mapper.Map<RecipeDto>(recipeFromRepo));
+            var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
+            return Ok(recipe);
         }
 
         [HttpPost]

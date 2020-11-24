@@ -82,11 +82,22 @@ namespace CulinaryPortal.API.Services
         {
             var recipes = await _context.Recipes
                 .Include(i => i.Instructions)
-                //.Include(u => u.User)
-                //.Include(p => p.Photos)
-                //.Include(ri => ri.RecipeIngredients)
-                //.Include(ri => ri.RecipeIngredients)
+                .Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
                 .ToListAsync();
+
+
+            var recipes1 = await _context.Recipes
+                .Include(i => i.Instructions)
+                .Include(u => u.User)
+                .Include(cb => cb.CookbookRecipes)
+                .ToListAsync();
+
+            var recipes2 = await _context.Recipes
+                .Include(i => i.Instructions)
+                .Include(u => u.User)
+                .ToListAsync();
+
+
 
             return recipes;
         }
@@ -96,6 +107,7 @@ namespace CulinaryPortal.API.Services
             //var recipe = _context.Recipes.FirstOrDefault(u => u.Id == recipeId);
             var recipe = await _context.Recipes
                 .Include(i =>i.Instructions)
+                .Include(cr=>cr.CookbookRecipes).ThenInclude(c=>c.Cookbook)
                 //.Include(u => u.User)
                 //.Include(p =>p.Photos)
                 //.Include(ri => ri.RecipeIngredients)
@@ -118,13 +130,33 @@ namespace CulinaryPortal.API.Services
         #region User
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            var users = await _context.Users.ToListAsync<User>();
+            var users = await _context.Users
+                .Include(r=>r.Recipes)
+                //.Include(c=>c.Cookbook)
+                //.Include(c=>c.Cookbook)
+                .ToListAsync<User>();
+
+            var allCookbooks = await _context.Cookbooks.ToListAsync();
+
+            foreach (var user in users)
+            {
+                if (user.Cookbook != null)
+                {
+                    user.Cookbook = allCookbooks.FirstOrDefault(c => c.Id == user.Cookbook.Id);
+                }
+
+            }
+
             return users;
         }
 
         public async Task<User> GetUserAsync(int userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users
+                .Include(c=>c.Cookbook)
+                .Include(r=>r.Recipes)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
             return user;
         }
 
@@ -333,7 +365,11 @@ namespace CulinaryPortal.API.Services
 
         public async Task<Cookbook> GetCookbookAsync(int cookbookId)
         {
-            var cookbook = await _context.Cookbooks.FirstOrDefaultAsync(u => u.Id == cookbookId);
+            var cookbook = await _context.Cookbooks
+                .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe)                     
+                .FirstOrDefaultAsync(u => u.Id == cookbookId);
+
+            //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
             return cookbook;
         }
 

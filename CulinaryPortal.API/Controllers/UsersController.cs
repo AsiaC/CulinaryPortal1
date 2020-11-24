@@ -35,7 +35,8 @@ namespace CulinaryPortal.API.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
             var usersFromRepo = await _culinaryPortalRepository.GetUsersAsync();
-            return Ok(_mapper.Map<IEnumerable<UserDto>>(usersFromRepo));
+            var users = _mapper.Map<IEnumerable<UserDto>>(usersFromRepo);
+            return Ok(users);
         }
         //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         //{
@@ -43,7 +44,7 @@ namespace CulinaryPortal.API.Controllers
         //    return Ok(usersFromRepo);
         //}
 
-        [Authorize]
+        //[Authorize] to poźniej dodam
         [HttpGet("{userId}", Name ="GetUser")]
         public async Task<ActionResult<UserDto>> GetUser(int userId)
         {

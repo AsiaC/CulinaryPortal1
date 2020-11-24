@@ -16,5 +16,11 @@ namespace CulinaryPortal.API.Models
         public string Email { get; set; }
 
         public string Token { get; set; }
+
+        //dodane
+        public CookbookDto Cookbook { get; set; }
+
+        public IList<RecipeDto> Recipes { get; set; }
+
     }
 }

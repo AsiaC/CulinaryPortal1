@@ -11,6 +11,14 @@ namespace CulinaryPortal.API.Profiles
         public RecipeProfile()
         {
             CreateMap<Entities.Recipe, Models.RecipeDto>();
+                //.ForMember(
+                //dest => dest.Cookbooks,
+                //opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Cookbook)));
+                
+
+            CreateMap<Models.RecipeDto, Entities.Recipe>();
+
+
         }
     }
 }

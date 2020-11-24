@@ -26,7 +26,7 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // GET: api/recipes
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
@@ -44,8 +44,8 @@ namespace CulinaryPortal.API.Controllers
             {
                 return NotFound();
             }
-            var ingredinetFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
-            return Ok(ingredinetFromRepo);
+            var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+            return Ok(_mapper.Map<RecipeDto>(recipeFromRepo));
         }
 
         [HttpPost]

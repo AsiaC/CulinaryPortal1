@@ -56,14 +56,16 @@ namespace CulinaryPortal.API.Services
             _context.Recipes.Remove(recipe);
         }
 
-        public Recipe GetUserRecipe(int userId, int recipeId)
+        public async Task<Recipe> GetUserRecipeAsync(int userId, int recipeId)
         {
-            return _context.Recipes.FirstOrDefault(r => r.Id == recipeId && r.UserId == userId);
+            var userRecipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId && r.UserId == userId);
+            return userRecipe;
         }
 
-        public IEnumerable<Recipe> GetUserRecipes(int userId)
+        public async Task<IEnumerable<Recipe>> GetUserRecipesAsync(int userId)
         {
-            return _context.Recipes.Where(r => r.UserId == userId).ToList();
+            var userRecipes = await _context.Recipes.Where(r => r.UserId == userId).ToListAsync();
+            return userRecipes;
         }
 
         public void UpdateRecipe(Recipe recipe)
@@ -71,9 +73,10 @@ namespace CulinaryPortal.API.Services
             // no code in this implementation
         }
 
-        public bool RecipeExists(int recipeId)
+        public async Task<bool> RecipeExistsAync(int recipeId)
         {
-            return _context.Recipes.Any(u => u.Id == recipeId);
+            var isExist = await _context.Recipes.AnyAsync(u => u.Id == recipeId);
+            return isExist;
         }
         public async Task<IEnumerable<Recipe>> GetRecipesAsync()
         {
@@ -87,14 +90,15 @@ namespace CulinaryPortal.API.Services
 
             return recipes;
         }
+
         public async Task<Recipe> GetRecipeAsync(int recipeId)
         {
             //var recipe = _context.Recipes.FirstOrDefault(u => u.Id == recipeId);
             var recipe = await _context.Recipes
                 .Include(i =>i.Instructions)
                 //.Include(u => u.User)
-                .Include(p =>p.Photos)
-                .Include(ri => ri.RecipeIngredients)
+                //.Include(p =>p.Photos)
+                //.Include(ri => ri.RecipeIngredients)
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
 
             return recipe;
@@ -118,9 +122,10 @@ namespace CulinaryPortal.API.Services
             return users;
         }
 
-        public User GetUser(int userId)
+        public async Task<User> GetUserAsync(int userId)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
         }
 
         public async Task<User> GetUserAsync(string username)
@@ -144,13 +149,15 @@ namespace CulinaryPortal.API.Services
             _context.Users.Remove(user);
         }               
 
-        public IEnumerable<User> GetUsers(IEnumerable<int> userIds)
+        public async Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds)
         {
             if (userIds == null)
             {
                 throw new ArgumentNullException(nameof(userIds));
             }
-            return _context.Users.Where(u => userIds.Contains(u.Id)).OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToList();
+
+            var users = await _context.Users.Where(u => userIds.Contains(u.Id)).OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToListAsync();
+            return users;
         }         
 
         public void UpdateUser(User user)
@@ -158,31 +165,35 @@ namespace CulinaryPortal.API.Services
             // no code in this implementation
         }
 
-        public bool UserExists(int userId)
+        public async Task<bool> UserExistsAsync(int userId)
         {
-            return _context.Users.Any(u => u.Id == userId);
+            var isExist =await _context.Users.AnyAsync(u => u.Id == userId);
+            return isExist;
         }
 
-        public async Task<bool> UserExists(string username)
+        public async Task<bool> UserExistsAsync(string username)
         {
             return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
         }
         #endregion
 
         #region Ingredient
-        public IEnumerable<Ingredient> GetIngredients()
+        public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
         {
-            return _context.Ingredients.ToList();
+            var ingredients=await _context.Ingredients.ToListAsync();
+            return ingredients;
         }
 
-        public bool IngredientExists(int ingredientId)
+        public async Task<bool> IngredientExists(int ingredientId)
         {
-            return _context.Ingredients.Any(u => u.Id == ingredientId);
+            var isExist =await _context.Ingredients.AnyAsync(u => u.Id == ingredientId);
+            return isExist;
         }
 
-        public Ingredient GetIngredient(int ingredientId)
+        public async Task<Ingredient> GetIngredientAsync(int ingredientId)
         {
-            return _context.Ingredients.FirstOrDefault(u => u.Id == ingredientId);
+            var ingredient = await _context.Ingredients.FirstOrDefaultAsync(u => u.Id == ingredientId);
+            return ingredient;
         }
 
         public void AddIngredient(Ingredient ingredient)
@@ -202,19 +213,22 @@ namespace CulinaryPortal.API.Services
         #endregion
 
         #region Measure
-        public IEnumerable<Measure> GetMeasures()
+        public async Task<IEnumerable<Measure>> GetMeasuresAsync()
         {
-            return _context.Measures.ToList();
+            var measures = await _context.Measures.ToListAsync();
+            return measures;
         }
 
-        public bool MeasureExists(int measureId)
+        public async Task<bool> MeasureExistsAsync(int measureId)
         {
-            return _context.Measures.Any(u => u.Id == measureId);
+            var isExist = await _context.Measures.AnyAsync(u => u.Id == measureId);
+            return isExist;
         }
 
-        public Measure GetMeasure(int measureId)
+        public async Task<Measure> GetMeasureAsync(int measureId)
         {
-            return _context.Measures.FirstOrDefault(u => u.Id == measureId);
+            var measure = await _context.Measures.FirstOrDefaultAsync(u => u.Id == measureId);
+            return measure;
         }
 
         public void AddMeasure(Measure measure)
@@ -235,20 +249,22 @@ namespace CulinaryPortal.API.Services
 
         #region Instruction
 
-
-        public IEnumerable<Instruction> GetInstructions()
+        public async Task<IEnumerable<Instruction>> GetInstructionsAsync()
         {
-            return _context.Instructions.ToList();
+            var instructions=await _context.Instructions.ToListAsync();
+            return instructions;
         }
 
-        public bool InstructionExists(int instructionId)
+        public async Task<bool> InstructionExistsAsync(int instructionId)
         {
-            return _context.Instructions.Any(u => u.Id == instructionId);
+            var isExist=await _context.Instructions.AnyAsync(u => u.Id == instructionId);
+            return isExist;
         }
 
-        public Instruction GetInstruction(int instructionId)
+        public async Task<Instruction> GetInstructionAsync(int instructionId)
         {
-            return _context.Instructions.FirstOrDefault(u => u.Id == instructionId);
+            var instruction=await _context.Instructions.FirstOrDefaultAsync(u => u.Id == instructionId);
+            return instruction;
         }
 
         public void AddInstruction(Instruction instruction)
@@ -303,20 +319,22 @@ namespace CulinaryPortal.API.Services
 
         #region Cookbook
 
-
-        public IEnumerable<Cookbook> GetCookbooks()
+        public async Task<IEnumerable<Cookbook>> GetCookbooksAsync()
         {
-            return _context.Cookbooks.ToList();
+            var cookbooks = await _context.Cookbooks.ToListAsync();
+            return cookbooks;
         }
 
-        public bool CookbookExists(int cookbookId)
+        public async Task <bool> CookbookExistsAsync(int cookbookId)
         {
-            return _context.Cookbooks.Any(u => u.Id == cookbookId);
+            var isExist = await _context.Cookbooks.AnyAsync(u => u.Id == cookbookId);
+            return isExist;
         }
 
-        public Cookbook GetCookbook(int cookbookId)
+        public async Task<Cookbook> GetCookbookAsync(int cookbookId)
         {
-            return _context.Cookbooks.FirstOrDefault(u => u.Id == cookbookId);
+            var cookbook = await _context.Cookbooks.FirstOrDefaultAsync(u => u.Id == cookbookId);
+            return cookbook;
         }
 
         public void AddCookbook(Cookbook cookbook)
@@ -333,10 +351,6 @@ namespace CulinaryPortal.API.Services
         {
             _context.Cookbooks.Remove(cookbook);
         }
-
-
-
-
         #endregion
     }
 }

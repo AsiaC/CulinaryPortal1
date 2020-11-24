@@ -27,24 +27,24 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/ingredients
         [HttpGet]
-        public ActionResult<IEnumerable<Ingredient>> GetIngredients()
+        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
         {
-            var ingredientsFromRepo = _culinaryPortalRepository.GetIngredients();
-            return Ok(ingredientsFromRepo);
+            var ingredientsFromRepo = await _culinaryPortalRepository.GetIngredientsAsync();
+            return Ok(_mapper.Map<Models.IngredientDto>(ingredientsFromRepo));
         }
 
         // GET: api/ingredients/5
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
-        public ActionResult<Ingredient> GetIngredient(int ingredientId)
+        public async Task<ActionResult<Ingredient>> GetIngredient(int ingredientId)
         {
-            var checkIfIngredientExists = _culinaryPortalRepository.IngredientExists(ingredientId);
+            var checkIfIngredientExists = await _culinaryPortalRepository.IngredientExistsAsync(ingredientId);
 
             if (checkIfIngredientExists == false)
             {
                 return NotFound();
             }
-            var ingredinetFromRepo = _culinaryPortalRepository.GetIngredient(ingredientId);
-            return Ok(ingredinetFromRepo);
+            var ingredinetFromRepo =await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
+            return Ok(_mapper.Map<Models.IngredientDto>(ingredinetFromRepo));
         }
 
         [HttpPost]
@@ -58,9 +58,9 @@ namespace CulinaryPortal.API.Controllers
 
         // DELETE: api/Ingredients/5
         [HttpDelete("{ingredientId}")]
-        public ActionResult DeleteIngredient(int ingredientId)
+        public async Task<ActionResult> DeleteIngredient(int ingredientId)
         {
-            var ingredientFromRepo = _culinaryPortalRepository.GetIngredient(ingredientId);
+            var ingredientFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
             if (ingredientFromRepo == null)
             {
                 return NotFound();

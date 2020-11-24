@@ -87,7 +87,7 @@ namespace CulinaryPortal.API.Controllers
         //metodapomocnicza do spr czy user o takiej nazwie uzytkownika istnieje
         private async Task<bool> UserExists(string username)
         {
-            return await _culinaryPortalRepository.UserExists(username);
+            return await _culinaryPortalRepository.UserExistsAsync(username);
         }
     }
 }

@@ -25,24 +25,24 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/cookbooks
         [HttpGet]
-        public ActionResult<IEnumerable<Cookbook>> GetCookbooks()
+        public async Task<ActionResult<IEnumerable<Cookbook>>> GetCookbooks()
         {
-            var cookbooksFromRepo = _culinaryPortalRepository.GetCookbooks();
-            return Ok(cookbooksFromRepo);
+            var cookbooksFromRepo = await _culinaryPortalRepository.GetCookbooksAsync();
+            return Ok(_mapper.Map<Models.CookbookDto>(cookbooksFromRepo));
         }
 
         // GET: api/cookbooks/5
         [HttpGet("{cookbookId}", Name = "GetCookbook")]
-        public ActionResult<Cookbook> GetCookbook(int cookbookId)
+        public async Task<ActionResult<Cookbook>> GetCookbook(int cookbookId)
         {
-            var checkIfCookbookExists = _culinaryPortalRepository.CookbookExists(cookbookId);
+            var checkIfCookbookExists = await _culinaryPortalRepository.CookbookExistsAsync(cookbookId);
 
             if (checkIfCookbookExists == false)
             {
                 return NotFound();
             }
-            var cookbookFromRepo = _culinaryPortalRepository.GetCookbook(cookbookId);
-            return Ok(cookbookFromRepo);
+            var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+            return Ok(_mapper.Map<Models.InstructionDto>(cookbookFromRepo));
         }
 
         [HttpPost]
@@ -56,9 +56,9 @@ namespace CulinaryPortal.API.Controllers
 
         // DELETE: api/cookbooks/5
         [HttpDelete("{cookbookId}")]
-        public ActionResult DeleteCookbook(int cookbookId)
+        public async Task<ActionResult> DeleteCookbook(int cookbookId)
         {
-            var cookbookFromRepo = _culinaryPortalRepository.GetCookbook(cookbookId);
+            var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
             if (cookbookFromRepo == null)
             {
                 return NotFound();

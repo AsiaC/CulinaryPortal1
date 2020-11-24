@@ -12,8 +12,8 @@ namespace CulinaryPortal.API.Services
         Task SaveChangesAsync();
 
         #region Recipe
-        IEnumerable<Recipe> GetUserRecipes(int userId);
-        Recipe GetUserRecipe(int userId, int recipeId);
+        Task<IEnumerable<Recipe>> GetUserRecipesAsync(int userId);
+        Task<Recipe> GetUserRecipeAsync(int userId, int recipeId);
         void AddRecipe(int userId, Recipe recipe);
         void UpdateRecipe(Recipe recipe);
         void DeleteRecipe(Recipe recipe);
@@ -25,39 +25,37 @@ namespace CulinaryPortal.API.Services
 
         #region User
         Task<IEnumerable<User>> GetUsersAsync();
-        User GetUser(int userId);
+        Task<User> GetUserAsync(int userId);
         Task<User> GetUserAsync(string username);
-        IEnumerable<User> GetUsers(IEnumerable<int> userIds);
+        Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds);
         void AddUser(User user);
         void DeleteUser(User user);
         void UpdateUser(User user);
-        bool UserExists(int userId);
-        Task<bool> UserExists(string username);
+        Task<bool> UserExistsAsync(int userId);
+        Task<bool> UserExistsAsync(string username);
         #endregion
 
         #region Ingredient
-        IEnumerable<Ingredient> GetIngredients();
-        bool IngredientExists(int ingredientId);
-        Ingredient GetIngredient(int ingredientId);
+        Task<IEnumerable<Ingredient>> GetIngredientsAsync();
+        Task<bool> IngredientExistsAsync(int ingredientId);
+        Task<Ingredient> GetIngredientAsync(int ingredientId);
         void AddIngredient(Ingredient ingredient);
         void DeleteIngredient(Ingredient ingredient);
-
         #endregion
 
         #region Measure
-        IEnumerable<Measure> GetMeasures();
-
-        bool MeasureExists(int measureId);
-        Measure GetMeasure(int measureId);
+        Task<IEnumerable<Measure>> GetMeasuresAsync();
+        Task<bool> MeasureExistsAsync(int measureId);
+        Task<Measure> GetMeasureAsync(int measureId);
         void AddMeasure(Measure measure);
         void DeleteMeasure(Measure measure);
 
         #endregion
 
         #region Instruction
-        IEnumerable<Instruction> GetInstructions();
-        bool InstructionExists(int instructionId);
-        Instruction GetInstruction(int instructionId);
+        Task<IEnumerable<Instruction>> GetInstructionsAsync();
+        Task<bool> InstructionExistsAsync(int instructionId);
+        Task<Instruction> GetInstructionAsync(int instructionId);
         void AddInstruction(Instruction instruction);
         void DeleteInstruction(Instruction instruction);
         #endregion
@@ -72,9 +70,9 @@ namespace CulinaryPortal.API.Services
         #endregion
 
         #region Cookbook
-        IEnumerable<Cookbook> GetCookbooks();
-        bool CookbookExists(int cookbookId);
-        Cookbook GetCookbook(int cookbookId);
+        Task<IEnumerable<Cookbook>> GetCookbooksAsync();
+        Task<bool> CookbookExistsAsync(int cookbookId);
+        Task<Cookbook> GetCookbookAsync(int cookbookId);
         void AddCookbook(Cookbook cookbook);
         void DeleteCookbook(Cookbook cookbook);
 

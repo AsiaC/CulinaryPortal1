@@ -45,14 +45,14 @@ namespace CulinaryPortal.API.Controllers
 
         [Authorize]
         [HttpGet("{userId}", Name ="GetUser")]
-        public ActionResult<UserDto> GetUser(int userId)
+        public async Task<ActionResult<UserDto>> GetUser(int userId)
         {
-            var checkIfUserExists = _culinaryPortalRepository.UserExists(userId);
+            var checkIfUserExists = await _culinaryPortalRepository.UserExistsAsync(userId);
             if (!checkIfUserExists)
             {
                 return NotFound();
             }
-            var userFromRepo = _culinaryPortalRepository.GetUser(userId);
+            var userFromRepo =await _culinaryPortalRepository.GetUserAsync(userId);
             return Ok(_mapper.Map<UserDto>(userFromRepo));
         }
 
@@ -67,9 +67,9 @@ namespace CulinaryPortal.API.Controllers
         }
 
         [HttpDelete("userId")]
-        public ActionResult DeleteUser(int userId)
+        public async Task<ActionResult> DeleteUser(int userId)
         {
-            var userFromRepo = _culinaryPortalRepository.GetUser(userId);
+            var userFromRepo =await _culinaryPortalRepository.GetUserAsync(userId);
             if (userFromRepo == null)
             {
                 return NotFound();

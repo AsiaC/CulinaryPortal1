@@ -25,24 +25,24 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/instructions
         [HttpGet]
-        public ActionResult<IEnumerable<Instruction>> GetInstructions()
+        public async Task<ActionResult<IEnumerable<Instruction>>> GetInstructions()
         {
-            var instructionFromRepo = _culinaryPortalRepository.GetInstructions();
-            return Ok(instructionFromRepo);
+            var instructionFromRepo = await _culinaryPortalRepository.GetInstructionsAsync();
+            return Ok(_mapper.Map<Models.InstructionDto>(instructionFromRepo));
         }
 
         // GET: api/instructions/5
         [HttpGet("{instructionId}", Name = "GetInstruction")]
-        public ActionResult<Instruction> GetInstruction(int instructionId)
+        public async Task<ActionResult<Instruction>> GetInstruction(int instructionId)
         {
-            var checkIfInstructionExists = _culinaryPortalRepository.InstructionExists(instructionId);
+            var checkIfInstructionExists =await _culinaryPortalRepository.InstructionExistsAsync(instructionId);
 
             if (checkIfInstructionExists == false)
             {
                 return NotFound();
             }
-            var instructionFromRepo = _culinaryPortalRepository.GetInstruction(instructionId);
-            return Ok(instructionFromRepo);
+            var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
+            return Ok(_mapper.Map<Models.InstructionDto>(instructionFromRepo));
         }
 
         [HttpPost]
@@ -56,9 +56,9 @@ namespace CulinaryPortal.API.Controllers
 
         // DELETE: api/instructions/5
         [HttpDelete("{instructionId}")]
-        public ActionResult DeleteInstruction(int instructionId)
+        public async Task<ActionResult> DeleteInstruction(int instructionId)
         {
-            var instructionFromRepo = _culinaryPortalRepository.GetInstruction(instructionId);
+            var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
             if (instructionFromRepo == null)
             {
                 return NotFound();

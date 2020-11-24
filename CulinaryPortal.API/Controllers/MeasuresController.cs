@@ -25,24 +25,24 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/measures
         [HttpGet]
-        public ActionResult<IEnumerable<Measure>> GetMeasures()
+        public async Task<ActionResult<IEnumerable<Measure>>> GetMeasures()
         {
-            var measuresFromRepo = _culinaryPortalRepository.GetMeasures();
-            return Ok(measuresFromRepo);
+            var measuresFromRepo = await _culinaryPortalRepository.GetMeasuresAsync();
+            return Ok(_mapper.Map<Models.MeasureDto>(measuresFromRepo));
         }
 
         // GET: api/measures/5
         [HttpGet("{measureId}", Name = "GetMeasure")]
-        public ActionResult<Measure> GetMeasure(int measureId)
+        public async Task<ActionResult<Measure>> GetMeasureAsync(int measureId)
         {
-            var checkIfMeasureExists = _culinaryPortalRepository.IngredientExists(measureId);
+            var checkIfMeasureExists = await _culinaryPortalRepository.MeasureExistsAsync(measureId);
 
             if (checkIfMeasureExists == false)
             {
                 return NotFound();
             }
-            var measureFromRepo = _culinaryPortalRepository.GetMeasure(measureId);
-            return Ok(measureFromRepo);
+            var measureFromRepo =await _culinaryPortalRepository.GetMeasureAsync(measureId);
+            return Ok(_mapper.Map<Models.MeasureDto>(measureFromRepo));
         }
 
         [HttpPost]
@@ -56,9 +56,9 @@ namespace CulinaryPortal.API.Controllers
 
         // DELETE: api/measures/5
         [HttpDelete("{measureId}")]
-        public ActionResult DeleteMeasure(int measureId)
+        public async Task<ActionResult> DeleteMeasure(int measureId)
         {
-            var measureFromRepo = _culinaryPortalRepository.GetMeasure(measureId);
+            var measureFromRepo =await _culinaryPortalRepository.GetMeasureAsync(measureId);
             if (measureFromRepo == null)
             {
                 return NotFound();

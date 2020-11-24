@@ -13,8 +13,7 @@ namespace CulinaryPortal.API.Profiles
             CreateMap<Entities.User, Models.UserDto>()
                 .ForMember(
                 dest => dest.Name,
-                opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}")); 
-           
+                opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));            
         }
     }
 }

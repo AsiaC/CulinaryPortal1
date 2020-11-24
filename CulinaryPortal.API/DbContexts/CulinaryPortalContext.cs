@@ -23,6 +23,7 @@ namespace CulinaryPortal.API.DbContexts
                 .HasKey(ri => new { ri.MeasureId, ri.RecipeId, ri.IngredientId });
         }
 
+        //nie dodaje encji, których nie chce wyświetlać jako odrebne elementy (jeśli zdjecie jest przypisane do użytkownika - uż moze miec wiele zdj - to nie ma sensu tu dodawać zdjecia bo jako osobny byt nigdy nie bedzie istniało zdjecie)
         public DbSet<Cookbook> Cookbooks { get; set; }
 //        public DbSet<CookbookRecipe> CookbookRecipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }

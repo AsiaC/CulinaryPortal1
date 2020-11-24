@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,16 +26,17 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // GET: api/recipes
+        [AllowAnonymous]
         [HttpGet]
-        public ActionResult<IEnumerable<Recipe>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
         {
-            var recipesFromRepo = _culinaryPortalRepository.GetRecipes();
-            return Ok(recipesFromRepo);
+            var recipesFromRepo = await _culinaryPortalRepository.GetRecipesAsync();
+            return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
         }
 
         // GET: api/recipes/5
         [HttpGet("{recipeId}", Name = "GetRecipe")]
-        public ActionResult<Recipe> GetRecipe(int recipeId)
+        public async Task<ActionResult<Recipe>> GetRecipe(int recipeId)
         {
             var checkIfRecipeExists = _culinaryPortalRepository.RecipeExists(recipeId);
 
@@ -41,7 +44,7 @@ namespace CulinaryPortal.API.Controllers
             {
                 return NotFound();
             }
-            var ingredinetFromRepo = _culinaryPortalRepository.GetRecipe(recipeId);
+            var ingredinetFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             return Ok(ingredinetFromRepo);
         }
 
@@ -56,9 +59,9 @@ namespace CulinaryPortal.API.Controllers
 
         // DELETE: api/recipes/5
         [HttpDelete("{recipeId}")]
-        public ActionResult DeleteRecipe(int recipeId)
+        public async Task<ActionResult> DeleteRecipe(int recipeId)
         {
-            var recipeFromRepo = _culinaryPortalRepository.GetRecipe(recipeId);
+            var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             if (recipeFromRepo == null)
             {
                 return NotFound();

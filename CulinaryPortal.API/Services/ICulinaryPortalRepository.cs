@@ -12,23 +12,19 @@ namespace CulinaryPortal.API.Services
         Task SaveChangesAsync();
 
         #region Recipe
-
-
         IEnumerable<Recipe> GetUserRecipes(int userId);
         Recipe GetUserRecipe(int userId, int recipeId);
         void AddRecipe(int userId, Recipe recipe);
         void UpdateRecipe(Recipe recipe);
         void DeleteRecipe(Recipe recipe);
         bool RecipeExists(int recipeId);
-        IEnumerable<Recipe> GetRecipes();
-        Recipe GetRecipe(int recipeId);
+        Task<IEnumerable<Recipe>> GetRecipesAsync();
+        Task<Recipe> GetRecipeAsync(int recipeId);
         void AddRecipe(Recipe recipe);
         #endregion
 
         #region User
-
-
-        IEnumerable<User> GetUsers();
+        Task<IEnumerable<User>> GetUsersAsync();
         User GetUser(int userId);
         Task<User> GetUserAsync(string username);
         IEnumerable<User> GetUsers(IEnumerable<int> userIds);

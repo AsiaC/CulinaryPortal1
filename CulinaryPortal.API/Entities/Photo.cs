@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.Entities
 {
+    [Table("Photos")] //nazwa tabeli Photos, nazwa klasy Photo
     public class Photo
     {
         [Key]

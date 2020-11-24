@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,15 +26,15 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/measures
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Measure>>> GetMeasures()
+        public async Task<ActionResult<IEnumerable<MeasureDto>>> GetMeasures()
         {
             var measuresFromRepo = await _culinaryPortalRepository.GetMeasuresAsync();
-            return Ok(_mapper.Map<Models.MeasureDto>(measuresFromRepo));
+            return Ok(_mapper.Map<IEnumerable<Models.MeasureDto>>(measuresFromRepo));
         }
 
         // GET: api/measures/5
         [HttpGet("{measureId}", Name = "GetMeasure")]
-        public async Task<ActionResult<Measure>> GetMeasureAsync(int measureId)
+        public async Task<ActionResult<MeasureDto>> GetMeasureAsync(int measureId)
         {
             var checkIfMeasureExists = await _culinaryPortalRepository.MeasureExistsAsync(measureId);
 

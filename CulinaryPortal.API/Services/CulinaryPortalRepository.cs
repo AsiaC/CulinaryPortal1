@@ -73,7 +73,7 @@ namespace CulinaryPortal.API.Services
             // no code in this implementation
         }
 
-        public async Task<bool> RecipeExistsAync(int recipeId)
+        public async Task<bool> RecipeExistsAsync(int recipeId)
         {
             var isExist = await _context.Recipes.AnyAsync(u => u.Id == recipeId);
             return isExist;
@@ -184,7 +184,7 @@ namespace CulinaryPortal.API.Services
             return ingredients;
         }
 
-        public async Task<bool> IngredientExists(int ingredientId)
+        public async Task<bool> IngredientExistsAsync(int ingredientId)
         {
             var isExist =await _context.Ingredients.AnyAsync(u => u.Id == ingredientId);
             return isExist;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,15 +26,15 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/instructions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Instruction>>> GetInstructions()
+        public async Task<ActionResult<IEnumerable<InstructionDto>>> GetInstructions()
         {
             var instructionFromRepo = await _culinaryPortalRepository.GetInstructionsAsync();
-            return Ok(_mapper.Map<Models.InstructionDto>(instructionFromRepo));
+            return Ok(_mapper.Map<IEnumerable<Models.InstructionDto>>(instructionFromRepo));
         }
 
         // GET: api/instructions/5
         [HttpGet("{instructionId}", Name = "GetInstruction")]
-        public async Task<ActionResult<Instruction>> GetInstruction(int instructionId)
+        public async Task<ActionResult<InstructionDto>> GetInstruction(int instructionId)
         {
             var checkIfInstructionExists =await _culinaryPortalRepository.InstructionExistsAsync(instructionId);
 

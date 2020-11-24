@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,15 +26,15 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/cookbooks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cookbook>>> GetCookbooks()
+        public async Task<ActionResult<IEnumerable<CookbookDto>>> GetCookbooks()
         {
             var cookbooksFromRepo = await _culinaryPortalRepository.GetCookbooksAsync();
-            return Ok(_mapper.Map<Models.CookbookDto>(cookbooksFromRepo));
+            return Ok(_mapper.Map<IEnumerable<Models.CookbookDto>>(cookbooksFromRepo));
         }
 
         // GET: api/cookbooks/5
         [HttpGet("{cookbookId}", Name = "GetCookbook")]
-        public async Task<ActionResult<Cookbook>> GetCookbook(int cookbookId)
+        public async Task<ActionResult<CookbookDto>> GetCookbook(int cookbookId)
         {
             var checkIfCookbookExists = await _culinaryPortalRepository.CookbookExistsAsync(cookbookId);
 

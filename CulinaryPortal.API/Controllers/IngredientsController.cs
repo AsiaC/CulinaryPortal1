@@ -9,6 +9,7 @@ using CulinaryPortal.API.DbContexts;
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Services;
 using AutoMapper;
+using CulinaryPortal.API.Models;
 
 namespace CulinaryPortal.API.Controllers
 {
@@ -27,15 +28,15 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/ingredients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ingredient>>> GetIngredients()
+        public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredients()
         {
             var ingredientsFromRepo = await _culinaryPortalRepository.GetIngredientsAsync();
-            return Ok(_mapper.Map<Models.IngredientDto>(ingredientsFromRepo));
+            return Ok(_mapper.Map<IEnumerable<Models.IngredientDto>>(ingredientsFromRepo));
         }
 
         // GET: api/ingredients/5
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
-        public async Task<ActionResult<Ingredient>> GetIngredient(int ingredientId)
+        public async Task<ActionResult<IngredientDto>> GetIngredient(int ingredientId)
         {
             var checkIfIngredientExists = await _culinaryPortalRepository.IngredientExistsAsync(ingredientId);
 

@@ -28,7 +28,7 @@ namespace CulinaryPortal.API.Controllers
         // GET: api/recipes
         //[AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Recipe>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes()
         {
             var recipesFromRepo = await _culinaryPortalRepository.GetRecipesAsync();
             return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
@@ -36,9 +36,9 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/recipes/5
         [HttpGet("{recipeId}", Name = "GetRecipe")]
-        public async Task<ActionResult<Recipe>> GetRecipe(int recipeId)
+        public async Task<ActionResult<RecipeDto>> GetRecipe(int recipeId)
         {
-            var checkIfRecipeExists = _culinaryPortalRepository.RecipeExists(recipeId);
+            var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
 
             if (checkIfRecipeExists == false)
             {

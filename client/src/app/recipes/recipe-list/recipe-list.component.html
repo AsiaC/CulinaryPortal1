@@ -1,1 +1,16 @@
-<p>recipe-list works!</p>
+<div>
+    <ol>
+        <li *ngFor="let recipe of recipes">
+            {{recipe.name}}
+        </li>
+    </ol>
+
+</div>
+
+<div class="row">
+    <div class="col-2">
+        <p *ngFor="let recipe of recipes">
+            {{recipe.name}}
+        </p>
+    </div>
+</div>

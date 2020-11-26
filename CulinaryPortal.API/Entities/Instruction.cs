@@ -16,7 +16,7 @@ namespace CulinaryPortal.API.Entities
         [MaxLength(30)]
         public string Name { get; set; }
         
-        [MaxLength(150)]
+        [MaxLength(1500)]
         public string Description { get; set; }
 
         public int RecipeId { get; set; }

@@ -21,7 +21,7 @@ namespace CulinaryPortal.API.Models
 
         public IList<InstructionDto> Instructions { get; set; }
 
-        //public IList<PhotoDto> Photos { get; set; }
+        public IList<PhotoDto> Photos { get; set; }
 
         //public IList<CookbookDto> Cookbooks { get; set; }
 

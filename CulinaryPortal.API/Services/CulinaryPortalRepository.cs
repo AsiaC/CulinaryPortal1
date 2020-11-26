@@ -82,6 +82,7 @@ namespace CulinaryPortal.API.Services
         {
             var recipes = await _context.Recipes
                 .Include(i => i.Instructions)
+                .Include(p=>p.Photos)
                 .Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
                 .ToListAsync();
 
@@ -109,7 +110,7 @@ namespace CulinaryPortal.API.Services
                 .Include(i =>i.Instructions)
                 .Include(cr=>cr.CookbookRecipes).ThenInclude(c=>c.Cookbook)
                 //.Include(u => u.User)
-                //.Include(p =>p.Photos)
+                .Include(p =>p.Photos)
                 //.Include(ri => ri.RecipeIngredients)
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
 

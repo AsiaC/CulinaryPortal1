@@ -1,7 +1,25 @@
+<div class="row">
+    <div class="col-2">
+        <p *ngFor="let recipe of recipes">
+            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
+        </p>
+    </div>
+</div>
+
+
+
+
+
 <div>
     <ol>
         <li *ngFor="let recipe of recipes">
-            {{recipe.name}}
+            {{recipe.name}}          
+            <div *ngFor="let photo of recipe.photos">
+                <ng-container *ngIf="photo.isMain === true">
+                <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" />
+            </ng-container>
+            </div>
+
         </li>
     </ol>
 
@@ -11,14 +29,6 @@
     <div class="col-2">
         <p *ngFor="let recipe of recipes">
             {{recipe.name}}
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-2">
-        <p *ngFor="let recipe of recipes">
-            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
         </p>
     </div>
 </div>

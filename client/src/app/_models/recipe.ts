@@ -1,4 +1,5 @@
 import { Instruction } from './instruction';
+import { Photo } from './photo';
 
 export interface Recipe {
   id: number;
@@ -7,5 +8,6 @@ export interface Recipe {
   description?: string;
   userId: number;
   instructions: Instruction[];
+  photos: Photo[];
 }
 

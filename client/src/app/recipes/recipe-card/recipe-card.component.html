@@ -1,9 +1,19 @@
-<div class="card mb-4">  
-    <div class="card-img-wrapper">    
+<div class="card mb-4" style="width: 18rem;">  
+    <div class="card-img-wrapper">  
 
+        <ng-container *ngFor="let photo of recipeFromList.photos">
+            <ng-container *ngIf="photo.isMain === true">
+                <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="card-img-top"/>
+            </ng-container>
+        </ng-container>
+
+        <!-- <img src="{{recipeFromList.photos}}" alt="{{recipeFromList.name}}" class="card-imp-top"> -->
     </div>
-    <div class="card-body">
-        {{recipeFromList.name}}
-        {{recipeFromList.description}}
+    <div class="card-body p-1">
+        <h6 class="card-title text-center mb-1">
+            {{recipeFromList.name}}
+        </h6>
+<p class="card-text text-muted text-center">{{recipeFromList.description}}</p>
+        
     </div>
 </div>

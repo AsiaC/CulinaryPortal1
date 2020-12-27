@@ -12,16 +12,23 @@ namespace CulinaryPortal.API.Profiles
     {
         public CookbookProfile()
         {
-            CreateMap<Entities.Cookbook, Models.CookbookDto>()
+            //CreateMap<Entities.Cookbook, Models.CookbookDto>()
 
-                .ForMember(
-                dest => dest.Recipes,
-                opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe)));
-
+            //    .ForMember(
+            //    dest => dest.Recipes,
+            //    opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe)));
+            CreateMap<Models.CookbookRecipeDto, Entities.CookbookRecipe>();
+            CreateMap<Entities.CookbookRecipe, Models.CookbookRecipeDto>();
 
             CreateMap<Models.CookbookDto, Entities.Cookbook>();
 
+            CreateMap<Models.RecipeIngredientDto, Entities.RecipeIngredient>();
+            CreateMap<Entities.RecipeIngredient, Models.RecipeIngredientDto>();
 
+            CreateMap<Models.MeasureDto, Entities.Measure>();
+            CreateMap<Entities.Measure, Models.MeasureDto>();
+            CreateMap<Models.IngredientDto, Entities.Ingredient>();
+            CreateMap<Entities.Ingredient, Models.IngredientDto>();
 
 
             //opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe).Where(s=>s.Id == RecipeId)));

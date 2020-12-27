@@ -82,23 +82,22 @@ namespace CulinaryPortal.API.Services
         {
             var recipes = await _context.Recipes
                 .Include(i => i.Instructions)
-                .Include(p=>p.Photos)
-                .Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
+                .Include(p=>p.Photos) //ODKOMENTOWAĆ
+                //.Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
+                .Include(ing=> ing.RecipeIngredients).ThenInclude(r=>r.Ingredient)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
                 .ToListAsync();
 
+            //var recipes1 = await _context.Recipes
+            //    .Include(i => i.Instructions)
+            //    .Include(u => u.User)
+            //    .Include(cb => cb.CookbookRecipes)
+            //    .ToListAsync();
 
-            var recipes1 = await _context.Recipes
-                .Include(i => i.Instructions)
-                .Include(u => u.User)
-                .Include(cb => cb.CookbookRecipes)
-                .ToListAsync();
-
-            var recipes2 = await _context.Recipes
-                .Include(i => i.Instructions)
-                .Include(u => u.User)
-                .ToListAsync();
-
-
+            //var recipes2 = await _context.Recipes
+            //    .Include(i => i.Instructions)
+            //    .Include(u => u.User)
+            //    .ToListAsync();
 
             return recipes;
         }
@@ -108,10 +107,12 @@ namespace CulinaryPortal.API.Services
             //var recipe = _context.Recipes.FirstOrDefault(u => u.Id == recipeId);
             var recipe = await _context.Recipes
                 .Include(i =>i.Instructions)
-                .Include(cr=>cr.CookbookRecipes).ThenInclude(c=>c.Cookbook)
+                //.Include(cr=>cr.CookbookRecipes).ThenInclude(c=>c.Cookbook)
                 //.Include(u => u.User)
-                .Include(p =>p.Photos)
+                .Include(p =>p.Photos) //ODKOMENTOWAC
                 //.Include(ri => ri.RecipeIngredients)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
 
             return recipe;
@@ -367,7 +368,7 @@ namespace CulinaryPortal.API.Services
         public async Task<Cookbook> GetCookbookAsync(int cookbookId)
         {
             var cookbook = await _context.Cookbooks
-                .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe)                     
+                .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe).ThenInclude(p=>p.Photos)                     
                 .FirstOrDefaultAsync(u => u.Id == cookbookId);
 
             //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)

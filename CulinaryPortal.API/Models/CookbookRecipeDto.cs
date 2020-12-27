@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.Models
 {
-    public class IngredientDto
+    public class CookbookRecipeDto
     {
-        //public int Id { get; set; }
-
-        public string Name { get; set; }
+        public RecipeDto Recipe { get; set; }
+        public string Note { get; set; }
     }
 }

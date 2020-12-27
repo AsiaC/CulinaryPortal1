@@ -1,5 +1,6 @@
 import { Instruction } from './instruction';
 import { Photo } from './photo';
+import { RecipeIngredient } from './recipeIngredient';
 
 export interface Recipe {
   id: number;
@@ -9,5 +10,7 @@ export interface Recipe {
   userId: number;
   instructions: Instruction[];
   photos: Photo[];
+  recipeIngredients: RecipeIngredient[];
 }
+
 

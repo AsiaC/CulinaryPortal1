@@ -43,24 +43,27 @@ namespace CulinaryPortal.API.Controllers
                 return NotFound();
             }
             var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+
             var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
-            var recipesFromRepo = cookbookFromRepo.CookbookRecipes.Select(x => x.Recipe);
+            //var recipesFromRepo = cookbookFromRepo.CookbookRecipes.Select(x => x.Recipe);
             
             
 
-            if (recipesFromRepo.Any() && !cookbook.Recipes.Any())
-            {
-                var recipeDtosFromRepo = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
-                //var a = cookbook.Recipes.ToList();
-                //a.AddRange(recipeDtosFromRepo);
-                //cookbook.Recipes.AddRange(recipeDtosFromRepo);
+            //if (recipesFromRepo.Any() && !cookbook.Recipes.Any())
+            //{
+            //    var recipeDtosFromRepo = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
+            //    //var a = cookbook.Recipes.ToList();
+            //    //a.AddRange(recipeDtosFromRepo);
+            //    //cookbook.Recipes.AddRange(recipeDtosFromRepo);
 
-                foreach (var recipe in recipeDtosFromRepo)
-                {
-                    cookbook.Recipes.Add(recipe);
-                }
-            }
+            //    foreach (var recipe in recipeDtosFromRepo)
+            //    {
+            //        cookbook.Recipes.Add(recipe);
+            //    }
+            //}
             //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
+
+
             return Ok(cookbook);
         }
 

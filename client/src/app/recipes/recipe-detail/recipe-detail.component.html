@@ -1,1 +1,27 @@
-<h1 *ngIf="recipe">{{recipe.name}}</h1>
+<div *ngIf="recipe">
+    <h1 >{{recipe.name}}</h1>
+    <h2>Ingredients</h2>
+    <ul>
+        <li *ngFor="let ingred of recipe.recipeIngredients">
+            {{ingred.quantity}} 
+            {{ingred.measureName}} 
+            {{ingred.ingredientName}}
+            <!-- {{ingred | json}} -->
+        </li>
+    </ul>
+    <button>Add all ingredients to shopping list</button>
+
+    <h2>Directions</h2>
+    <ol>
+        <li *ngFor="let instruction of recipe.instructions">
+            {{instruction.description}}
+        </li>
+    </ol>
+    <button>Add recipe to Culinarybook</button>
+
+    <ol>
+        <ul *ngFor="let photo of recipe.photos">
+            <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
+        </ul>
+    </ol>
+</div>

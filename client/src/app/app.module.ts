@@ -13,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
+import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component
     HomeComponent,
     RecipeListComponent,
     RecipeDetailComponent,
-    RecipeCardComponent
+    RecipeCardComponent,
+    CookbookListComponent
   ],
   imports: [
     BrowserModule,

@@ -4,6 +4,7 @@ import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.co
 import { HomeComponent } from './home/home.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 
@@ -15,9 +16,10 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   children:
   [
-    {path:'recipes', component: RecipeListComponent, canActivate: [AuthGuard]},
+    {path:'recipes', component: RecipeListComponent},
     {path:'recipes/:id', component: RecipeDetailComponent},
-    {path:'cookbook', component: CookbookListComponent, canActivate: [AuthGuard]},
+    {path:'cookbook', component: CookbookListComponent},
+    {path: 'user/edit', component: UserEditComponent}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

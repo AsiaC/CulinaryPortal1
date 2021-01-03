@@ -14,6 +14,7 @@ import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.component';
+import { UserEditComponent } from './users/user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.co
     RecipeListComponent,
     RecipeDetailComponent,
     RecipeCardComponent,
-    CookbookListComponent
+    CookbookListComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,

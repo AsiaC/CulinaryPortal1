@@ -389,6 +389,14 @@ namespace CulinaryPortal.API.Services
         {
             _context.Cookbooks.Remove(cookbook);
         }
+
+        public async Task<Cookbook> GetUserCookbookAsync(int userId)
+        {
+            var cookbook = await _context.Cookbooks
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+            return cookbook;
+        }
         #endregion
     }
 }

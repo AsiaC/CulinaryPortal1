@@ -79,5 +79,19 @@ namespace CulinaryPortal.API.Controllers
             _culinaryPortalRepository.Save();
             return NoContent();
         }
+
+        // GET: api/users/3/cookbook
+        [HttpGet("{userId}/cookbook", Name = "GetUserCookbook")]
+        public async Task<IActionResult> GetUserCookbookAsync(int userId)
+        {
+            var cookbookFromRepo = await _culinaryPortalRepository.GetUserCookbookAsync(userId);
+            if (cookbookFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
+            return Ok(cookbook);
+        }
     }
 }

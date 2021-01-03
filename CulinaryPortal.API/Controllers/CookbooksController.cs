@@ -67,8 +67,10 @@ namespace CulinaryPortal.API.Controllers
             return Ok(cookbook);
         }
 
+       
+
         [HttpPost]
-        public ActionResult<Cookbook> CreateIngredient(Cookbook cookbook)
+        public ActionResult<Cookbook> CreateCookbook(Cookbook cookbook)
         {
             _culinaryPortalRepository.AddCookbook(cookbook);
             _culinaryPortalRepository.Save();

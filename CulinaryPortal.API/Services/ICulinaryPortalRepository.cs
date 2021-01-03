@@ -33,6 +33,7 @@ namespace CulinaryPortal.API.Services
         void UpdateUser(User user);
         Task<bool> UserExistsAsync(int userId);
         Task<bool> UserExistsAsync(string username);
+        Task<Cookbook> GetUserCookbookAsync(int userId);
         #endregion
 
         #region Ingredient
@@ -75,7 +76,7 @@ namespace CulinaryPortal.API.Services
         Task<Cookbook> GetCookbookAsync(int cookbookId);
         void AddCookbook(Cookbook cookbook);
         void DeleteCookbook(Cookbook cookbook);
-
+        
         #endregion
     }
 }

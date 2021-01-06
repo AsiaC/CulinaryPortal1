@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.Controllers
@@ -92,6 +93,27 @@ namespace CulinaryPortal.API.Controllers
 
             var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
             return Ok(cookbook);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+        {
+            var check = ClaimTypes.UserData;
+            var userId = User.FindFirst(ClaimTypes.UserData);
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _culinaryPortalRepository.GetUserAsync(3);
+
+            var a = User.Identity;
+
+            _mapper.Map(userUpdateDto, user);
+
+            _culinaryPortalRepository.UpdateUser(user);
+
+            //if (await _culinaryPortalRepository.SaveChangesAsync()) return NoContent();
+
+            return BadRequest("Failked to update user");
+            //var username = User.Identity   GetUserId<int>();
+            //var userID2 = HttpContext.Current.User.Identity.GetUserId<int>();
         }
     }
 }

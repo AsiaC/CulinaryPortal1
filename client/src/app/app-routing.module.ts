@@ -6,6 +6,7 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 
 const routes: Routes = [
@@ -19,7 +20,7 @@ const routes: Routes = [
     {path:'recipes', component: RecipeListComponent},
     {path:'recipes/:id', component: RecipeDetailComponent},
     {path:'cookbook', component: CookbookListComponent},
-    {path: 'user/edit', component: UserEditComponent}
+    {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

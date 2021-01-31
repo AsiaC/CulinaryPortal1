@@ -10,6 +10,7 @@ namespace CulinaryPortal.API.Services
     {
         bool Save();
         Task SaveChangesAsync();
+        Task<bool> SaveAllAsync();
 
         #region Recipe
         Task<IEnumerable<Recipe>> GetUserRecipesAsync(int userId);

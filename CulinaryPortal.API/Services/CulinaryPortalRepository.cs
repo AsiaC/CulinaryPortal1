@@ -39,6 +39,11 @@ namespace CulinaryPortal.API.Services
             return _context.SaveChangesAsync();
         }
 
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0; //wiecej niz 0 zmian zostało zapisanych w bazie. Jesli coś zostanie zapisane w bazie to wartość bedzie wieksza niz 0
+        }
+
         #region Recipe
 
         public void AddRecipe(int userId, Recipe recipe)
@@ -196,7 +201,8 @@ namespace CulinaryPortal.API.Services
 
         public void UpdateUser(User user)
         {
-            // no code in this implementation
+            // no code in this implementation ?
+            _context.Entry(user).State = EntityState.Modified;
         }
 
         public async Task<bool> UserExistsAsync(int userId)

@@ -98,9 +98,9 @@ namespace CulinaryPortal.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
-            var check = ClaimTypes.UserData;
-            var userId = User.FindFirst(ClaimTypes.UserData);
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+           // var check = ClaimTypes.UserData;
+            //var userId = User.FindFirst(ClaimTypes.UserData);
+            //var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var user = await _culinaryPortalRepository.GetUserAsync(3);
 
             var a = User.Identity;
@@ -109,11 +109,25 @@ namespace CulinaryPortal.API.Controllers
 
             _culinaryPortalRepository.UpdateUser(user);
 
-            //if (await _culinaryPortalRepository.SaveChangesAsync()) return NoContent();
-
-            return BadRequest("Failked to update user");
+            if (await _culinaryPortalRepository.SaveAllAsync()) return NoContent();
+            return BadRequest("Failed to update user");
             //var username = User.Identity   GetUserId<int>();
             //var userID2 = HttpContext.Current.User.Identity.GetUserId<int>();
         }
+
+        //[HttpPut]
+        //public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+        //{
+
+        //    var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+
+        //    _mapper.Map(memberUpdateDto, user);
+
+        //    _unitOfWork.UserRepository.Update(user);
+
+        //    if (await _unitOfWork.Complete()) return NoContent();
+
+        //    return BadRequest("Failed to update user");
+        //}
     }
 }

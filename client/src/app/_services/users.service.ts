@@ -28,5 +28,11 @@ export class UsersService {
   getUser(user:number): Observable<User> { debugger;
     return this.http.get<User>(this.baseUrl+'users/'+user);
   }
+
+  updateUser(user: User) {
+    debugger;
+    return this.http.put(this.baseUrl + 'users', user);
+  }
+
 }
 

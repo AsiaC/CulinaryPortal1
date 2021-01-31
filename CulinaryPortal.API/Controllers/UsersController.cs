@@ -98,12 +98,7 @@ namespace CulinaryPortal.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
         {
-           // var check = ClaimTypes.UserData;
-            //var userId = User.FindFirst(ClaimTypes.UserData);
-            //var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _culinaryPortalRepository.GetUserAsync(3);
-
-            var a = User.Identity;
+            var user = await _culinaryPortalRepository.GetUserAsync(userUpdateDto.Id);
 
             _mapper.Map(userUpdateDto, user);
 
@@ -111,23 +106,7 @@ namespace CulinaryPortal.API.Controllers
 
             if (await _culinaryPortalRepository.SaveAllAsync()) return NoContent();
             return BadRequest("Failed to update user");
-            //var username = User.Identity   GetUserId<int>();
-            //var userID2 = HttpContext.Current.User.Identity.GetUserId<int>();
         }
-
-        //[HttpPut]
-        //public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
-        //{
-
-        //    var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
-
-        //    _mapper.Map(memberUpdateDto, user);
-
-        //    _unitOfWork.UserRepository.Update(user);
-
-        //    if (await _unitOfWork.Complete()) return NoContent();
-
-        //    return BadRequest("Failed to update user");
-        //}
+                
     }
 }

@@ -16,7 +16,7 @@ export class UserEditComponent implements OnInit {
   user:User;
 
   constructor(private accountService:AccountService, private userService:UsersService) {
-    debugger;
+    
     var check=this.accountService.currentUser$
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
@@ -26,7 +26,7 @@ export class UserEditComponent implements OnInit {
   }
 
   //member
-  loadUser(){debugger;
+  loadUser(){
     var checkId=this.user.id;
     this.userService.getUser(this.user.id).subscribe(user=>{
       this.user = user;
@@ -36,7 +36,6 @@ export class UserEditComponent implements OnInit {
   updateUser(){
     
     console.log(this.user);
-    debugger;
     this.userService.updateUser(this.user).subscribe(() => {
       this.editForm.reset(this.user);
     });

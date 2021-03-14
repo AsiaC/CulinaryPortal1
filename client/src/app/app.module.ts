@@ -15,6 +15,7 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,10 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
     HttpClientModule, 
     BrowserAnimationsModule,
     FormsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -25,12 +25,12 @@ export class UsersService {
     return this.http.get<User[]>(this.baseUrl+'users');
   }
 
-  getUser(user:number): Observable<User> { debugger;
+  getUser(user:number): Observable<User> { 
     return this.http.get<User>(this.baseUrl+'users/'+user);
   }
 
   updateUser(user: User) {
-    debugger;
+
     return this.http.put(this.baseUrl + 'users', user);
   }
 

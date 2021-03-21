@@ -13,9 +13,11 @@ import { HomeComponent } from './home/home.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
-import { CookbookListComponent } from './cookbook/cookbook-list/cookbook-list.component';
+import { CookbookListComponent } from './cookbooks/cookbook-list/cookbook-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import {ToastrModule} from 'ngx-toastr';
+import { UserRecipesComponent } from './users/user-recipes/user-recipes.component';
+import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {ToastrModule} from 'ngx-toastr';
     RecipeDetailComponent,
     RecipeCardComponent,
     CookbookListComponent,
-    UserEditComponent
+    UserEditComponent,
+    UserRecipesComponent,
+    UserCookbookComponent
   ],
   imports: [
     BrowserModule,

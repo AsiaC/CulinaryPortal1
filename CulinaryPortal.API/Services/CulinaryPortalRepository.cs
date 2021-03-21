@@ -69,7 +69,12 @@ namespace CulinaryPortal.API.Services
 
         public async Task<IEnumerable<Recipe>> GetUserRecipesAsync(int userId)
         {
-            var userRecipes = await _context.Recipes.Where(r => r.UserId == userId).ToListAsync();
+            var userRecipes = await _context.Recipes.Where(r => r.UserId == userId)
+                .Include(i => i.Instructions)
+                .Include(p => p.Photos) //ODKOMENTOWAĆ
+                .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .ToListAsync();
             return userRecipes;
         }
 

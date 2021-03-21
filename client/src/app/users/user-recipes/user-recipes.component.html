@@ -1,0 +1,12 @@
+<h1>User's Recipes</h1>
+
+<button>Add new recipe</button>
+
+
+<div class="row">
+    <div class="col-2">
+        <p *ngFor="let userRecipe of userRecipes">
+            <app-recipe-card [recipeFromList] = "userRecipe"></app-recipe-card>
+        </p>
+    </div>
+</div> 

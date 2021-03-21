@@ -1,5 +1,16 @@
-<p>cookbook-list works!</p>
+<div *ngIf="userCookbook">
+    <h1>Your Cookbook: {{userCookbook.name}}</h1>
 
+    <h2>Recipes: ?????????? Nie pokazuje przepisów? </h2>
+    <ul>
+        <li *ngFor="let recipe of userCookbook.cookbookRecipes">
+            {{recipe.name}}
+        </li>
+
+    </ul>
+</div>
+
+<p>user-cookbook works!</p>
 <table class="table">
     <tbody>
         <tr>
@@ -16,7 +27,6 @@
                 usun z ksiazki
             </td>
         </tr>
-
         <!-- <td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>
                     <td>@employee.EmployeeId</td>
                     <td>@employee.FirstName</td>
@@ -31,6 +41,7 @@
                         </a>
 
                     </td> -->
-
     </tbody>
 </table>
+
+

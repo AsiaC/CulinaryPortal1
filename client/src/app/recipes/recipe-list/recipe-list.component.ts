@@ -18,7 +18,7 @@ export class RecipeListComponent implements OnInit {
   }
 
   loadRecipes(){
-    this.recipeService.getRecipes().subscribe(recipes =>{
+    this.recipeService.getRecipes().subscribe(recipes => {
       this.recipes = recipes;
     }, error => {
       console.log(error);

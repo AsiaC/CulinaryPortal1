@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,11 +12,11 @@ export class RecipesService {
 
   constructor(private http: HttpClient) { }
 
-  getRecipes()  {
+  getRecipes() {
     return this.http.get<Recipe[]>(this.baseUrl + 'recipes');
   }
 
-  getRecipe(recipe: number): Observable<Recipe>  {
-    return this.http.get<Recipe>(this.baseUrl+ 'recipes/'+ recipe);
+  getRecipe(recipe: number): Observable<Recipe> {
+    return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipe);
   }
 }

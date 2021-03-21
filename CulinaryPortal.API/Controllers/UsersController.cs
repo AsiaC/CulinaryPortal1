@@ -107,6 +107,20 @@ namespace CulinaryPortal.API.Controllers
             if (await _culinaryPortalRepository.SaveAllAsync()) return NoContent();
             return BadRequest("Failed to update user");
         }
-                
+
+        // GET: api/users/3/recipes
+        [HttpGet("{userId}/recipes", Name = "GetUserRecipes")]
+        public async Task<IActionResult> GetUserRecipesAsync(int userId)
+        {
+            var recipesFromRepo = await _culinaryPortalRepository.GetUserRecipesAsync(userId);
+            if (recipesFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var userRecipes = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
+            return Ok(userRecipes);
+        }
+
     }
 }

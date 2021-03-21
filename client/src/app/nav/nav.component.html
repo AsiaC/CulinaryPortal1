@@ -7,10 +7,10 @@
               <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>Recipes</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link" routerLink = '/cookbook' routerLinkActive='active'>Cookbook</a>
+              <a class="nav-link" routerLink = '/cookbooks' routerLinkActive='active'>Cookbooks</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link" routerLink = '/shoppingList' routerLinkActive='active'>Shopping List</a>
+              <a class="nav-link" routerLink = '/shoppingList' routerLinkActive='active'>Shopping Lists</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" routerLinkActive='active'>Links</a>
@@ -23,6 +23,10 @@
           <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
+              <a class="dropdown-item" routerLink='/user/recipes' >My Recipes</a>
+              <a class="dropdown-item" routerLink='/user/cookbook' >My Cookbook</a>
+              <a class="dropdown-item" routerLink='/user/edit' >My Shopping List</a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item" routerLink='/user/edit' >Edit Profile</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click) = "logout()">Logout</a>

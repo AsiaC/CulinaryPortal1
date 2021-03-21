@@ -5,6 +5,8 @@ import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { AccountService } from './account.service';
+import { Recipe } from '../_models/recipe';
+import { Cookbook } from '../_models/cookbook';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +36,14 @@ export class UsersService {
     return this.http.put(this.baseUrl + 'users', user);
   }
 
+  getUserRecipes(user:number){
+    debugger;    
+    return this.http.get<Recipe[]>(this.baseUrl + 'users/' + user + '/recipes');
+  }
+
+  getUserCookbook(user:number){
+    debugger;    
+    return this.http.get<Cookbook>(this.baseUrl + 'users/' + user + '/cookbook');
+  }
 }
 

@@ -1,3 +1,4 @@
+import { CookbookRecipe } from "./cookbookRecipe";
 import { Recipe } from "./recipe";
 
 export interface Cookbook {
@@ -5,5 +6,5 @@ export interface Cookbook {
   name: string;
   description: string;
   userId: number;
-  cookbookRecipes: Recipe[];
+  cookbookRecipes: CookbookRecipe[];
 }

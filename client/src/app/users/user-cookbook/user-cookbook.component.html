@@ -1,16 +1,16 @@
 <div *ngIf="userCookbook">
     <h1>Your Cookbook: {{userCookbook.name}}</h1>
 
-    <h2>Recipes: ?????????? Nie pokazuje przepisów? </h2>
+    <h2>Recipes: </h2>
     <ul>
-        <li *ngFor="let recipe of userCookbook.cookbookRecipes">
-            {{recipe.name}}
+        <li *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
+            {{cookbookRecipe.recipe.name}}
+            {{cookbookRecipe.note}}
         </li>
 
     </ul>
 </div>
 
-<p>user-cookbook works!</p>
 <table class="table">
     <tbody>
         <tr>

@@ -4,14 +4,16 @@ using CulinaryPortal.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CulinaryPortal.API.Migrations
 {
     [DbContext(typeof(CulinaryPortalContext))]
-    partial class CulinaryPortalContextModelSnapshot : ModelSnapshot
+    [Migration("20210328175909_CategoryTable2")]
+    partial class CategoryTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,7 +179,7 @@ namespace CulinaryPortal.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -340,9 +342,7 @@ namespace CulinaryPortal.API.Migrations
                 {
                     b.HasOne("CulinaryPortal.API.Entities.Category", "Category")
                         .WithMany("Recipes")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("CulinaryPortal.API.Entities.User", "User")
                         .WithMany("Recipes")

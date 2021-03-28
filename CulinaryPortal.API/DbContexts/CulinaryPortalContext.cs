@@ -9,7 +9,7 @@ namespace CulinaryPortal.API.DbContexts
 {
     public class CulinaryPortalContext : DbContext
     {
-        public CulinaryPortalContext(DbContextOptions<CulinaryPortalContext>options) : base(options)
+        public CulinaryPortalContext(DbContextOptions<CulinaryPortalContext> options) : base(options)
         {
         }
 
@@ -31,8 +31,9 @@ namespace CulinaryPortal.API.DbContexts
         public DbSet<Measure> Measures { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
- //      public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
+        //      public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public DbSet<ShoppingList> ShoppingLists { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

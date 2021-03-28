@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201126161804_IsMainForPhoto.cs" />
     <Compile Remove="Migrations\20201126161804_IsMainForPhoto.Designer.cs" />
+    <Compile Remove="Migrations\20210328174210_CategoryTable2.cs" />
+    <Compile Remove="Migrations\20210328174210_CategoryTable2.Designer.cs" />
+    <Compile Remove="Migrations\20210328174443_CategoryTable2.cs" />
+    <Compile Remove="Migrations\20210328174443_CategoryTable2.Designer.cs" />
+    <Compile Remove="Migrations\20210328174851_CategoryTable2.cs" />
+    <Compile Remove="Migrations\20210328174851_CategoryTable2.Designer.cs" />
+    <Compile Remove="Migrations\20210328175549_CategoryTable2.cs" />
+    <Compile Remove="Migrations\20210328175549_CategoryTable2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

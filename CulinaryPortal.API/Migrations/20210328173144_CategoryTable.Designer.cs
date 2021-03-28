@@ -4,37 +4,22 @@ using CulinaryPortal.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CulinaryPortal.API.Migrations
 {
     [DbContext(typeof(CulinaryPortalContext))]
-    partial class CulinaryPortalContextModelSnapshot : ModelSnapshot
+    [Migration("20210328173144_CategoryTable")]
+    partial class CategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CulinaryPortal.API.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
 
             modelBuilder.Entity("CulinaryPortal.API.Entities.Cookbook", b =>
                 {
@@ -177,9 +162,6 @@ namespace CulinaryPortal.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -196,8 +178,6 @@ namespace CulinaryPortal.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -216,7 +196,7 @@ namespace CulinaryPortal.API.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(7,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("MeasureId", "RecipeId", "IngredientId");
 
@@ -338,12 +318,6 @@ namespace CulinaryPortal.API.Migrations
 
             modelBuilder.Entity("CulinaryPortal.API.Entities.Recipe", b =>
                 {
-                    b.HasOne("CulinaryPortal.API.Entities.Category", "Category")
-                        .WithMany("Recipes")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CulinaryPortal.API.Entities.User", "User")
                         .WithMany("Recipes")
                         .HasForeignKey("UserId");

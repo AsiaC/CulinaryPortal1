@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CulinaryPortal.API.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace CulinaryPortal.API.Entities
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+
+        public DifficultyLevel DifficultyLevel { get; set; }
 
         public IList<Instruction> Instructions { get; set; }
         

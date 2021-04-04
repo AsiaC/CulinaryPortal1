@@ -19,11 +19,14 @@ namespace CulinaryPortal.API.Models
 
         public int? UserId { get; set; }
         //public User User { get; set; }
-
+        public string Author { get; set; }
         public int CategoryId { get; set; }
+        public string Category { get; set; }
 
         public DifficultyLevel DifficultyLevel { get; set; }
+        public string Difficulty { get; set; }
         public PreparationTime PreparationTime { get; set; }
+        public string Preparation { get; set; }
 
         public IList<InstructionDto> Instructions { get; set; }
 

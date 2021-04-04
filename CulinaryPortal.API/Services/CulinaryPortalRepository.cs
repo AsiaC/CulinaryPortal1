@@ -118,7 +118,8 @@ namespace CulinaryPortal.API.Services
             var recipe = await _context.Recipes
                 .Include(i =>i.Instructions)
                 //.Include(cr=>cr.CookbookRecipes).ThenInclude(c=>c.Cookbook)
-                //.Include(u => u.User)
+                .Include(u => u.User)
+                .Include(c => c.Category)
                 .Include(p =>p.Photos) //ODKOMENTOWAC
                 //.Include(ri => ri.RecipeIngredients)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)

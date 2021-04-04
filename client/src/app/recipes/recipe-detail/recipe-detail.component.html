@@ -2,9 +2,14 @@
     <h1 >{{recipe.name}}</h1>
 
     <h2>Basic informations</h2>
-    <p>User Id: {{recipe.userId}}</p>
+    <p>Author: {{recipe.author}}</p>
     <p>Description: {{recipe.description}}</p>
     <p>Rate: {{recipe.rate}}</p>
+    <p>Category: {{recipe.category}}</p>
+    <p>Difficulty Level: {{recipe.difficultyLevel}}</p>
+    <p>Difficulty: {{recipe.difficulty}}</p>
+    <p>Preparation Time: {{recipe.preparationTime}}</p>
+    <p>Preparation: {{recipe.preparation}}</p>
 
     <h2>Ingredients</h2>
     <ul>
@@ -15,15 +20,16 @@
             <!-- {{ingred | json}} -->
         </li>
     </ul>
-    <button>Add all ingredients to shopping list</button>
+    <button class="btn btn-success">Add all ingredients to shopping list</button>
 
-    <h2>Directions</h2>
+    <!-- <h2>Directions</h2> -->
+    <h2>Instructions</h2>
     <ol>
         <li *ngFor="let instruction of recipe.instructions">
             {{instruction.description}}
         </li>
     </ol>
-    <button>Add recipe to Culinarybook</button>
+    <button class="btn btn-success">Add recipe to Culinarybook</button>
 
     <ol>
         <ul *ngFor="let photo of recipe.photos">

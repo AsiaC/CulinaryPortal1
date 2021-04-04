@@ -28,7 +28,7 @@ namespace CulinaryPortal.API.Entities
         public Category Category { get; set; }
 
         public DifficultyLevel DifficultyLevel { get; set; }
-        public PreparationTime PreparationTime { get; set;  }
+        public PreparationTime PreparationTime { get; set; }
 
         public IList<Instruction> Instructions { get; set; }
         

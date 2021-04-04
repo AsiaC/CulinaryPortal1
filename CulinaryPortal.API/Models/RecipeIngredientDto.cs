@@ -14,7 +14,7 @@ namespace CulinaryPortal.API.Models
         //public int MeasureId { get; set; }
         //public MeasureDto Measure { get; set; }
 
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public string IngredientName { get; set; }
         public string MeasureName { get; set; }
     }

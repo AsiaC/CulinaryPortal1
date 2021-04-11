@@ -14,6 +14,7 @@ import { take } from 'rxjs/operators';
 export class UserRecipesComponent implements OnInit {
   userRecipes: Recipe[];
   user: User;
+  addNewMode:boolean = false;
 
   constructor(private userService:UsersService, private accountService:AccountService) { 
 
@@ -25,13 +26,19 @@ export class UserRecipesComponent implements OnInit {
   }
 
   loadUserRecipes(){
-debugger;
+//debugger;
     console.log(this.user);
     this.userService.getUserRecipes(this.user.id).subscribe(userRecipes=>{
       this.userRecipes = userRecipes;
     }, error =>{
       console.log(error);
     })
+  }
+
+  addRecipe(){
+    //debugger;
+    //this.router.navgateURL(['/recipes']);
+    this.addNewMode = !this.addNewMode;
   }
 
 }

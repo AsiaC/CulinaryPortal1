@@ -37,12 +37,12 @@ export class UsersService {
   }
 
   getUserRecipes(user:number){
-    debugger;    
+    //debugger;    
     return this.http.get<Recipe[]>(this.baseUrl + 'users/' + user + '/recipes');
   }
 
   getUserCookbook(user:number){
-    debugger;    
+    //debugger;    
     return this.http.get<Cookbook>(this.baseUrl + 'users/' + user + '/cookbook');
   }
 }

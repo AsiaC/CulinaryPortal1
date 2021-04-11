@@ -18,6 +18,7 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import {ToastrModule} from 'ngx-toastr';
 import { UserRecipesComponent } from './users/user-recipes/user-recipes.component';
 import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.component';
+import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-form.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.compo
     CookbookListComponent,
     UserEditComponent,
     UserRecipesComponent,
-    UserCookbookComponent
+    UserCookbookComponent,
+    RecipeNewFormComponent
   ],
   imports: [
     BrowserModule,

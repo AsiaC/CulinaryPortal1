@@ -20,7 +20,7 @@ export class RecipeDetailComponent implements OnInit {
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
       this.recipe = recipe; 
-      debugger;      
+      //debugger;      
     }, error => {
       console.log(error);
     })

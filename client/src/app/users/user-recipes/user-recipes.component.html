@@ -1,12 +1,15 @@
 <h1>User's Recipes</h1>
 
-<button class="btn btn-success">Add new recipe</button>
+<div *ngIf="addNewMode == true">
+    <app-recipe-new-form></app-recipe-new-form>
+</div>
 
+<div *ngIf="addNewMode == false">
+    <button class="btn btn-success mb-4" (click)="addRecipe()">Add new recipe</button>
 
-<div class="row">
-    <div class="col-2">
-        <p *ngFor="let userRecipe of userRecipes">
+    <div class="row">
+        <div class="col-3" *ngFor="let userRecipe of userRecipes">
             <app-recipe-card [recipeFromList] = "userRecipe"></app-recipe-card>
-        </p>
-    </div>
-</div> 
+        </div>
+    </div> 
+</div>

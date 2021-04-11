@@ -24,11 +24,11 @@ export class UserCookbookComponent implements OnInit {
   }
 
   loadUserCookbook(){
-    debugger;
+    //debugger;
     console.log(this.user);
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      debugger;
+      //debugger;
       console.log(this.userCookbook);
     }, error => {
       console.log(error);

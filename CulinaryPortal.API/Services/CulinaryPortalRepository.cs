@@ -409,6 +409,15 @@ namespace CulinaryPortal.API.Services
                 .FirstOrDefaultAsync(u => u.UserId == userId);
             return cookbook;
         }
+
         #endregion
+
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
+        {
+            var categories = await _context.Categories.ToListAsync();               
+                        
+            return categories;
+        }
+        
     }
 }

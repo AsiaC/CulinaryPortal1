@@ -2,8 +2,39 @@
     <h2>Create a new recipe</h2>
 
     <div class="form-group">
-        <input type="text" class="form-control" name="a" [(ngModel)]="model.name" placeholder="Name">
+        <label>Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="model.name" placeholder="Name">
     </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <input type="text" class="form-control" name="description" [(ngModel)]="model.description" placeholder="Description">
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <input type="text" class="form-control" name="category" [(ngModel)]="model.category" >
+    </div>
+
+    <div class="form-group">
+        <label>Difficulty</label>
+        <input type="text" class="form-control" name="difficulty" [(ngModel)]="model.difficulty" >
+    </div>
+    
+    <div class="form-group">
+        <label>Preparation</label>
+        <input type="text" class="form-control" name="preparation" [(ngModel)]="model.preparation" >
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <select class="form-control">
+            <option *ngFor="let category of allCategories" [value]="category.id">
+                {{category.name}}       
+            </option> 
+        </select>
+    </div>
+
 
     <div class="form-group text-center">
         <button class="btn btn-success mr-2" type="submit" >Create</button>

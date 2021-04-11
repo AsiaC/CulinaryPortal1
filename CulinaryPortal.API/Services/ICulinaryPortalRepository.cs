@@ -18,6 +18,7 @@ namespace CulinaryPortal.API.Services
         void AddRecipe(int userId, Recipe recipe);
         void UpdateRecipe(Recipe recipe);
         void DeleteRecipe(Recipe recipe);
+        Task<IEnumerable<Category>> GetCategoriesAsync();
         Task<bool> RecipeExistsAsync(int recipeId);
         Task<IEnumerable<Recipe>> GetRecipesAsync();
         Task<Recipe> GetRecipeAsync(int recipeId);

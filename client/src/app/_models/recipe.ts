@@ -11,7 +11,7 @@ export interface Recipe {
   description?: string;
   //userId: number;
   author: string;
-  //categoryId: number;
+  categoryId: number;
   category: string;
   difficultyLevel: DifficultyLevelEnum;
   difficulty: string;

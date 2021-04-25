@@ -6,6 +6,7 @@ import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { FormGroup, FormControl } from "@angular/forms";
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { Console } from 'console';
+//import { Ingredient } from 'src/app/_models/ingredient';
 
 @Component({
   selector: 'app-recipe-new-form',
@@ -21,6 +22,9 @@ export class RecipeNewFormComponent implements OnInit {
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
   submitted = false;
+ // firstPartFormSubmitted = false;
+ // allIngredients:Ingredient[];
+
   constructor(private recipesService: RecipesService) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);

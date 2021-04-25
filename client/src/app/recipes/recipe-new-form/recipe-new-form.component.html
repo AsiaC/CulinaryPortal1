@@ -17,43 +17,64 @@
 
     <div class="form-group">
         <label>Difficulty</label>
-        <select class="form-control" [(ngModel)]="model.difficultyLevel" name="difficultyLevel" required #name="ngModel">
+        <select class="form-control" [(ngModel)]="model.difficultyLevel" name="diffL" required #diffL="ngModel">
             <option *ngFor="let diffName of enumKeys" [value]="diffName">
                 {{difficultyLevel[diffName]}}       
             </option> 
         </select>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        <div [hidden]="diffL.valid || diffL.pristine" class="alert alert-danger">
             Difficulty is required
           </div>
     </div>
 
     <div class="form-group">
         <label>Preparation</label>
-        <select class="form-control" [(ngModel)]="model.preparationTime" name="preparationTime" required #name="ngModel">
+        <select class="form-control" [(ngModel)]="model.preparationTime" name="prepT" required #prepT="ngModel">
             <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
                 {{preparationTime[prepName]}}       
             </option> 
         </select>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        <div [hidden]="prepT.valid || prepT.pristine" class="alert alert-danger">
             Preparation is required
           </div>
     </div>
     
     <div class="form-group">
         <label>Category</label>
-        <select class="form-control" [(ngModel)]="model.categoryId" name="categoryId" required #name="ngModel">
+        <select class="form-control" [(ngModel)]="model.categoryId" name="categoryId" required #categoryId="ngModel">
             <option *ngFor="let category of allCategories" [value]="category.id">
                 {{category.name}}       
             </option> 
         </select>
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+        <div [hidden]="categoryId.valid || categoryId.pristine" class="alert alert-danger">
             Category is required
           </div>
     </div>
+    <!-- <div class="form-group text-center">
+        <button class="btn btn-success mr-2" type="button" >Add Ingredient</button>        
+    </div> -->
+<!-- <div class="form-row">
+    <div class="col">
+        <label>Quantity</label>
+        <input type="text" class="form-control" name="quantity" [(ngModel)]="model.recipeIngredients.quantity" required #quantity="ngModel">
+        <div [hidden]="quantity.valid || quantity.pristine" class="alert alert-danger">
+            Quantity is required
+        </div>       
+      </div>
+      <div class="col">
+        <label>ingredientName</label>
+        <select class="form-control" [(ngModel)]="model.recipeIngredients.ingredientName" name="ingredientId" required >
+            <option *ngFor="let ingredient of allIngredients" [value]="ingredient.id">
+                {{ingredient.name}}       
+            </option> 
+        </select>
+        
+    </div>
+</div> -->
 
 
     <div class="form-group text-center">
-        <button class="btn btn-success mr-2" type="submit" [disabled]="!addRecipeForm.form.valid">Next step</button>
+        <button class="btn btn-success mr-2" type="submit" [disabled]="!addRecipeForm.form.valid">Create</button>
         <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
     </div>
 

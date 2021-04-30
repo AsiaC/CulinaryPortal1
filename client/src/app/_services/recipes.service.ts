@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
 import {map, repeat} from 'rxjs/operators';
 import { Category } from '../_models/category';
+import { Ingredient } from '../_models/ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,14 @@ export class RecipesService {
 
   getCategories() {
     return this.http.get<Category[]>(this.baseUrl + 'categories');
+  }
+
+  getIngredients() {
+    return this.http.get<Ingredient[]>(this.baseUrl + 'ingredients');
+  }
+  
+  getMeasures() {
+    return this.http.get<Ingredient[]>(this.baseUrl + 'measures');
   }
 
 }

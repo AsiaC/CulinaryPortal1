@@ -16,6 +16,7 @@
 <div class="form-group">
     <label>Difficulty</label>
     <select class="form-control" formControlName='difficultyLevel' >
+        <option [ngValue]="null" disabled>Choose difficulty level</option>
         <option *ngFor="let diffName of enumKeys" [value]="diffName">
             {{difficultyLevel[diffName]}}       
         </option> 
@@ -25,6 +26,7 @@
 <div class="form-group">
     <label>Preparation</label>
     <select class="form-control" formControlName="preparationTime" >
+        <option [ngValue]="null" disabled>Choose preparation time</option>
         <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
             {{preparationTime[prepName]}}       
         </option> 
@@ -35,9 +37,8 @@
 <div class="form-group">
     <label>Category</label>
     <select class="form-control" formControlName='category'>
-
         <option [ngValue]="null" disabled>Choose category</option>
-        <option *ngFor="let prf of allCategories" [ngValue]="prf">
+        <option *ngFor="let prf of allCategories" [ngValue]="prf.id">
             {{prf.name }}
         </option>
     </select>    
@@ -51,15 +52,25 @@
         <div class="form-group row">
             <div class="form-group col-sm-3">
                 <label>Quantity</label>            
-                <input type="text" class="form-control" formControlName="quantity">        
+                <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity">        
             </div>   
             <div class="form-group col-sm-4"> 
-                <label>Measure</label>
-                <input type="text" class="form-control" formControlName="measure">
+                <label>Measure</label>  
+                <select class="form-control" formControlName='measure'>
+                    <option [ngValue]="null" disabled>Choose measure</option>
+                    <option *ngFor="let measure of allMeasures" [ngValue]="measure.id">
+                        {{measure.name }}
+                    </option>
+                </select>   
             </div>
             <div class="form-group col-sm-4"> 
                 <label>Ingredient</label>
-                <input type="text" class="form-control" formControlName="ingr">
+                <select class="form-control" formControlName='ingredient'>
+                    <option [ngValue]="null" disabled>Choose ingredient</option>
+                    <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient.id">
+                        {{ingredient.name }}
+                    </option>
+                </select>
             </div>
             <div class="form-group col-sm-1"> 
                 <button class="btn btn-default" type="button" (click)="removeIngredient(i)">Remove</button>

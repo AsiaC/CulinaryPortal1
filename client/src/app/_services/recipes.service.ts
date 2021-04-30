@@ -6,6 +6,7 @@ import { Recipe } from '../_models/recipe';
 import {map, repeat} from 'rxjs/operators';
 import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
+import { Measure } from '../_models/measure';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class RecipesService {
   }
   
   getMeasures() {
-    return this.http.get<Ingredient[]>(this.baseUrl + 'measures');
+    return this.http.get<Measure[]>(this.baseUrl + 'measures');
   }
 
 }

@@ -7,7 +7,7 @@ namespace CulinaryPortal.API.Models
 {
     public class MeasureDto
     {
-        //public int Id { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

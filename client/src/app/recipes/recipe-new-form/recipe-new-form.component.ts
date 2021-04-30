@@ -8,6 +8,7 @@ import { Console } from 'console';
 import { Ingredient } from 'src/app/_models/ingredient';
 import { Measure } from 'src/app/_models/measure';
 import { FormGroup, FormControl,FormArray, FormBuilder, Validators } from '@angular/forms'
+import { Recipe } from 'src/app/_models/recipe';
 
 @Component({
   selector: 'app-recipe-new-form',
@@ -15,7 +16,8 @@ import { FormGroup, FormControl,FormArray, FormBuilder, Validators } from '@angu
   styleUrls: ['./recipe-new-form.component.css']
 })
 export class RecipeNewFormComponent implements OnInit {
-  model: any = {};
+ // model: any = {};
+  model: Recipe;
   allCategories: Category[];
   difficultyLevel = DifficultyLevelEnum;
   enumKeys = [];
@@ -68,8 +70,8 @@ export class RecipeNewFormComponent implements OnInit {
   newIngredient(): FormGroup {
     return this.fb.group({
       quantity: '',
-      ingr: '',
-      measure: ''
+      ingredient: [],
+      measure: []
     })
   } 
   addIngredients() {

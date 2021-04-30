@@ -3,17 +3,19 @@
     <h2>Create a new recipe</h2>
 
 <div class="form-group">
+    <label>Name</label>
     <input type="text" class="form-control" formControlName='name' placeholder="Name">
 </div>
 
 
 <div class="form-group">
+    <label>Description</label>
     <input type="text" class="form-control" formControlName='description' placeholder="Description">
 </div>
 
 <div class="form-group">
     <label>Difficulty</label>
-    <select class="form-control" formControlName='difficultylevel' >
+    <select class="form-control" formControlName='difficultyLevel' >
         <option *ngFor="let diffName of enumKeys" [value]="diffName">
             {{difficultyLevel[diffName]}}       
         </option> 
@@ -22,7 +24,7 @@
 
 <div class="form-group">
     <label>Preparation</label>
-    <select class="form-control" formControlName="preparationtime" >
+    <select class="form-control" formControlName="preparationTime" >
         <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
             {{preparationTime[prepName]}}       
         </option> 
@@ -32,46 +34,83 @@
 
 <div class="form-group">
     <label>Category</label>
-    <select class="form-control" formControl='categoryid'>
-        <option *ngFor="let category of allCategories" [value]="category.id">
-            {{category.name}}       
-        </option> 
+    <select class="form-control" formControlName='category'>
+
+        <option [ngValue]="null" disabled>Choose category</option>
+        <option *ngFor="let prf of allCategories" [ngValue]="prf">
+            {{prf.name }}
+        </option>
     </select>    
 </div>
 
-<div class="form-group text-center">
-    <button class="btn btn-success mr-2" type="button" (click)="addIngredients()" >Add Ingredient</button>        
-</div> 
-In:
-  <div formArrayName="ingredients">
-    <div *ngFor="let ingredient of ingredients().controls; let i=index">
+<h5>Ingredients:</h5>
+  <div class="form-group" formArrayName="ingredients">
+    <div *ngFor="let ingredient of ingredients.controls; let i=index">
       <div [formGroupName]="i">
-        {{i}}
-        ingr quantity :
-        <input type="text" formControlName="quantity">
-        ingr:
-        <input type="text" formControlName="ingr">
-        measure:
-        <input type="text" formControlName="measure">
-        <button (click)="removeIngredient(i)">Remove ingr</button>
+        <!-- {{i}} -->
+        <div class="form-group row">
+            <div class="form-group col-sm-3">
+                <label>Quantity</label>            
+                <input type="text" class="form-control" formControlName="quantity">        
+            </div>   
+            <div class="form-group col-sm-4"> 
+                <label>Measure</label>
+                <input type="text" class="form-control" formControlName="measure">
+            </div>
+            <div class="form-group col-sm-4"> 
+                <label>Ingredient</label>
+                <input type="text" class="form-control" formControlName="ingr">
+            </div>
+            <div class="form-group col-sm-1"> 
+                <button class="btn btn-default" type="button" (click)="removeIngredient(i)">Remove</button>
+            </div>
+        </div>
       </div>
     </div>
   </div>
+
+<div class="form-group">
+    <button class="btn btn-success mr-2" type="button" (click)="addIngredients()" >Add Ingredient</button>        
+</div> 
+
+<h5>Instructions:</h5>
+  <div class="form-group" formArrayName="instructions">
+    <div *ngFor="let instruction of instructions.controls; let i=index">
+      <div [formGroupName]="i" >
+        <!-- {{i}} -->
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Instruction Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName='name' placeholder="Instruction Name">
+            </div>  
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" formControlName="description" placeholder="Instruction Description">        
+            </div>
+        </div>
+        <div class="form-group row justify-content-end">
+            <button class="btn btn-default" type="button" (click)="removeInstruction(i)">Remove above instruction</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="form-group">
+    <button class="btn btn-success mr-2" type="button" (click)="addInstructions()" >Add Instructions</button>        
+</div>
 
 <div class="form-group text-center">
     <button class="btn btn-success mr-2" type="submit">Add</button>
     <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
 </div>
 
-
-
   
 
 <p>Form value: {{addRecipeForm.value | json}} </p>
 <p>Form status: {{addRecipeForm.status | json}} </p>
 
-<p>nester array: 
-{{this.addRecipeForm.value | json}}  </p>
     <!-- <div class="form-group">
         <label>Name</label>
         <input type="text" class="form-control" name="name" [(ngModel)]="model.name" placeholder="Name" required #name="ngModel">

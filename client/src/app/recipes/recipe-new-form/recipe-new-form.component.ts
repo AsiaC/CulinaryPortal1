@@ -28,8 +28,6 @@ export class RecipeNewFormComponent implements OnInit {
 
   addRecipeForm: FormGroup;
   
-  //ingredientsForm: FormGroup;
-
   constructor(private recipesService: RecipesService, private fb:FormBuilder) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
@@ -55,13 +53,15 @@ export class RecipeNewFormComponent implements OnInit {
       description: [],
       difficultyLevel:[],
       preparationTime:[],
-      categoryId: [],
+      //categoryId: [],
+      category: [],
       //...
       ingredients: this.fb.array([]),
+      instructions: this.fb.array([]),
     });
   }
 
-  ingredients() : FormArray {
+  get ingredients() : FormArray {
     return this.addRecipeForm.get("ingredients") as FormArray
   }
  
@@ -73,10 +73,27 @@ export class RecipeNewFormComponent implements OnInit {
     })
   } 
   addIngredients() {
-    this.ingredients().push(this.newIngredient());
+    this.ingredients.push(this.newIngredient());
   } 
   removeIngredient(i:number) {
-    this.ingredients().removeAt(i);
+    this.ingredients.removeAt(i);
+  }
+
+  get instructions() : FormArray {
+    return this.addRecipeForm.get("instructions") as FormArray
+  }
+ 
+  newInstructions(): FormGroup {
+    return this.fb.group({
+      name: '',
+      description: ''      
+    })
+  } 
+  addInstructions() {
+    this.instructions.push(this.newInstructions());
+  } 
+  removeInstruction(i:number) {
+    this.instructions.removeAt(i);
   }
 
   getAllCategories(){//debugger;
@@ -122,6 +139,8 @@ export class RecipeNewFormComponent implements OnInit {
     //   this.cancel();  
     // })
     console.log(this.addRecipeForm.value);
+
+    //let newUser: User = this.userForm.value;
   }
 
   //pod przyciskiem cancel

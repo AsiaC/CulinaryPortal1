@@ -25,14 +25,14 @@ export class RecipesService {
   }
 
   addRecipe(model: any){
-    //debugger;
+debugger;
     return this.http.post(this.baseUrl + 'recipes', model).pipe(
       map((recipe: Recipe) => {
-        const user=recipe;
-//debugger;
+        
+debugger;
         return recipe;
       })
-    )
+    )    
   }
 
   getCategories() {

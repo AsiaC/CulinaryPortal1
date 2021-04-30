@@ -52,10 +52,11 @@ namespace CulinaryPortal.API.Controllers
         [HttpPost]
         public ActionResult<Recipe> CreateRecipe(Recipe recipe)
         {
-            _culinaryPortalRepository.AddRecipe(recipe);
-            _culinaryPortalRepository.Save();
+            //_culinaryPortalRepository.AddRecipe(recipe);
+            //_culinaryPortalRepository.Save();
 
-            return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
+            //return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
+            return Ok(recipe);
         }
 
         // DELETE: api/recipes/5

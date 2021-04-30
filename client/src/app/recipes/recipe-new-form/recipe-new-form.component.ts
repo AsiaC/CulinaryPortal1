@@ -16,8 +16,6 @@ import { Recipe } from 'src/app/_models/recipe';
   styleUrls: ['./recipe-new-form.component.css']
 })
 export class RecipeNewFormComponent implements OnInit {
- // model: any = {};
-  model: Recipe;
   allCategories: Category[];
   difficultyLevel = DifficultyLevelEnum;
   enumKeys = [];
@@ -54,6 +52,7 @@ export class RecipeNewFormComponent implements OnInit {
       name: ['',Validators.required],
       description: [],
       difficultyLevel:[],
+      //difficultyLevel:this.fb.array([]),
       preparationTime:[],
       //categoryId: [],
       category: [],
@@ -128,21 +127,27 @@ export class RecipeNewFormComponent implements OnInit {
     })
   }
 
-  createNewRecipe(){
+  createNewRecipe0(){
     debugger;
     console.log("create new recipe");
-    console.log(this.model);
+    console.log(this.addRecipeForm.value);
     console.log(this.submitted);
     this.submitted = true;
     console.log(this.submitted);
-    console.log(this.addRecipeForm.value);
-    // this.recipesService.addRecipe(this.model).subscribe(response => {
-    //   console.log(response);
-    //   this.cancel();  
-    // })
-    console.log(this.addRecipeForm.value);
+    console.log(this.addRecipeForm.value);  
+    //let newUser: User = this.userForm.value;    
+  }
 
-    //let newUser: User = this.userForm.value;
+  createNewRecipe() {
+    console.log(this.addRecipeForm.value);
+    debugger;
+    this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
+      console.log(response);
+      //this.router.navigateByUrl('/members');
+    }, error => {
+      //this.validationErrors = error;
+      console.log(error);
+    })
   }
 
   //pod przyciskiem cancel

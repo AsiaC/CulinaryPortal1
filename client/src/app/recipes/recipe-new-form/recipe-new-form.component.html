@@ -17,7 +17,7 @@
     <label>Difficulty</label>
     <select class="form-control" formControlName='difficultyLevel' >
         <option [ngValue]="null" disabled>Choose difficulty level</option>
-        <option *ngFor="let diffName of enumKeys" [value]="diffName">
+        <option *ngFor="let diffName of enumKeys" [ngValue]="diffName">
             {{difficultyLevel[diffName]}}       
         </option> 
     </select>    
@@ -27,7 +27,7 @@
     <label>Preparation</label>
     <select class="form-control" formControlName="preparationTime" >
         <option [ngValue]="null" disabled>Choose preparation time</option>
-        <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
+        <option *ngFor="let prepName of preparationTimeKeys" [ngValue]="prepName">
             {{preparationTime[prepName]}}       
         </option> 
     </select>

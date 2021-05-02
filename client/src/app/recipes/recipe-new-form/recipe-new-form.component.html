@@ -55,18 +55,18 @@
 </div>
 
 <h5>Ingredients:</h5>
-  <div class="form-group" formArrayName="ingredients">
-    <div *ngFor="let ingredient of ingredients.controls; let i=index">
+  <div class="form-group" formArrayName="recipeIngredients">
+    <div *ngFor="let ingredient of recipeIngredients.controls; let i=index">
       <div [formGroupName]="i">
         <!-- {{i}} -->
         <div class="form-group row">
             <div class="form-group col-sm-3">
                 <label>Quantity</label>            
-                <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity">        
+                <input type="number" class="form-control" formControlName="quantity" placeholder="Quantity">        
             </div>   
             <div class="form-group col-sm-4"> 
                 <label>Measure</label>  
-                <select class="form-control" formControlName='measure'>
+                <select class="form-control" formControlName='measureId'>
                     <option [ngValue]="null" disabled>Choose measure</option>
                     <option *ngFor="let measure of allMeasures" [ngValue]="measure.id">
                         {{measure.name }}
@@ -75,7 +75,7 @@
             </div>
             <div class="form-group col-sm-4"> 
                 <label>Ingredient</label>
-                <select class="form-control" formControlName='ingredient'>
+                <select class="form-control" formControlName='ingredientId'>
                     <option [ngValue]="null" disabled>Choose ingredient</option>
                     <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient.id">
                         {{ingredient.name }}

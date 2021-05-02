@@ -56,28 +56,28 @@ export class RecipeNewFormComponent implements OnInit {
       preparationTime:[],
       categoryId: [],
       //category: [],
-      //...
-      ingredients: this.fb.array([]),
+      //ingredients: this.fb.array([]),
+      recipeIngredients:this.fb.array([]),
       instructions: this.fb.array([]),
     });
   }
 
-  get ingredients() : FormArray {
-    return this.addRecipeForm.get("ingredients") as FormArray
+  get recipeIngredients() : FormArray {
+    return this.addRecipeForm.get("recipeIngredients") as FormArray
   }
  
   newIngredient(): FormGroup {
     return this.fb.group({
       quantity: '',
-      ingredient: [],
-      measure: []
+      ingredientId: [],
+      measureId: []
     })
   } 
   addIngredients() {
-    this.ingredients.push(this.newIngredient());
+    this.recipeIngredients.push(this.newIngredient());
   } 
   removeIngredient(i:number) {
-    this.ingredients.removeAt(i);
+    this.recipeIngredients.removeAt(i);
   }
 
   get instructions() : FormArray {

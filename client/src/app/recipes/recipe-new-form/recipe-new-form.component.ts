@@ -30,11 +30,11 @@ export class RecipeNewFormComponent implements OnInit {
   
   constructor(private recipesService: RecipesService, private fb:FormBuilder) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
-    //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
-    this.enumKeys = Object.keys(this.difficultyLevel);
-    this.preparationTimeKeys = Object.keys(this.preparationTime);
-
-   
+    this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
+    //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(key => ({ title: this.difficultyLevel[key], value: key }));
+    //this.enumKeys = Object.keys(this.difficultyLevel);
+    //this.preparationTimeKeys = Object.keys(this.preparationTime);   
+    this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
   }
 
   ngOnInit(): void {//debugger;
@@ -54,8 +54,8 @@ export class RecipeNewFormComponent implements OnInit {
       difficultyLevel:[],
       //difficultyLevel:this.fb.array([]),
       preparationTime:[],
-      //categoryId: [],
-      category: [],
+      categoryId: [],
+      //category: [],
       //...
       ingredients: this.fb.array([]),
       instructions: this.fb.array([]),

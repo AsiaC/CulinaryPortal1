@@ -1,4 +1,6 @@
 ﻿using CulinaryPortal.API.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,8 +28,9 @@ namespace CulinaryPortal.API.Entities
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-
+        [JsonConverter(typeof(StringEnumConverter))]
         public DifficultyLevel DifficultyLevel { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public PreparationTime PreparationTime { get; set; }
 
         public IList<Instruction> Instructions { get; set; }

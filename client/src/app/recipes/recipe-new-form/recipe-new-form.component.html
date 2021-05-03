@@ -97,8 +97,9 @@
 <h5>Instructions:</h5>
   <div class="form-group" formArrayName="instructions">
     <div *ngFor="let instruction of instructions.controls; let i=index">
-      <div [formGroupName]="i" >
+      <div [formGroupName]="i">
         <!-- {{i}} -->
+        <!-- <input type="hidden" formControlName='step' value="i"> -->
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Instruction Name</label>
             <div class="col-sm-10">

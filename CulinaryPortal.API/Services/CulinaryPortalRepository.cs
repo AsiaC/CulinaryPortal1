@@ -137,7 +137,17 @@ namespace CulinaryPortal.API.Services
             }
 
             _context.Recipes.Add(recipe);
+
         }
+        //public void AddRecipeIngredients(RecipeIngredient recipeIngredient)
+        //{
+        //    if (recipeIngredient == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(recipeIngredient));
+        //    }
+
+        //    _context.RecipeIngredients.Add(recipeIngredient);
+        //}
         #endregion
 
         #region User

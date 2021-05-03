@@ -86,6 +86,7 @@ export class RecipeNewFormComponent implements OnInit {
  
   newInstructions(): FormGroup {
     return this.fb.group({
+      //step: '',
       name: '',
       description: ''      
     })

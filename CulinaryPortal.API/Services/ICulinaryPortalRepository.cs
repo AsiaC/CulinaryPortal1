@@ -23,6 +23,8 @@ namespace CulinaryPortal.API.Services
         Task<IEnumerable<Recipe>> GetRecipesAsync();
         Task<Recipe> GetRecipeAsync(int recipeId);
         void AddRecipe(Recipe recipe);
+
+        //void AddRecipeIngredients(RecipeIngredient recipeIngredient);
         #endregion
 
         #region User
@@ -80,5 +82,6 @@ namespace CulinaryPortal.API.Services
         void DeleteCookbook(Cookbook cookbook);
         
         #endregion
+
     }
 }

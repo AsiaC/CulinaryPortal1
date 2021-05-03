@@ -52,11 +52,28 @@ namespace CulinaryPortal.API.Controllers
         [HttpPost]
         public ActionResult<Recipe> CreateRecipe(Recipe recipe)
         {
-            //_culinaryPortalRepository.AddRecipe(recipe);
+            _culinaryPortalRepository.AddRecipe(recipe);
             //_culinaryPortalRepository.Save();
+            var i = 0;
+            foreach (var instruction in recipe.Instructions)
+            {
+                i+= 1;
+                if (instruction.Step == null || instruction.Step == 0)
+                {
+                    instruction.Step = i;
+                }
+                _culinaryPortalRepository.AddInstruction(instruction);
+                i++;
+            }
+            //foreach (var recipeIngredient in recipe.RecipeIngredients) --> TEGO BRAKUJE!!
+            //{
+            //    _culinaryPortalRepository.AddRecipeIngredients(recipeIngredient);
+            //}
+            
+            _culinaryPortalRepository.Save();
 
-            //return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
-            return Ok(recipe);
+            return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
+            //return Ok(recipe);
         }
 
         // DELETE: api/recipes/5

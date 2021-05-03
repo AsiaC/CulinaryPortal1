@@ -9,8 +9,9 @@ export interface Recipe {
   name: string;
   rate: number;
   description?: string;
-  //userId: number;
+  userId: number;
   author: string;
+ 
   categoryId: number;
   category: string;
   difficultyLevel: DifficultyLevelEnum;

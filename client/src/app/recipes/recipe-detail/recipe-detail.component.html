@@ -1,8 +1,8 @@
-<div *ngIf="recipe">
+<div *ngIf="recipe && editRecipe === false">
     <h1 >{{recipe.name}}</h1>
 
     <div *ngIf="recipe.userId == user.id">
-        <button class="btn btn-default">Edit Recipe</button>
+        <button class="btn btn-default" (click)="editThisRecipe()">Edit Recipe</button>
     </div>
     <div *ngIf="recipe.userId == user.id">
         <button class="btn btn-danger">Delete Recipe</button>
@@ -44,4 +44,8 @@
             <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
         </ul>
     </ol>
+</div>
+
+<div *ngIf="editRecipe == true">    
+    <app-recipe-new-form></app-recipe-new-form>
 </div>

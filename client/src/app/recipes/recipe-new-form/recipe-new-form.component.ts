@@ -9,6 +9,10 @@ import { Ingredient } from 'src/app/_models/ingredient';
 import { Measure } from 'src/app/_models/measure';
 import { FormGroup, FormControl,FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Recipe } from 'src/app/_models/recipe';
+import { User } from 'src/app/_models/user';
+import { AccountService } from 'src/app/_services/account.service';
+import { first, take } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-new-form',
@@ -27,23 +31,47 @@ export class RecipeNewFormComponent implements OnInit {
   allMeasures: Measure[];
 
   addRecipeForm: FormGroup;
+  user: User; //current
+  recipe: Recipe;
+  isAddMode: boolean;
+  id: string;
   
-  constructor(private recipesService: RecipesService, private fb:FormBuilder) { 
+  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
     this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(key => ({ title: this.difficultyLevel[key], value: key }));
     //this.enumKeys = Object.keys(this.difficultyLevel);
     //this.preparationTimeKeys = Object.keys(this.preparationTime);   
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {//debugger;
+    //this.id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.paramMap.get('id');
+    this.isAddMode = !this.id;
+    
     this.getAllCategories();
     this.getAllIngredients();
     this.getAllMeasures();
     this.initializeForm();
+    if(!this.isAddMode)
+    {
+      this.loadRecipe();
+    }    
   }
+  loadRecipe(){
+    this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
+      this.recipe = recipe; 
+      //debugger;      
+    }, error => {
+      console.log(error);
+    });
 
+    this.recipesService.getRecipe(Number(this.id))
+                .pipe(first())
+                .subscribe(x => this.addRecipeForm.patchValue(x));
+  }
   
   initializeForm(){
     this.addRecipeForm = this.fb.group({
@@ -59,6 +87,7 @@ export class RecipeNewFormComponent implements OnInit {
       //ingredients: this.fb.array([]),
       recipeIngredients:this.fb.array([]),
       instructions: this.fb.array([]),
+      userId: [{value: this.user.id}]
     });
   }
 
@@ -128,7 +157,7 @@ export class RecipeNewFormComponent implements OnInit {
     })
   }
 
-  createNewRecipe0(){
+  createNewRecipe(){
     debugger;
     console.log("create new recipe");
     console.log(this.addRecipeForm.value);
@@ -136,12 +165,8 @@ export class RecipeNewFormComponent implements OnInit {
     this.submitted = true;
     console.log(this.submitted);
     console.log(this.addRecipeForm.value);  
-    //let newUser: User = this.userForm.value;    
-  }
-
-  createNewRecipe() {
-    console.log(this.addRecipeForm.value);
-    debugger;
+    //let newUser: User = this.userForm.value;   
+    
     this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
       console.log(response);
       //this.router.navigateByUrl('/members');
@@ -149,13 +174,43 @@ export class RecipeNewFormComponent implements OnInit {
       //this.validationErrors = error;
       console.log(error);
     })
+
   }
+
+  onSubmit() {
+    console.log(this.addRecipeForm.value);
+    debugger;
+    if(this.isAddMode){
+      this.createNewRecipe();
+    }
+    else{
+      this.updateRecipe();
+    }
+    
+  }
+  private updateRecipe() {
+    debugger;
+    // this.recipesService.update(this.id, this.form.value)
+    //     .pipe(first())
+    //     .subscribe({
+    //         next: () => {
+    //             this.alertService.success('User updated', { keepAfterRouteChange: true });
+    //             this.router.navigate(['../../'], { relativeTo: this.route });
+    //         },
+    //         error: error => {
+    //             this.alertService.error(error);
+    //             this.loading = false;
+    //         }
+    //     });
+}
 
   //pod przyciskiem cancel
   cancel(){
     console.log("cancel");
-    //debugger;
     //this.cancelRegister.emit(false);
+    //this.router.navigateByUrl('/user/recipes');
+    //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
+    window.location.reload();
   }
 
 }

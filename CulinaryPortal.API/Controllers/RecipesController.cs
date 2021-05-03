@@ -53,7 +53,7 @@ namespace CulinaryPortal.API.Controllers
         public ActionResult<Recipe> CreateRecipe(Recipe recipe)
         {
             _culinaryPortalRepository.AddRecipe(recipe);
-            //_culinaryPortalRepository.Save();
+
             var i = 0;
             foreach (var instruction in recipe.Instructions)
             {
@@ -62,15 +62,15 @@ namespace CulinaryPortal.API.Controllers
                 {
                     instruction.Step = i;
                 }
-                _culinaryPortalRepository.AddInstruction(instruction);
+                //_culinaryPortalRepository.AddInstruction(instruction); ODKOMENTOWAC TO JEST OK
                 i++;
             }
-            //foreach (var recipeIngredient in recipe.RecipeIngredients) --> TEGO BRAKUJE!!
+            //foreach (var recipeIngredient in recipe.RecipeIngredients) --> TEGO BRAKUJE TO JEST DO POPRAWY!!
             //{
             //    _culinaryPortalRepository.AddRecipeIngredients(recipeIngredient);
             //}
-            
-            _culinaryPortalRepository.Save();
+
+            //_culinaryPortalRepository.Save(); ODKOMENTOWAC TO JEST OK
 
             return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
             //return Ok(recipe);

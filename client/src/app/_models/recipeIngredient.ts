@@ -6,8 +6,8 @@ export interface RecipeIngredient {
     ingredientName: string;
     measureName: string;
     
-    // ingredientId: number;
-    // measureId: number;
+     ingredientId: number;
+     measureId: number;
     ingredient: Ingredient;
     measure: Measure;
   }

@@ -61,16 +61,71 @@ export class RecipeNewFormComponent implements OnInit {
     }    
   }
   loadRecipe(){
-    this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
+    debugger;
+    this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
+    .pipe(first())
+    .subscribe(recipe =>{      
       this.recipe = recipe; 
-      //debugger;      
+      //this.addRecipeForm.patchValue(recipe)
+      this.addRecipeForm.patchValue({
+        name: recipe.name,
+        description: recipe.description,
+        difficultyLevel: recipe.difficultyLevel,
+        preparationTime: recipe.preparationTime,
+        categoryId: recipe.categoryId,
+        userId: recipe.userId
+      });
+      var instructionsArray = [];
+      this.recipe.instructions.forEach(instruction => instructionsArray.push(this.fb.group({
+        name: instruction.name,
+        description: instruction.description,
+        id: instruction.id,
+        step: instruction.step
+      })));
+      this.addRecipeForm.setControl('instructions', this.fb.array(instructionsArray || []));
+      
+      //this.addRecipeForm.setControl('instructions', this.fb.array(this.recipe.instructions || []));
+      //this.addRecipeForm.setControl('recipeIngredients', this.fb.array(this.recipe.recipeIngredients || []));      
+      debugger;
+      var recipeIngredientsArray = [];
+      this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
+        quantity: recipeIngredient.quantity,
+        //measureId: recipeIngredient.measureId,
+        measureId: recipeIngredient.measure.id,
+        //ingredientId: recipeIngredient.ingredientId,  
+        ingredientId: recipeIngredient.ingredient.id, 
+        measure: recipeIngredient.measure,   
+        ingredient: recipeIngredient.ingredient,
+        measureName: recipeIngredient.measureName,  
+        ingredientName: recipeIngredient.ingredientName,    
+          
+      })));
+      this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
+
+      
+      debugger;      
     }, error => {
       console.log(error);
     });
+    // this.recipesService.getRecipe(Number(this.id))
+    //             .pipe(first())
+    //             .subscribe(x => this.addRecipeForm.patchValue(x));
 
-    this.recipesService.getRecipe(Number(this.id))
-                .pipe(first())
-                .subscribe(x => this.addRecipeForm.patchValue(x));
+    // this.recipesService.getRecipe(Number(this.id))
+    //             .pipe(first())
+    //             .subscribe(x => {
+    //               debugger;
+    //               this.addRecipeForm.patchValue(x)
+    //               debugger;
+    //             });
+
+                // this.userService.editUserBlog(id).pipe(first()).subscribe(user => {
+                //   user = user;
+                //   this.editBlogForm.setValue({
+                //     title: user["0"].title,
+                //     blog: user["0"].blog,
+                //   });
+                // });
   }
   
   initializeForm(){

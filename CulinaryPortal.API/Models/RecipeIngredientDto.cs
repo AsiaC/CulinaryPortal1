@@ -9,10 +9,10 @@ namespace CulinaryPortal.API.Models
     {
         //public int RecipeId { get; set; }
         //public int IngredientId { get; set; }
-        //public IngredientDto Ingredient { get; set; }
+        public IngredientDto Ingredient { get; set; }
 
         //public int MeasureId { get; set; }
-        //public MeasureDto Measure { get; set; }
+        public MeasureDto Measure { get; set; }
 
         public decimal Quantity { get; set; }
         public string IngredientName { get; set; }

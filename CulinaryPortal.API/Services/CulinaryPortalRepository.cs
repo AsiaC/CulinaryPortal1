@@ -79,9 +79,8 @@ namespace CulinaryPortal.API.Services
         }
 
         public void UpdateRecipe(Recipe recipe)
-        {
-            // no code in this implementation??
-            //_context.Update(recipe);
+        {           
+            _context.Entry(recipe).State = EntityState.Modified;
             _context.Recipes.Update(recipe);
         }
 

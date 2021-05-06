@@ -116,12 +116,9 @@ namespace CulinaryPortal.API.Controllers
                 _culinaryPortalRepository.UpdateRecipe(recipe);
             }
             catch (Exception)
-            {               
-                throw;               
+            {
+                throw;
             }
-           
-            //_context.Entry(blogPost).State = EntityState.Modified;
-                        
             return NoContent();
         }
     }

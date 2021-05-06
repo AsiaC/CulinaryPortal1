@@ -190,7 +190,32 @@ export class RecipeNewFormComponent implements OnInit {
   }
   private updateRecipe() {
     debugger;
-    // this.recipesService.update(this.id, this.form.value)
+    //this.recipesService.updateRecipe(this.member).subscribe(() => {
+      //this.toastr.success('Profile updated successfully');
+      //this.editForm.reset(this.member);
+    //})
+
+    // let recipeToUpdate: BlogPost = {
+    //   postId: this.existingBlogPost.postId,
+    //   dt: this.existingBlogPost.dt,
+    //   creator: this.existingBlogPost.creator,
+    //   title: this.form.get(this.formTitle).value,
+    //   body: this.form.get(this.formBody).value
+    // };
+    // this.recipesService.updateRecipe(recipeToUpdate.postId, recipeToUpdate)
+    //   .subscribe((data) => {
+    //     this.router.navigate([this.router.url]);
+    //   });
+
+     this.recipesService.updateRecipe(this.id, this.addRecipeForm.value)
+          .subscribe(response => {
+            //this.toastr.success('Profile updated successfully');
+            console.log(response);
+            this.router.navigate(['../../'], { relativeTo: this.route });
+          }, error => {
+              console.log(error);                      
+          })
+
     //     .pipe(first())
     //     .subscribe({
     //         next: () => {
@@ -202,7 +227,17 @@ export class RecipeNewFormComponent implements OnInit {
     //             this.loading = false;
     //         }
     //     });
+
+    
 }
+
+// updateBlogPost(postId: number, blogPost): Observable<BlogPost> {
+//   return this.http.put<BlogPost>(this.myAppUrl + this.myApiUrl + postId, JSON.stringify(blogPost), this.httpOptions)
+//     .pipe(
+//       retry(1),
+//       catchError(this.errorHandler)
+//     );
+// }
 
   //pod przyciskiem cancel
   cancel(){

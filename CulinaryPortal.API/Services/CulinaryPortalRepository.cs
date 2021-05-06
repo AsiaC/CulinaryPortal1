@@ -80,7 +80,9 @@ namespace CulinaryPortal.API.Services
 
         public void UpdateRecipe(Recipe recipe)
         {
-            // no code in this implementation
+            // no code in this implementation??
+            //_context.Update(recipe);
+            _context.Recipes.Update(recipe);
         }
 
         public async Task<bool> RecipeExistsAsync(int recipeId)

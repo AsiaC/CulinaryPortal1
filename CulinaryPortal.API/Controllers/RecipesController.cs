@@ -91,5 +91,38 @@ namespace CulinaryPortal.API.Controllers
 
             return NoContent();
         }
+
+        // PUT: api/recipes/5
+        [HttpPut("{recipeId}")]
+        public async Task<IActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] RecipeDto recipeDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (recipeId != recipeDto.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
+                if (checkIfRecipeExists == false)
+                {
+                    return NotFound();
+                }
+                var recipe = _mapper.Map<Recipe>(recipeDto);
+                _culinaryPortalRepository.UpdateRecipe(recipe);
+            }
+            catch (Exception)
+            {               
+                throw;               
+            }
+           
+            //_context.Entry(blogPost).State = EntityState.Modified;
+                        
+            return NoContent();
+        }
     }
 }

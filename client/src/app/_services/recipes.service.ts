@@ -47,4 +47,16 @@ debugger;
     return this.http.get<Measure[]>(this.baseUrl + 'measures');
   }
 
+  updateRecipe(recipeId: string, model: any){
+    debugger;
+    //return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipe);
+        return this.http.put(this.baseUrl + 'recipes/' + recipeId, model).pipe(
+          map((recipe: Recipe) => {
+            
+    debugger;
+            return recipe;
+          })
+        )    
+      }
+
 }

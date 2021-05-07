@@ -11,6 +11,7 @@ namespace CulinaryPortal.API.Profiles
         public InstructionProfile()
         {
             CreateMap<Entities.Instruction, Models.InstructionDto>();
+            CreateMap<Models.InstructionDto, Entities.Instruction>();
         }
     }
 }

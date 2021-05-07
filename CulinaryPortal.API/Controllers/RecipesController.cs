@@ -46,7 +46,7 @@ namespace CulinaryPortal.API.Controllers
             }
             var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
-            return Ok(recipe);
+             return Ok(recipe);
         }
 
         [HttpPost]
@@ -106,7 +106,7 @@ namespace CulinaryPortal.API.Controllers
                 return BadRequest();
             }
             try
-            {
+            { 
                 var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
                 if (checkIfRecipeExists == false)
                 {
@@ -114,8 +114,14 @@ namespace CulinaryPortal.API.Controllers
                 }
                 var recipe = _mapper.Map<Recipe>(recipeDto);
                 _culinaryPortalRepository.UpdateRecipe(recipe);
+                //foreach (var item in collection)
+                //{
+                //    _culinaryPortalRepository.UpdateInstruction()
+                //}
+                
+                await _culinaryPortalRepository.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }

@@ -23,8 +23,10 @@
     <ul>
         <li *ngFor="let ingred of recipe.recipeIngredients">
             {{ingred.quantity}} 
-            {{ingred.measureName}} 
-            {{ingred.ingredientName}}
+            <!-- {{ingred.measureName}} 
+            {{ingred.ingredientName}} -->
+            {{ingred.measure.name}} 
+            {{ingred.ingredient.name}}
             <!-- {{ingred | json}} -->
         </li>
     </ul>

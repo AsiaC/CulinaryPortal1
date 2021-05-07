@@ -81,7 +81,7 @@ namespace CulinaryPortal.API.Services
         public void UpdateRecipe(Recipe recipe)
         {           
             _context.Entry(recipe).State = EntityState.Modified;
-            _context.Recipes.Update(recipe);
+            //_context.Recipes.Update(recipe);            
         }
 
         public async Task<bool> RecipeExistsAsync(int recipeId)

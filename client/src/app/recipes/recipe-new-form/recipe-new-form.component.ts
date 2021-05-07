@@ -7,7 +7,7 @@ import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { Console } from 'console';
 import { Ingredient } from 'src/app/_models/ingredient';
 import { Measure } from 'src/app/_models/measure';
-import { FormGroup, FormControl,FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormGroup, FormControl,FormArray, FormBuilder, Validators, NgForm } from '@angular/forms'
 import { Recipe } from 'src/app/_models/recipe';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
@@ -20,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./recipe-new-form.component.css']
 })
 export class RecipeNewFormComponent implements OnInit {
+ // @ViewChild('editForm') editForm: NgForm;
   allCategories: Category[];
   difficultyLevel = DifficultyLevelEnum;
   enumKeys = [];
@@ -66,8 +67,11 @@ export class RecipeNewFormComponent implements OnInit {
     .pipe(first())
     .subscribe(recipe =>{      
       this.recipe = recipe; 
+      debugger;
+      console.log(recipe.id)
       //this.addRecipeForm.patchValue(recipe)
       this.addRecipeForm.patchValue({
+        id: recipe.id,
         name: recipe.name,
         description: recipe.description,
         difficultyLevel: recipe.difficultyLevel,
@@ -96,8 +100,8 @@ export class RecipeNewFormComponent implements OnInit {
         ingredientId: recipeIngredient.ingredient.id, 
         measure: recipeIngredient.measure,   
         ingredient: recipeIngredient.ingredient,
-        measureName: recipeIngredient.measureName,  
-        ingredientName: recipeIngredient.ingredientName,    
+        //measureName: recipeIngredient.measureName,  
+        //ingredientName: recipeIngredient.ingredientName,    
           
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
@@ -132,6 +136,7 @@ export class RecipeNewFormComponent implements OnInit {
     this.addRecipeForm = this.fb.group({
       // name: new FormControl(),
       // description: new FormControl(),
+      id: [],
       name: ['',Validators.required],
       description: [],
       difficultyLevel:[],
@@ -265,11 +270,15 @@ export class RecipeNewFormComponent implements OnInit {
      this.recipesService.updateRecipe(this.id, this.addRecipeForm.value)
           .subscribe(response => {
             //this.toastr.success('Profile updated successfully');
-            console.log(response);
-            this.router.navigate(['../../'], { relativeTo: this.route });
+            this.recipe=this.addRecipeForm.value;
+            debugger;           
+            this.addRecipeForm.reset(this.recipe);
           }, error => {
               console.log(error);                      
           })
+
+
+
 
     //     .pipe(first())
     //     .subscribe({
@@ -285,14 +294,6 @@ export class RecipeNewFormComponent implements OnInit {
 
     
 }
-
-// updateBlogPost(postId: number, blogPost): Observable<BlogPost> {
-//   return this.http.put<BlogPost>(this.myAppUrl + this.myApiUrl + postId, JSON.stringify(blogPost), this.httpOptions)
-//     .pipe(
-//       retry(1),
-//       catchError(this.errorHandler)
-//     );
-// }
 
   //pod przyciskiem cancel
   cancel(){

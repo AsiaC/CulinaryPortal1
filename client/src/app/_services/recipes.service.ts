@@ -30,7 +30,8 @@ debugger;
       map((recipe: Recipe) => {
         
 debugger;
-        return recipe;
+        //recipe //???
+        //return recipe;
       })
     )    
   }
@@ -47,16 +48,12 @@ debugger;
     return this.http.get<Measure[]>(this.baseUrl + 'measures');
   }
 
-  updateRecipe(recipeId: string, model: any){
-    debugger;
-    //return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipe);
+  updateRecipe(recipeId: string, model: any){    
+    //return this.http.put(this.baseUrl + 'recipes/' + recipeId, model);
+
         return this.http.put(this.baseUrl + 'recipes/' + recipeId, model).pipe(
-          map((recipe: Recipe) => {
-            
-    debugger;
-            return recipe;
+          map((recipe: Recipe) => { 
           })
         )    
-      }
-
+  }
 }

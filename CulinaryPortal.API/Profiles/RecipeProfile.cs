@@ -30,7 +30,21 @@ namespace CulinaryPortal.API.Profiles
             //    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
                 
 
-            CreateMap<Models.RecipeDto, Entities.Recipe>();
+            //CreateMap<Models.RecipeDto, Entities.Recipe>();
+
+            CreateMap<Models.RecipeDto, Entities.Recipe>()
+               //.ForMember(
+               //dest => dest.Author,
+               //opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
+               .ForMember(
+               dest => dest.Category,
+               opt => opt.MapFrom(src => src.Category))
+               .ForMember(
+               dest => dest.PreparationTime,
+               opt => opt.MapFrom(src => src.Preparation))
+               .ForMember(
+               dest => dest.DifficultyLevel,
+               opt => opt.MapFrom(src => src.Difficulty));  // CookbookRecipes.Select(x => x.Cookbook)));
 
 
         }

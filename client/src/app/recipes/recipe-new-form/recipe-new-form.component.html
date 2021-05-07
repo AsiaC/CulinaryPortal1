@@ -1,6 +1,17 @@
 <!-- https://angular.io/guide/forms -->
+<div class="row">
+<div class="col-4">
+    <h1>Create/edit a new recipe</h1>
+</div>
+<div class="col-8">
+    <div class="alert alert-info" *ngIf="addRecipeForm.dirty">
+        <strong>Information: </strong> You have made changes.  Any unsaved changes will be lost
+    </div>
+</div>
+<div class="col-12 mt-5">
+
 <form [formGroup]='addRecipeForm' (ngSubmit)="onSubmit()" autocomplete="off">
-    <h2>Create a new recipe</h2>
+    
 
 <div class="form-group">
     <label>Name</label>
@@ -124,7 +135,7 @@
 </div>
 
 <div class="form-group text-center">
-    <button class="btn btn-success mr-2" type="submit">Save</button>
+    <button  [disabled]="!addRecipeForm.dirty" class="btn btn-success mr-2" type="submit">Save</button>
     <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
 </div>
 
@@ -192,3 +203,5 @@
     </div> -->
 
 </form>
+</div>
+</div>

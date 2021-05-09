@@ -24,7 +24,9 @@ namespace CulinaryPortal.API.Services
         Task<Recipe> GetRecipeAsync(int recipeId);
         void AddRecipe(Recipe recipe);
 
-        //void AddRecipeIngredients(RecipeIngredient recipeIngredient);
+        //void AddRecipeIngredient(RecipeIngredient recipeIngredient);
+        //void UpdateRecipeIngredient(RecipeIngredient recipeIngredient); //not used
+        //void DeleteRecipeIngredient(RecipeIngredient recipeIngredient);
         #endregion
 
         #region User
@@ -45,7 +47,7 @@ namespace CulinaryPortal.API.Services
         Task<bool> IngredientExistsAsync(int ingredientId);
         Task<Ingredient> GetIngredientAsync(int ingredientId);
         void AddIngredient(Ingredient ingredient);
-        void DeleteIngredient(Ingredient ingredient);
+        void DeleteIngredient(Ingredient ingredient);        
         #endregion
 
         #region Measure
@@ -63,6 +65,7 @@ namespace CulinaryPortal.API.Services
         Task<Instruction> GetInstructionAsync(int instructionId);
         void AddInstruction(Instruction instruction);
         void DeleteInstruction(Instruction instruction);
+        //void UpdateInstruction(Instruction instruction);
         #endregion
 
         #region ShoppingList

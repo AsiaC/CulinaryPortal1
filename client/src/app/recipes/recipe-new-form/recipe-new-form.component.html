@@ -83,6 +83,12 @@
                         {{measure.name }}
                     </option>
                 </select>   
+                <!-- <select class="form-control" formControlName='measure'>
+                    <option [ngValue]="null" disabled>Choose measure</option>
+                    <option *ngFor="let measure of allMeasures" [ngValue]="measure">
+                        {{measure.name }}
+                    </option>
+                </select>    -->
             </div>
             <div class="form-group col-sm-4"> 
                 <label>Ingredient</label>
@@ -92,6 +98,12 @@
                         {{ingredient.name }}
                     </option>
                 </select>
+                <!-- <select class="form-control" formControlName='ingredient'>
+                    <option [ngValue]="null" disabled>Choose ingredient</option>
+                    <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient">
+                        {{ingredient.name }}
+                    </option>
+                </select> -->
             </div>
             <div class="form-group col-sm-1"> 
                 <button class="btn btn-default" type="button" (click)="removeIngredient(i)">Remove</button>

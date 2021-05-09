@@ -98,16 +98,15 @@ export class RecipeNewFormComponent implements OnInit {
         measureId: recipeIngredient.measure.id,
         //ingredientId: recipeIngredient.ingredientId,  
         ingredientId: recipeIngredient.ingredient.id, 
-        measure: recipeIngredient.measure,   
+        measure: recipeIngredient.measure, //TODO  
+        //measure: this.allMeasures.find
         ingredient: recipeIngredient.ingredient,
         //measureName: recipeIngredient.measureName,  
         //ingredientName: recipeIngredient.ingredientName,    
           
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
-
-      
-      debugger;      
+    debugger;
     }, error => {
       console.log(error);
     });
@@ -159,7 +158,9 @@ export class RecipeNewFormComponent implements OnInit {
     return this.fb.group({
       quantity: '',
       ingredientId: [],
-      measureId: []
+      measureId: [],
+      ingredient:[],      
+      measure: [],
     })
   } 
   addIngredients() {
@@ -238,8 +239,18 @@ export class RecipeNewFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.addRecipeForm.value);
-    debugger;
+    console.log(this.addRecipeForm.value);      
+
+    var recipeIngredientsArray = [];
+      this.addRecipeForm.value.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
+        quantity: recipeIngredient.quantity,        
+        measureId: recipeIngredient.measureId,        
+        ingredientId: recipeIngredient.ingredientId,         
+        measure: this.allMeasures.find(({id}) => id === recipeIngredient.measureId),               
+        ingredient: this.allIngredients.find(({id}) => id === recipeIngredient.ingredientId)
+      })));
+      this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
+    //debugger;
     if(this.isAddMode){
       this.createNewRecipe();
     }
@@ -267,12 +278,16 @@ export class RecipeNewFormComponent implements OnInit {
     //     this.router.navigate([this.router.url]);
     //   });
 
+    
+
      this.recipesService.updateRecipe(this.id, this.addRecipeForm.value)
           .subscribe(response => {
             //this.toastr.success('Profile updated successfully');
             this.recipe=this.addRecipeForm.value;
+            this.isAddMode = false;
             debugger;           
             this.addRecipeForm.reset(this.recipe);
+            window.location.reload();
           }, error => {
               console.log(error);                      
           })

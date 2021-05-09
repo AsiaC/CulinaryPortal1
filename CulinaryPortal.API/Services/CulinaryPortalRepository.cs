@@ -140,7 +140,7 @@ namespace CulinaryPortal.API.Services
             _context.Recipes.Add(recipe);
 
         }
-        //public void AddRecipeIngredients(RecipeIngredient recipeIngredient)
+        //public void AddRecipeIngredient(RecipeIngredient recipeIngredient)
         //{
         //    if (recipeIngredient == null)
         //    {
@@ -149,6 +149,16 @@ namespace CulinaryPortal.API.Services
 
         //    _context.RecipeIngredients.Add(recipeIngredient);
         //}
+        //public void UpdateRecipeIngredient(RecipeIngredient recipeIngredient)
+        //{
+        //    _context.Entry(recipeIngredient).State = EntityState.Modified;
+        //}
+
+        //public void DeleteRecipeIngredient(RecipeIngredient recipeIngredient)
+        //{            
+        //    _context.RecipeIngredients.Remove(recipeIngredient);
+        //}
+
         #endregion
 
         #region User
@@ -312,6 +322,12 @@ namespace CulinaryPortal.API.Services
             return instructions;
         }
 
+        //public async Task<IEnumerable<Instruction>> GetRecipeInstructionsAsync(int recipeId)
+        //{
+        //    var recipeInstructions = await _context.Instructions.Where(r=>r.Id == recipeId).ToListAsync();
+        //    return recipeInstructions;
+        //}
+
         public async Task<bool> InstructionExistsAsync(int instructionId)
         {
             var isExist=await _context.Instructions.AnyAsync(u => u.Id == instructionId);
@@ -338,6 +354,12 @@ namespace CulinaryPortal.API.Services
         {
             _context.Instructions.Remove(instruction);
         }
+
+        //public void UpdateInstruction(Instruction instruction)
+        //{
+        //    _context.Entry(instruction).State = EntityState.Modified;
+        //    //_context.Recipes.Update(recipe);            
+        //}
         #endregion
 
         #region ShoppingList
@@ -429,6 +451,6 @@ namespace CulinaryPortal.API.Services
                         
             return categories;
         }
-        
+                
     }
 }

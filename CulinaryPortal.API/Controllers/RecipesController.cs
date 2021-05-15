@@ -50,8 +50,19 @@ namespace CulinaryPortal.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Recipe> CreateRecipe(Recipe recipe)
+        public ActionResult<Recipe> CreateRecipe([FromBody] RecipeDto recipeDto)
         {
+            var recipe = _mapper.Map<Recipe>(recipeDto);
+            var i = 0;
+            foreach (var instruction in recipe.Instructions)
+            {
+                i += 1;
+                if (instruction.Step == 0)
+                {
+                    instruction.Step = i;
+                }
+            }
+
             _culinaryPortalRepository.AddRecipe(recipe);
 
             //var i = 0;
@@ -68,18 +79,18 @@ namespace CulinaryPortal.API.Controllers
 
             //foreach (var recipeIngredient in recipe.RecipeIngredients)
             //{
-                
+
             //    recipe.RecipeIngredients.Add(recipeIngredient);
             //}
             //foreach (var recipeIngredient in recipe.RecipeIngredients)
             //{
             //    _culinaryPortalRepository.AddRecipeIngredient(recipeIngredient);
             //}
-                      
 
             _culinaryPortalRepository.SaveChangesAsync();
-
+            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
             return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);            
+            //return Ok(recipe);
         }
 
         // DELETE: api/recipes/5
@@ -118,18 +129,18 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return NotFound();
                 }
-                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
-                //var recipe = _mapper.Map<Recipe>(recipeDto);
+                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);                
 
                 existingRecipe.Name = recipeDto.Name;
                 existingRecipe.Description = recipeDto.Description;
-                //existingRecipe.DifficultyLevel = recipeDto.DifficultyLevel;
-                //existingRecipe.PreparationTime = recipeDto.PreparationTime;
-                //existingRecipe.Category = recipeDto.Category;
+                existingRecipe.DifficultyLevel = recipeDto.DifficultyLevel;
+                existingRecipe.PreparationTime = recipeDto.PreparationTime;
+                existingRecipe.CategoryId = recipeDto.CategoryId;
                 //Rate, photos
-                List<Instruction> copyExInstructions = new List<Instruction>();
-                copyExInstructions.AddRange(existingRecipe.Instructions);
+
                 //Instructions
+                List<Instruction> copyExInstructions = new List<Instruction>();
+                copyExInstructions.AddRange(existingRecipe.Instructions);                
                 foreach (var exInstruction in copyExInstructions)
                 {
                     var checkIfInstructionExist = recipeDto.Instructions.Any(i => i.Id == exInstruction.Id);
@@ -162,12 +173,10 @@ namespace CulinaryPortal.API.Controllers
                         Name = newInstruction.Name,
                         Description = newInstruction.Description
                     };
-
                     existingRecipe.Instructions.Add(newToAdd);                       
                    
                     //_culinaryPortalRepository.AddInstruction(newInstruction);
                 }
-
 
                 //RecipeIngredients
                 //delete all existing (related to recipe)
@@ -179,23 +188,28 @@ namespace CulinaryPortal.API.Controllers
                 }
                 foreach (var newRecipeIngredient in recipeDto.RecipeIngredients)
                 {
-                    //var newMeasure = _mapper.Map<Measure>(newRecipeIngredient.Measure);
-                    //todo moze mozna uzywać mapera?
-                    var exMeasure = await _culinaryPortalRepository.GetMeasureAsync(newRecipeIngredient.Measure.Id);
+                    //nie mozna uzyć mapera? //var newMeasure = _mapper.Map<Measure>(newRecipeIngredient.Measure);
+                    //var exMeasure = await _culinaryPortalRepository.GetMeasureAsync(newRecipeIngredient.Measure.Id); OST ZAKOMENTOWANE
+                    //var exIngredient = await _culinaryPortalRepository.GetIngredientAsync(newRecipeIngredient.Ingredient.Id); OST ZAKOMENTOWANE
+
+                    var exMeasure = await _culinaryPortalRepository.GetMeasureAsync(newRecipeIngredient.MeasureId);
+                    var exIngredient = await _culinaryPortalRepository.GetIngredientAsync(newRecipeIngredient.IngredientId);
 
                     var newToAdd = new RecipeIngredient()
                     {
                         Quantity = newRecipeIngredient.Quantity,
-                        MeasureId = newRecipeIngredient.Measure.Id,
-                        IngredientId = newRecipeIngredient.Ingredient.Id,
+                        //MeasureId = newRecipeIngredient.Measure.Id,      OST ZAKOMENTOWANE
+                        //IngredientId = newRecipeIngredient.Ingredient.Id, OST ZAKOMENTOWANE
+                        MeasureId = newRecipeIngredient.MeasureId,
+                        IngredientId = newRecipeIngredient.IngredientId,
                         //Measure = _mapper.Map<Measure>(newRecipeIngredient.Measure),
                         //Ingredient = _mapper.Map<Ingredient>(newRecipeIngredient.Ingredient),
-                        Measure = exMeasure,
+                        //Measure = exMeasure,                        OST ZAKOMENTOWANE
+                        //Ingredient = exIngredient, OST ZAKOMENTOWANE
                         RecipeId = recipeId
                     };
                     existingRecipe.RecipeIngredients.Add(newToAdd);
                 }
-
 
                 //existingRecipe.RecipeIngredients.Clear();
                 //foreach (var exRecipeIngredient in existingRecipe.RecipeIngredients)

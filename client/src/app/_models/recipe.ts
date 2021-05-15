@@ -5,7 +5,7 @@ import { PreparationTimeEnum } from './preparationTimeEnum';
 import { RecipeIngredient } from './recipeIngredient';
 
 export interface Recipe {
-  id: number;
+  id: number | null;
   name: string;
   rate: number;
   description?: string;

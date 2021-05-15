@@ -63,6 +63,11 @@ export class RecipeNewFormComponent implements OnInit {
   }
   loadRecipe(){
     debugger;
+console.log(this.enumKeys);
+console.log(this.difficultyLevel);
+console.log(this.preparationTimeKeys);
+console.log(this.preparationTime);
+
     this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
     .pipe(first())
     .subscribe(recipe =>{      
@@ -98,9 +103,9 @@ export class RecipeNewFormComponent implements OnInit {
         measureId: recipeIngredient.measure.id,
         //ingredientId: recipeIngredient.ingredientId,  
         ingredientId: recipeIngredient.ingredient.id, 
-        measure: recipeIngredient.measure, //TODO  
+        //measure: recipeIngredient.measure, //OST ZAKOMENTOWANE
         //measure: this.allMeasures.find
-        ingredient: recipeIngredient.ingredient,
+        //ingredient: recipeIngredient.ingredient, //OST ZAKOMENTOWANE
         //measureName: recipeIngredient.measureName,  
         //ingredientName: recipeIngredient.ingredientName,    
           
@@ -146,7 +151,8 @@ export class RecipeNewFormComponent implements OnInit {
       //ingredients: this.fb.array([]),
       recipeIngredients:this.fb.array([]),
       instructions: this.fb.array([]),
-      userId: [{value: this.user.id}]
+      //userId: [{value: this.user.id}]
+      userId: [this.user.id]
     });
   }
 
@@ -159,8 +165,8 @@ export class RecipeNewFormComponent implements OnInit {
       quantity: '',
       ingredientId: [],
       measureId: [],
-      ingredient:[],      
-      measure: [],
+      //ingredient:[],      
+      //measure: [],
     })
   } 
   addIngredients() {
@@ -231,6 +237,8 @@ export class RecipeNewFormComponent implements OnInit {
     this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
       console.log(response);
       //this.router.navigateByUrl('/members');
+      this.isAddMode = false;
+      window.location.reload();
     }, error => {
       //this.validationErrors = error;
       console.log(error);
@@ -246,8 +254,8 @@ export class RecipeNewFormComponent implements OnInit {
         quantity: recipeIngredient.quantity,        
         measureId: recipeIngredient.measureId,        
         ingredientId: recipeIngredient.ingredientId,         
-        measure: this.allMeasures.find(({id}) => id === recipeIngredient.measureId),               
-        ingredient: this.allIngredients.find(({id}) => id === recipeIngredient.ingredientId)
+        //measure: this.allMeasures.find(({id}) => id === recipeIngredient.measureId),               
+        //ingredient: this.allIngredients.find(({id}) => id === recipeIngredient.ingredientId)
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
     //debugger;

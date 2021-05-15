@@ -23,7 +23,7 @@ export class RecipeNewFormComponent implements OnInit {
  // @ViewChild('editForm') editForm: NgForm;
   allCategories: Category[];
   difficultyLevel = DifficultyLevelEnum;
-  enumKeys = [];
+  difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
   submitted = false;
@@ -39,7 +39,7 @@ export class RecipeNewFormComponent implements OnInit {
   
   constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
-    this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
+    this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(key => ({ title: this.difficultyLevel[key], value: key }));
     //this.enumKeys = Object.keys(this.difficultyLevel);
     //this.preparationTimeKeys = Object.keys(this.preparationTime);   
@@ -63,10 +63,11 @@ export class RecipeNewFormComponent implements OnInit {
   }
   loadRecipe(){
     debugger;
-console.log(this.enumKeys);
+console.log(this.difficultyLevelKeys);
 console.log(this.difficultyLevel);
 console.log(this.preparationTimeKeys);
 console.log(this.preparationTime);
+console.log(this.addRecipeForm.value);
 
     this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
     .pipe(first())

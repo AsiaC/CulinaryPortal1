@@ -22,6 +22,7 @@ export class RecipesService {
 
   getRecipe(recipe: number): Observable<Recipe> {
     return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipe);
+    debugger;
   }
 
   addRecipe(model: any){

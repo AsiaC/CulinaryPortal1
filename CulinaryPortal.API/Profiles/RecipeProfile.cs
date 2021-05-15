@@ -16,19 +16,23 @@ namespace CulinaryPortal.API.Profiles
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
                 .ForMember(
                 dest => dest.Category,
-                opt => opt.MapFrom(src => src.Category.Name))
-                .ForMember(
-                dest=>dest.Preparation,
-                opt => opt.MapFrom(src=>src.PreparationTime))
-                .ForMember(
-                dest => dest.Difficulty,
-                opt => opt.MapFrom(src => src.DifficultyLevel));  // CookbookRecipes.Select(x => x.Cookbook)));
-                
+                opt => opt.MapFrom(src => src.Category.Name));
+            //.ForMember(
+            //dest=>dest.Preparation,
+            //opt => opt.MapFrom(src=>src.PreparationTime))
+            //.ForMember(
+            //dest => dest.Difficulty,
+            //opt => opt.MapFrom(src => src.DifficultyLevel));  
+
+
+
+            // CookbookRecipes.Select(x => x.Cookbook)));
+
             //CreateMap<Entities.User, Models.UserDto>()
             //    .ForMember(
             //    dest => dest.Name,
             //    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
-                
+
 
             //CreateMap<Models.RecipeDto, Entities.Recipe>();
 
@@ -38,13 +42,13 @@ namespace CulinaryPortal.API.Profiles
                //opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
                .ForMember(
                dest => dest.Category,
-               opt => opt.MapFrom(src => src.Category))
-               .ForMember(
-               dest => dest.PreparationTime,
-               opt => opt.MapFrom(src => src.Preparation))
-               .ForMember(
-               dest => dest.DifficultyLevel,
-               opt => opt.MapFrom(src => src.Difficulty));  // CookbookRecipes.Select(x => x.Cookbook)));
+               opt => opt.MapFrom(src => src.Category));
+               //.ForMember(
+               //dest => dest.PreparationTime,
+               //opt => opt.MapFrom(src => src.Preparation))
+               //.ForMember(
+               //dest => dest.DifficultyLevel,
+               //opt => opt.MapFrom(src => src.Difficulty));  // CookbookRecipes.Select(x => x.Cookbook)));
 
 
         }

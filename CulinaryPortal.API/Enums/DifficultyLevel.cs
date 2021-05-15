@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.Enums
 {
-    [JsonConverter(typeof(StringEnumConverter))]
+    //[JsonConverter(typeof(StringEnumConverter))]
     public enum DifficultyLevel
     {
         [Display(Name = "Easy")]
-        Easy = 0, 
+        easy = 0, 
         [Display(Name = "Average difficulty")]
-        AverageDifficulty = 1,
+        averageDifficulty = 1,
         [Display(Name = "Difficult")]
-        Difficult = 2
+        difficult = 2
     }
 }

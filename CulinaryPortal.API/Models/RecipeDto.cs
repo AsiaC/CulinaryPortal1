@@ -24,9 +24,9 @@ namespace CulinaryPortal.API.Models
         public string Category { get; set; }
 
         public DifficultyLevel DifficultyLevel { get; set; }
-        public string Difficulty { get; set; }
+        //public string Difficulty { get; set; }
         public PreparationTime PreparationTime { get; set; }
-        public string Preparation { get; set; }
+        //public string Preparation { get; set; }
 
         public IList<InstructionDto> Instructions { get; set; }
 

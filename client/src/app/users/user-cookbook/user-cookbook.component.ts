@@ -29,7 +29,7 @@ export class UserCookbookComponent implements OnInit {
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
       //debugger;
-      console.log(this.userCookbook);
+      //console.log(this.userCookbook);
     }, error => {
       console.log(error);
     })

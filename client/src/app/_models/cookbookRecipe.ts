@@ -6,6 +6,6 @@ export interface CookbookRecipe {
   recipeId: number;
   note: string;
   userId: number; //dod
-  //recipe: Recipe;
+  recipe: Recipe;
   //cokbook: Cookbook
 }

@@ -1,10 +1,10 @@
-<div *ngIf="userCookbook">
-    <h1>Your Cookbook: {{userCookbook.name}}</h1>
+<div *ngIf="userCookbook && userCookbook.cookbookRecipes">
+    <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
 
     <h2>Recipes: </h2>
     <ul>
         <li *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
-            <!-- {{cookbookRecipe.recipe.name}} -->
+            {{cookbookRecipe.recipe.name}}
             {{cookbookRecipe.note}}
         </li>
 

@@ -19,4 +19,9 @@ export class CookbookService {
     getCookbook(cookbook: number): Observable<Cookbook> {  
         return this.http.get<Cookbook>(this.baseUrl + 'cookbooks/' + cookbook);
     }
+
+    addRecipeToCookbook(model: any){
+        return this.http.put(this.baseUrl + 'cookbooks', model);
+    }
+    
 }

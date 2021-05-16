@@ -82,8 +82,7 @@ namespace CulinaryPortal.API.Services
         Task<bool> CookbookExistsAsync(int cookbookId);
         Task<Cookbook> GetCookbookAsync(int cookbookId);
         void AddCookbook(Cookbook cookbook);
-        void DeleteCookbook(Cookbook cookbook);
-        
+        void DeleteCookbook(Cookbook cookbook);    
         #endregion
 
     }

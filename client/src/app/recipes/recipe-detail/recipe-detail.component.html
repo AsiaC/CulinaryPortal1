@@ -39,7 +39,7 @@
             {{instruction.description}}
         </li>
     </ol>
-    <button class="btn btn-success">Add recipe to Culinarybook</button>
+    <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
 
     <ol>
         <ul *ngFor="let photo of recipe.photos">

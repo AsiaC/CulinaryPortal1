@@ -400,7 +400,9 @@ namespace CulinaryPortal.API.Services
 
         public async Task<IEnumerable<Cookbook>> GetCookbooksAsync()
         {
-            var cookbooks = await _context.Cookbooks.ToListAsync();
+            var cookbooks = await _context.Cookbooks
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
+                .ToListAsync();
             return cookbooks;
         }
 
@@ -441,8 +443,7 @@ namespace CulinaryPortal.API.Services
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
             return cookbook;
-        }
-
+        } 
         #endregion
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()

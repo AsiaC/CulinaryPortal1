@@ -1,4 +1,39 @@
-<div *ngIf="userCookbook && userCookbook.cookbookRecipes">
+<div *ngIf="userCookbook && userCookbook.recipes">
+    <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
+
+    <h2>Recipes: </h2>
+
+<div >
+    <div class="row">
+         <div class="col-3" *ngFor="let recipe of userCookbook.recipes">
+             <!-- {{cookbookRecipe.recipe.name}}  -->
+            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>
+        </div> 
+    </div> 
+</div>
+</div>
+
+
+<!-- <div *ngIf="userCookbook && userCookbook.cookbookRecipes">
+    <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
+
+    <h2>Recipes: </h2>
+
+<div >
+    <div class="row">
+         <div class="col-3" *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
+             {{cookbookRecipe.recipe.name}} 
+            <app-recipe-card [recipeFromList] = "cookbookRecipe"></app-recipe-card>
+        </div> 
+    </div> 
+</div>
+</div> -->
+
+
+
+
+
+<!-- <div *ngIf="userCookbook && userCookbook.cookbookRecipes">
     <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
 
     <h2>Recipes: </h2>
@@ -26,7 +61,7 @@
             <td>
                 usun z ksiazki
             </td>
-        </tr>
+        </tr> -->
         <!-- <td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>
                     <td>@employee.EmployeeId</td>
                     <td>@employee.FirstName</td>
@@ -41,7 +76,7 @@
                         </a>
 
                     </td> -->
-    </tbody>
-</table>
+    <!-- </tbody>
+</table> -->
 
 

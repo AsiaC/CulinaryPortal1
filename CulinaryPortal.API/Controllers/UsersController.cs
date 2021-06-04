@@ -91,7 +91,31 @@ namespace CulinaryPortal.API.Controllers
                 return NotFound();
             }
 
-            var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
+           // var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
+
+            ////if automapper not work :(
+            //if (cookbook.Recipes?.Count != cookbookFromRepo.CookbookRecipes.Count) 
+            //{
+            //    foreach (var cookbookRecipe in cookbookFromRepo.CookbookRecipes)
+            //    {
+            //        var recipeToAdd = _mapper.Map<RecipeDto>(cookbookRecipe.Recipe);
+            //        cookbook.Recipes.Add(recipeToAdd);
+            //    }
+            //}
+            
+            var cookbook = new CookbookDto()
+            {
+                Id = cookbookFromRepo.Id,
+                Name = cookbookFromRepo.Name,
+                Description = cookbookFromRepo.Description,
+                UserId = cookbookFromRepo.UserId,
+            };
+            foreach (var cookbookRecipe in cookbookFromRepo.CookbookRecipes)
+            {
+                var recipeToAdd = _mapper.Map<RecipeDto>(cookbookRecipe.Recipe);
+                cookbook.Recipes.Add(recipeToAdd);
+            }
+            
             return Ok(cookbook);
         }
 

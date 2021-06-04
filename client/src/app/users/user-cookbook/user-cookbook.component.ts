@@ -4,7 +4,7 @@ import { UsersService } from 'src/app/_services/users.service';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
-
+import { Recipe } from 'src/app/_models/recipe';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -14,6 +14,7 @@ import { take } from 'rxjs/operators';
 export class UserCookbookComponent implements OnInit {
   userCookbook: Cookbook;
   user: User;
+  //cookbookRecipes: Recipe[];
 
   constructor(private userService:UsersService, private accountService:AccountService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -25,11 +26,13 @@ export class UserCookbookComponent implements OnInit {
 
   loadUserCookbook(){
     //debugger;
-    console.log(this.user);
+    //console.log(this.user);
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
       //debugger;
-      //console.log(this.userCookbook);
+      //this.userCookbook.cookbookRecipes.forEach(recipe=> this.cookbookRecipes.push(recipe:recipe))
+      //this.cookbookRecipes = userCookbook.cookbookRecipes;
+      console.log(this.userCookbook);
     }, error => {
       console.log(error);
     })

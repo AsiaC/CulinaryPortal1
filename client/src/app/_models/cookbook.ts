@@ -6,5 +6,6 @@ export interface Cookbook {
   name: string;
   description: string;
   userId: number;
-  cookbookRecipes: CookbookRecipe[];
+  //cookbookRecipes: CookbookRecipe[];
+  recipes: Recipe[]
 }

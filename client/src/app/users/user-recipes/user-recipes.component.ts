@@ -30,6 +30,7 @@ export class UserRecipesComponent implements OnInit {
     console.log(this.user);
     this.userService.getUserRecipes(this.user.id).subscribe(userRecipes=>{
       this.userRecipes = userRecipes;
+      debugger;
     }, error =>{
       console.log(error);
     })

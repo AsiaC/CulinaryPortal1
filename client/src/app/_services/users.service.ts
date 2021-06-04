@@ -42,7 +42,7 @@ export class UsersService {
   }
 
   getUserCookbook(user:number){
-    debugger;    
+    //debugger;    
     return this.http.get<Cookbook>(this.baseUrl + 'users/' + user + '/cookbook');
   }
 }

@@ -13,14 +13,58 @@ namespace CulinaryPortal.API.Profiles
         public CookbookProfile()
         {
             //CreateMap<Entities.Cookbook, Models.CookbookDto>()
-
             //    .ForMember(
             //    dest => dest.Recipes,
             //    opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe)));
-            CreateMap<Models.CookbookRecipeDto, Entities.CookbookRecipe>();
-            CreateMap<Entities.CookbookRecipe, Models.CookbookRecipeDto>();
+            //CreateMap<Models.CookbookRecipeDto, Entities.CookbookRecipe>();
+            //CreateMap<Entities.CookbookRecipe, Models.CookbookRecipeDto>();
+
+            /*
+            CreateMap<Entities.CookbookRecipe, Models.RecipeDto>()
+                .ForMember(
+                dest => dest.Id,
+                opt => opt.MapFrom(src => src.RecipeId));
 
             CreateMap<Models.CookbookDto, Entities.Cookbook>();
+            CreateMap<Entities.Cookbook, Models.CookbookDto>()
+                .ForMember(
+                dest => dest.Recipes,
+                opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe).ToList()));
+            */
+
+            /*
+            CreateMap<Entities.Cookbook, Models.CookbookDto>()
+                .ForMember(d => d.Recipes, opt => opt.MapFrom(s => s.CookbookRecipes.Select(x => x.Recipe)));
+            //.ForMember(d => d.Recipes, opt => opt.MapFrom(s => s.CookbookRecipes.Select(x => x.Recipe).ToList()));
+
+            CreateMap<Entities.CookbookRecipe, Models.RecipeDto>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.RecipeId));
+            */
+            /*
+            CreateMap<Entities.Cookbook, Models.CookbookDto>();
+
+            CreateMap<Entities.CookbookRecipe, Models.RecipeDto>()
+                    .ForMember(d => d.Id, opt => opt.MapFrom(s => s.RecipeId));
+
+            CreateMap<Models.CookbookDto, Entities.Cookbook>()
+                  .AfterMap((s, d) =>
+                  {
+                      foreach (var studentImage in d.CookbookRecipes)
+                          studentImage.CookbookId = s.Id;
+                  });
+
+            CreateMap<Models.RecipeDto, Entities.CookbookRecipe>()
+                  .ForMember(d => d.RecipeId, opt => opt.MapFrom(s => s.Id));
+            */
+            /*
+            CreateMap<Entities.Cookbook, Models.CookbookDto>()
+                .ForMember(
+                dest => dest.Recipes,
+                opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.RecipeId)));
+            */
+
+            //CreateMap<Entities.Cookbook, Models.CookbookDto>();
+
 
             CreateMap<Models.RecipeIngredientDto, Entities.RecipeIngredient>();
             CreateMap<Entities.RecipeIngredient, Models.RecipeIngredientDto>();

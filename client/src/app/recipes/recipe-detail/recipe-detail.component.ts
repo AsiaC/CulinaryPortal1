@@ -9,6 +9,7 @@ import { CookbookService } from 'src/app/_services/cookbook.service';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 import { UsersService } from 'src/app/_services/users.service';
 import { Cookbook } from 'src/app/_models/cookbook';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,7 +24,7 @@ export class RecipeDetailComponent implements OnInit {
   userCookbook: Cookbook;
   cookbookRecipe: any = {recipeId: null, userId: null};
   //Delete recipe only when it is not in culinary book
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService) { 
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
   }
 
@@ -46,10 +47,10 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadCookbook(){
-    debugger;
+    //debugger;
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      debugger;      
+      //debugger;      
       console.log("loadCookbook");
       console.log(this.userCookbook);
       // if(this.userCookbook !== undefined){
@@ -83,10 +84,24 @@ export class RecipeDetailComponent implements OnInit {
     
       this.cookbookService.addRecipeToCookbook(this.cookbookRecipe)
       .subscribe(response =>{
-         //this.toastr.success('Profile updated successfully');
-         //debugger;  
+         this.toastr.success('Recipe added successfully');
+         this.canAddToCookbook = false;
       }, error => {
         console.log(error);
       })
+  }
+
+  removeFromCookbook(){debugger;
+    this.cookbookRecipe.recipeId = this.recipe.id;
+    this.cookbookRecipe.userId = this.user.id;
+
+    this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
+    .subscribe(response => {
+      this.toastr.success('Recipe removed successfully');
+      this.canAddToCookbook = true;
+    }, error => {
+        console.log(error);
+    })
+
   }
 }

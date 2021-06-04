@@ -5,6 +5,8 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { Recipe } from 'src/app/_models/recipe';
+import { CookbookService } from 'src/app/_services/cookbook.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -14,9 +16,10 @@ import { Recipe } from 'src/app/_models/recipe';
 export class UserCookbookComponent implements OnInit {
   userCookbook: Cookbook;
   user: User;
+  cookbookRecipe: any = {recipeId: null, userId: null};
   //cookbookRecipes: Recipe[];
 
-  constructor(private userService:UsersService, private accountService:AccountService) { 
+  constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -29,7 +32,7 @@ export class UserCookbookComponent implements OnInit {
     //console.log(this.user);
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      debugger;
+      //debugger;
       //this.userCookbook.cookbookRecipes.forEach(recipe=> this.cookbookRecipes.push(recipe:recipe))
       //this.cookbookRecipes = userCookbook.cookbookRecipes;
       console.log(this.userCookbook);
@@ -38,9 +41,19 @@ export class UserCookbookComponent implements OnInit {
     })
   }
 
-  removeFromCookbook(recipeId){
-    debugger;
+  removeFromCookbook(recipeId){    debugger;
+    this.cookbookRecipe.recipeId = recipeId;
+    this.cookbookRecipe.userId = this.user.id;
 
+    this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
+    .subscribe(response => {
+      console.log("success");
+      this.toastr.success('Recipe removed successfully');
+      this.loadUserCookbook();
+      //window.location.reload();
+    }, error => {
+        console.log(error);
+    })
   }
 
 }

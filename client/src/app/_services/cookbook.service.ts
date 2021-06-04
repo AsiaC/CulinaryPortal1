@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -24,4 +24,18 @@ export class CookbookService {
         return this.http.put(this.baseUrl + 'cookbooks', model);
     }
     
+    removeRecipeFromCookbook(model: any){debugger;
+        const options = {
+            headers: new HttpHeaders({
+              'Content-Type': 'application/json',
+            }),
+            body: model,
+            // body: {
+            //   id: 1,
+            //   name: 'test',
+            // },
+          };
+          
+          return this.http.delete(this.baseUrl + 'cookbooks', options);
+    }
 }

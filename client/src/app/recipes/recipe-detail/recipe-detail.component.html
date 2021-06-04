@@ -43,6 +43,9 @@
     <div *ngIf="canAddToCookbook === true">
         <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
     </div>
+    <div *ngIf="canAddToCookbook === false">
+        <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from Culinarybook</button>
+    </div>
     <ol>
         <ul *ngFor="let photo of recipe.photos">
             <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>

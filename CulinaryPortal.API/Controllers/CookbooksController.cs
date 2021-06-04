@@ -113,18 +113,22 @@ namespace CulinaryPortal.API.Controllers
             return Ok();
         }
 
-        //public async Task<IActionResult> RemoveRecipeFromCookbook(int recipeId, int cookbookId)
-        //{
-        //    //one user only one cookbook            
-        //    var recipeToAdd = new CookbookRecipe()
-        //    {
-        //        CookbookId = cookbookId,
-        //        RecipeId = recipeId
-        //    };
-        //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-        //    cookbook.CookbookRecipes.Add(recipeToAdd);
-        //    await _culinaryPortalRepository.SaveChangesAsync();
-        //    return Ok();
-        //}
+        // DELETE: api/cookbook
+        [HttpDelete]
+        public async Task<IActionResult> RemoveRecipeFromCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
+        {//mam recipe.id i user.id
+
+            var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+            var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+
+            var recipeToDelete = cookbook.CookbookRecipes.First(c=>c.RecipeId == cookbookRecipeDto.RecipeId);
+            if (recipeToDelete == null)
+            {
+                return NotFound();
+            }
+            cookbook.CookbookRecipes.Remove(recipeToDelete);
+            await _culinaryPortalRepository.SaveChangesAsync();
+            return Ok();            
+        }        
     }
 }

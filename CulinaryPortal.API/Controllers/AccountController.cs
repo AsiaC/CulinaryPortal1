@@ -76,16 +76,19 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return Unauthorized("Invalid password");
                 }
-            }
-            return new UserDto
+            }            
+
+            var userToReturn = new UserDto
             {
                 Username = user.Username,
                 Token = _tokenService.CreateToken(user), 
                 Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,                
             };
+
+            return userToReturn;
         }
 
         //metodapomocnicza do spr czy user o takiej nazwie uzytkownika istnieje

@@ -2,23 +2,52 @@
     <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
 
     <h2>Recipes: </h2>
+<!-- https://material.angular.io/components/table/overview#getting-started
+https://blog.angular-university.io/angular-material-data-table/
+biblioteka kontrollek "/material.angular.io" jest darmowa, moze być nawet używana produkcyjnie tak jest w licencji napisace
+moze zwykła tabelke zamien na tą?
 
+tu korzystam z: 
+https://ng-bootstrap.github.io/#/components/table/overview
+https://ng-bootstrap.github.io/#/components/table/examples <- tu mogłabym dodać sortable, filtering, search
+-->
 <div >
-    <div class="row">
-         <div class="col-3" *ngFor="let recipe of userCookbook.recipes">
-             <!-- {{cookbookRecipe.recipe.name}}  -->
-            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>
-        </div> 
-    </div> 
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <th>Foto</th>
+            <th>Title</th> 
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let recipe of userCookbook.recipes">
+            <td>
+                <ng-container *ngFor="let photo of recipe.photos">
+                    <ng-container *ngIf="photo.isMain === true">                        
+                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
+                    </ng-container>
+                </ng-container>                     
+            </td>
+            <td>{{recipe.name}}</td>
+            <td>{{recipe.categoryId}}</td>
+            <td>
+                <ng-container> 
+                    <button class="btn btn-success mr-2" routerLink='/recipes/{{recipe.id}}'>Go To Recipe</button><br><br>
+                    <button class="btn btn-danger mr-2" (click)="removeFromCookbook(recipe.id)">Remove from cookbook</button>
+                </ng-container>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </div>
 </div>
 
 
 <!-- <div *ngIf="userCookbook && userCookbook.cookbookRecipes">
     <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
-
     <h2>Recipes: </h2>
-
 <div >
     <div class="row">
          <div class="col-3" *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
@@ -28,55 +57,3 @@
     </div> 
 </div>
 </div> -->
-
-
-
-
-
-<!-- <div *ngIf="userCookbook && userCookbook.cookbookRecipes">
-    <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
-
-    <h2>Recipes: </h2>
-    <ul>
-        <li *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
-            {{cookbookRecipe.recipe.name}}
-            {{cookbookRecipe.note}}
-        </li>
-
-    </ul>
-</div>
-
-<table class="table">
-    <tbody>
-        <tr>
-            <td>
-                Zdj
-            </td>
-            <td>
-                Nazwa
-            </td>
-            <td>
-                zobacz
-            </td>
-            <td>
-                usun z ksiazki
-            </td>
-        </tr> -->
-        <!-- <td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>
-                    <td>@employee.EmployeeId</td>
-                    <td>@employee.FirstName</td>
-                    <td>@employee.LastName</td>
-                    <td>
-                        <a href="@($"employeedetail/{employee.EmployeeId}")" class="btn btn-primary" table-btn>
-                            <i class="fas fa-info-circle"></i>
-                        </a>
-
-                        <a href="@($"employeeedit/{employee.EmployeeId}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-edit"></i>
-                        </a>
-
-                    </td> -->
-    <!-- </tbody>
-</table> -->
-
-

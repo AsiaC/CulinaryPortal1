@@ -1,7 +1,7 @@
 <div *ngIf="recipe && editRecipe === false">
     <h1 >{{recipe.name}}</h1>
 
-    <div *ngIf="recipe.userId == user.id">
+    <div *ngIf="recipe.userId === user.id">
         <button class="btn btn-default" (click)="editThisRecipe()">Edit Recipe</button>
     </div>
     <div *ngIf="recipe.userId == user.id">
@@ -30,7 +30,8 @@
             <!-- {{ingred | json}} -->
         </li>
     </ul>
-    <button class="btn btn-success">Add all ingredients to shopping list</button>
+
+        <button class="btn btn-success">Add all ingredients to shopping list</button>     
 
     <!-- <h2>Directions</h2> -->
     <h2>Instructions</h2>
@@ -39,8 +40,9 @@
             {{instruction.description}}
         </li>
     </ol>
-    <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
-
+    <div *ngIf="canAddToCookbook === true">
+        <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
+    </div>
     <ol>
         <ul *ngFor="let photo of recipe.photos">
             <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>

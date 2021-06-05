@@ -7,6 +7,8 @@ import { take } from 'rxjs/operators';
 import { Recipe } from 'src/app/_models/recipe';
 import { CookbookService } from 'src/app/_services/cookbook.service';
 import { ToastrService } from 'ngx-toastr';
+import { DecimalPipe } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -16,8 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserCookbookComponent implements OnInit {
   userCookbook: Cookbook;
   user: User;
-  cookbookRecipe: any = {recipeId: null, userId: null};
-  //cookbookRecipes: Recipe[];
+  cookbookRecipe: any = {recipeId: null, userId: null};  
 
   constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -28,13 +29,8 @@ export class UserCookbookComponent implements OnInit {
   }
 
   loadUserCookbook(){
-    //debugger;
-    //console.log(this.user);
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      //debugger;
-      //this.userCookbook.cookbookRecipes.forEach(recipe=> this.cookbookRecipes.push(recipe:recipe))
-      //this.cookbookRecipes = userCookbook.cookbookRecipes;
       console.log(this.userCookbook);
     }, error => {
       console.log(error);
@@ -50,7 +46,6 @@ export class UserCookbookComponent implements OnInit {
       console.log("success");
       this.toastr.success('Recipe removed successfully');
       this.loadUserCookbook();
-      //window.location.reload();
     }, error => {
         console.log(error);
     })

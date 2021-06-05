@@ -37,7 +37,7 @@ namespace CulinaryPortal.API.Entities
         
         public IList<Photo> Photos { get; set; }
 
-        public IList<CookbookRecipe> CookbookRecipes { get; set; }
+        public IList<CookbookRecipe> CookbookRecipes { get; set; }// = new List<CookbookRecipe>();
 
         public IList<RecipeIngredient> RecipeIngredients { get; set; }
     }

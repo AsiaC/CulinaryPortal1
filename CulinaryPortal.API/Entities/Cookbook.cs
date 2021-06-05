@@ -22,6 +22,6 @@ namespace CulinaryPortal.API.Entities
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public IList<CookbookRecipe> CookbookRecipes { get; set; }
+        public IList<CookbookRecipe> CookbookRecipes { get; set; }// = new List<CookbookRecipe>();
     }
 }

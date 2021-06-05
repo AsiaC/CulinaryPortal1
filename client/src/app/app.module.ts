@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,10 +15,12 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeCardComponent } from './recipes/recipe-card/recipe-card.component';
 import { CookbookListComponent } from './cookbooks/cookbook-list/cookbook-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
-import {ToastrModule} from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { UserRecipesComponent } from './users/user-recipes/user-recipes.component';
 import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.component';
 import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-form.component';
+import { UserShoppingListsComponent } from './users/user-shopping-lists/user-shopping-lists.component';
+import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new-form/shopping-list-new-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-for
     UserEditComponent,
     UserRecipesComponent,
     UserCookbookComponent,
-    RecipeNewFormComponent
+    RecipeNewFormComponent,
+    UserShoppingListsComponent,
+    ShoppingListNewFormComponent
   ],
   imports: [
     BrowserModule,

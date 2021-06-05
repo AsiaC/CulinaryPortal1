@@ -75,6 +75,10 @@ namespace CulinaryPortal.API.Profiles
             CreateMap<Entities.Ingredient, Models.IngredientDto>();
             CreateMap<UserUpdateDto, User>();
 
+            CreateMap<Models.ShoppingListDto, Entities.ShoppingList>();
+            CreateMap<Entities.ShoppingList, Models.ShoppingListDto>();
+            CreateMap<Models.ListItemDto, Entities.ListItem>();
+            CreateMap<Entities.ListItem, Models.ListItemDto>();
 
             //opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe).Where(s=>s.Id == RecipeId)));
 

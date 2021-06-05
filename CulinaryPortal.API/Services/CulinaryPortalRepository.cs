@@ -364,35 +364,48 @@ namespace CulinaryPortal.API.Services
 
         #region ShoppingList
 
-
-        public IEnumerable<ShoppingList> GetShoppingLists()
+        public async Task<IEnumerable<ShoppingList>> GetShoppingListsAsync()
         {
-            return _context.ShoppingLists.ToList();
+            var shoppingLists = await _context.ShoppingLists
+                .Include(l=>l.Items)
+                .ToListAsync();
+            return shoppingLists;
         }
 
-        public bool ShoppingListExists(int shoppingListId)
+        public async Task<bool> ShoppingListExistsAsync(int shoppingListId)
         {
-            return _context.ShoppingLists.Any(u => u.Id == shoppingListId);
+            return await _context.ShoppingLists.AnyAsync(u => u.Id == shoppingListId);
         }
 
-        public ShoppingList GetShoppingList(int shoppingListId)
+        public async Task<ShoppingList> GetShoppingListAsync(int shoppingListId)
         {
-            return _context.ShoppingLists.FirstOrDefault(u => u.Id == shoppingListId);
+            var shoppingList = await _context.ShoppingLists
+                .Include(l => l.Items)
+                .FirstOrDefaultAsync(u => u.Id == shoppingListId);
+            return shoppingList;
         }
 
-        public void AddShoppingList(ShoppingList shoppingList)
+        public async Task AddShoppingListAsync(ShoppingList shoppingList)
         {
             if (shoppingList == null)
             {
                 throw new ArgumentNullException(nameof(shoppingList));
             }
 
-            _context.ShoppingLists.Add(shoppingList);
+            await _context.ShoppingLists.AddAsync(shoppingList);
         }
 
         public void DeleteShoppingList(ShoppingList shoppingList)
         {
             _context.ShoppingLists.Remove(shoppingList);
+        }
+        
+        public async Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId)
+        {
+            var userShoppingLists = await _context.ShoppingLists.Where(r => r.UserId == userId)
+                .Include(l => l.Items)                
+                .ToListAsync();
+            return userShoppingLists;
         }
         #endregion
 

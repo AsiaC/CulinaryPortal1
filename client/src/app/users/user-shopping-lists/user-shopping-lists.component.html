@@ -1,0 +1,33 @@
+<h1>User's Shopping Lists</h1>
+
+<div *ngIf="addNewListMode == true">
+    <app-shopping-list-new-form></app-shopping-list-new-form>
+</div>
+
+<div *ngIf="addNewListMode == false">
+    <button class="btn btn-success mb-4" (click)="addShoppingList()">Add new shopping list</button>
+    
+    <div class="row">
+        <table class="table table-stripped">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Shopping list name</th>  
+                    <th>List positions</th>                   
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let shoppingList of userShoppingLists">
+                    <td></td>
+                    <td>{{shoppingList.name}}</td>
+                    <td></td>
+                    <td><ng-container> 
+                        <button class="btn btn-success mr-2" >Go To Shopping List</button><br><br>
+                        <button class="btn btn-danger mr-2" >Remove Shopping List</button>
+                    </ng-container></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>      

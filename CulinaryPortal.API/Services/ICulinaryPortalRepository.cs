@@ -69,10 +69,10 @@ namespace CulinaryPortal.API.Services
         #endregion
 
         #region ShoppingList
-        IEnumerable<ShoppingList> GetShoppingLists();
-        bool ShoppingListExists(int shoppingListId);
-        ShoppingList GetShoppingList(int shoppingListId);
-        void AddShoppingList(ShoppingList shoppingList);
+        Task<IEnumerable<ShoppingList>> GetShoppingListsAsync();
+        Task<bool> ShoppingListExistsAsync(int shoppingListId);
+        Task<ShoppingList> GetShoppingListAsync(int shoppingListId);
+        Task AddShoppingListAsync(ShoppingList shoppingList);
         void DeleteShoppingList(ShoppingList shoppingList);
 
         #endregion
@@ -82,7 +82,8 @@ namespace CulinaryPortal.API.Services
         Task<bool> CookbookExistsAsync(int cookbookId);
         Task<Cookbook> GetCookbookAsync(int cookbookId);
         void AddCookbook(Cookbook cookbook);
-        void DeleteCookbook(Cookbook cookbook);    
+        void DeleteCookbook(Cookbook cookbook);
+        Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId);
         #endregion
 
     }

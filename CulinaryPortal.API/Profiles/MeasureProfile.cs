@@ -10,7 +10,7 @@ namespace CulinaryPortal.API.Profiles
     {
         public MeasureProfile()
         {
-            CreateMap<Entities.Cookbook, Models.CookbookDto>();
+            CreateMap<Entities.Cookbook, Models.CookbookDto>(); //TO DO CZY PRZEZ TO NIE DZIAŁAŁ MI AUTOMATYCZNY MAPPER?
         }
     }
 }

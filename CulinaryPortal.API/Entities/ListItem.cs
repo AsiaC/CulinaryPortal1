@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.Entities
 {
-    public class ShoppingList
+    public class ListItem
     {
         [Key]
         public int Id { get; set; }
-        
-        [Required]
-        [MaxLength(30)]
-        public string Name { get; set; }
-        
-        public int UserId { get; set; }
-        public User User { get; set; }
 
-        public IList<ListItem> Items { get; set; }
+        [Required]
+        [MaxLength(500)]
+        public string Name { get; set; }       
+
+        public int ShoppingListId { get; set; }
+        public ShoppingList ShoppingList { get; set; }
     }
 }

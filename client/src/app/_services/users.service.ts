@@ -7,6 +7,7 @@ import { User } from '../_models/user';
 import { AccountService } from './account.service';
 import { Recipe } from '../_models/recipe';
 import { Cookbook } from '../_models/cookbook';
+import { ShoppingList } from '../_models/shoppingList';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,11 @@ export class UsersService {
   getUserCookbook(user:number){
     //debugger;    
     return this.http.get<Cookbook>(this.baseUrl + 'users/' + user + '/cookbook');
+  }
+
+  getUserShoppingLists(user:number){
+    //debugger;    
+    return this.http.get<ShoppingList[]>(this.baseUrl + 'users/' + user + '/shoppingLists');
   }
 }
 

@@ -94,8 +94,8 @@ namespace CulinaryPortal.API.Controllers
                     return NotFound();
                 }
                 var existingShoppingList = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
-
-                existingShoppingList.Name = shoppingListDto.Name;                               
+                if(existingShoppingList.Name != shoppingListDto.Name )
+                    existingShoppingList.Name = shoppingListDto.Name;                               
 
                 //Instructions
                 List<ListItem> copyExItems = new List<ListItem>();
@@ -105,9 +105,9 @@ namespace CulinaryPortal.API.Controllers
                     var checkIfItemExist = shoppingListDto.Items.Any(i => i.Id == exItem.Id);
                     if (checkIfItemExist)
                     {
-                        var instructionDto = shoppingListDto.Items.FirstOrDefault(i => i.Id == exItem.Id);
-
-                        exItem.Name = instructionDto.Name;
+                        var itemDto = shoppingListDto.Items.FirstOrDefault(i => i.Id == exItem.Id);
+                        if (exItem.Name != itemDto.Name) 
+                            exItem.Name = itemDto.Name;                        
                     }
                     else
                     {

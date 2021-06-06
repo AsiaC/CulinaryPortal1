@@ -25,7 +25,7 @@ const routes: Routes = [
     {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     {path: 'user/recipes', component: UserRecipesComponent},
     {path: 'user/cookbook', component: UserCookbookComponent},
-    {path: 'user/shoppingList', component: UserShoppingListsComponent}
+    {path: 'user/shoppingLists', component: UserShoppingListsComponent},
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

@@ -131,11 +131,16 @@ namespace CulinaryPortal.API.Controllers
                 }
                 var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);                
 
-                existingRecipe.Name = recipeDto.Name;
-                existingRecipe.Description = recipeDto.Description;
-                existingRecipe.DifficultyLevel = recipeDto.DifficultyLevel;
-                existingRecipe.PreparationTime = recipeDto.PreparationTime;
-                existingRecipe.CategoryId = recipeDto.CategoryId;
+                if (existingRecipe.Name != recipeDto.Name) 
+                    existingRecipe.Name = recipeDto.Name;
+                if (existingRecipe.Description != recipeDto.Description) 
+                    existingRecipe.Description = recipeDto.Description;
+                if (existingRecipe.DifficultyLevel != recipeDto.DifficultyLevel) 
+                    existingRecipe.DifficultyLevel = recipeDto.DifficultyLevel;
+                if (existingRecipe.PreparationTime != recipeDto.PreparationTime) 
+                    existingRecipe .PreparationTime = recipeDto.PreparationTime;
+                if (existingRecipe.CategoryId != recipeDto.CategoryId)
+                    existingRecipe.CategoryId = recipeDto.CategoryId;
                 //Rate, photos
 
                 //Instructions
@@ -146,16 +151,11 @@ namespace CulinaryPortal.API.Controllers
                     var checkIfInstructionExist = recipeDto.Instructions.Any(i => i.Id == exInstruction.Id);
                     if (checkIfInstructionExist)
                     {
-                        //check in something was changed
-                        //if (exInstruction.Description != )
-                        //{
-                        //    //_culinaryPortalRepository.UpdateInstruction(exInstruction);
-                        //}
-
                         var instructionDto = recipeDto.Instructions.FirstOrDefault(i => i.Id == exInstruction.Id);
-
-                        exInstruction.Name = instructionDto.Name;
-                        exInstruction.Description = instructionDto.Description;
+                        if(exInstruction.Name != instructionDto.Name)
+                            exInstruction.Name = instructionDto.Name;
+                        if(exInstruction.Description != instructionDto.Description)
+                            exInstruction.Description = instructionDto.Description;
                     }
                     else
                     {

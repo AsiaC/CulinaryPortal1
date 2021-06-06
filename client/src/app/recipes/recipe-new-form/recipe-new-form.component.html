@@ -1,8 +1,13 @@
 <!-- https://angular.io/guide/forms -->
 <div class="row">
-<div class="col-4">
-    <h1>Create/edit a new recipe</h1>
+    
+<div class="col-12" *ngIf="isAddMode == true">
+    <h1>Create a new recipe</h1>
 </div>
+<div class="col-12" *ngIf="isAddMode == false">
+    <h1>Edit existing recipe</h1>
+</div>
+
 <div class="col-8">
     <div class="alert alert-info" *ngIf="addRecipeForm.dirty">
         <strong>Information: </strong> You have made changes.  Any unsaved changes will be lost

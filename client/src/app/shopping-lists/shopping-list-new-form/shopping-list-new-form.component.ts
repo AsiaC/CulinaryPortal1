@@ -28,13 +28,18 @@ export class ShoppingListNewFormComponent implements OnInit {
   shoppingList: ShoppingList;
   isAddMode: boolean;
   id: string;
+  @Input()selectedListId: number;
   
   constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    if(this.selectedListId !== undefined){
+      this.id = this.selectedListId.toString();
+    } 
+    //debugger;
+    //console.log(this.id);
     this.isAddMode = !this.id;
     this.initializeListForm();
     if(!this.isAddMode)
@@ -44,20 +49,22 @@ export class ShoppingListNewFormComponent implements OnInit {
   }
 
   loadShoppingList() {
-    debugger;
+    //debugger;
     console.log(this.addShoppingListForm.value);
-    this.shoppingListService.getShoppingList(Number(this.route.snapshot.paramMap.get('id')))
+    //this.shoppingListService.getShoppingList(Number(this.route.snapshot.paramMap.get('id')))
+    this.shoppingListService.getShoppingList(this.selectedListId)
     .pipe(first())
     .subscribe(shoppingList => {
       this.shoppingList = shoppingList;
-      debugger;
+      //debugger;
       this.addShoppingListForm.patchValue({
         id: shoppingList.id,
         name: shoppingList.name,
       });
       var listItemsArray = [];
       this.shoppingList.items.forEach(listItem => listItemsArray.push(this.fb.group({
-        name: listItem        
+        name: listItem.name,
+        id: listItem.id
       })));
       this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));
       
@@ -127,7 +134,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value)
       .subscribe(response => {
         //this.toastr.success('Profile updated successfully');
-        this.shoppingList=this.addShoppingListForm.value;
+        this.shoppingList = this.addShoppingListForm.value;
         this.isAddMode = false;
         debugger;           
         this.addShoppingListForm.reset(this.shoppingList);

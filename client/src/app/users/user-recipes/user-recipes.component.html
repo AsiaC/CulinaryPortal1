@@ -1,10 +1,9 @@
-<h1>User's Recipes</h1>
-
 <div *ngIf="addNewMode == true">
     <app-recipe-new-form></app-recipe-new-form>
 </div>
 
 <div *ngIf="addNewMode == false">
+    <h1>User's Recipes</h1>
     <button class="btn btn-success mb-4" (click)="addRecipe()">Add new recipe</button>
 
     <div class="row">

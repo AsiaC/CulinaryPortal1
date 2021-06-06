@@ -10,6 +10,7 @@ import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 import { UsersService } from 'src/app/_services/users.service';
 import { Cookbook } from 'src/app/_models/cookbook';
 import { ToastrService } from 'ngx-toastr';
+import { ShoppingList } from 'src/app/_models/shoppingList';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,6 +24,7 @@ export class RecipeDetailComponent implements OnInit {
   canAddToCookbook: boolean = true;
   userCookbook: Cookbook;
   cookbookRecipe: any = {recipeId: null, userId: null};
+  userShoppingLists: ShoppingList[];
   //Delete recipe only when it is not in culinary book
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
@@ -31,6 +33,7 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.loadRecipe();
     this.loadCookbook();  
+    this.loadShoppingListsIds();
   }
 
   loadRecipe(){
@@ -74,6 +77,18 @@ export class RecipeDetailComponent implements OnInit {
     })
   }
 
+  loadShoppingListsIds(){
+    debugger; //potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
+      this.userShoppingLists = userShoppingLists;
+      debugger;      
+      console.log("loadShoppingListsIds");
+      console.log(this.userShoppingLists);           
+    }, error => {
+      console.log(error);
+    })
+  }
+
   editThisRecipe()  {
     this.editRecipe = true;
   }
@@ -103,5 +118,16 @@ export class RecipeDetailComponent implements OnInit {
         console.log(error);
     })
 
+  }
+
+  addToShoppingList() {
+    //check if user have one shoppingList
+    //if 1 dodaj
+    if(this.userShoppingLists.length == 1) {
+      
+    }
+
+    //if 2 modal i wybierz do której dodać
+    //if 0 modal stwórz liste - nazwa tylko 
   }
 }

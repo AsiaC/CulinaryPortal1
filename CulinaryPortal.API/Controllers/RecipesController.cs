@@ -237,6 +237,23 @@ namespace CulinaryPortal.API.Controllers
             return NoContent();
         }
 
-       
+        //// PUT: api/recipes/5 -> jak zmienic link do wywołania, czy to w tym kontrolerze czy w kontrolerze listy zakupowej
+        //[HttpPut()]
+        //public async Task<IActionResult> AddRecipeIngrToShoppingList([FromBody] CookbookRecipeDto cookbookRecipeDto)
+        //{
+        //    //one user only one cookbook   
+        //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+        //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+
+        //    var recipeToAdd = new CookbookRecipe()
+        //    {
+        //        CookbookId = cookbook.Id,
+        //        RecipeId = cookbookRecipeDto.RecipeId
+        //    };
+        //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+        //    cookbook.CookbookRecipes.Add(recipeToAdd);
+        //    await _culinaryPortalRepository.SaveChangesAsync();
+        //    return Ok();
+        //}
     }
 }

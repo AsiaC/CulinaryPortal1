@@ -95,7 +95,7 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // PUT: api/cookbook
-        [HttpPut]
+        [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
         public async Task<IActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
         {            
             //one user only one cookbook   

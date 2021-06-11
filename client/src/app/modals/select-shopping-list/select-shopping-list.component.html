@@ -6,28 +6,30 @@
 </div>
 <div class="modal-body">    
     <div>
-        <input type="radio" id="selectList" name="addIngr" value="selectList" checked>
-        <label for="selectList">Select from existing shopping lists:</label>
-        <select class="form-control" id="selectedShoppingList" (change)="selectOptionVal=onChange($event.target.value)">        
-            <option [value]="null" selected disabled>Choose shopping list</option>
-            <option *ngFor="let prf of list" [value]="prf.id">
-                {{prf.name }}
-            </option>
-        </select> 
+        <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="readioSelected">
+        <label for="customRadio1">Select from existing shopping lists</label>
+        <div *ngIf="readioSelected=='radio1'">
+            <select class="form-control" id="selectedShoppingList" (change)="selectOptionVal=onChange($event.target.value)">        
+                <option [value]="null" selected disabled>Choose shopping list</option>
+                <option *ngFor="let prf of list" [value]="prf.id">
+                    {{prf.name }}
+                </option>
+            </select> 
+        </div>
     </div>
-    
-    <br>
-    <div class="orDivider"> ------ OR ------</div>
-    <br>
 
     <div>
-        <input type="radio" id="createList" name="addIngr" value="createList">
-        <label for=createList>Create a new shopping list:</label>
-        <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify the list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
+        <input type="radio"  value="radio2" name="customRadio" class="radioButton" [(ngModel)]="readioSelected">
+        <label for="customRadio2">Create a new shopping list</label> 
+        <div *ngIf="readioSelected=='radio2'">
+            <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify the list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
+        </div>
     </div>
 </div>
 <div class="modal-footer">    
-    <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()">{{submitBtnName}}</button>
+    <div *ngIf="readioSelected != undefined">
+        <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()">{{submitBtnName}}</button>
+    </div>
     <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
 </div>
 

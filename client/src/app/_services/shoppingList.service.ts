@@ -41,4 +41,9 @@ import { ShoppingList } from '../_models/shoppingList';
         )    
     }
 
+    // addRecipeIngredients(listId: number, recipeIngredients: any){
+    //   debugger;
+    //   return this.http.post()
+    // }
+
   }

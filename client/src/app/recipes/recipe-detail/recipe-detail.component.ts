@@ -135,16 +135,10 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   modalAddToShoppingList() {
-    //debugger;
     console.log(this.userShoppingLists);
 
-    const initialState = {
-      // list: [
-      //   'Open a modal with component',
-      //   'Pass your data',
-      //   'Do something else',
-      //   '...'
-      // ],
+    const initialState = {     
+      recipeIngredients: this.recipe.recipeIngredients,
       list: this.userShoppingLists,
       title: 'Add ingredients to shopping list'
     };

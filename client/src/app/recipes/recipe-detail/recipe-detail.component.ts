@@ -11,6 +11,8 @@ import { UsersService } from 'src/app/_services/users.service';
 import { Cookbook } from 'src/app/_models/cookbook';
 import { ToastrService } from 'ngx-toastr';
 import { ShoppingList } from 'src/app/_models/shoppingList';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list/select-shopping-list.component';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -25,8 +27,9 @@ export class RecipeDetailComponent implements OnInit {
   userCookbook: Cookbook;
   cookbookRecipe: any = {recipeId: null, userId: null};
   userShoppingLists: ShoppingList[];
+  bsModalRef: BsModalRef;
   //Delete recipe only when it is not in culinary book
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService) { 
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
   }
 
@@ -78,12 +81,12 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadShoppingListsIds(){
-    debugger; //potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
+    //debugger; //potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
       this.userShoppingLists = userShoppingLists;
-      debugger;      
-      console.log("loadShoppingListsIds");
-      console.log(this.userShoppingLists);           
+      //debugger;      
+      //console.log("loadShoppingListsIds");
+      //console.log(this.userShoppingLists);           
     }, error => {
       console.log(error);
     })
@@ -129,5 +132,24 @@ export class RecipeDetailComponent implements OnInit {
 
     //if 2 modal i wybierz do której dodać
     //if 0 modal stwórz liste - nazwa tylko 
+  }
+
+  modalAddToShoppingList() {
+    //debugger;
+    console.log(this.userShoppingLists);
+
+    const initialState = {
+      // list: [
+      //   'Open a modal with component',
+      //   'Pass your data',
+      //   'Do something else',
+      //   '...'
+      // ],
+      list: this.userShoppingLists,
+      title: 'Add ingredients to shopping list'
+    };
+    this.bsModalRef = this.modalService.show(SelectShoppingListComponent, {initialState});
+    this.bsModalRef.content.closeBtnName = 'Cancel';
+    this.bsModalRef.content.submitBtnName = 'Confirm adding ingredients';
   }
 }

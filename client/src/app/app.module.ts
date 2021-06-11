@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { RecipeListComponent } from './recipes/recipe-list/recipe-list.component';
@@ -21,6 +22,7 @@ import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.compo
 import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-form.component';
 import { UserShoppingListsComponent } from './users/user-shopping-lists/user-shopping-lists.component';
 import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new-form/shopping-list-new-form.component';
+import { SelectShoppingListComponent } from './modals/select-shopping-list/select-shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new
     UserCookbookComponent,
     RecipeNewFormComponent,
     UserShoppingListsComponent,
-    ShoppingListNewFormComponent
+    ShoppingListNewFormComponent,
+    SelectShoppingListComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new
     FormsModule,
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right'
     })

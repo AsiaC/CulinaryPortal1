@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">    
+    <div>
+        <input type="radio" id="selectList" name="addIngr" value="selectList" checked>
+        <label for="selectList">Select from existing shopping lists:</label>
+        <select class="form-control" id="selectedShoppingList" (change)="selectOptionVal=onChange($event.target.value)">        
+            <option [value]="null" selected disabled>Choose shopping list</option>
+            <option *ngFor="let prf of list" [value]="prf.id">
+                {{prf.name }}
+            </option>
+        </select> 
+    </div>
+    
+    <br>
+    <div class="orDivider"> ------ OR ------</div>
+    <br>
+
+    <div>
+        <input type="radio" id="createList" name="addIngr" value="createList">
+        <label for=createList>Create a new shopping list:</label>
+        <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify the list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
+    </div>
+</div>
+<div class="modal-footer">    
+    <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()">{{submitBtnName}}</button>
+    <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+</div>
+

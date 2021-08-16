@@ -140,7 +140,8 @@ export class RecipeDetailComponent implements OnInit {
     const initialState = {     
       recipeIngredients: this.recipe.recipeIngredients,
       list: this.userShoppingLists,
-      title: 'Add ingredients to shopping list'
+      title: 'Add ingredients to shopping list', 
+      userId: this.user.id
     };
     this.bsModalRef = this.modalService.show(SelectShoppingListComponent, {initialState});
     this.bsModalRef.content.closeBtnName = 'Cancel';

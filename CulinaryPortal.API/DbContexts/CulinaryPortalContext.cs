@@ -35,5 +35,6 @@ namespace CulinaryPortal.API.DbContexts
         public DbSet<ShoppingList> ShoppingLists { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
+        //public DbSet<ListItem> Items { get; set; }
     }
 }

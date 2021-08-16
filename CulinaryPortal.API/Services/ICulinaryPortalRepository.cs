@@ -74,7 +74,7 @@ namespace CulinaryPortal.API.Services
         Task<ShoppingList> GetShoppingListAsync(int shoppingListId);
         Task AddShoppingListAsync(ShoppingList shoppingList);
         void DeleteShoppingList(ShoppingList shoppingList);
-
+        Task AddListItemsAsync(ListItem recipeItem);
         #endregion
 
         #region Cookbook

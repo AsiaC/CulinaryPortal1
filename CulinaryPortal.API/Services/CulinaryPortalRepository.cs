@@ -407,6 +407,16 @@ namespace CulinaryPortal.API.Services
                 .ToListAsync();
             return userShoppingLists;
         }
+
+        //TODO USUNĄĆ TO CHYBA NIE JEST DO NICZENIE POTRZEBNE?
+        public async Task AddListItemsAsync(ListItem recipeItem) 
+        {
+            if (recipeItem == null)
+            {
+                throw new ArgumentNullException(nameof(recipeItem));
+            }            
+            //await _context.   Items.AddAsync(recipeItem);
+        }       
         #endregion
 
         #region Cookbook

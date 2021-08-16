@@ -238,22 +238,39 @@ namespace CulinaryPortal.API.Controllers
         }
 
         //// PUT: api/recipes/5 -> jak zmienic link do wywołania, czy to w tym kontrolerze czy w kontrolerze listy zakupowej
-        //[HttpPut()]
-        //public async Task<IActionResult> AddRecipeIngrToShoppingList([FromBody] CookbookRecipeDto cookbookRecipeDto)
-        //{
-        //    //one user only one cookbook   
-        //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-        //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+        [Route("recipes/addRecipeIngredients")]
+        [HttpPut()]
+        public async Task<IActionResult> AddRecipeIngredients([FromBody] ShoppingListDto shoppingListDto)
+        {
 
-        //    var recipeToAdd = new CookbookRecipe()
-        //    {
-        //        CookbookId = cookbook.Id,
-        //        RecipeId = cookbookRecipeDto.RecipeId
-        //    };
-        //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-        //    cookbook.CookbookRecipes.Add(recipeToAdd);
-        //    await _culinaryPortalRepository.SaveChangesAsync();
-        //    return Ok();
-        //}
+            foreach (var recipeIngredient in shoppingListDto.Items)
+            {
+                var newListItem = new ListItem()
+                {
+                    Name = recipeIngredient.Name,
+                    ShoppingListId = (int)shoppingListDto.Id,
+                };
+                //await _culinaryPortalRepository.AddListItemsAsync(newListItem);
+
+            }
+            await _culinaryPortalRepository.SaveChangesAsync();
+            
+            
+            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
+
+            //    //one user only one cookbook   
+            //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+            //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+
+            //    var recipeToAdd = new CookbookRecipe()
+            //    {
+            //        CookbookId = cookbook.Id,
+            //        RecipeId = cookbookRecipeDto.RecipeId
+            //    };
+            //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+            //    cookbook.CookbookRecipes.Add(recipeToAdd);
+            //    await _culinaryPortalRepository.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

@@ -150,14 +150,23 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet("{userId}/shoppingLists", Name = "GetUserShoppingLists")]
         public async Task<IActionResult> GetUserShoppingListsAsync(int userId)
         {
-            var shoppingListsFromRepo = await _culinaryPortalRepository.GetUserShoppingListsAsync(userId);
-            if (shoppingListsFromRepo == null || shoppingListsFromRepo.Count() == 0)
+            try
             {
+                var shoppingListsFromRepo = await _culinaryPortalRepository.GetUserShoppingListsAsync(userId);
+                if (shoppingListsFromRepo == null || shoppingListsFromRepo.Count() == 0)
+                {
+                    return NotFound();
+                }
+
+                var userShoppingLists = _mapper.Map<IEnumerable<ShoppingListDto>>(shoppingListsFromRepo);
+                return Ok(userShoppingLists);
+            }
+            catch (Exception e)
+            {
+
                 return NotFound();
             }
-
-            var userShoppingLists = _mapper.Map<IEnumerable<ShoppingListDto>>(shoppingListsFromRepo);
-            return Ok(userShoppingLists);
+            
         }
     }
 }

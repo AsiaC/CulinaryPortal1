@@ -50,9 +50,9 @@ namespace CulinaryPortal.API.Controllers
         [HttpPost]
         public async Task<ActionResult<ShoppingList>> CreateShoppingList([FromBody] ShoppingListDto shoppingListDto)
         {
-            var shoppingList = _mapper.Map<ShoppingList>(shoppingListDto);            
-            await _culinaryPortalRepository.AddShoppingListAsync(shoppingList);
-            await _culinaryPortalRepository.SaveChangesAsync();
+            var shoppingList = _mapper.Map<ShoppingList>(shoppingListDto);
+            await _culinaryPortalRepository.AddShoppingListAsync(shoppingList); //ODKOMENTOWAC
+            await _culinaryPortalRepository.SaveChangesAsync(); //ODKOMENTOWAC
             //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
             return CreatedAtAction("GetShoppingList", new { shoppingListId = shoppingList.Id }, shoppingList);
         }              
@@ -97,8 +97,21 @@ namespace CulinaryPortal.API.Controllers
                 if(existingShoppingList.Name != shoppingListDto.Name )
                     existingShoppingList.Name = shoppingListDto.Name;                               
 
-                //Instructions
+                //Items
                 List<ListItem> copyExItems = new List<ListItem>();
+
+                //var allSentItems = shoppingListDto.Items.ToList();
+                //var allSentItemIds = allSentItems.Select(x=>x.Id);
+                //var allSentItemIdsWithoutNulls = allSentItems.Where(y=>y.Id != null).Select(x => (int)x.Id);
+
+                //var previouItems = existingShoppingList.Items.ToList();
+                //var previousItemIds = previouItems.Select(x => x.Id);
+
+                //var newAddedItems = allSentItems.Where(x => x.Id == null);
+
+                //var itemsToRemove = previousItemIds.Except(allSentItemIdsWithoutNulls);
+                //var possibleChangedItems = 
+
                 copyExItems.AddRange(existingShoppingList.Items);
                 foreach (var exItem in copyExItems)
                 {
@@ -114,14 +127,19 @@ namespace CulinaryPortal.API.Controllers
                         existingShoppingList.Items.Remove(exItem); 
                     }
                 }
-                var existingItemIds = existingShoppingList.Items.Select(i => i.Id);
-                var newItems = shoppingListDto.Items.Where(i => !existingItemIds.Contains(i.Id));
+                //var existingItemIds = existingShoppingList.Items.Select(i => i.Id);
+                //var newItems0 = shoppingListDto.Items.Where(i => !existingItemIds.Contains((int)i.Id));
+                //var newItems = shoppingListDto.Items.Where(i => !existingItemIds.Contains((int)i.Id)).ToList();
+
+                //var newItems = shoppingListDto.Items.Except(copyExItems);
+                var newItems = shoppingListDto.Items.Where(x => x.Id == null);
                 foreach (var newItem in newItems)
                 {//todo moze mozna uzywać mapera?
-                    var newToAdd = new ListItem()
-                    {
-                        Name = newItem.Name
-                    };
+                    //var newToAdd = new ListItem()
+                    //{
+                    //    Name = newItem.Name
+                    //};
+                    var newToAdd = _mapper.Map<ListItem>(newItem);
                     existingShoppingList.Items.Add(newToAdd);
                 }                
                 await _culinaryPortalRepository.SaveChangesAsync();
@@ -133,7 +151,51 @@ namespace CulinaryPortal.API.Controllers
             return NoContent();
         }
 
-        
+        //// PUT: api/recipes/5 -> jak zmienic link do wywołania, czy to w tym kontrolerze czy w kontrolerze listy zakupowej
+        //[Route("api/shoppingLists/addRecipeIngredients")]
+        [HttpPut("{shoppingListId}/addrecipeingredients")]
+        public async Task<IActionResult> AddRecipeIngredients([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto)
+        {
+            var existingShoppingList = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
+            foreach (var newItem in shoppingListDto.Items)
+            {//todo moze mozna uzywać mapera?
+                var newToAdd = new ListItem()
+                {
+                    Name = newItem.Name
+                };
+                existingShoppingList.Items.Add(newToAdd);
+            }
+            //await _culinaryPortalRepository.SaveChangesAsync();
+
+            //foreach (var recipeIngredient in shoppingListDto.Items)
+            //{
+            //    var newListItem = new ListItem()
+            //    {
+            //        Name = recipeIngredient.Name,
+            //        ShoppingListId = (int)shoppingListDto.Id,
+            //    };
+            // _culinaryPortalRepository.AddListItemsAsync(newListItem);
+
+            //}
+            //await _culinaryPortalRepository.SaveChangesAsync();
+
+
+            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
+
+            //    //one user only one cookbook   
+            //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+            //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+
+            //    var recipeToAdd = new CookbookRecipe()
+            //    {
+            //        CookbookId = cookbook.Id,
+            //        RecipeId = cookbookRecipeDto.RecipeId
+            //    };
+            //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+            //    cookbook.CookbookRecipes.Add(recipeToAdd);
+            //    await _culinaryPortalRepository.SaveChangesAsync();
+            return Ok();
+        }
 
     }
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
-import {map, repeat} from 'rxjs/operators';
+import { map, repeat} from 'rxjs/operators';
 import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
 import { Measure } from '../_models/measure';
@@ -34,16 +34,17 @@ import { ShoppingList } from '../_models/shoppingList';
         )    
     }
 
-    updateShoppingList(shoppingListId: string, model: any){        
+    updateShoppingList(shoppingListId: string, model: any){ 
+      //debugger;       
             return this.http.put(this.baseUrl + 'shoppingLists/' + shoppingListId, model).pipe(
               map((shoppingList: ShoppingList) => { 
             })
         )    
     }
 
-    // addRecipeIngredients(listId: number, recipeIngredients: any){
-    //   debugger;
-    //   return this.http.post()
-    // }
+    addRecipeIngredients(shoppingListId: string, shoppingListDto: any){
+        debugger;
+        return this.http.put(this.baseUrl + 'shoppinglists/' + shoppingListId + '/addrecipeingredients', shoppingListDto);
+    }
 
   }

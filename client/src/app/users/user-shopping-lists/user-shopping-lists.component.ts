@@ -5,6 +5,8 @@ import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
 
 @Component({
   selector: 'app-user-shopping-lists',
@@ -16,8 +18,9 @@ export class UserShoppingListsComponent implements OnInit {
   user: User;
   addNewListMode:boolean = false;
   selectedShoppingListId: number;
+  bsModalRef: BsModalRef;
 
-  constructor(private userService:UsersService, private accountService:AccountService) { 
+  constructor(private userService:UsersService, private accountService:AccountService, private modalService: BsModalService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -45,7 +48,16 @@ export class UserShoppingListsComponent implements OnInit {
     this.addNewListMode = true;
   }
 
-  deleteShoppingList(shoppingListId) {
-    //deleta and refresh site
+  deleteShoppingList(shoppingListId) { debugger;
+    //delete list and items and refresh site
+    //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+    const initialState = {  
+      title: 'Are you sure that you would like to delete indicated shopping list?',      
+      idToRemove: shoppingListId,
+      objectName:'Shopping list'
+    };
+    this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
+    this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
+    this.bsModalRef.content.submitBtnName = 'Confirm deleting shopping list';
   }
 }

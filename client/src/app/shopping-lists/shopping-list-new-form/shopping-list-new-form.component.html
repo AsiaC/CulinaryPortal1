@@ -41,12 +41,15 @@
             </div>
             
             <div class="form-group text-center">
-                <button  [disabled]="!addShoppingListForm.dirty" class="btn btn-success mr-2" type="submit">Save</button>
-                <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
+                <button  [disabled]="(!addShoppingListForm.dirty && !itemIsRemoved)" class="btn btn-success mr-2" type="submit">Save</button>
+                <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>                
             </div>          
             
             <p>Form value: {{addShoppingListForm.value | json}} </p>
             <p>Form status: {{addShoppingListForm.status | json}} </p>
+            <p>Dirty: {{addShoppingListForm.dirty | json}} </p>
+            <p>itemIsRemoved: {{itemIsRemoved | json}} </p>
+            <p>touched: {{addShoppingListForm.touched | json}} </p>
 
         </form>
     </div>

@@ -197,5 +197,20 @@ namespace CulinaryPortal.API.Controllers
             return Ok();
         }
 
+        // DELETE: api/shoppingLists
+        [HttpDelete()]
+        public async Task<ActionResult> DeleteShoppingList([FromBody] int shoppingListId)
+        {
+            var shoppingListFromRepo = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);            
+            if (shoppingListFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _culinaryPortalRepository.DeleteShoppingList(shoppingListFromRepo);
+            _culinaryPortalRepository.Save();
+
+            return NoContent();
+        }
     }
 }

@@ -22,12 +22,13 @@ import { ShoppingListService } from 'src/app/_services/shoppingList.service';
   styleUrls: ['./shopping-list-new-form.component.css']
 })
 export class ShoppingListNewFormComponent implements OnInit {
-  submitted = false;
+  submitted: boolean = false;
   addShoppingListForm: FormGroup
   user: User;
   shoppingList: ShoppingList;
   isAddMode: boolean;
   id: string;
+  itemIsRemoved: boolean = false;
   @Input()selectedListId: number;
   
   constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
@@ -96,8 +97,9 @@ export class ShoppingListNewFormComponent implements OnInit {
     })
   }
 
-  removeItem(i:number) {
+  removeItem(i:number) {debugger;
     this.items.removeAt(i);
+    this.itemIsRemoved = true;
   }
 
   onSubmit() {    

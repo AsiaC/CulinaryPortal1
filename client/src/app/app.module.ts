@@ -23,6 +23,7 @@ import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-for
 import { UserShoppingListsComponent } from './users/user-shopping-lists/user-shopping-lists.component';
 import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new-form/shopping-list-new-form.component';
 import { SelectShoppingListComponent } from './modals/select-shopping-list/select-shopping-list.component';
+import { ConfirmComponent } from './modals/confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SelectShoppingListComponent } from './modals/select-shopping-list/selec
     RecipeNewFormComponent,
     UserShoppingListsComponent,
     ShoppingListNewFormComponent,
-    SelectShoppingListComponent
+    SelectShoppingListComponent,
+    ConfirmComponent
   ],
   imports: [
     BrowserModule,

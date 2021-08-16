@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -47,4 +47,14 @@ import { ShoppingList } from '../_models/shoppingList';
         return this.http.put(this.baseUrl + 'shoppinglists/' + shoppingListId + '/addrecipeingredients', shoppingListDto);
     }
 
+    deleteShoppingList(shoppingListId: number){
+      debugger;
+      const options = {   
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),     
+        body: shoppingListId,        
+      };
+      return this.http.delete(this.baseUrl + 'shoppinglists', options)
+    }
   }

@@ -5,8 +5,8 @@
     </button>
 </div>
 <div class="modal-body">    
-    <div>
-        <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="readioSelected">
+    <div *ngIf="list.length !== 0">
+        <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="readioSelected" disabled="{{list.length === 0}}">
         <label for="customRadio1">Select from existing shopping lists</label>
         <div *ngIf="readioSelected=='radio1'">
             <select class="form-control" id="selectedShoppingList" (change)="selectOptionVal=onChange($event.target.value)">        

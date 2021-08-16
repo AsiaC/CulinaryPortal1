@@ -48,9 +48,8 @@ export class UserShoppingListsComponent implements OnInit {
     this.addNewListMode = true;
   }
 
-  deleteShoppingList(shoppingListId) { debugger;
+  deleteShoppingList(shoppingListId) { //debugger;
     //delete list and items and refresh site
-    //this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
     const initialState = {  
       title: 'Are you sure that you would like to delete indicated shopping list?',      
       idToRemove: shoppingListId,

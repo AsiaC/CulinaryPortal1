@@ -123,17 +123,6 @@ export class RecipeDetailComponent implements OnInit {
 
   }
 
-  addToShoppingList() {
-    //check if user have one shoppingList
-    //if 1 dodaj
-    if(this.userShoppingLists.length == 1) {
-      
-    }
-
-    //if 2 modal i wybierz do której dodać
-    //if 0 modal stwórz liste - nazwa tylko 
-  }
-
   modalAddToShoppingList() {
     console.log(this.userShoppingLists);
 

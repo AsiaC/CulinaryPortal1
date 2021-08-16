@@ -1,0 +1,11 @@
+<p>shoping-list-list works!</p>
+
+<div class="row">
+    <div class="col-2">
+        <p *ngFor="let shoppingList of shoppingLists">
+            {{shoppingList.name}},
+            {{shoppingList.id}},
+            {{shoppingList.userId}}
+        </p>
+    </div>
+</div>

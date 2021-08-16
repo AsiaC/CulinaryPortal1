@@ -10,6 +10,7 @@ import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.gu
 import { UserRecipesComponent} from './users/user-recipes/user-recipes.component';
 import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.component';
 import { UserShoppingListsComponent} from './users/user-shopping-lists/user-shopping-lists.component';
+import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
 
 const routes: Routes = [
 {path:'', component: HomeComponent},
@@ -26,6 +27,9 @@ const routes: Routes = [
     {path: 'user/recipes', component: UserRecipesComponent},
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
+    {path: 'shoppingLists', component: ShopingListListComponent},
+    
+    //
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

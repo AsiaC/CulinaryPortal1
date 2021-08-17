@@ -23,6 +23,7 @@ namespace CulinaryPortal.API.Services
         Task<IEnumerable<Recipe>> GetRecipesAsync();
         Task<Recipe> GetRecipeAsync(int recipeId);
         void AddRecipe(Recipe recipe);
+        Task<int> CountAssociatedCookbooks(int recipeId);
 
         //void AddRecipeIngredient(RecipeIngredient recipeIngredient);
         //void UpdateRecipeIngredient(RecipeIngredient recipeIngredient); //not used

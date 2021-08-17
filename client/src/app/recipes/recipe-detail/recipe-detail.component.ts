@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list/select-shopping-list.component';
+import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -28,6 +29,7 @@ export class RecipeDetailComponent implements OnInit {
   cookbookRecipe: any = {recipeId: null, userId: null};
   userShoppingLists: ShoppingList[];
   bsModalRef: BsModalRef;
+  recipeIsInsideCookbook: boolean = true;
   //Delete recipe only when it is not in culinary book
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
@@ -42,7 +44,7 @@ export class RecipeDetailComponent implements OnInit {
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
       this.recipe = recipe;       
-      //debugger; 
+      debugger; 
       //console.log(recipe);
       //console.log(this.user);
       // console.log(recipe.difficultyLevel);
@@ -135,5 +137,34 @@ export class RecipeDetailComponent implements OnInit {
     this.bsModalRef = this.modalService.show(SelectShoppingListComponent, {initialState});
     this.bsModalRef.content.closeBtnName = 'Cancel';
     this.bsModalRef.content.submitBtnName = 'Confirm adding ingredients';
+  }
+
+  deleteRecipe(){debugger;
+    //check if recipe is inside in cookbook if yes user cannot delete recipe
+    
+
+    // if(this.recipeIsInsideCookbook === true){
+    // const initialState = {  
+    //   title: 'You cannott delete the recipe because at least one user has it in their cookbook',      
+    //   idToRemove: this.recipe.id,
+    //   objectName:'Simple'
+    // };
+    // this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
+    // this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
+    // this.bsModalRef.content.submitBtnName = 'Ok';
+    // } else{
+    //delete list and items and refresh site
+    const initialState = {  
+      title: 'Are you sure that you would like to delete indicated recipe?',      
+      idToRemove: this.recipe.id,
+      objectName:'Recipe'
+    };
+    this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
+    this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
+    this.bsModalRef.content.submitBtnName = 'Confirm deleting recipe';
+    // }  
+
+    //ale tu moge dodać modal bo to ważna akcja a i tak musze przeładowac stronę bo wrócić do strony z przepisami wszystkimi
+    
   }
 }

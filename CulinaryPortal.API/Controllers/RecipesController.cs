@@ -38,6 +38,7 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet("{recipeId}", Name = "GetRecipe")]
         public async Task<ActionResult<RecipeDto>> GetRecipe(int recipeId)
         {
+            //try catch
             var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
 
             if (checkIfRecipeExists == false)
@@ -46,7 +47,9 @@ namespace CulinaryPortal.API.Controllers
             }
             var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
-             return Ok(recipe);
+            recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooks(recipeId);
+            
+            return Ok(recipe);
         }
 
         [HttpPost]
@@ -100,13 +103,13 @@ namespace CulinaryPortal.API.Controllers
             var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             if (recipeFromRepo == null)
             {
-                return NotFound();
+                return NotFound(); //TODO DO OBSŁUŻENIA
             }
-
+            
             _culinaryPortalRepository.DeleteRecipe(recipeFromRepo);
             _culinaryPortalRepository.Save();
 
-            return NoContent();
+            return Ok();
         }
 
         // PUT: api/recipes/5

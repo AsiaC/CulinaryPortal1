@@ -5,13 +5,14 @@
         <button class="btn btn-default" (click)="editThisRecipe()">Edit Recipe</button>
     </div>
     <div *ngIf="recipe.userId == user.id">
-        <button class="btn btn-danger">Delete Recipe</button>
+        <button class="btn btn-danger" (click)="deleteRecipe()" [disabled]="recipe.countCookbooks > 0">Delete Recipe</button>
     </div>
 
     <h2>Basic informations</h2>
     <p>Author: {{recipe.author}}</p>
     <p>Author: {{recipe.userId}}</p>
     <p>Description: {{recipe.description}}</p>
+    <p>CountCookbooks: {{recipe.countCookbooks}}</p>
     <p>Rate: {{recipe.rate}}</p>
     <p>Category: {{recipe.category}}</p>
     <p>Difficulty Level Number: {{recipe.difficultyLevel}}</p>

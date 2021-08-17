@@ -22,6 +22,7 @@ namespace CulinaryPortal.API.Models
         public string Author { get; set; }
         public int CategoryId { get; set; }
         public string Category { get; set; }
+        public int CountCookbooks { get; set; }
 
         public DifficultyLevel DifficultyLevel { get; set; }
         //public string Difficulty { get; set; }

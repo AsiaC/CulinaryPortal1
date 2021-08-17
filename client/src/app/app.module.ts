@@ -25,6 +25,7 @@ import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new
 import { SelectShoppingListComponent } from './modals/select-shopping-list/select-shopping-list.component';
 import { ConfirmComponent } from './modals/confirm/confirm.component';
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
+import { InformComponent } from './modals/inform/inform.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ShopingListListComponent } from './shopping-lists/shoping-list-list/sho
     ShoppingListNewFormComponent,
     SelectShoppingListComponent,
     ConfirmComponent,
-    ShopingListListComponent
+    ShopingListListComponent,
+    InformComponent
   ],
   imports: [
     BrowserModule,

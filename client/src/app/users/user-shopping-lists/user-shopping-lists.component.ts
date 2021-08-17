@@ -7,6 +7,7 @@ import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-shopping-lists',
@@ -20,7 +21,7 @@ export class UserShoppingListsComponent implements OnInit {
   selectedShoppingListId: number;
   bsModalRef: BsModalRef;
 
-  constructor(private userService:UsersService, private accountService:AccountService, private modalService: BsModalService) { 
+  constructor(private userService:UsersService, private accountService:AccountService, private modalService: BsModalService, private toastr: ToastrService, private shoppingListService: ShoppingListService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -50,13 +51,28 @@ export class UserShoppingListsComponent implements OnInit {
 
   deleteShoppingList(shoppingListId) { //debugger;
     //delete list and items and refresh site
-    const initialState = {  
-      title: 'Are you sure that you would like to delete indicated shopping list?',      
-      idToRemove: shoppingListId,
-      objectName:'Shopping list'
-    };
-    this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
-    this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
-    this.bsModalRef.content.submitBtnName = 'Confirm deleting shopping list';
+    // const initialState = {  
+    //   title: 'Are you sure that you would like to delete indicated shopping list?',      
+    //   idToRemove: shoppingListId,
+    //   objectName:'Shopping list', 
+    //   userId: this.user.id,
+    //   userShoppingLists: this.userShoppingLists,
+    //   //functionAfterClose: this.loadUserShoppingLists()
+    // };
+    // this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
+    // this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
+    // this.bsModalRef.content.submitBtnName = 'Confirm deleting shopping list';
+    
+    //ponizsze rozwiazanie jest lepsze zamiast modale potwierdzającego bo nie trzeba przeładowywać strony tylko nika lista z ekranu, ale nie ma modala.
+    this.shoppingListService.deleteShoppingList(shoppingListId)
+      .subscribe(response => {
+        debugger;
+        console.log(response);
+        this.toastr.success('Shopping list removed successfully!');//to do do sprawdzenia   
+        this.loadUserShoppingLists(); 
+      }, error => {
+         console.log(error);                      
+      })
+
   }
 }

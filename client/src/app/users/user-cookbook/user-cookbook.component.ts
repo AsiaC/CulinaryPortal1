@@ -44,7 +44,7 @@ export class UserCookbookComponent implements OnInit {
     this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
     .subscribe(response => {
       console.log("success");
-      this.toastr.success('Recipe removed successfully');
+      this.toastr.success('Recipe removed successfully!');
       this.loadUserCookbook();
     }, error => {
         console.log(error);

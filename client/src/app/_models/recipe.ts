@@ -21,6 +21,7 @@ export interface Recipe {
   instructions: Instruction[];
   photos: Photo[];
   recipeIngredients: RecipeIngredient[];
+  countCookbooks: number;
 }
 
 

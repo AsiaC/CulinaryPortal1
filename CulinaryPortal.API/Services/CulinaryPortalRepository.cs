@@ -159,6 +159,11 @@ namespace CulinaryPortal.API.Services
         //    _context.RecipeIngredients.Remove(recipeIngredient);
         //}
 
+        public async Task<int> CountAssociatedCookbooks(int recipeId) 
+        {
+            var numberAccosiatedCookbooks = await _context.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();
+            return numberAccosiatedCookbooks;
+        }
         #endregion
 
         #region User

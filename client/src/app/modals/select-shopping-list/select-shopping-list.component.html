@@ -5,7 +5,7 @@
     </button>
 </div>
 <div class="modal-body">    
-    <div *ngIf="list.length !== 0">
+    <div *ngIf="list !== undefined">
         <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="readioSelected" disabled="{{list.length === 0}}">
         <label for="customRadio1">Select from existing shopping lists</label>
         <div *ngIf="readioSelected=='radio1'">

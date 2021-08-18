@@ -31,6 +31,7 @@ export class UserCookbookComponent implements OnInit {
   loadUserCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
+      debugger;
       console.log(this.userCookbook);
     }, error => {
       console.log(error);

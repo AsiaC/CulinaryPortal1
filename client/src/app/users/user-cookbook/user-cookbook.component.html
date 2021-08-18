@@ -1,4 +1,5 @@
-<div *ngIf="userCookbook && userCookbook.recipes">
+<!-- <div *ngIf="userCookbook && userCookbook.recipes"> -->
+<div *ngIf="userCookbook && userCookbook.cookbookRecipes">
     <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>
 
     <h2>Recipes: </h2>
@@ -17,14 +18,33 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
         <tr>
             <th>Foto</th>
             <th>Title</th> 
-            <th>Category</th>
+            <!-- <th>Category</th>
             <th>Difficulty level</th>
-            <th>Preparation time</th>
+            <th>Preparation time</th> -->
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let recipe of userCookbook.recipes">
+        <tr *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
+            <td>
+                <ng-container *ngFor="let photo of cookbookRecipe.recipe.photos">
+                    <ng-container *ngIf="photo.isMain === true">                        
+                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
+                    </ng-container>
+                </ng-container>    
+            </td>
+            <td>{{cookbookRecipe.recipe.name}}</td>
+            <!-- <td>{{cookbookRecipe.recipe.category}}</td>
+            <td>{{cookbookRecipe.reciep.difficultyLevel}}</td>
+            <td>{{cookbookRecipe.recipe.preparationTime}}</td> -->
+            <td>
+                <ng-container> 
+                    <button class="btn btn-success mr-2" routerLink='/recipes/{{cookbookRecipe.recipeId}}'>Go To Recipe</button><br><br>
+                    <button class="btn btn-danger mr-2" (click)="removeFromCookbook(cookbookRecipe.recipeId)">Remove from cookbook</button>
+                </ng-container>
+            </td>
+        </tr>
+        <!-- <tr *ngFor="let recipe of userCookbook.recipes">
             <td>
                 <ng-container *ngFor="let photo of recipe.photos">
                     <ng-container *ngIf="photo.isMain === true">                        
@@ -42,7 +62,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
                     <button class="btn btn-danger mr-2" (click)="removeFromCookbook(recipe.id)">Remove from cookbook</button>
                 </ng-container>
             </td>
-        </tr>
+        </tr> -->
     </tbody>
 </table>
 </div>

@@ -14,6 +14,8 @@ import { ShoppingList } from 'src/app/_models/shoppingList';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list/select-shopping-list.component';
 import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
+import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-cookbook.component';
+
 
 @Component({
   selector: 'app-recipe-detail',
@@ -21,7 +23,7 @@ import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
   styleUrls: ['./recipe-detail.component.css']
 })
 export class RecipeDetailComponent implements OnInit {
-  recipe: Recipe;
+  currentRecipe: Recipe;
   user: User; //current
   editRecipe: boolean = false;
   canAddToCookbook: boolean = true;
@@ -37,18 +39,24 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRecipe();
-    this.loadCookbook();  
+    //this.loadCookbook();  
     this.loadShoppingListsIds();
+    debugger;
+    console.log(this.user);
+    console.log(this.userCookbook);
   }
 
   loadRecipe(){
+    debugger;
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      this.recipe = recipe;       
+      debugger;
+      this.currentRecipe = recipe;       
       debugger; 
       //console.log(recipe);
       //console.log(this.user);
       // console.log(recipe.difficultyLevel);
       // console.log(recipe.preparationTime); 
+      this.loadCookbook();
     }, error => {
       console.log(error);
     })
@@ -58,9 +66,10 @@ export class RecipeDetailComponent implements OnInit {
     //debugger;
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      //debugger;      
+      debugger;      
       console.log("loadCookbook");
       console.log(this.userCookbook);
+      console.log(this.currentRecipe);
       // if(this.userCookbook !== undefined){
       //   var allRecipe = this.userCookbook.recipes;
       //  console.log(allRecipe);
@@ -69,12 +78,22 @@ export class RecipeDetailComponent implements OnInit {
       //     this.canAddToCookbook = false;
       //   }
       // }
+
+      // if(this.userCookbook !== undefined){
+      //   if(this.userCookbook.recipes !== undefined){ //spr co gdy użytkownik nie ma cookbook wcale, albo gdy nie ma ani jednego przepisu w cookbook
+      //     var recipeInCookbook = this.userCookbook.recipes.find(r=>r.id === this.recipe.id);
+      //     if(recipeInCookbook !== undefined) {
+      //       this.canAddToCookbook = false;
+      //     }
+      //   }
+      // }
+
       if(this.userCookbook !== undefined){
-        if(this.userCookbook.recipes !== undefined){ //spr co gdy użytkownik nie ma cookbook wcale, albo gdy nie ma ani jednego przepisu w cookbook
-          var recipeInCookbook = this.userCookbook.recipes.find(r=>r.id === this.recipe.id);
-          if(recipeInCookbook !== undefined) {
-            this.canAddToCookbook = false;
-          }
+        if(this.userCookbook.cookbookRecipes !== undefined){
+          var recipeInCookbook = this.userCookbook.cookbookRecipes.find(r=>r.recipeId === this.currentRecipe.id);
+           if(recipeInCookbook !== undefined) {
+              this.canAddToCookbook = false;
+           }
         }
       }
     }, error => {
@@ -99,20 +118,45 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addToCookbook(){  
-    this.cookbookRecipe.recipeId = this.recipe.id;
-    this.cookbookRecipe.userId = this.user.id;
+    debugger;
+    console.log(this.user);
+    console.log(this.userCookbook);
+
+    // if(this.userCookbook === undefined){
+    //   this.cookbookRecipe.cookbookId = 0;
+    // }else{
+    //   this.cookbookRecipe.cookbookId = this.userCookbook.id;
+    // }
+    if(this.userCookbook === undefined){
+        //modal + utowrz nową + 1 powiazanie
+        this.cookbookRecipe.recipeId = this.currentRecipe.id;
+        this.cookbookRecipe.userId = this.user.id;  
+
+        const initialState = {     
+          title: 'Create cookbook and add indicated recipe', 
+          userId: this.user.id,
+          currentRecipe: this.cookbookRecipe
+        };
+        this.bsModalRef = this.modalService.show(CreateCookbookComponent, {initialState});
+        this.bsModalRef.content.closeBtnName = 'Cancel';
+        this.bsModalRef.content.submitBtnName = 'Confirm';
+        this.canAddToCookbook = false;
+    }else{
+    this.cookbookRecipe.recipeId = this.currentRecipe.id;
+    this.cookbookRecipe.userId = this.user.id;    
     
       this.cookbookService.addRecipeToCookbook(this.cookbookRecipe)
       .subscribe(response =>{
-         this.toastr.success('Recipe added successfully');
+         this.toastr.success('Recipe added successfully!');
          this.canAddToCookbook = false;
       }, error => {
         console.log(error);
       })
+    }
   }
 
   removeFromCookbook(){debugger;
-    this.cookbookRecipe.recipeId = this.recipe.id;
+    this.cookbookRecipe.recipeId = this.currentRecipe.id;
     this.cookbookRecipe.userId = this.user.id;
 
     this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
@@ -129,7 +173,7 @@ export class RecipeDetailComponent implements OnInit {
     console.log(this.userShoppingLists);
 
     const initialState = {     
-      recipeIngredients: this.recipe.recipeIngredients,
+      recipeIngredients: this.currentRecipe.recipeIngredients,
       list: this.userShoppingLists,
       title: 'Add ingredients to shopping list', 
       userId: this.user.id
@@ -156,7 +200,7 @@ export class RecipeDetailComponent implements OnInit {
     //delete list and items and refresh site
     const initialState = {  
       title: 'Are you sure that you would like to delete indicated recipe?',      
-      idToRemove: this.recipe.id,
+      idToRemove: this.currentRecipe.id,
       objectName:'Recipe'
     };
     this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});

@@ -1,28 +1,28 @@
-<div *ngIf="recipe && editRecipe === false">
-    <h1 >{{recipe.name}}</h1>
+<div *ngIf="currentRecipe && editRecipe === false">
+    <h1 >{{currentRecipe.name}}</h1>
 
-    <div *ngIf="recipe.userId === user.id">
+    <div *ngIf="currentRecipe.userId === user.id">
         <button class="btn btn-default" (click)="editThisRecipe()">Edit Recipe</button>
     </div>
-    <div *ngIf="recipe.userId == user.id">
-        <button class="btn btn-danger" (click)="deleteRecipe()" [disabled]="recipe.countCookbooks > 0">Delete Recipe</button>
+    <div *ngIf="currentRecipe.userId == user.id">
+        <button class="btn btn-danger" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
     </div>
 
     <h2>Basic informations</h2>
-    <p>Author: {{recipe.author}}</p>
-    <p>Author: {{recipe.userId}}</p>
-    <p>Description: {{recipe.description}}</p>
-    <p>CountCookbooks: {{recipe.countCookbooks}}</p>
-    <p>Rate: {{recipe.rate}}</p>
-    <p>Category: {{recipe.category}}</p>
-    <p>Difficulty Level Number: {{recipe.difficultyLevel}}</p>
+    <p>Author: {{currentRecipe.author}}</p>
+    <p>Author: {{currentRecipe.userId}}</p>
+    <p>Description: {{currentRecipe.description}}</p>
+    <!-- <p>CountCookbooks: {{recipe.countCookbooks}}</p> -->
+    <p>Rate: {{currentRecipe.rate}}</p>
+    <p>Category: {{currentRecipe.category}}</p>
+    <p>Difficulty Level Number: {{currentRecipe.difficultyLevel}}</p>
     <!-- <p>Difficulty: {{recipe.difficulty}}</p> -->
-    <p>Preparation Time Number: {{recipe.preparationTime}}</p>
+    <p>Preparation Time Number: {{currentRecipe.preparationTime}}</p>
     <!-- <p>Preparation: {{recipe.preparation}}</p> -->
 
     <h2>Ingredients</h2>
     <ul>
-        <li *ngFor="let ingred of recipe.recipeIngredients">
+        <li *ngFor="let ingred of currentRecipe.recipeIngredients">
             {{ingred.quantity}} 
             <!-- {{ingred.measureName}} 
             {{ingred.ingredientName}} -->
@@ -39,7 +39,7 @@
     <!-- <h2>Directions</h2> -->
     <h2>Instructions</h2>
     <ol>
-        <li *ngFor="let instruction of recipe.instructions">
+        <li *ngFor="let instruction of currentRecipe.instructions">
             {{instruction.description}}
         </li>
     </ol>
@@ -50,7 +50,7 @@
         <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from Culinarybook</button>
     </div>
     <ol>
-        <ul *ngFor="let photo of recipe.photos">
+        <ul *ngFor="let photo of currentRecipe.photos">
             <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
         </ul>
     </ol>

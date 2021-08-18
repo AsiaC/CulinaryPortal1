@@ -78,7 +78,7 @@ export class SelectShoppingListComponent implements OnInit {
         this.toastr.error('Failed to add ingredients to the shopping list. The name of the new list has not been provided.'); 
       }
     }
-    this.bsModalRef.hide();//toastr? - przy sukcesie dodawania jest
+    this.bsModalRef.hide();//TODO dla error?toastr? - przy sukcesie dodawania jest
   }
 
   getValue(event: Event): string {

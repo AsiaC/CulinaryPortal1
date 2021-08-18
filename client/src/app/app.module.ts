@@ -26,6 +26,7 @@ import { SelectShoppingListComponent } from './modals/select-shopping-list/selec
 import { ConfirmComponent } from './modals/confirm/confirm.component';
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
 import { InformComponent } from './modals/inform/inform.component';
+import { CreateCookbookComponent } from './modals/create-cookbook/create-cookbook.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { InformComponent } from './modals/inform/inform.component';
     SelectShoppingListComponent,
     ConfirmComponent,
     ShopingListListComponent,
-    InformComponent
+    InformComponent,
+    CreateCookbookComponent
   ],
   imports: [
     BrowserModule,

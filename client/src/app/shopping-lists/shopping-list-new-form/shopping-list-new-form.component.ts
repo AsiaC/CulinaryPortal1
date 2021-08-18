@@ -125,7 +125,7 @@ export class ShoppingListNewFormComponent implements OnInit {
       console.log(response);
       //this.router.navigateByUrl('/members');
       this.isAddMode = false;
-      window.location.reload();
+      window.location.reload(); //spr czy to konieczne
     }, error => {
       //this.validationErrors = error;
       console.log(error);

@@ -67,15 +67,24 @@ namespace CulinaryPortal.API.Controllers
             return Ok(cookbook);
         }
 
-       
-
+        //api/cookbooks/5
         [HttpPost]
-        public ActionResult<Cookbook> CreateCookbook(Cookbook cookbook)
-        {
-            _culinaryPortalRepository.AddCookbook(cookbook);
-            _culinaryPortalRepository.Save();
+        public async Task<ActionResult<Cookbook>> CreateCookbook([FromBody] CookbookDto cookbookDto)
+        {//TODO try catch
+            try
+            {
+                var cookbook = _mapper.Map<Cookbook>(cookbookDto);
+                await _culinaryPortalRepository.AddCookbookAsync(cookbook);
+                await _culinaryPortalRepository.SaveChangesAsync();
 
-            return CreatedAtAction("GetCookbook", new { cookbookId = cookbook.Id }, cookbook);
+                return CreatedAtAction("GetCookbook", new { cookbookId = cookbook.Id }, cookbook);
+            }
+            catch (Exception e) 
+            {
+                var a = e;
+                return NoContent();
+            }
+
         }
 
         // DELETE: api/cookbooks/5
@@ -98,9 +107,10 @@ namespace CulinaryPortal.API.Controllers
         [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
         public async Task<IActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
         {            
+            //TODO try catch
             //one user only one cookbook   
             var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-            var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+            var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id); //TODO spr
                     
             var recipeToAdd = new CookbookRecipe()
             {

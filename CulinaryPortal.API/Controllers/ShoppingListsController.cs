@@ -49,10 +49,10 @@ namespace CulinaryPortal.API.Controllers
 
         [HttpPost]
         public async Task<ActionResult<ShoppingList>> CreateShoppingList([FromBody] ShoppingListDto shoppingListDto)
-        {
+        {//TODO try catch
             var shoppingList = _mapper.Map<ShoppingList>(shoppingListDto);
-            await _culinaryPortalRepository.AddShoppingListAsync(shoppingList); //ODKOMENTOWAC
-            await _culinaryPortalRepository.SaveChangesAsync(); //ODKOMENTOWAC
+            await _culinaryPortalRepository.AddShoppingListAsync(shoppingList); 
+            await _culinaryPortalRepository.SaveChangesAsync(); 
             //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
             return CreatedAtAction("GetShoppingList", new { shoppingListId = shoppingList.Id }, shoppingList);
         }              

@@ -48,7 +48,7 @@ namespace CulinaryPortal.API.Controllers
             var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
             var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
             recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooks(recipeId);
-            
+            //recipe.
             return Ok(recipe);
         }
 

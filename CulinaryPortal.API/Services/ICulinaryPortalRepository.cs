@@ -82,7 +82,7 @@ namespace CulinaryPortal.API.Services
         Task<IEnumerable<Cookbook>> GetCookbooksAsync();
         Task<bool> CookbookExistsAsync(int cookbookId);
         Task<Cookbook> GetCookbookAsync(int cookbookId);
-        void AddCookbook(Cookbook cookbook);
+        Task AddCookbookAsync(Cookbook cookbook);
         void DeleteCookbook(Cookbook cookbook);
         Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId);
         #endregion

@@ -450,14 +450,14 @@ namespace CulinaryPortal.API.Services
             return cookbook;
         }
 
-        public void AddCookbook(Cookbook cookbook)
+        public async Task AddCookbookAsync(Cookbook cookbook)
         {
             if (cookbook == null)
             {
                 throw new ArgumentNullException(nameof(cookbook));
             }
 
-            _context.Cookbooks.Add(cookbook);
+            await _context.Cookbooks.AddAsync(cookbook);
         }
 
         public void DeleteCookbook(Cookbook cookbook)

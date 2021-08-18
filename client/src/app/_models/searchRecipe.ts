@@ -3,4 +3,5 @@ export interface SearchRecipe {
     categoryId: number | null; 
     difficultyLevelId: number | null;   
     preparationTimeId: number | null; 
+    userId: number | null; 
   }

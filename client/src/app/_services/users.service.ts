@@ -51,5 +51,10 @@ export class UsersService {
     //debugger;    
     return this.http.get<ShoppingList[]>(this.baseUrl + 'users/' + user + '/shoppingLists');
   }
+
+  searchUserRecipes(model: any, user:number){
+    debugger;    
+    return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/recipes/search', model)
+  }
 }
 

@@ -170,6 +170,11 @@ namespace CulinaryPortal.API.Services
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
                 .ToListAsync();
 
+            if (searchRecipeDto.UserId != null)
+            {
+                query = query.Where(r => r.UserId == searchRecipeDto.UserId);
+            }
+
             if (searchRecipeDto.CategoryId != null)
             {
                 query = query.Where(r => r.CategoryId == searchRecipeDto.CategoryId);

@@ -3,9 +3,60 @@
 </div>
 
 <div *ngIf="addNewMode == false">
-    <h1>User's Recipes</h1>
-    <button class="btn btn-success mb-4" (click)="addRecipe()">Add new recipe</button>
+    <h4>My added recipes</h4>
+    <br/>
+    <button class="btn btn-success mb-4" (click)="addRecipe()">Create new recipe</button>
+    <hr>
+    <div>
+        <h5>Search options</h5>
+        <div class="row">
+            <div class="col">
+            <!-- <label for="selectedCategory" class="col-sm-2 col-form-label">Category</label> -->
+            <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
+                <option [value]="null" selected>All categories</option>
+                <option *ngFor="let prf of allCategories" [value]="prf.id">
+                    {{prf.name }}
+                </option>
+            </select> 
+        </div>
+        <div class="col">
+            <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)">
+                <option [value]="null" selected>All difficulty levels</option>
+                <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
+                    {{difficultyLevel[diffName]}}       
+                </option> 
+            </select> 
+            </div>
+    
+            <div class="col">
+            <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)">
+                <option [value]="null" selected>All preparation times</option>
+                <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
+                    {{preparationTime[prepName]}}       
+                </option> 
+            </select>
+            </div>
+            <div class="col">
+            <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="No speciefied name">
+            </div>
+        </div>
+        <br/>
+        <div>
+            <button type="button" class="btn btn-success mr-3" (click)="searchRecipes()">Search</button>
+            <button type="button" class="btn btn-default mr-3" (click)="clearSearch()">Clear</button>
+        </div>
+    </div>
 
+    <div *ngIf="isNoResults === true">     
+        <br/> 
+        <div class="alert alert-danger" role="alert">
+            No results! Below your prevoius search results.
+        </div>  
+    </div>
+    
+    <hr>
+    
+    <br/>
     <div class="row">
         <div class="col-3" *ngFor="let userRecipe of userRecipes">
             <app-recipe-card [recipeFromList] = "userRecipe"></app-recipe-card>

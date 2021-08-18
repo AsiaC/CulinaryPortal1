@@ -175,10 +175,21 @@ namespace CulinaryPortal.API.Services
                 query = query.Where(r => r.CategoryId == searchRecipeDto.CategoryId);
             }
 
+            if (searchRecipeDto.PreparationTimeId != null)
+            {
+                query = query.Where(r => (int)r.PreparationTime == searchRecipeDto.PreparationTimeId);
+            }
+
+            if (searchRecipeDto.DifficultyLevelId != null)
+            {
+                query = query.Where(r => (int)r.DifficultyLevel == searchRecipeDto.DifficultyLevelId);
+            }
+
             if (!String.IsNullOrWhiteSpace(searchRecipeDto.Name)) 
             {
                 query = query.Where(r => r.Name == searchRecipeDto.Name);
             }
+
            
             return query;
         }

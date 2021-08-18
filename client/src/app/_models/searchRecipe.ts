@@ -1,4 +1,6 @@
 export interface SearchRecipe {    
     name: string;
-    categoryId: number | null;   
+    categoryId: number | null; 
+    difficultyLevelId: number | null;   
+    preparationTimeId: number | null; 
   }

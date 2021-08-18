@@ -22,7 +22,10 @@ export class RecipeListComponent implements OnInit {
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
   searchModel : SearchRecipe = null;
-  isNoResults: boolean = false
+  isNoResults: boolean = false;
+  selectedDifficultyLevel: any;
+  selectedPreparationTime: any;
+  title: string = "All recipes";
 
   constructor(private recipeService: RecipesService, private toastr: ToastrService) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
@@ -38,6 +41,7 @@ export class RecipeListComponent implements OnInit {
   loadRecipes(){
     this.recipeService.getRecipes().subscribe(recipes => {
       this.recipes = recipes;
+      this.title = "All recipes";
     }, error => {
       console.log(error);
     })
@@ -54,12 +58,17 @@ export class RecipeListComponent implements OnInit {
   searchRecipes(){ debugger;
     console.log(this.searchByName);
     console.log(this.selectOptionVal);
+    console.log(this.selectedDifficultyLevel);
+    console.log(this.selectedPreparationTime);
 
-    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal)}
+
+    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime)}
 
     this.recipeService.searchRecipes(this.searchModel)
     .subscribe(response => {
       debugger;
+      this.isNoResults = false; 
+      this.title = "Filtered recipes";
       this.recipes = response;
       this.toastr.success('Recipes filtered.');  
       }, error => {
@@ -69,9 +78,9 @@ export class RecipeListComponent implements OnInit {
     })
   }
   clearSearch(){
+    debugger;
     this.loadRecipes();
-    this.isNoResults = false;    
-  //TODO CZYŚĆ WARTOŚCI Z INPUTÓW    
+    this.isNoResults = false;        
   }
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;

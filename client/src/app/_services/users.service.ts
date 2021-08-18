@@ -56,5 +56,10 @@ export class UsersService {
     debugger;    
     return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/recipes/search', model)
   }
+
+  searchUserCookbook(model: any, user:number){
+    debugger;    
+    return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/cookbook/search', model)
+  }
 }
 

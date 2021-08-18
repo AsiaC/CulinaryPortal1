@@ -72,9 +72,10 @@ namespace CulinaryPortal.API.Services
         {
             var userRecipes = await _context.Recipes.Where(r => r.UserId == userId)
                 .Include(i => i.Instructions)
-                .Include(p => p.Photos) //ODKOMENTOWAĆ
+                .Include(p => p.Photos) 
                 .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .Include(c => c.Category)
                 .ToListAsync();
             return userRecipes;
         }
@@ -94,10 +95,11 @@ namespace CulinaryPortal.API.Services
         {
             var recipes = await _context.Recipes
                 .Include(i => i.Instructions)
-                .Include(p=>p.Photos) //ODKOMENTOWAĆ
+                .Include(p => p.Photos) //ODKOMENTOWAĆ
                 //.Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
                 .Include(ing=> ing.RecipeIngredients).ThenInclude(r=>r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .Include(c => c.Category)
                 .ToListAsync();
 
             //var recipes1 = await _context.Recipes
@@ -507,10 +509,43 @@ namespace CulinaryPortal.API.Services
         public async Task<Cookbook> GetUserCookbookAsync(int userId)
         {
             var cookbook = await _context.Cookbooks
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c=>c.Category)
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
             return cookbook;
-        } 
+        }
+
+        public async Task<IEnumerable<Recipe>> SearchUserCookbookRecipesAsync(SearchRecipeDto searchRecipeDto)
+        {
+            var cookbook = await _context.Cookbooks
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c => c.Category)
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
+                .FirstOrDefaultAsync(u => u.UserId == searchRecipeDto.UserId);
+
+            IEnumerable<Recipe> query = cookbook.CookbookRecipes.Select(r => r.Recipe);
+
+            if (searchRecipeDto.CategoryId != null)
+            {
+                query = query.Where(r => r.CategoryId == searchRecipeDto.CategoryId);
+            }
+
+            if (searchRecipeDto.PreparationTimeId != null)
+            {
+                query = query.Where(r => (int)r.PreparationTime == searchRecipeDto.PreparationTimeId);
+            }
+
+            if (searchRecipeDto.DifficultyLevelId != null)
+            {
+                query = query.Where(r => (int)r.DifficultyLevel == searchRecipeDto.DifficultyLevelId);
+            }
+
+            if (!String.IsNullOrWhiteSpace(searchRecipeDto.Name))
+            {
+                query = query.Where(r => r.Name == searchRecipeDto.Name);
+            }
+
+            return query;
+        }
         #endregion
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()

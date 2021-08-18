@@ -171,7 +171,7 @@ namespace CulinaryPortal.API.Controllers
             }
         }
 
-        //// GET: api/users/3/recipes/search
+        //// PUT: api/users/3/recipes/search
         [HttpPut("{userId}/recipes/search")]
         public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserRecipesAsync([FromRoute] int userId, [FromBody] SearchRecipeDto searchRecipeDto)
         {
@@ -181,6 +181,28 @@ namespace CulinaryPortal.API.Controllers
                 if (recipesFromRepo.Any())
                 {
                     return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
+                //throw;
+            }
+
+        }
+
+        //// PUT: api/users/3/cookbook/search
+        [HttpPut("{userId}/cookbook/search")]
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserCookbookAsync([FromRoute] int userId, [FromBody] SearchRecipeDto searchRecipeDto)
+        {
+            try
+            {
+                var cookbookRecipesFromRepo = await _culinaryPortalRepository.SearchUserCookbookRecipesAsync(searchRecipeDto);
+                if (cookbookRecipesFromRepo.Any())
+                {
+                    return Ok(_mapper.Map<IEnumerable<RecipeDto>>(cookbookRecipesFromRepo));
                 }
                 return NotFound();
             }

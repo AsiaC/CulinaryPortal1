@@ -43,6 +43,7 @@ namespace CulinaryPortal.API.Services
         Task<bool> UserExistsAsync(int userId);
         Task<bool> UserExistsAsync(string username);
         Task<Cookbook> GetUserCookbookAsync(int userId);
+        Task<IEnumerable<Recipe>> SearchUserCookbookRecipesAsync(SearchRecipeDto searchRecipeDto);
         #endregion
 
         #region Ingredient

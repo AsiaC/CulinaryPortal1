@@ -275,5 +275,28 @@ namespace CulinaryPortal.API.Controllers
             //    await _culinaryPortalRepository.SaveChangesAsync();
             return Ok();
         }
+
+        //api/recipes/search
+        //[HttpGet("search")]
+        [HttpPut("search")]
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchRecipes([FromBody] SearchRecipeDto searchRecipeDto)
+        {
+            try
+            {
+                var recipesFromRepo = await _culinaryPortalRepository.SearchRecipesAsync(searchRecipeDto);
+                if (recipesFromRepo.Any())
+                {
+                    return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
+                //throw;
+            }
+            
+        }
     }
 }

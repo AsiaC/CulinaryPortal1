@@ -1,4 +1,5 @@
 ﻿using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace CulinaryPortal.API.Services
         Task<Recipe> GetRecipeAsync(int recipeId);
         void AddRecipe(Recipe recipe);
         Task<int> CountAssociatedCookbooks(int recipeId);
-
+        Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto);
+        
         //void AddRecipeIngredient(RecipeIngredient recipeIngredient);
         //void UpdateRecipeIngredient(RecipeIngredient recipeIngredient); //not used
         //void DeleteRecipeIngredient(RecipeIngredient recipeIngredient);

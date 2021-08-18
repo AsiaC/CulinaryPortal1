@@ -67,4 +67,36 @@ debugger;
     debugger;    
     return this.http.delete(this.baseUrl + 'recipes/'+ recipeId)
   }
+
+  // searchRecipes(categoryId: number, name: string){
+  //   debugger;
+  //   const options = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //     }),
+  //     //body: model,
+  //      body: {
+  //       categoryId: categoryId,
+  //       name: name,
+  //      },
+  //   };
+  //   debugger;
+  //   return this.http.get<Recipe[]>(this.baseUrl + 'recipes/search', options)
+  // }
+
+  searchRecipes(model: any){
+    debugger;
+    // const options = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //   }),
+    //   body: model,
+    //     // body: {
+    //     // categoryId: categoryId,
+    //     // name: name,
+    //     // },
+    // };
+
+    return this.http.put<Recipe[]>(this.baseUrl + 'recipes/search', model)
+  }
 }

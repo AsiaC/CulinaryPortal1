@@ -1,3 +1,40 @@
+<div>
+
+    <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
+        <option [value]="null" selected disabled>Choose category</option>
+        <option *ngFor="let prf of allCategories" [value]="prf.id">
+            {{prf.name }}
+        </option>
+    </select> 
+
+    <select class="form-control" id="difficultyLevel" (change)="selectOptionVal=onChange($event.target.value)">
+        <option [value]="null" selected disabled>Choose difficulty level</option>
+        <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
+            {{difficultyLevel[diffName]}}       
+        </option> 
+    </select> 
+    
+    <select class="form-control" id="preparationTime" (change)="selectOptionVal=onChange($event.target.value)">
+        <option [value]="null" selected disabled>Choose preparation time</option>
+        <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
+            {{preparationTime[prepName]}}       
+        </option> 
+    </select>
+
+    <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="exact name">
+    <button type="button" class="btn btn-success" (click)="searchRecipes()">Search</button>
+    <button type="button" class="btn btn-default" (click)="clearSearch()">Clear</button>
+</div>
+
+
+<div *ngIf="isNoResults === true">   
+    <div class="card card-body">
+        No results.
+    </div>    
+</div>
+
+<hr>
+<p *ngIf="isNoResults === true">Prevoius search result</p>
 <div class="row">
     <div class="col-3" *ngFor="let recipe of recipes">
         <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
@@ -16,9 +53,6 @@
         </p>
     </div>
 </div> -->
-
-
-
 
 
 <!-- <div>

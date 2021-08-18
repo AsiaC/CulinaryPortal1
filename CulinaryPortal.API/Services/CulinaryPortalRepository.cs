@@ -1,5 +1,6 @@
 ﻿using CulinaryPortal.API.DbContexts;
 using CulinaryPortal.API.Entities;
+using CulinaryPortal.API.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,28 @@ namespace CulinaryPortal.API.Services
         //    _context.RecipeIngredients.Remove(recipeIngredient);
         //}
 
+        public async Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto)
+        {
+            IEnumerable<Recipe> query = await _context.Recipes
+                .Include(i => i.Instructions)
+                .Include(p => p.Photos) 
+                                        //.Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
+                .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .ToListAsync();
+
+            if (searchRecipeDto.CategoryId != null)
+            {
+                query = query.Where(r => r.CategoryId == searchRecipeDto.CategoryId);
+            }
+
+            if (!String.IsNullOrWhiteSpace(searchRecipeDto.Name)) 
+            {
+                query = query.Where(r => r.Name == searchRecipeDto.Name);
+            }
+           
+            return query;
+        }
         public async Task<int> CountAssociatedCookbooks(int recipeId) 
         {
             var numberAccosiatedCookbooks = await _context.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();

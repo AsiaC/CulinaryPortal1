@@ -59,9 +59,7 @@ export class UserCookbookComponent implements OnInit {
       }
       console.log(this.userFavouriteRecipes);
     }, error => {
-      debugger;
       if(error.status === 404){
-        debugger;
         this.userCookbook = undefined;
         this.userFavouriteRecipes = undefined;
       } 
@@ -69,7 +67,7 @@ export class UserCookbookComponent implements OnInit {
     })
   }
 
-  getAllCategories(){//debugger;
+  getAllCategories(){
     this.recipeService.getCategories().subscribe(allCategories => {
       this.allCategories = allCategories;
     }, error =>{
@@ -77,7 +75,7 @@ export class UserCookbookComponent implements OnInit {
     })
   }
 
-  removeFromCookbook(recipeId){    debugger;
+  removeFromCookbook(recipeId){   
     //this.cookbookRecipe.recipeId = recipeId;
     //this.cookbookRecipe.userId = this.user.id;
     //TODO note ponizej chyba do usuniecia?
@@ -85,21 +83,17 @@ export class UserCookbookComponent implements OnInit {
     
     this.cookbookService.removeRecipeFromCookbook(this.userCookbook.id, this.cookbookRecipe)
     .subscribe(response => {
-      debugger;
       console.log("success");
       this.toastr.success('Recipe removed successfully!');
       this.loadUserCookbook();
     }, error => {
-      debugger;
         console.log(error);
     })
   }
 
   deleteCookbook(cookbookId: number){
-    debugger;
     this.cookbookService.deleteCookbook(cookbookId)
     .subscribe(response => {
-      debugger;
       console.log(response);
       this.toastr.success('Cookbook removed successfully!');//to do do sprawdzenia   
       this.loadUserCookbook(); 
@@ -115,25 +109,22 @@ export class UserCookbookComponent implements OnInit {
     return event;
   }
 
-  searchRecipes(){ debugger;  
+  searchRecipes(){   
     this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: this.user.id}
 
     this.userService.searchUserCookbook(this.searchModel, this.user.id)
     .subscribe(response => {
-      debugger;
       this.isNoResults = false; 
       this.userFavouriteRecipes = response;    
       //this.userFavouriteRecipes = response.cookbookRecipes.map(x=>x.recipe);  
       this.toastr.success('Recipes filtered.');  
       }, error => {
-        debugger;
         console.log(error);   
         this.isNoResults = true;                   
     })
   }
 
   clearSearch(){
-    debugger;
     this.loadUserCookbook();
     this.isNoResults = false;        
   }  

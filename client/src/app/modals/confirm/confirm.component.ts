@@ -26,13 +26,12 @@ export class ConfirmComponent implements OnInit {
   ngOnInit(): void {    
   }
   
-  confirm(): void { debugger;
+  confirm(): void {
     this.message = this.objectName+' successfully deleted!';
 
     if(this.objectName ==='Recipe'){
       this.recipeService.deleteRecipe(this.idToRemove)
-      .subscribe(response => {
-        debugger;                     
+      .subscribe(response => {      
         //this.toastr.success('Recipe removed successfully!');//to do do sprawdzenia   
         //jakieś kilka sekund opóźnienia? albo zamiast toast to modal potwierdzajacy?
         //window.location.href='http://localhost:4200/recipes'; 

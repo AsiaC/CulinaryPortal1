@@ -17,7 +17,6 @@ export class CookbookListComponent implements OnInit {
   }
 
   loadCookbooks(){
-    //debugger;
     this.cookbookService.getCookbooks().subscribe(cookbooks => {
       this.cookbooks = cookbooks;
     }, error => {

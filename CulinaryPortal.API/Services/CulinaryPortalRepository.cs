@@ -143,25 +143,7 @@ namespace CulinaryPortal.API.Services
             _context.Recipes.Add(recipe);
 
         }
-        //public void AddRecipeIngredient(RecipeIngredient recipeIngredient)
-        //{
-        //    if (recipeIngredient == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(recipeIngredient));
-        //    }
-
-        //    _context.RecipeIngredients.Add(recipeIngredient);
-        //}
-        //public void UpdateRecipeIngredient(RecipeIngredient recipeIngredient)
-        //{
-        //    _context.Entry(recipeIngredient).State = EntityState.Modified;
-        //}
-
-        //public void DeleteRecipeIngredient(RecipeIngredient recipeIngredient)
-        //{            
-        //    _context.RecipeIngredients.Remove(recipeIngredient);
-        //}
-
+        
         public async Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto)
         {
             IEnumerable<Recipe> query = await _context.Recipes
@@ -170,6 +152,7 @@ namespace CulinaryPortal.API.Services
                                         //.Include(cr => cr.CookbookRecipes).ThenInclude(c => c.Cookbook)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .Include(c => c.Category)
                 .ToListAsync();
 
             if (searchRecipeDto.UserId != null)
@@ -184,7 +167,7 @@ namespace CulinaryPortal.API.Services
 
             if (searchRecipeDto.PreparationTimeId != null)
             {
-                query = query.Where(r => (int)r.PreparationTime == searchRecipeDto.PreparationTimeId);
+                query = query.Where(r => (int)r.PreparationTime <= searchRecipeDto.PreparationTimeId);
             }
 
             if (searchRecipeDto.DifficultyLevelId != null)
@@ -531,7 +514,7 @@ namespace CulinaryPortal.API.Services
 
             if (searchRecipeDto.PreparationTimeId != null)
             {
-                query = query.Where(r => (int)r.PreparationTime == searchRecipeDto.PreparationTimeId);
+                query = query.Where(r => (int)r.PreparationTime <= searchRecipeDto.PreparationTimeId);
             }
 
             if (searchRecipeDto.DifficultyLevelId != null)

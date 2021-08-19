@@ -47,8 +47,7 @@ export class RecipeNewFormComponent implements OnInit {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
-  ngOnInit(): void {//debugger;
-    //this.id = this.route.snapshot.params['id'];
+  ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     this.isAddMode = !this.id;
     
@@ -62,20 +61,10 @@ export class RecipeNewFormComponent implements OnInit {
     }    
   }
   loadRecipe(){
-    debugger;
-console.log(this.difficultyLevelKeys);
-console.log(this.difficultyLevel);
-console.log(this.preparationTimeKeys);
-console.log(this.preparationTime);
-console.log(this.addRecipeForm.value);
-
     this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
     .pipe(first())
     .subscribe(recipe =>{      
       this.recipe = recipe; 
-      debugger;
-      console.log(recipe.id)
-      //this.addRecipeForm.patchValue(recipe)
       this.addRecipeForm.patchValue({
         id: recipe.id,
         name: recipe.name,
@@ -96,7 +85,7 @@ console.log(this.addRecipeForm.value);
       
       //this.addRecipeForm.setControl('instructions', this.fb.array(this.recipe.instructions || []));
       //this.addRecipeForm.setControl('recipeIngredients', this.fb.array(this.recipe.recipeIngredients || []));      
-      debugger;
+
       var recipeIngredientsArray = [];
       this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
         quantity: recipeIngredient.quantity,
@@ -112,7 +101,6 @@ console.log(this.addRecipeForm.value);
           
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
-    debugger;
     }, error => {
       console.log(error);
     });
@@ -123,9 +111,7 @@ console.log(this.addRecipeForm.value);
     // this.recipesService.getRecipe(Number(this.id))
     //             .pipe(first())
     //             .subscribe(x => {
-    //               debugger;
     //               this.addRecipeForm.patchValue(x)
-    //               debugger;
     //             });
 
                 // this.userService.editUserBlog(id).pipe(first()).subscribe(user => {
@@ -195,38 +181,32 @@ console.log(this.addRecipeForm.value);
     this.instructions.removeAt(i);
   }
 
-  getAllCategories(){//debugger;
+  getAllCategories(){
     this.recipesService.getCategories().subscribe(allCategories => {
       this.allCategories = allCategories;
-      //debugger;
-      //console.log(allCategories);
     }, error =>{
       console.log(error);
     })
   }
 
-  getAllIngredients(){//debugger;
+  getAllIngredients(){
     this.recipesService.getIngredients().subscribe(allIngredients => {
       this.allIngredients = allIngredients;
-      //debugger;
       //console.log(allCategories);
     }, error =>{
       console.log(error);
     })
   }  
 
-  getAllMeasures(){//debugger;
+  getAllMeasures(){
     this.recipesService.getMeasures().subscribe(allMeasures => {
       this.allMeasures = allMeasures;
-      //debugger;
-      //console.log(allCategories);
     }, error =>{
       console.log(error);
     })
   }
 
   createNewRecipe(){
-    debugger;
     console.log("create new recipe");
     console.log(this.addRecipeForm.value);
     console.log(this.submitted);
@@ -259,7 +239,6 @@ console.log(this.addRecipeForm.value);
         //ingredient: this.allIngredients.find(({id}) => id === recipeIngredient.ingredientId)
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
-    //debugger;
     if(this.isAddMode){
       this.createNewRecipe();
     }
@@ -269,7 +248,6 @@ console.log(this.addRecipeForm.value);
     
   }
   private updateRecipe() {
-    debugger;
     //this.recipesService.updateRecipe(this.member).subscribe(() => {
       //this.toastr.success('Profile updated successfully');
       //this.editForm.reset(this.member);
@@ -294,7 +272,6 @@ console.log(this.addRecipeForm.value);
             //this.toastr.success('Profile updated successfully');
             this.recipe=this.addRecipeForm.value;
             this.isAddMode = false;
-            debugger;           
             this.addRecipeForm.reset(this.recipe);
             window.location.reload();
           }, error => {

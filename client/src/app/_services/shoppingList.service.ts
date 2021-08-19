@@ -23,11 +23,9 @@ import { ShoppingList } from '../_models/shoppingList';
 
     getShoppingList(shoppingList: number): Observable<ShoppingList> {
         return this.http.get<ShoppingList>(this.baseUrl + 'shoppingLists/' + shoppingList);
-        debugger;
     }
 
     addShoppingList(model: any){
-        debugger;
             return this.http.post(this.baseUrl + 'shoppingLists', model).pipe(
               map((shoppingList: ShoppingList) => {
             })
@@ -35,7 +33,6 @@ import { ShoppingList } from '../_models/shoppingList';
     }
 
     updateShoppingList(shoppingListId: string, model: any){ 
-      //debugger;       
             return this.http.put(this.baseUrl + 'shoppingLists/' + shoppingListId, model).pipe(
               map((shoppingList: ShoppingList) => { 
             })
@@ -43,12 +40,10 @@ import { ShoppingList } from '../_models/shoppingList';
     }
 
     addRecipeIngredients(shoppingListId: string, shoppingListDto: any){
-        debugger;
         return this.http.put(this.baseUrl + 'shoppinglists/' + shoppingListId + '/addrecipeingredients', shoppingListDto);
     }
 
     deleteShoppingList(shoppingListId: number){
-      debugger;
       const options = {   
         headers: new HttpHeaders({
           'Content-Type': 'application/json',

@@ -47,7 +47,7 @@ export class RecipeListComponent implements OnInit {
     })
   }
 
-  getAllCategories(){//debugger;
+  getAllCategories(){
     this.recipeService.getCategories().subscribe(allCategories => {
       this.allCategories = allCategories;
     }, error =>{
@@ -55,7 +55,7 @@ export class RecipeListComponent implements OnInit {
     })
   }
 
-  searchRecipes(){ debugger;
+  searchRecipes(){ 
     console.log(this.searchByName);
     console.log(this.selectOptionVal);
     console.log(this.selectedDifficultyLevel);
@@ -66,19 +66,16 @@ export class RecipeListComponent implements OnInit {
 
     this.recipeService.searchRecipes(this.searchModel)
     .subscribe(response => {
-      debugger;
       this.isNoResults = false; 
       this.title = "Filtered recipes";
       this.recipes = response;
       this.toastr.success('Recipes filtered.');  
       }, error => {
-        debugger;
         console.log(error);   
         this.isNoResults = true;                   
     })
   }
   clearSearch(){
-    debugger;
     this.loadRecipes();
     this.isNoResults = false;        
   }

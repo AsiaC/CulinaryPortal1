@@ -201,16 +201,23 @@ namespace CulinaryPortal.API.Controllers
         [HttpDelete()]
         public async Task<ActionResult> DeleteShoppingList([FromBody] int shoppingListId)
         {
-            var shoppingListFromRepo = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);            
-            if (shoppingListFromRepo == null)
+            try
             {
-                return NotFound();
+                var shoppingListFromRepo = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);            
+                if (shoppingListFromRepo == null)
+                {
+                    return NotFound();
+                }
+
+                _culinaryPortalRepository.DeleteShoppingList(shoppingListFromRepo);
+                await _culinaryPortalRepository.SaveChangesAsync();
+
+                return Ok();
             }
-
-            _culinaryPortalRepository.DeleteShoppingList(shoppingListFromRepo);
-            _culinaryPortalRepository.Save();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
     }
 }

@@ -44,20 +44,18 @@ export class UserRecipesComponent implements OnInit {
   }
 
   loadUserRecipes(){
-//debugger;
     console.log(this.user);
     this.userService.getUserRecipes(this.user.id).subscribe(userRecipes=>{
-      this.userRecipes = userRecipes;      
-      debugger;
+      this.userRecipes = userRecipes;  
       console.log(this.userRecipes);
-    }, error =>{ debugger;
+    }, error =>{ 
       if(error.status === 404){
         this.userRecipes = undefined;
       } 
       console.log(error);
     })
   }
-  getAllCategories(){//debugger;
+  getAllCategories(){
     this.recipeService.getCategories().subscribe(allCategories => {
       this.allCategories = allCategories;
     }, error =>{
@@ -66,28 +64,23 @@ export class UserRecipesComponent implements OnInit {
   }
 
   addRecipe(){
-    //debugger;
-    //this.router.navgateURL(['/recipes']);
     this.addNewMode = !this.addNewMode;
   }
 
-  searchRecipes(){ debugger;  
+  searchRecipes(){  
     this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: this.user.id}
 
     this.userService.searchUserRecipes(this.searchModel, this.user.id)
     .subscribe(response => {
-      debugger;
       this.isNoResults = false; 
       this.userRecipes = response;
       this.toastr.success('Recipes filtered.');  
       }, error => {
-        debugger;
         console.log(error);   
         this.isNoResults = true;                   
     })
   }
   clearSearch(){
-    debugger;
     this.loadUserRecipes();
     this.isNoResults = false;        
   }

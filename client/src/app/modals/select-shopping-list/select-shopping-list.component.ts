@@ -32,7 +32,6 @@ export class SelectShoppingListComponent implements OnInit {
   }
 
   confirmAddingIngredients(){
-    debugger;
     console.log(this.newShoppingListName);
     console.log(this.selectOptionVal);
     //this.shoppingListDto.id = this.selectOptionVal;    
@@ -53,7 +52,6 @@ export class SelectShoppingListComponent implements OnInit {
 
         this.shoppingListService.updateShoppingList(this.selectOptionVal, this.shoppingListDto)
         .subscribe(response => {
-          debugger;
           console.log(response);
             this.toastr.success('Success. Ingredients added to the list.');        
         }, error => {
@@ -64,7 +62,7 @@ export class SelectShoppingListComponent implements OnInit {
       }
     }
     else if (this.readioSelected === 'radio2'){
-      if(this.newShoppingListName !== null){ debugger;
+      if(this.newShoppingListName !== null){ 
         //dodaj do nowej
         var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId};
 

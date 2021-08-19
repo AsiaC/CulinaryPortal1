@@ -92,7 +92,7 @@ namespace CulinaryPortal.API.Controllers
 
             _culinaryPortalRepository.SaveChangesAsync();
             //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
-            return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);            
+            return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
             //return Ok(recipe);
         }
 
@@ -100,16 +100,23 @@ namespace CulinaryPortal.API.Controllers
         [HttpDelete("{recipeId}")]
         public async Task<ActionResult> DeleteRecipe(int recipeId)
         {
-            var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
-            if (recipeFromRepo == null)
+            try
             {
-                return NotFound(); //TODO DO OBSŁUŻENIA
-            }
-            
-            _culinaryPortalRepository.DeleteRecipe(recipeFromRepo);
-            _culinaryPortalRepository.Save();
+                var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+                if (recipeFromRepo == null)
+                {
+                    return NotFound(); //TODO DO OBSŁUŻENIA
+                }
 
-            return Ok();
+                _culinaryPortalRepository.DeleteRecipe(recipeFromRepo);
+                await _culinaryPortalRepository.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         // PUT: api/recipes/5
@@ -126,38 +133,38 @@ namespace CulinaryPortal.API.Controllers
                 return BadRequest();
             }
             try
-            { 
+            {
                 var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
                 if (checkIfRecipeExists == false)
                 {
                     return NotFound();
                 }
-                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);                
+                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
 
-                if (existingRecipe.Name != recipeDto.Name) 
+                if (existingRecipe.Name != recipeDto.Name)
                     existingRecipe.Name = recipeDto.Name;
-                if (existingRecipe.Description != recipeDto.Description) 
+                if (existingRecipe.Description != recipeDto.Description)
                     existingRecipe.Description = recipeDto.Description;
-                if (existingRecipe.DifficultyLevel != recipeDto.DifficultyLevel) 
+                if (existingRecipe.DifficultyLevel != recipeDto.DifficultyLevel)
                     existingRecipe.DifficultyLevel = recipeDto.DifficultyLevel;
-                if (existingRecipe.PreparationTime != recipeDto.PreparationTime) 
-                    existingRecipe .PreparationTime = recipeDto.PreparationTime;
+                if (existingRecipe.PreparationTime != recipeDto.PreparationTime)
+                    existingRecipe.PreparationTime = recipeDto.PreparationTime;
                 if (existingRecipe.CategoryId != recipeDto.CategoryId)
                     existingRecipe.CategoryId = recipeDto.CategoryId;
                 //Rate, photos
 
                 //Instructions
                 List<Instruction> copyExInstructions = new List<Instruction>();
-                copyExInstructions.AddRange(existingRecipe.Instructions);                
+                copyExInstructions.AddRange(existingRecipe.Instructions);
                 foreach (var exInstruction in copyExInstructions)
                 {
                     var checkIfInstructionExist = recipeDto.Instructions.Any(i => i.Id == exInstruction.Id);
                     if (checkIfInstructionExist)
                     {
                         var instructionDto = recipeDto.Instructions.FirstOrDefault(i => i.Id == exInstruction.Id);
-                        if(exInstruction.Name != instructionDto.Name)
+                        if (exInstruction.Name != instructionDto.Name)
                             exInstruction.Name = instructionDto.Name;
-                        if(exInstruction.Description != instructionDto.Description)
+                        if (exInstruction.Description != instructionDto.Description)
                             exInstruction.Description = instructionDto.Description;
                     }
                     else
@@ -171,13 +178,13 @@ namespace CulinaryPortal.API.Controllers
                 var newInstructions = recipeDto.Instructions.Where(i => !existingInstructionIds.Contains(i.Id));
                 foreach (var newInstruction in newInstructions)
                 {//todo moze mozna uzywać mapera?
-                    var newToAdd = new Instruction() 
+                    var newToAdd = new Instruction()
                     {
                         Name = newInstruction.Name,
                         Description = newInstruction.Description
                     };
-                    existingRecipe.Instructions.Add(newToAdd);                       
-                   
+                    existingRecipe.Instructions.Add(newToAdd);
+
                     //_culinaryPortalRepository.AddInstruction(newInstruction);
                 }
 
@@ -257,8 +264,8 @@ namespace CulinaryPortal.API.Controllers
 
             }
             await _culinaryPortalRepository.SaveChangesAsync();
-            
-            
+
+
             //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
 
             //    //one user only one cookbook   
@@ -296,7 +303,7 @@ namespace CulinaryPortal.API.Controllers
                 //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
                 //throw;
             }
-            
+
         }
     }
 }

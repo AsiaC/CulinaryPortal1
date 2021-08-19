@@ -61,16 +61,23 @@ namespace CulinaryPortal.API.Controllers
         [HttpDelete("{ingredientId}")]
         public async Task<ActionResult> DeleteIngredient(int ingredientId)
         {
-            var ingredientFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
-            if (ingredientFromRepo == null)
+            try
             {
-                return NotFound();
+                var ingredientFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
+                if (ingredientFromRepo == null)
+                {
+                    return NotFound();
+                }
+
+                _culinaryPortalRepository.DeleteIngredient(ingredientFromRepo);
+                await _culinaryPortalRepository.SaveChangesAsync();
+
+                return Ok();
             }
-
-            _culinaryPortalRepository.DeleteIngredient(ingredientFromRepo);
-            _culinaryPortalRepository.Save();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
 

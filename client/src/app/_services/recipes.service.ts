@@ -22,18 +22,11 @@ export class RecipesService {
 
   getRecipe(recipe: number): Observable<Recipe> {
     return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipe);
-    debugger;
   }
 
   addRecipe(model: any){
-debugger;
     return this.http.post(this.baseUrl + 'recipes', model).pipe(
-      map((recipe: Recipe) => {
-        
-debugger;
-        //recipe //???
-        //return recipe;
-      })
+      map((recipe: Recipe) => recipe)
     )    
   }
 
@@ -49,54 +42,20 @@ debugger;
     return this.http.get<Measure[]>(this.baseUrl + 'measures');
   }
 
-  updateRecipe(recipeId: string, model: any){    
-    //return this.http.put(this.baseUrl + 'recipes/' + recipeId, model);
-
+  updateRecipe(recipeId: string, model: any){ 
         return this.http.put(this.baseUrl + 'recipes/' + recipeId, model).pipe(
-          map((recipe: Recipe) => { 
-          })
+          map((recipe: Recipe) => recipe)
         )    
   }
 
   // addRecipeIngredients(shoppingListDto: any){
-  //   debugger;
-  //   return this.http.put(this.baseUrl + 'recipes/addRecipeIngredients', shoppingListDto);
+   //   return this.http.put(this.baseUrl + 'recipes/addRecipeIngredients', shoppingListDto);
   // }
  
   deleteRecipe(recipeId: number){
-    debugger;    
     return this.http.delete(this.baseUrl + 'recipes/'+ recipeId)
   }
-
-  // searchRecipes(categoryId: number, name: string){
-  //   debugger;
-  //   const options = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //     }),
-  //     //body: model,
-  //      body: {
-  //       categoryId: categoryId,
-  //       name: name,
-  //      },
-  //   };
-  //   debugger;
-  //   return this.http.get<Recipe[]>(this.baseUrl + 'recipes/search', options)
-  // }
-
   searchRecipes(model: any){
-    debugger;
-    // const options = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type': 'application/json',
-    //   }),
-    //   body: model,
-    //     // body: {
-    //     // categoryId: categoryId,
-    //     // name: name,
-    //     // },
-    // };
-
     return this.http.put<Recipe[]>(this.baseUrl + 'recipes/search', model)
   }
 }

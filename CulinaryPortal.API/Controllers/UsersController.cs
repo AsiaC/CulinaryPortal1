@@ -26,12 +26,6 @@ namespace CulinaryPortal.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        //[HttpGet]
-        //public IActionResult GetUsers()
-        //{
-        //    var authorsFromRepo = _culinaryPortalRepository.GetUsers();
-        //    return new JsonResult(authorsFromRepo);
-        //}
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
@@ -40,11 +34,6 @@ namespace CulinaryPortal.API.Controllers
             var users = _mapper.Map<IEnumerable<UserDto>>(usersFromRepo);
             return Ok(users);
         }
-        //public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        //{
-        //    var usersFromRepo = await _culinaryPortalRepository.GetUsersAsync();
-        //    return Ok(usersFromRepo);
-        //}
 
         //[Authorize] to poźniej dodam
         [HttpGet("{userId}", Name = "GetUser")]
@@ -72,14 +61,21 @@ namespace CulinaryPortal.API.Controllers
         [HttpDelete("userId")]
         public async Task<ActionResult> DeleteUser(int userId)
         {
-            var userFromRepo = await _culinaryPortalRepository.GetUserAsync(userId);
-            if (userFromRepo == null)
+            try
             {
-                return NotFound();
+                var userFromRepo = await _culinaryPortalRepository.GetUserAsync(userId);
+                if (userFromRepo == null)
+                {
+                    return NotFound();
+                }
+                _culinaryPortalRepository.DeleteUser(userFromRepo);
+                await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
             }
-            _culinaryPortalRepository.DeleteUser(userFromRepo);
-            _culinaryPortalRepository.Save();
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         // GET: api/users/3/cookbook
@@ -91,32 +87,6 @@ namespace CulinaryPortal.API.Controllers
             {
                 return NotFound();
             }
-
-            // var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
-
-            ////if automapper not work :(
-            //if (cookbook.Recipes?.Count != cookbookFromRepo.CookbookRecipes.Count) 
-            //{
-            //    foreach (var cookbookRecipe in cookbookFromRepo.CookbookRecipes)
-            //    {
-            //        var recipeToAdd = _mapper.Map<RecipeDto>(cookbookRecipe.Recipe);
-            //        cookbook.Recipes.Add(recipeToAdd);
-            //    }
-            //}
-
-            //var cookbook = new CookbookDto()
-            //{
-            //    Id = cookbookFromRepo.Id,
-            //    Name = cookbookFromRepo.Name,
-            //    Description = cookbookFromRepo.Description,
-            //    UserId = cookbookFromRepo.UserId,
-            //};
-            //foreach (var cookbookRecipe in cookbookFromRepo.CookbookRecipes)
-            //{
-            //    var recipeToAdd = _mapper.Map<RecipeDto>(cookbookRecipe.Recipe);
-            //    cookbook.Recipes.Add(recipeToAdd);
-            //}
-
             var cookbook = _mapper.Map<CookbookDto>(cookbookFromRepo);
 
             return Ok(cookbook);
@@ -191,7 +161,7 @@ namespace CulinaryPortal.API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);                
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
 

@@ -33,32 +33,26 @@ export class UsersService {
   }
 
   updateUser(user: User) {
-
     return this.http.put(this.baseUrl + 'users', user);
   }
 
   getUserRecipes(user:number){
-    //debugger;    
     return this.http.get<Recipe[]>(this.baseUrl + 'users/' + user + '/recipes');
   }
 
   getUserCookbook(user:number){
-    //debugger;    
     return this.http.get<Cookbook>(this.baseUrl + 'users/' + user + '/cookbook');
   }
 
   getUserShoppingLists(user:number){
-    //debugger;    
     return this.http.get<ShoppingList[]>(this.baseUrl + 'users/' + user + '/shoppingLists');
   }
 
   searchUserRecipes(model: any, user:number){
-    debugger;    
     return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/recipes/search', model)
   }
 
   searchUserCookbook(model: any, user:number){
-    debugger;    
     return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/cookbook/search', model)
   }
 }

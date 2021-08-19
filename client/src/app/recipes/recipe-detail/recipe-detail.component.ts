@@ -40,23 +40,12 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRecipe();
-    //this.loadCookbook();  
-    this.loadShoppingListsIds();
-    debugger;
-    console.log(this.user);
-    console.log(this.userCookbook);
+    this.loadShoppingListsIds();    
   }
 
   loadRecipe(){
-    debugger;
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      debugger;
-      this.currentRecipe = recipe;       
-      debugger; 
-      //console.log(recipe);
-      //console.log(this.user);
-      // console.log(recipe.difficultyLevel);
-      // console.log(recipe.preparationTime); 
+      this.currentRecipe = recipe; 
       this.loadCookbook();
     }, error => {
       console.log(error);
@@ -64,30 +53,8 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadCookbook(){
-    //debugger;
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
-      this.userCookbook = userCookbook;
-      debugger;      
-      console.log("loadCookbook");
-      console.log(this.userCookbook);
-      console.log(this.currentRecipe);
-      // if(this.userCookbook !== undefined){
-      //   var allRecipe = this.userCookbook.recipes;
-      //  console.log(allRecipe);
-      //  var a = this.userCookbook.recipes.find(e=>e.id === this.recipe.id);
-      //   if(a !== undefined) {
-      //     this.canAddToCookbook = false;
-      //   }
-      // }
-
-      // if(this.userCookbook !== undefined){
-      //   if(this.userCookbook.recipes !== undefined){ //spr co gdy użytkownik nie ma cookbook wcale, albo gdy nie ma ani jednego przepisu w cookbook
-      //     var recipeInCookbook = this.userCookbook.recipes.find(r=>r.id === this.recipe.id);
-      //     if(recipeInCookbook !== undefined) {
-      //       this.canAddToCookbook = false;
-      //     }
-      //   }
-      // }
+      this.userCookbook = userCookbook;  
 
       if(this.userCookbook !== undefined){
         if(this.userCookbook.cookbookRecipes !== undefined){
@@ -103,12 +70,9 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadShoppingListsIds(){
-    //debugger; //potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
+    ////potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
-      this.userShoppingLists = userShoppingLists;
-      //debugger;      
-      //console.log("loadShoppingListsIds");
-      //console.log(this.userShoppingLists);           
+      this.userShoppingLists = userShoppingLists;              
     }, error => {
       console.log(error);
     })
@@ -118,8 +82,7 @@ export class RecipeDetailComponent implements OnInit {
     this.editRecipe = true;
   }
 
-  addToCookbook(){  
-    debugger;
+  addToCookbook(){ 
     console.log(this.user);
     console.log(this.userCookbook);
 
@@ -132,8 +95,7 @@ export class RecipeDetailComponent implements OnInit {
         //modal + utowrz nową + 1 powiazanie
         //this.cookbookRecipe.recipeId = this.currentRecipe.id;
         //this.cookbookRecipe.userId = this.user.id;  
-        this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
-    
+        this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: 0, note: null, recipe: this.currentRecipe}
         const initialState = {     
           title: 'Create cookbook and add indicated recipe', 
           userId: this.user.id,
@@ -158,7 +120,7 @@ export class RecipeDetailComponent implements OnInit {
     }
   }
 
-  removeFromCookbook(){debugger;
+  removeFromCookbook(){
     //this.cookbookRecipe.recipeId = this.currentRecipe.id;
     //this.cookbookRecipe.userId = this.user.id;
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
@@ -187,7 +149,7 @@ export class RecipeDetailComponent implements OnInit {
     this.bsModalRef.content.submitBtnName = 'Confirm adding ingredients';
   }
 
-  deleteRecipe(){debugger;
+  deleteRecipe(){
     //check if recipe is inside in cookbook if yes user cannot delete recipe
     
 

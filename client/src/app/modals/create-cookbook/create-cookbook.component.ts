@@ -27,16 +27,21 @@ export class CreateCookbookComponent implements OnInit {
   }
 
   confirmAddingIngredients(){
-    debugger;
     //create cookbook and do relations
     //this.cookbookService //czy tu powinna byc jakaś metoda create popatrz nak w przypadku listy zrobiłam
     var recipes = [];
     recipes.push(this.currentRecipe);
-    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: recipes};
+    //var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: recipes};
+    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: []};
+    
     this.cookbookService.addCookbook(cookbookToCreate)
-    .subscribe(response => {
-      this.toastr.success('Cookbook created and rcipe added successfully!');
-    }, error => {
+    .subscribe(response => {      
+      this.currentRecipe.cookbookId = response.id;      
+      this.cookbookService.addRecipeToCookbook(this.currentRecipe)
+      .subscribe(response => {
+        this.toastr.success('Cookbook created and recipe added successfully!');
+        })
+    }, error => {      
       console.log(error);
     })
     this.bsModalRef.hide();

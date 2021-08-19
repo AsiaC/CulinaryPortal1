@@ -30,13 +30,9 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   loadUserShoppingLists(){
-    //debugger;
-    console.log(this.user);
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists=>{
       this.userShoppingLists = userShoppingLists;
-      //debugger;
     }, error =>{
-      debugger;
       if(error.status === 404){
         this.userShoppingLists = undefined;
       }            
@@ -48,12 +44,12 @@ export class UserShoppingListsComponent implements OnInit {
     this.addNewListMode = !this.addNewListMode;
   }
 
-  editShoppingList(shoppingListId)  {//debugger;
+  editShoppingList(shoppingListId)  {
     this.selectedShoppingListId = shoppingListId;
     this.addNewListMode = true;
   }
 
-  deleteShoppingList(shoppingListId) { //debugger;
+  deleteShoppingList(shoppingListId) {
     //delete list and items and refresh site
     // const initialState = {  
     //   title: 'Are you sure that you would like to delete indicated shopping list?',      
@@ -70,8 +66,6 @@ export class UserShoppingListsComponent implements OnInit {
     //ponizsze rozwiazanie jest lepsze zamiast modale potwierdzającego bo nie trzeba przeładowywać strony tylko nika lista z ekranu, ale nie ma modala.
     this.shoppingListService.deleteShoppingList(shoppingListId)
       .subscribe(response => {
-        debugger;
-        console.log(response);
         this.toastr.success('Shopping list removed successfully!');
         this.loadUserShoppingLists(); 
       }, error => {

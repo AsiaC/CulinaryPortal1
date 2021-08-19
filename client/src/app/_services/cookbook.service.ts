@@ -27,7 +27,6 @@ export class CookbookService {
     }
     
     removeRecipeFromCookbook(cookbookId: number, model: CookbookRecipe){
-        debugger;
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, model).pipe(
             map((cookbook: Cookbook) => { 
           })
@@ -35,7 +34,6 @@ export class CookbookService {
     }
 
     deleteCookbook(cookbookId: number){
-        debugger;
         const options = {   
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -45,12 +43,9 @@ export class CookbookService {
         return this.http.delete(this.baseUrl + 'cookbooks', options)
       }
 
-    addCookbook(model: Cookbook){
-        debugger;
+    addCookbook(model: Cookbook){               
         return this.http.post(this.baseUrl + 'cookbooks', model).pipe(
-            map((cookbook: Cookbook) => {
-
-            })
+            map((cookbook: Cookbook) => cookbook)
         )
     }
 }

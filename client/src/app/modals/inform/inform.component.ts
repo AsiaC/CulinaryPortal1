@@ -16,7 +16,7 @@ export class InformComponent implements OnInit {
   }
 
   ok(){
-    if(this.objectName ==='Recipe'){//debugger; TODO localhost moze trzeba zamienic jakoś ?
+    if(this.objectName ==='Recipe'){// TODO localhost moze trzeba zamienic jakoś ?
       window.location.href='http://localhost:4200/recipes';         
     }
     this.bsModalRef.hide();

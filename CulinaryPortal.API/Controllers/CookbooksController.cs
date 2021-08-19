@@ -70,7 +70,7 @@ namespace CulinaryPortal.API.Controllers
         //api/cookbooks/5
         [HttpPost]
         public async Task<ActionResult<Cookbook>> CreateCookbook([FromBody] CookbookDto cookbookDto)
-        {//TODO try catch
+        {
             try
             {
                 var cookbook = _mapper.Map<Cookbook>(cookbookDto);
@@ -81,8 +81,7 @@ namespace CulinaryPortal.API.Controllers
             }
             catch (Exception e) 
             {
-                var a = e;
-                return NoContent();
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
 
         }
@@ -120,9 +119,9 @@ namespace CulinaryPortal.API.Controllers
                 }
 
                 _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
-                _culinaryPortalRepository.Save();
+                await _culinaryPortalRepository.SaveChangesAsync();
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception e)
             {

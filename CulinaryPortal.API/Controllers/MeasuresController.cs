@@ -59,16 +59,23 @@ namespace CulinaryPortal.API.Controllers
         [HttpDelete("{measureId}")]
         public async Task<ActionResult> DeleteMeasure(int measureId)
         {
-            var measureFromRepo =await _culinaryPortalRepository.GetMeasureAsync(measureId);
-            if (measureFromRepo == null)
+            try
             {
-                return NotFound();
+                var measureFromRepo =await _culinaryPortalRepository.GetMeasureAsync(measureId);
+                if (measureFromRepo == null)
+                {
+                    return NotFound();
+                }
+
+                _culinaryPortalRepository.DeleteMeasure(measureFromRepo);
+                await _culinaryPortalRepository.SaveChangesAsync();
+
+                return Ok();
             }
-
-            _culinaryPortalRepository.DeleteMeasure(measureFromRepo);
-            _culinaryPortalRepository.Save();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
     }

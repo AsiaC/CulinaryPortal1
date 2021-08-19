@@ -3,10 +3,11 @@
 </div>
 
 <div *ngIf="addNewListMode == false">
-    <h1>User's Shopping Lists</h1>
-    <button class="btn btn-success mb-4" (click)="addShoppingList()">Add new shopping list</button>
+    <h4>My shopping lists</h4>
+    <br/>
+    <button class="btn btn-success mb-4" (click)="addShoppingList()">Create new shopping list</button>
     
-    <div class="row">
+    <div class="row" *ngIf="userShoppingLists">
         <table class="table table-stripped">
             <thead>
                 <tr>                    
@@ -36,5 +37,11 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="!userShoppingLists">
+        <div class="alert alert-warning" role="alert">
+            User does not have any shopping lists yet. 
+        </div>
     </div>
 </div>      

@@ -28,8 +28,6 @@ const routes: Routes = [
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
     {path: 'shoppingLists', component: ShopingListListComponent},
-    
-    //
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

@@ -40,15 +40,20 @@ export class UserRecipesComponent implements OnInit {
   ngOnInit(): void {
     this.loadUserRecipes();
     this.getAllCategories();
+    console.log(this.userRecipes);
   }
 
   loadUserRecipes(){
 //debugger;
     console.log(this.user);
     this.userService.getUserRecipes(this.user.id).subscribe(userRecipes=>{
-      this.userRecipes = userRecipes;
+      this.userRecipes = userRecipes;      
       debugger;
-    }, error =>{
+      console.log(this.userRecipes);
+    }, error =>{ debugger;
+      if(error.status === 404){
+        this.userRecipes = undefined;
+      } 
       console.log(error);
     })
   }

@@ -13,6 +13,7 @@ import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
 import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
+import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -22,7 +23,8 @@ import { RecipesService } from 'src/app/_services/recipes.service';
 export class UserCookbookComponent implements OnInit {
   userCookbook: Cookbook;
   user: User;
-  cookbookRecipe: any = {recipeId: null, userId: null};  
+  //cookbookRecipe: any = {recipeId: null, userId: null};  
+  cookbookRecipe: CookbookRecipe;
   userFavouriteRecipes: Recipe[];
   searchByName: string = null; 
   selectOptionVal: any;
@@ -50,9 +52,19 @@ export class UserCookbookComponent implements OnInit {
   loadUserCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
+      if(userCookbook.cookbookRecipes.length > 0){
       this.userFavouriteRecipes = userCookbook.cookbookRecipes.map(x=>x.recipe);
+      } else {
+        this.userFavouriteRecipes = undefined;
+      }
       console.log(this.userFavouriteRecipes);
     }, error => {
+      debugger;
+      if(error.status === 404){
+        debugger;
+        this.userCookbook = undefined;
+        this.userFavouriteRecipes = undefined;
+      } 
       console.log(error);
     })
   }
@@ -66,16 +78,33 @@ export class UserCookbookComponent implements OnInit {
   }
 
   removeFromCookbook(recipeId){    debugger;
-    this.cookbookRecipe.recipeId = recipeId;
-    this.cookbookRecipe.userId = this.user.id;
-
-    this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
+    //this.cookbookRecipe.recipeId = recipeId;
+    //this.cookbookRecipe.userId = this.user.id;
+    //TODO note ponizej chyba do usuniecia?
+    this.cookbookRecipe = {recipeId: recipeId, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: null}
+    
+    this.cookbookService.removeRecipeFromCookbook(this.userCookbook.id, this.cookbookRecipe)
     .subscribe(response => {
+      debugger;
       console.log("success");
       this.toastr.success('Recipe removed successfully!');
       this.loadUserCookbook();
     }, error => {
+      debugger;
         console.log(error);
+    })
+  }
+
+  deleteCookbook(cookbookId: number){
+    debugger;
+    this.cookbookService.deleteCookbook(cookbookId)
+    .subscribe(response => {
+      debugger;
+      console.log(response);
+      this.toastr.success('Cookbook removed successfully!');//to do do sprawdzenia   
+      this.loadUserCookbook(); 
+    }, error => {
+       console.log(error);                      
     })
   }
 
@@ -107,5 +136,5 @@ export class UserCookbookComponent implements OnInit {
     debugger;
     this.loadUserCookbook();
     this.isNoResults = false;        
-  }
+  }  
 }

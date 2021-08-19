@@ -36,6 +36,10 @@ export class UserShoppingListsComponent implements OnInit {
       this.userShoppingLists = userShoppingLists;
       //debugger;
     }, error =>{
+      debugger;
+      if(error.status === 404){
+        this.userShoppingLists = undefined;
+      }            
       console.log(error);
     })
   }
@@ -68,7 +72,7 @@ export class UserShoppingListsComponent implements OnInit {
       .subscribe(response => {
         debugger;
         console.log(response);
-        this.toastr.success('Shopping list removed successfully!');//to do do sprawdzenia   
+        this.toastr.success('Shopping list removed successfully!');
         this.loadUserShoppingLists(); 
       }, error => {
          console.log(error);                      

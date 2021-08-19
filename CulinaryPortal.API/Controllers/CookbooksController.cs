@@ -87,22 +87,6 @@ namespace CulinaryPortal.API.Controllers
 
         }
 
-        // DELETE: api/cookbooks/5
-        [HttpDelete("{cookbookId}")]
-        public async Task<ActionResult> DeleteCookbook(int cookbookId)
-        {
-            var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-            if (cookbookFromRepo == null)
-            {
-                return NotFound();
-            }
-
-            _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
-            _culinaryPortalRepository.Save();
-
-            return NoContent();
-        }
-
         // PUT: api/cookbook
         [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
         public async Task<IActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
@@ -123,22 +107,79 @@ namespace CulinaryPortal.API.Controllers
             return Ok();
         }
 
-        // DELETE: api/cookbook
+        // DELETE: api/cookbooks
         [HttpDelete]
-        public async Task<IActionResult> RemoveRecipeFromCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
+        public async Task<IActionResult> DeleteCookbook([FromBody] int cookbookId)
         {//mam recipe.id i user.id
-
-            var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-            var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
-
-            var recipeToDelete = cookbook.CookbookRecipes.First(c=>c.RecipeId == cookbookRecipeDto.RecipeId);
-            if (recipeToDelete == null)
+            try
             {
-                return NotFound();
+                var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+                if (cookbookFromRepo == null)
+                {
+                    return NotFound();
+                }
+
+                _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
+                _culinaryPortalRepository.Save();
+
+                return NoContent();
             }
-            cookbook.CookbookRecipes.Remove(recipeToDelete);
-            await _culinaryPortalRepository.SaveChangesAsync();
-            return Ok();            
-        }        
-    }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        // PUT: api/cookbooks/5 //TODO TYLKO ZROBIONE NA RemoveRecipeFromCookbook 
+        [HttpPut("{cookbookId}")]
+        public async Task<IActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] CookbookRecipeDto cookbookRecipeDto)
+        {//mam recipe.id i user.id
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }            
+            try
+            {//czy user jest potrzebny? 
+                var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+                var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
+
+                var recipeToDelete = cookbook.CookbookRecipes.First(c => c.RecipeId == cookbookRecipeDto.RecipeId);
+                if (recipeToDelete == null)
+                {
+                    return NotFound();
+                }
+                cookbook.CookbookRecipes.Remove(recipeToDelete);
+                await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+
+            //// DELETE: api/cookbooks
+            //[HttpDelete()]
+            //public async Task<ActionResult> DeleteCookbook([FromBody] int cookbookId)
+            //{
+            //    try
+            //    {
+            //        var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+            //        if (cookbookFromRepo == null)
+            //        {
+            //            return NotFound();
+            //        }
+
+            //        _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
+            //        _culinaryPortalRepository.Save();
+
+            //        return NoContent();
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+            //    }            
+            //}
+        }
 }

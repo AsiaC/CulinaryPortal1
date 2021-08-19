@@ -28,7 +28,8 @@ export class RecipeDetailComponent implements OnInit {
   editRecipe: boolean = false;
   canAddToCookbook: boolean = true;
   userCookbook: Cookbook;
-  cookbookRecipe: any = {recipeId: null, userId: null};
+  //cookbookRecipe: any = {recipeId: null, userId: null};
+  cookbookRecipe: CookbookRecipe;
   userShoppingLists: ShoppingList[];
   bsModalRef: BsModalRef;
   recipeIsInsideCookbook: boolean = true;
@@ -129,9 +130,10 @@ export class RecipeDetailComponent implements OnInit {
     // }
     if(this.userCookbook === undefined){
         //modal + utowrz nową + 1 powiazanie
-        this.cookbookRecipe.recipeId = this.currentRecipe.id;
-        this.cookbookRecipe.userId = this.user.id;  
-
+        //this.cookbookRecipe.recipeId = this.currentRecipe.id;
+        //this.cookbookRecipe.userId = this.user.id;  
+        this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
+    
         const initialState = {     
           title: 'Create cookbook and add indicated recipe', 
           userId: this.user.id,
@@ -142,8 +144,9 @@ export class RecipeDetailComponent implements OnInit {
         this.bsModalRef.content.submitBtnName = 'Confirm';
         this.canAddToCookbook = false;
     }else{
-    this.cookbookRecipe.recipeId = this.currentRecipe.id;
-    this.cookbookRecipe.userId = this.user.id;    
+    //this.cookbookRecipe.recipeId = this.currentRecipe.id;
+    //this.cookbookRecipe.userId = this.user.id;    
+    this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
     
       this.cookbookService.addRecipeToCookbook(this.cookbookRecipe)
       .subscribe(response =>{
@@ -156,10 +159,11 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   removeFromCookbook(){debugger;
-    this.cookbookRecipe.recipeId = this.currentRecipe.id;
-    this.cookbookRecipe.userId = this.user.id;
-
-    this.cookbookService.removeRecipeFromCookbook(this.cookbookRecipe)
+    //this.cookbookRecipe.recipeId = this.currentRecipe.id;
+    //this.cookbookRecipe.userId = this.user.id;
+    this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
+    
+    this.cookbookService.removeRecipeFromCookbook(this.userCookbook.id, this.cookbookRecipe)
     .subscribe(response => {
       this.toastr.success('Recipe removed successfully');
       this.canAddToCookbook = true;

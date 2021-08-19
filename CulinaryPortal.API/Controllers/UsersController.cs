@@ -139,14 +139,19 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet("{userId}/recipes", Name = "GetUserRecipes")]
         public async Task<IActionResult> GetUserRecipesAsync(int userId)
         {
-            var recipesFromRepo = await _culinaryPortalRepository.GetUserRecipesAsync(userId);
-            if (recipesFromRepo == null)
+            try
             {
+                var recipesFromRepo = await _culinaryPortalRepository.GetUserRecipesAsync(userId);
+                if (recipesFromRepo.Any())
+                {
+                    return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+                }
                 return NotFound();
             }
-
-            var userRecipes = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
-            return Ok(userRecipes);
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         // GET: api/users/3/shoppingLists
@@ -186,11 +191,8 @@ namespace CulinaryPortal.API.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-                //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
-                //throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, e);                
             }
-
         }
 
         //// PUT: api/users/3/cookbook/search

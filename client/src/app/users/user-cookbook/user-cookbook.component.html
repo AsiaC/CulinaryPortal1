@@ -1,7 +1,9 @@
 <!-- <div *ngIf="userCookbook && userCookbook.recipes"> -->
-<div *ngIf="userCookbook && userCookbook.cookbookRecipes">
+<div *ngIf="userCookbook && userCookbook.cookbookRecipes">    
     <h4 *ngIf="userCookbook.name">{{userCookbook.name}}</h4>
-
+    <button class="btn btn-danger mr-2" (click)="deleteCookbook(userCookbook.id)">Delete Cookbook</button>
+ 
+        
     <!-- <h2>Favourite recipes: </h2> -->
 <!-- https://material.angular.io/components/table/overview#getting-started
 https://blog.angular-university.io/angular-material-data-table/
@@ -68,93 +70,105 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
 </table>
 </div> -->
 <hr>
-<div>
-    <h5>Search options</h5>
-    <div class="row">
-        <div class="col">
-        <!-- <label for="selectedCategory" class="col-sm-2 col-form-label">Category</label> -->
-        <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
-            <option [value]="null" selected>All categories</option>
-            <option *ngFor="let prf of allCategories" [value]="prf.id">
-                {{prf.name }}
-            </option>
-        </select> 
-    </div>
-    <div class="col">
-        <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)">
-            <option [value]="null" selected>All difficulty levels</option>
-            <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
-                {{difficultyLevel[diffName]}}       
-            </option> 
-        </select> 
+    <div *ngIf="userFavouriteRecipes">
+        <div>
+            <h5>Search options</h5>
+            <div class="row">
+                <div class="col">
+                <!-- <label for="selectedCategory" class="col-sm-2 col-form-label">Category</label> -->
+                <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
+                    <option [value]="null" selected>All categories</option>
+                    <option *ngFor="let prf of allCategories" [value]="prf.id">
+                        {{prf.name }}
+                    </option>
+                </select> 
+            </div>
+            <div class="col">
+                <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)">
+                    <option [value]="null" selected>All difficulty levels</option>
+                    <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
+                        {{difficultyLevel[diffName]}}       
+                    </option> 
+                </select> 
+                </div>
+
+                <div class="col">
+                <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)">
+                    <option [value]="null" selected>All preparation times</option>
+                    <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
+                        {{preparationTime[prepName]}}       
+                    </option> 
+                </select>
+                </div>
+                <div class="col">
+                <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="No speciefied name">
+                </div>
+            </div>
+            <br/>
+            <div>
+                <button type="button" class="btn btn-success mr-3" (click)="searchRecipes()">Search</button>
+                <button type="button" class="btn btn-default mr-3" (click)="clearSearch()">Clear</button>
+            </div>
         </div>
 
-        <div class="col">
-        <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)">
-            <option [value]="null" selected>All preparation times</option>
-            <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
-                {{preparationTime[prepName]}}       
-            </option> 
-        </select>
+        <div *ngIf="isNoResults === true">     
+            <br/> 
+            <div class="alert alert-danger" role="alert">
+                No results! Below your prevoius search results.
+            </div>  
         </div>
-        <div class="col">
-        <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="No speciefied name">
+
+        <hr>
+        <br/>
+        <div >
+            <table class="table table-stripped">
+                <thead>
+                    <tr>   
+                        <th scope="col">Foto</th>            
+                        <th scope="col" >Title</th> 
+                        <th scope="col">Category</th>
+                        <th scope="col">Difficulty Level</th>
+                        <th scope="col">Preparation Time</th>                
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>   
+                    <tr *ngFor="let recipe of userFavouriteRecipes">
+                        <td>
+                            <ng-container *ngFor="let photo of recipe.photos">
+                                <ng-container *ngIf="photo.isMain === true">                        
+                                    <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
+                                </ng-container>
+                            </ng-container>                     
+                        </td>
+                        <td>{{recipe.name}}</td>
+                        <td>{{recipe.category}}</td> 
+                        <td>{{recipe.difficultyLevel}}</td> 
+                        <td>{{recipe.preparationTime}}</td>        
+                        <td>
+                            <ng-container> 
+                                <button class="btn btn-success mr-2" routerLink='/recipes/{{recipe.id}}'>Go To Recipe</button><br><br>
+                                <button class="btn btn-danger mr-2" (click)="removeFromCookbook(recipe.id)">Remove from cookbook</button>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+    </div>
+
+    <div *ngIf="!userFavouriteRecipes">
+        <div class="alert alert-warning" role="alert">
+            User does not have any favourite recipes yet. 
         </div>
     </div>
-    <br/>
-    <div>
-        <button type="button" class="btn btn-success mr-3" (click)="searchRecipes()">Search</button>
-        <button type="button" class="btn btn-default mr-3" (click)="clearSearch()">Clear</button>
+
+</div>
+<div *ngIf="!userCookbook">
+    <div class="alert alert-warning" role="alert">
+        User does not have a cookbook yet. 
     </div>
 </div>
-
-<div *ngIf="isNoResults === true">     
-    <br/> 
-    <div class="alert alert-danger" role="alert">
-        No results! Below your prevoius search results.
-    </div>  
-</div>
-
-<hr>
-
-<br/>
-<div >
-    <table class="table table-stripped">
-        <thead>
-            <tr>   
-                <th scope="col">Foto</th>            
-                <th scope="col" >Title</th> 
-                <th scope="col">Category</th>
-                <th scope="col">Difficulty Level</th>
-                <th scope="col">Preparation Time</th>                
-                <th scope="col">#</th>
-            </tr>
-        </thead>
-        <tbody>   
-            <tr *ngFor="let recipe of userFavouriteRecipes">
-                <td>
-                    <ng-container *ngFor="let photo of recipe.photos">
-                        <ng-container *ngIf="photo.isMain === true">                        
-                            <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
-                        </ng-container>
-                    </ng-container>                     
-                </td>
-                <td>{{recipe.name}}</td>
-                <td>{{recipe.category}}</td> 
-                <td>{{recipe.difficultyLevel}}</td> 
-                <td>{{recipe.preparationTime}}</td>        
-                <td>
-                    <ng-container> 
-                        <button class="btn btn-success mr-2" routerLink='/recipes/{{recipe.recipeId}}'>Go To Recipe</button><br><br>
-                        <button class="btn btn-danger mr-2" (click)="removeFromCookbook(recipe.recipeId)">Remove from cookbook</button>
-                    </ng-container>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </div>
-</div>
-
 
 <!-- <div *ngIf="userCookbook && userCookbook.cookbookRecipes">
     <h1 *ngIf="userCookbook.name">Your Cookbook: {{userCookbook.name}}</h1>

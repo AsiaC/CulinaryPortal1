@@ -1,11 +1,29 @@
-<p>shoping-list-list works!</p>
+<h4>All Shopping Lists</h4>
+<br/>
 
-<div class="row">
-    <div class="col-2">
-        <p *ngFor="let shoppingList of shoppingLists">
-            {{shoppingList.name}},
-            {{shoppingList.id}},
-            {{shoppingList.userId}}
-        </p>
+<div class="row" *ngIf="shoppingLists">
+    <div class="table table-stripped">
+        <thead>
+            <tr>
+                <th>Shopping list name</th>
+                <th>Owner</th>
+                <th>Number of items</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let shoppingList of shoppingLists">
+                <td>{{shoppingList.name}}</td>
+                <td>{{shoppingList.userId}}</td>
+                <td>{{shoppingList.items.count}}</td>
+                <td><button class="btn btn-danger mr-2" (click)="deleteShoppingList(shoppingList.id)">Remove shopping list</button> </td>
+            </tr>
+        </tbody>
+    </div>
+</div>
+
+<div *ngIf="!shoppingLists">
+    <div class="alert alert-warning" role="alert">
+        Users do not have any shopping lists yet. 
     </div>
 </div>

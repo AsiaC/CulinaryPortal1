@@ -95,7 +95,7 @@ export class UserCookbookComponent implements OnInit {
     this.cookbookService.deleteCookbook(cookbookId)
     .subscribe(response => {
       console.log(response);
-      this.toastr.success('Cookbook removed successfully!');//to do do sprawdzenia   
+      this.toastr.success('Cookbook removed successfully!');  
       this.loadUserCookbook(); 
     }, error => {
        console.log(error);                      

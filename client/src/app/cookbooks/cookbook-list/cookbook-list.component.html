@@ -1,13 +1,30 @@
-<p>cookbook-list works!</p>
+<h4>All Cookbooks</h4>
+<br/>
 
-
-
-
-<div class="row">
-    <div class="col-2">
-        <p *ngFor="let cookbook of cookbooks">
-            {{cookbook.name}}
-            {{cookbook.id}}
-        </p>
+<div class="row" *ngIf="cookbooks">
+    <div class="table table-stripped">
+        <thead>
+            <tr>
+                <th>Cookbook name</th>
+                <th>Owner</th>
+                <th>Number of recipes</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cookbook of cookbooks">
+                <td>{{cookbook.name}}</td>
+                <td>{{cookbook.userId}}</td>
+                <td></td>
+                <td><button class="btn btn-danger mr-2" (click)="deleteCookbook(cookbook.id)">Remove cookbook</button> </td>
+            </tr>
+        </tbody>
     </div>
 </div>
+
+<div *ngIf="!cookbooks">
+    <div class="alert alert-warning" role="alert">
+        Users do not have any cookbooks yet. 
+    </div>
+</div>
+

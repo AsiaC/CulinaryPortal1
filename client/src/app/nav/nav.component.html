@@ -4,29 +4,37 @@
         
           <ul *ngIf="accountService.currentUser$ | async" class="navbar-nav mr-auto">
             <li class="nav-item ">
-              <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>Recipes</a>
+              <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>All Recipes</a>
             </li>
+
+            <li class="nav-item ">
+              <a class="nav-link" routerLink = '/user/recipes' routerLinkActive='active'>My Recipes</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link" routerLink = '/user/cookbook' routerLinkActive='active'>My Cookbook</a>
+            </li>           
+            <li class="nav-item ">
+              <a class="nav-link" routerLink = '/user/shoppingLists' routerLinkActive='active'>My Shopping Lists</a>
+            </li>
+            
             <li class="nav-item ">
               <a class="nav-link" routerLink = '/cookbooks' routerLinkActive='active'>Cookbooks</a>
             </li>
             <li class="nav-item ">
               <a class="nav-link" routerLink = '/shoppingLists' routerLinkActive='active'>Shopping Lists</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" routerLinkActive='active'>Links</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" routerLinkActive='active'>Messages</a>
-            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#" routerLinkActive='active'>Other</a>
+            </li> -->            
           </ul>
 
           <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
-              <a class="dropdown-item" routerLink='/user/recipes' >My Recipes</a>
+              <!-- <a class="dropdown-item" routerLink='/user/recipes' >My Recipes</a>
               <a class="dropdown-item" routerLink='/user/cookbook' >My Cookbook</a>
-              <a class="dropdown-item" routerLink='/user/shoppingLists' >My Shopping Lists</a>
-              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink='/user/shoppingLists' >My Shopping Lists</a> 
+              <div class="dropdown-divider"></div>-->
               <a class="dropdown-item" routerLink='/user/edit' >Edit Profile</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click) = "logout()">Logout</a>

@@ -35,6 +35,7 @@ namespace CulinaryPortal.API.Services
             return (_context.SaveChanges() >= 0);
         }
 
+        //TODO to jest to USUNIECIA bo nie potrzebne
         public Task SaveChangesAsync()
         {
             return _context.SaveChangesAsync();
@@ -46,26 +47,16 @@ namespace CulinaryPortal.API.Services
         }
 
         #region Recipe
-
-        public void AddRecipe(int userId, Recipe recipe)
-        {
-            if (recipe == null)
-            {
-                throw new ArgumentNullException(nameof(recipe));
-            }
-            // always set the AuthorId to the passed-in authorId
-            recipe.UserId = userId;
-            _context.Recipes.Add(recipe);
-        }
-        public void DeleteRecipe(Recipe recipe)
+        
+        public async Task DeleteRecipeAsync(Recipe recipe)
         {
             _context.Recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Recipe> GetUserRecipeAsync(int userId, int recipeId)
         {
-            var userRecipe = await _context.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId && r.UserId == userId);
-            return userRecipe;
+            return await _context.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId && r.UserId == userId);
         }
 
         public async Task<IEnumerable<Recipe>> GetUserRecipesAsync(int userId)
@@ -80,17 +71,6 @@ namespace CulinaryPortal.API.Services
             return userRecipes;
         }
 
-        public void UpdateRecipe(Recipe recipe)
-        {           
-            _context.Entry(recipe).State = EntityState.Modified;
-            //_context.Recipes.Update(recipe);            
-        }
-
-        public async Task<bool> RecipeExistsAsync(int recipeId)
-        {
-            var isExist = await _context.Recipes.AnyAsync(u => u.Id == recipeId);
-            return isExist;
-        }
         public async Task<IEnumerable<Recipe>> GetRecipesAsync()
         {
             var recipes = await _context.Recipes
@@ -129,19 +109,18 @@ namespace CulinaryPortal.API.Services
                 .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
-
             return recipe;
         }
 
-        public void AddRecipe(Recipe recipe)
+        public async Task AddRecipeAsync(Recipe recipe)
         {
             if (recipe == null)
             {
                 throw new ArgumentNullException(nameof(recipe));
             }
 
-            _context.Recipes.Add(recipe);
-
+            await _context.Recipes.AddAsync(recipe);
+            await _context.SaveChangesAsync();
         }
         
         public async Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto)
@@ -178,15 +157,12 @@ namespace CulinaryPortal.API.Services
             if (!String.IsNullOrWhiteSpace(searchRecipeDto.Name)) 
             {
                 query = query.Where(r => r.Name == searchRecipeDto.Name);
-            }
-
-           
+            }           
             return query;
         }
-        public async Task<int> CountAssociatedCookbooks(int recipeId) 
+        public async Task<int> CountAssociatedCookbooksAsync(int recipeId) 
         {
-            var numberAccosiatedCookbooks = await _context.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();
-            return numberAccosiatedCookbooks;
+            return await _context.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();
         }
         #endregion
 
@@ -207,9 +183,7 @@ namespace CulinaryPortal.API.Services
                 {
                     user.Cookbook = allCookbooks.FirstOrDefault(c => c.Id == user.Cookbook.Id);
                 }
-
             }
-
             return users;
         }
 
@@ -219,29 +193,30 @@ namespace CulinaryPortal.API.Services
                 .Include(c=>c.Cookbook)
                 .Include(r=>r.Recipes)
                 .FirstOrDefaultAsync(u => u.Id == userId);
-
             return user;
         }
 
         public async Task<User> GetUserAsync(string username)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
-            return user;//to rzuca wyjatek jeśli znajdzie wiecej elementów, jesli tylko 1 to spuer. Tym sie rozni od FirstOrDefault 
+            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+            //to rzuca wyjatek jeśli znajdzie wiecej elementów, jesli tylko 1 to spr. Tym sie rozni od FirstOrDefault 
         }
 
-        public void AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             if (user == null)
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteUser(User user)
+        public async Task DeleteUserAsync(User user)
         {
             _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }               
 
         public async Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds)
@@ -255,91 +230,68 @@ namespace CulinaryPortal.API.Services
             return users;
         }         
 
-        public void UpdateUser(User user)
+        public async Task UpdateUserAsync(User user)//TODO togo mozna sie pozbyc - przykład jak recipe czy shoppinglist
         {
             // no code in this implementation ?
             _context.Entry(user).State = EntityState.Modified;
-        }
-
-        public async Task<bool> UserExistsAsync(int userId)
-        {
-            var isExist =await _context.Users.AnyAsync(u => u.Id == userId);
-            return isExist;
-        }
-
-        public async Task<bool> UserExistsAsync(string username)
-        {
-            return await _context.Users.AnyAsync(x => x.Username == username.ToLower());
         }
         #endregion
 
         #region Ingredient
         public async Task<IEnumerable<Ingredient>> GetIngredientsAsync()
         {
-            var ingredients=await _context.Ingredients.ToListAsync();
-            return ingredients;
-        }
-
-        public async Task<bool> IngredientExistsAsync(int ingredientId)
-        {
-            var isExist =await _context.Ingredients.AnyAsync(u => u.Id == ingredientId);
-            return isExist;
+            return await _context.Ingredients.ToListAsync();
         }
 
         public async Task<Ingredient> GetIngredientAsync(int ingredientId)
         {
-            var ingredient = await _context.Ingredients.FirstOrDefaultAsync(u => u.Id == ingredientId);
-            return ingredient;
+            return await _context.Ingredients.FirstOrDefaultAsync(u => u.Id == ingredientId);             
         }
 
-        public void AddIngredient(Ingredient ingredient)
+        public async Task AddIngredientAsync(Ingredient ingredient)
         {
             if (ingredient == null)
             {
                 throw new ArgumentNullException(nameof(ingredient));
             }
 
-            _context.Ingredients.Add(ingredient);
+            await _context.Ingredients.AddAsync(ingredient);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteIngredient(Ingredient ingredient)
+        public async Task DeleteIngredientAsync(Ingredient ingredient)
         {
             _context.Ingredients.Remove(ingredient);
+            await _context.SaveChangesAsync();
         }
         #endregion
 
         #region Measure
         public async Task<IEnumerable<Measure>> GetMeasuresAsync()
         {
-            var measures = await _context.Measures.ToListAsync();
-            return measures;
-        }
-
-        public async Task<bool> MeasureExistsAsync(int measureId)
-        {
-            var isExist = await _context.Measures.AnyAsync(u => u.Id == measureId);
-            return isExist;
-        }
+            return await _context.Measures.ToListAsync();
+        }        
 
         public async Task<Measure> GetMeasureAsync(int measureId)
         {
-            var measure = await _context.Measures.FirstOrDefaultAsync(u => u.Id == measureId);
-            return measure;
+            return await _context.Measures.FirstOrDefaultAsync(u => u.Id == measureId);
         }
 
-        public void AddMeasure(Measure measure)
+        public async Task AddMeasureAsync(Measure measure)
         {
             if (measure == null)
             {
                 throw new ArgumentNullException(nameof(measure));
             }
 
-            _context.Measures.Add(measure);
+            await _context.Measures.AddAsync(measure);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteMeasure(Measure measure)
+        public async Task DeleteMeasureAsync(Measure measure)
         {
             _context.Measures.Remove(measure);
+            await _context.SaveChangesAsync();
         }
         #endregion
 
@@ -347,48 +299,30 @@ namespace CulinaryPortal.API.Services
 
         public async Task<IEnumerable<Instruction>> GetInstructionsAsync()
         {
-            var instructions=await _context.Instructions.ToListAsync();
-            return instructions;
-        }
-
-        //public async Task<IEnumerable<Instruction>> GetRecipeInstructionsAsync(int recipeId)
-        //{
-        //    var recipeInstructions = await _context.Instructions.Where(r=>r.Id == recipeId).ToListAsync();
-        //    return recipeInstructions;
-        //}
-
-        public async Task<bool> InstructionExistsAsync(int instructionId)
-        {
-            var isExist=await _context.Instructions.AnyAsync(u => u.Id == instructionId);
-            return isExist;
-        }
+            return await _context.Instructions.ToListAsync();
+        }        
 
         public async Task<Instruction> GetInstructionAsync(int instructionId)
         {
-            var instruction=await _context.Instructions.FirstOrDefaultAsync(u => u.Id == instructionId);
-            return instruction;
+            return await _context.Instructions.FirstOrDefaultAsync(u => u.Id == instructionId);
         }
 
-        public void AddInstruction(Instruction instruction)
+        public async Task AddInstructionAsync(Instruction instruction)
         {
             if (instruction == null)
             {
                 throw new ArgumentNullException(nameof(instruction));
             }
 
-            _context.Instructions.Add(instruction);
+            await _context.Instructions.AddAsync(instruction);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteInstruction(Instruction instruction)
+        public async Task DeleteInstructionAsync(Instruction instruction)
         {
             _context.Instructions.Remove(instruction);
-        }
-
-        //public void UpdateInstruction(Instruction instruction)
-        //{
-        //    _context.Entry(instruction).State = EntityState.Modified;
-        //    //_context.Recipes.Update(recipe);            
-        //}
+            await _context.SaveChangesAsync();
+        }        
         #endregion
 
         #region ShoppingList
@@ -399,11 +333,6 @@ namespace CulinaryPortal.API.Services
                 .Include(l=>l.Items)
                 .ToListAsync();
             return shoppingLists;
-        }
-
-        public async Task<bool> ShoppingListExistsAsync(int shoppingListId)
-        {
-            return await _context.ShoppingLists.AnyAsync(u => u.Id == shoppingListId);
         }
 
         public async Task<ShoppingList> GetShoppingListAsync(int shoppingListId)
@@ -422,11 +351,13 @@ namespace CulinaryPortal.API.Services
             }
 
             await _context.ShoppingLists.AddAsync(shoppingList);
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteShoppingList(ShoppingList shoppingList)
+        public async Task DeleteShoppingListAsync(ShoppingList shoppingList)
         {
             _context.ShoppingLists.Remove(shoppingList);
+            await _context.SaveChangesAsync();
         }
         
         public async Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId)
@@ -436,16 +367,6 @@ namespace CulinaryPortal.API.Services
                 .ToListAsync();
             return userShoppingLists;
         }
-
-        //TODO USUNĄĆ TO CHYBA NIE JEST DO NICZENIE POTRZEBNE?
-        public async Task AddListItemsAsync(ListItem recipeItem) 
-        {
-            if (recipeItem == null)
-            {
-                throw new ArgumentNullException(nameof(recipeItem));
-            }            
-            //await _context.   Items.AddAsync(recipeItem);
-        }       
         #endregion
 
         #region Cookbook
@@ -458,19 +379,11 @@ namespace CulinaryPortal.API.Services
             return cookbooks;
         }
 
-        public async Task <bool> CookbookExistsAsync(int cookbookId)
-        {
-            var isExist = await _context.Cookbooks.AnyAsync(u => u.Id == cookbookId);
-            return isExist;
-        }
-
         public async Task<Cookbook> GetCookbookAsync(int cookbookId)
         {
             var cookbook = await _context.Cookbooks
                 .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe).ThenInclude(p=>p.Photos)                     
                 .FirstOrDefaultAsync(u => u.Id == cookbookId);
-
-            //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
             return cookbook;
         }
 
@@ -482,11 +395,13 @@ namespace CulinaryPortal.API.Services
             }
 
             await _context.Cookbooks.AddAsync(cookbook);
+            await _context.SaveChangesAsync();            
         }
 
-        public void DeleteCookbook(Cookbook cookbook)
+        public async Task DeleteCookbookAsync(Cookbook cookbook)
         {
             _context.Cookbooks.Remove(cookbook);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Cookbook> GetUserCookbookAsync(int userId)
@@ -526,16 +441,13 @@ namespace CulinaryPortal.API.Services
             {
                 query = query.Where(r => r.Name == searchRecipeDto.Name);
             }
-
             return query;
         }
         #endregion
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            var categories = await _context.Categories.ToListAsync();               
-                        
-            return categories;
+            return await _context.Categories.ToListAsync();  
         }
                 
     }

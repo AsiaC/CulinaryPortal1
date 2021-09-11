@@ -30,107 +30,72 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<IngredientDto>>> GetIngredients()
         {
-            var ingredientsFromRepo = await _culinaryPortalRepository.GetIngredientsAsync();
-            return Ok(_mapper.Map<IEnumerable<Models.IngredientDto>>(ingredientsFromRepo));
+            try
+            {
+                var ingredientsFromRepo = await _culinaryPortalRepository.GetIngredientsAsync();
+                return Ok(_mapper.Map<IEnumerable<Models.IngredientDto>>(ingredientsFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/ingredients/5
         [HttpGet("{ingredientId}", Name = "GetIngredient")]
-        public async Task<ActionResult<IngredientDto>> GetIngredient(int ingredientId)
-        {
-            var checkIfIngredientExists = await _culinaryPortalRepository.IngredientExistsAsync(ingredientId);
-
-            if (checkIfIngredientExists == false)
-            {
-                return NotFound();
-            }
-            var ingredinetFromRepo =await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
-            return Ok(_mapper.Map<Models.IngredientDto>(ingredinetFromRepo));
-        }
-
-        [HttpPost]
-        public ActionResult<Ingredient> CreateIngredient(Ingredient ingredient)
-        {
-            _culinaryPortalRepository.AddIngredient(ingredient);
-            _culinaryPortalRepository.Save();
-
-            return CreatedAtAction("GetIngredient", new { ingredientId = ingredient.Id }, ingredient);
-        }
-
-        // DELETE: api/Ingredients/5
-        [HttpDelete("{ingredientId}")]
-        public async Task<ActionResult> DeleteIngredient(int ingredientId)
+        public async Task<ActionResult<IngredientDto>> GetIngredient([FromRoute] int ingredientId)
         {
             try
             {
-                var ingredientFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
-                if (ingredientFromRepo == null)
+                var ingredinetFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
+                if (ingredinetFromRepo == null)
                 {
                     return NotFound();
-                }
+                }                
+                return Ok(_mapper.Map<IngredientDto>(ingredinetFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
+        }
 
-                _culinaryPortalRepository.DeleteIngredient(ingredientFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
+        //api/ingredients
+        [HttpPost]
+        public async Task<ActionResult<Ingredient>> CreateIngredient([FromBody] IngredientDto ingredientDto)
+        {
+            try
+            {
+                var ingredient = _mapper.Map<Ingredient>(ingredientDto);
+                await _culinaryPortalRepository.AddIngredientAsync(ingredient);
 
-                return Ok();
+                return CreatedAtAction(nameof(GetIngredient), new { ingredientId = ingredient.Id }, ingredient);
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
-
-
-
-
-
-
-
-        //// PUT: api/Ingredients/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutIngredient(int id, Ingredient ingredient)
+        //todo to do usuniecia chyba?
+        //// DELETE: api/Ingredients/5
+        //[HttpDelete("{ingredientId}")]
+        //public async Task<ActionResult> DeleteIngredient([FromRoute] int ingredientId)
         //{
-        //    if (id != ingredient.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(ingredient).State = EntityState.Modified;
-
         //    try
         //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!IngredientExists(id))
+        //        var ingredientFromRepo = await _culinaryPortalRepository.GetIngredientAsync(ingredientId);
+        //        if (ingredientFromRepo == null)
         //        {
         //            return NotFound();
         //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
+        //        await _culinaryPortalRepository.DeleteIngredientAsync(ingredientFromRepo);
+
+        //        return Ok();
         //    }
-
-        //    return NoContent();
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }
         //}
-
-        //// POST: api/Ingredients
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
-        //{
-        //    _context.Ingredients.Add(ingredient);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetIngredient", new { id = ingredient.Id }, ingredient);
-        //}
-
-
-
     }
 }

@@ -21,35 +21,23 @@ import { ShoppingList } from '../_models/shoppingList';
         return this.http.get<ShoppingList[]>(this.baseUrl + 'shoppingLists');
     }
 
-    getShoppingList(shoppingList: number): Observable<ShoppingList> {
-        return this.http.get<ShoppingList>(this.baseUrl + 'shoppingLists/' + shoppingList);
+    getShoppingList(shoppingListId: number): Observable<ShoppingList> {
+        return this.http.get<ShoppingList>(this.baseUrl + 'shoppingLists/' + shoppingListId);
     }
 
     addShoppingList(model: any){
             return this.http.post(this.baseUrl + 'shoppingLists', model).pipe(
-              map((shoppingList: ShoppingList) => {
-            })
+              map((shoppingList: ShoppingList) => shoppingList)
         )    
     }
 
     updateShoppingList(shoppingListId: string, model: any){ 
             return this.http.put(this.baseUrl + 'shoppingLists/' + shoppingListId, model).pipe(
-              map((shoppingList: ShoppingList) => { 
-            })
+              map((shoppingList: ShoppingList) => shoppingList)
         )    
     }
 
-    addRecipeIngredients(shoppingListId: string, shoppingListDto: any){
-        return this.http.put(this.baseUrl + 'shoppinglists/' + shoppingListId + '/addrecipeingredients', shoppingListDto);
-    }
-
-    deleteShoppingList(shoppingListId: number){
-      const options = {   
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),     
-        body: shoppingListId,        
-      };
-      return this.http.delete(this.baseUrl + 'shoppinglists', options)
+    deleteShoppingList(shoppingListId: number){      
+      return this.http.delete(this.baseUrl + 'shoppinglists/' + shoppingListId)
     }
   }

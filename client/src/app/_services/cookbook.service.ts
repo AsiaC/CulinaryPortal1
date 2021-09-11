@@ -18,8 +18,8 @@ export class CookbookService {
         return this.http.get<Cookbook[]>(this.baseUrl + 'cookbooks');
     }
 
-    getCookbook(cookbook: number): Observable<Cookbook> {  
-        return this.http.get<Cookbook>(this.baseUrl + 'cookbooks/' + cookbook);
+    getCookbook(cookbookId: number): Observable<Cookbook> {  
+        return this.http.get<Cookbook>(this.baseUrl + 'cookbooks/' + cookbookId);
     }
 
     addRecipeToCookbook(model: any){
@@ -28,20 +28,13 @@ export class CookbookService {
     
     removeRecipeFromCookbook(cookbookId: number, model: CookbookRecipe){
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, model).pipe(
-            map((cookbook: Cookbook) => { 
-          })
-         )  
+            map((cookbook: Cookbook) => cookbook)
+        )  
     }
 
     deleteCookbook(cookbookId: number){
-        const options = {   
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),     
-          body: cookbookId,        
-        };
-        return this.http.delete(this.baseUrl + 'cookbooks', options)
-      }
+        return this.http.delete(this.baseUrl + 'cookbooks/'+ cookbookId)
+    }
 
     addCookbook(model: Cookbook){               
         return this.http.post(this.baseUrl + 'cookbooks', model).pipe(

@@ -1,5 +1,6 @@
 ﻿using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,15 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            var categoriesFromRepo = await _culinaryPortalRepository.GetCategoriesAsync();
-            return Ok(categoriesFromRepo);
+            try
+            {
+                var categoriesFromRepo = await _culinaryPortalRepository.GetCategoriesAsync();
+                return Ok(categoriesFromRepo);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
-
     }
 }

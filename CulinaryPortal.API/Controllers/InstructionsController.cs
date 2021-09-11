@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CulinaryPortal.API.Controllers
-{
-    [Route("api/instructions")]
+{// TODO CHYBA TEGO NIE POTRZEBUJĘ ZBADAJ FUNKCJE WEWNATRZ MOZE TEŻ SĄ DO USUNIECIA
+     [Route("api/instructions")]
     [ApiController]
     public class InstructionsController : ControllerBase
     {
@@ -25,58 +25,74 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // GET: api/instructions
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<InstructionDto>>> GetInstructions()
-        {
-            var instructionFromRepo = await _culinaryPortalRepository.GetInstructionsAsync();
-            return Ok(_mapper.Map<IEnumerable<Models.InstructionDto>>(instructionFromRepo));
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<InstructionDto>>> GetInstructions()
+        //{
+        //    try
+        //    {
+        //        var instructionFromRepo = await _culinaryPortalRepository.GetInstructionsAsync();
+        //        return Ok(_mapper.Map<IEnumerable<InstructionDto>>(instructionFromRepo));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }            
+        //}
 
-        // GET: api/instructions/5
-        [HttpGet("{instructionId}", Name = "GetInstruction")]
-        public async Task<ActionResult<InstructionDto>> GetInstruction(int instructionId)
-        {
-            var checkIfInstructionExists =await _culinaryPortalRepository.InstructionExistsAsync(instructionId);
+        //// GET: api/instructions/5
+        //[HttpGet("{instructionId}", Name = "GetInstruction")]
+        //public async Task<ActionResult<InstructionDto>> GetInstruction([FromRoute] int instructionId)
+        //{
+        //    try
+        //    {
+        //        var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
+        //        if (instructionFromRepo == null)
+        //        {
+        //            return NotFound();
+        //        }                
+        //        return Ok(_mapper.Map<InstructionDto>(instructionFromRepo));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }            
+        //}
 
-            if (checkIfInstructionExists == false)
-            {
-                return NotFound();
-            }
-            var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
-            return Ok(_mapper.Map<Models.InstructionDto>(instructionFromRepo));
-        }
+        ////POST: api/instructions
+        //[HttpPost]
+        //public async Task<ActionResult<Instruction>> CreateInstruction([FromBody] InstructionDto instructionDto)
+        //{
+        //    try
+        //    {
+        //        var instruction = _mapper.Map<Instruction>(instructionDto);
+        //        await _culinaryPortalRepository.AddInstructionAsync(instruction);
+        //        return CreatedAtAction(nameof(GetInstruction), new { instructionId = instruction.Id }, instruction);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }            
+        //}
 
-        [HttpPost]
-        public ActionResult<Instruction> CreateInstruction(Instruction instruction)
-        {
-            _culinaryPortalRepository.AddInstruction(instruction);
-            _culinaryPortalRepository.Save();
+        // DELETE: api/instructions/5 
+        //[HttpDelete("{instructionId}")]
+        //public async Task<ActionResult> DeleteInstruction([FromRoute] int instructionId)
+        //{
+        //    try
+        //    {
+        //        var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
+        //        if (instructionFromRepo == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        await _culinaryPortalRepository.DeleteInstructionAsync(instructionFromRepo);
 
-            return CreatedAtAction("GetIngredient", new { instructionId = instruction.Id }, instruction);
-        }
-
-        // DELETE: api/instructions/5
-        [HttpDelete("{instructionId}")]
-        public async Task<ActionResult> DeleteInstruction(int instructionId)
-        {
-            try
-            {
-                var instructionFromRepo = await _culinaryPortalRepository.GetInstructionAsync(instructionId);
-                if (instructionFromRepo == null)
-                {
-                    return NotFound();
-                }
-
-                _culinaryPortalRepository.DeleteInstruction(instructionFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
-
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-           
-        }
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }           
+        //}
     }
 }

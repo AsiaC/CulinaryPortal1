@@ -30,36 +30,53 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            var usersFromRepo = await _culinaryPortalRepository.GetUsersAsync();
-            var users = _mapper.Map<IEnumerable<UserDto>>(usersFromRepo);
-            return Ok(users);
+            try
+            {
+                var usersFromRepo = await _culinaryPortalRepository.GetUsersAsync();
+                return Ok(_mapper.Map<IEnumerable<UserDto>>(usersFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         //[Authorize] to poźniej dodam
         [HttpGet("{userId}", Name = "GetUser")]
-        public async Task<ActionResult<UserDto>> GetUser(int userId)
+        public async Task<ActionResult<UserDto>> GetUser([FromRoute] int userId)
         {
-            var checkIfUserExists = await _culinaryPortalRepository.UserExistsAsync(userId);
-            if (!checkIfUserExists)
+            try
             {
-                return NotFound();
+                var userFromRepo = await _culinaryPortalRepository.GetUserAsync(userId);
+                if (userFromRepo == null)
+                {
+                    return NotFound();
+                }                
+                return Ok(_mapper.Map<UserDto>(userFromRepo));
             }
-            var userFromRepo = await _culinaryPortalRepository.GetUserAsync(userId);
-            return Ok(_mapper.Map<UserDto>(userFromRepo));
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }           
         }
 
         [HttpPost]
-        public ActionResult<UserDto> CreateUser(User user)
+        public async Task<ActionResult<UserDto>> CreateUser([FromBody] User user)
         {
-            _culinaryPortalRepository.AddUser(user);
-            _culinaryPortalRepository.Save();
-
-            var userToReturn = _mapper.Map<UserDto>(user);
-            return CreatedAtAction("GetUser", new { userId = userToReturn.Id }, userToReturn);
+            try
+            {
+                await _culinaryPortalRepository.AddUserAsync(user);
+                var userToReturn = _mapper.Map<UserDto>(user);
+                return CreatedAtAction(nameof(GetUser), new { userId = userToReturn.Id }, userToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }           
         }
 
         [HttpDelete("userId")]
-        public async Task<ActionResult> DeleteUser(int userId)
+        public async Task<ActionResult> DeleteUser([FromRoute] int userId)
         {
             try
             {
@@ -68,8 +85,7 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return NotFound();
                 }
-                _culinaryPortalRepository.DeleteUser(userFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
+                await _culinaryPortalRepository.DeleteUserAsync(userFromRepo);
                 return Ok();
             }
             catch (Exception e)
@@ -80,34 +96,52 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/users/3/cookbook
         [HttpGet("{userId}/cookbook", Name = "GetUserCookbook")]
-        public async Task<IActionResult> GetUserCookbookAsync(int userId)
+        public async Task<ActionResult<CookbookDto>> GetUserCookbookAsync([FromRoute] int userId)
         {
-            var cookbookFromRepo = await _culinaryPortalRepository.GetUserCookbookAsync(userId);
-            if (cookbookFromRepo == null)
+            try
             {
-                return NotFound();
-            }
-            var cookbook = _mapper.Map<CookbookDto>(cookbookFromRepo);
+                var cookbookFromRepo = await _culinaryPortalRepository.GetUserCookbookAsync(userId);
+                if (cookbookFromRepo == null) //==false? spr co zwróci?
+                {
+                    return NotFound();
+                }
+                var cookbook = _mapper.Map<CookbookDto>(cookbookFromRepo);
 
-            return Ok(cookbook);
+                return Ok(cookbook);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto userUpdateDto)
         {
-            var user = await _culinaryPortalRepository.GetUserAsync(userUpdateDto.Id);
+            try
+            {
+                var user = await _culinaryPortalRepository.GetUserAsync(userUpdateDto.Id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                _mapper.Map(userUpdateDto, user);
 
-            _mapper.Map(userUpdateDto, user);
+                await _culinaryPortalRepository.UpdateUserAsync(user);
 
-            _culinaryPortalRepository.UpdateUser(user);
-
-            if (await _culinaryPortalRepository.SaveAllAsync()) return NoContent();
-            return BadRequest("Failed to update user");
+                if (await _culinaryPortalRepository.SaveAllAsync()) 
+                    return NoContent();
+                return BadRequest("Failed to update user");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/users/3/recipes
         [HttpGet("{userId}/recipes", Name = "GetUserRecipes")]
-        public async Task<IActionResult> GetUserRecipesAsync(int userId)
+        public async Task<IActionResult> GetUserRecipesAsync([FromRoute] int userId)
         {
             try
             {
@@ -126,7 +160,7 @@ namespace CulinaryPortal.API.Controllers
 
         // GET: api/users/3/shoppingLists
         [HttpGet("{userId}/shoppingLists", Name = "GetUserShoppingLists")]
-        public async Task<IActionResult> GetUserShoppingListsAsync(int userId)
+        public async Task<IActionResult> GetUserShoppingListsAsync([FromRoute] int userId)
         {
             try
             {
@@ -141,8 +175,7 @@ namespace CulinaryPortal.API.Controllers
             }
             catch (Exception e)
             {
-
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
 
@@ -181,8 +214,6 @@ namespace CulinaryPortal.API.Controllers
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
-                //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
-                //throw;
             }
 
         }

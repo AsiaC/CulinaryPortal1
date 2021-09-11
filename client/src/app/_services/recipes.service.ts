@@ -47,11 +47,7 @@ export class RecipesService {
           map((recipe: Recipe) => recipe)
         )    
   }
-
-  // addRecipeIngredients(shoppingListDto: any){
-   //   return this.http.put(this.baseUrl + 'recipes/addRecipeIngredients', shoppingListDto);
-  // }
- 
+  
   deleteRecipe(recipeId: number){
     return this.http.delete(this.baseUrl + 'recipes/'+ recipeId)
   }

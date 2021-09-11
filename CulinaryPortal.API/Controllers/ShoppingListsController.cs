@@ -28,89 +28,73 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShoppingListDto>>> GetShoppingLists()
         {
-            var shoppingListsFromRepo = await _culinaryPortalRepository.GetShoppingListsAsync();
-            return Ok(_mapper.Map<IEnumerable<ShoppingListDto>>(shoppingListsFromRepo));            
+            try
+            {
+                var shoppingListsFromRepo = await _culinaryPortalRepository.GetShoppingListsAsync();
+                return Ok(_mapper.Map<IEnumerable<ShoppingListDto>>(shoppingListsFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }                    
         }        
 
         // GET: api/shoppingLists/5
         [HttpGet("{shoppingListId}", Name = "GetShoppingList")]
-        public async Task<ActionResult<ShoppingListDto>> GetShoppingList(int shoppingListId)
+        public async Task<ActionResult<ShoppingListDto>> GetShoppingList([FromRoute] int shoppingListId)
         {
-            var checkIfShoppingListExists = await _culinaryPortalRepository.ShoppingListExistsAsync(shoppingListId);
-
-            if (checkIfShoppingListExists == false)
+            try
             {
-                return NotFound();
+                var ingredinetFromRepo = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
+                if (ingredinetFromRepo == null)
+                {
+                    return NotFound();
+                }                
+                return Ok(_mapper.Map<ShoppingListDto>(ingredinetFromRepo));
             }
-            var ingredinetFromRepo = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
-            var ingredient = _mapper.Map<ShoppingListDto>(ingredinetFromRepo);
-            return Ok(ingredient);
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
+        //POST: api/shoppinglists
         [HttpPost]
         public async Task<ActionResult<ShoppingList>> CreateShoppingList([FromBody] ShoppingListDto shoppingListDto)
-        {//TODO try catch
-            var shoppingList = _mapper.Map<ShoppingList>(shoppingListDto);
-            await _culinaryPortalRepository.AddShoppingListAsync(shoppingList); 
-            await _culinaryPortalRepository.SaveChangesAsync(); 
-            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
-            return CreatedAtAction("GetShoppingList", new { shoppingListId = shoppingList.Id }, shoppingList);
+        {
+            try
+            {
+                var shoppingList = _mapper.Map<ShoppingList>(shoppingListDto);
+                await _culinaryPortalRepository.AddShoppingListAsync(shoppingList);
+                
+                return CreatedAtAction(nameof(GetShoppingList), new { shoppingListId = shoppingList.Id }, shoppingList);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }              
-
-        //// DELETE: api/shoppingLists/5
-        //[HttpDelete("{shoppingListId}")]
-        //public ActionResult DeleteShoppingList(int shoppingListId)
-        //{
-        //    var shoppingListFromRepo = _culinaryPortalRepository.GetShoppingList(shoppingListId);
-        //    if (shoppingListFromRepo == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _culinaryPortalRepository.DeleteShoppingList(shoppingListFromRepo);
-        //    _culinaryPortalRepository.Save();
-
-        //    return NoContent();
-        //}
 
         // PUT: api/shoppingLists/5
         [HttpPut("{shoppingListId}")]
-        public async Task<IActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+        public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto)
+        {            
             if (shoppingListId != shoppingListDto.Id)
             {
                 return BadRequest();
             }
             try
             {
-                var checkIfShoppingListExists = await _culinaryPortalRepository.ShoppingListExistsAsync(shoppingListId);
-                if (checkIfShoppingListExists == false)
+                var existingShoppingList = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
+                if (existingShoppingList == null)
                 {
                     return NotFound();
-                }
-                var existingShoppingList = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
+                }                
                 if(existingShoppingList.Name != shoppingListDto.Name )
                     existingShoppingList.Name = shoppingListDto.Name;                               
 
                 //Items
                 List<ListItem> copyExItems = new List<ListItem>();
-
-                //var allSentItems = shoppingListDto.Items.ToList();
-                //var allSentItemIds = allSentItems.Select(x=>x.Id);
-                //var allSentItemIdsWithoutNulls = allSentItems.Where(y=>y.Id != null).Select(x => (int)x.Id);
-
-                //var previouItems = existingShoppingList.Items.ToList();
-                //var previousItemIds = previouItems.Select(x => x.Id);
-
-                //var newAddedItems = allSentItems.Where(x => x.Id == null);
-
-                //var itemsToRemove = previousItemIds.Except(allSentItemIdsWithoutNulls);
-                //var possibleChangedItems = 
 
                 copyExItems.AddRange(existingShoppingList.Items);
                 foreach (var exItem in copyExItems)
@@ -127,79 +111,25 @@ namespace CulinaryPortal.API.Controllers
                         existingShoppingList.Items.Remove(exItem); 
                     }
                 }
-                //var existingItemIds = existingShoppingList.Items.Select(i => i.Id);
-                //var newItems0 = shoppingListDto.Items.Where(i => !existingItemIds.Contains((int)i.Id));
-                //var newItems = shoppingListDto.Items.Where(i => !existingItemIds.Contains((int)i.Id)).ToList();
-
-                //var newItems = shoppingListDto.Items.Except(copyExItems);
+                
                 var newItems = shoppingListDto.Items.Where(x => x.Id == null);
                 foreach (var newItem in newItems)
-                {//todo moze mozna uzywać mapera?
-                    //var newToAdd = new ListItem()
-                    //{
-                    //    Name = newItem.Name
-                    //};
+                {
                     var newToAdd = _mapper.Map<ListItem>(newItem);
                     existingShoppingList.Items.Add(newToAdd);
                 }                
                 await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
             }
             catch (Exception e)
             {
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
-            return NoContent();
         }
 
-        //// PUT: api/recipes/5 -> jak zmienic link do wywołania, czy to w tym kontrolerze czy w kontrolerze listy zakupowej
-        //[Route("api/shoppingLists/addRecipeIngredients")]
-        [HttpPut("{shoppingListId}/addrecipeingredients")]
-        public async Task<IActionResult> AddRecipeIngredients([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto)
-        {
-            var existingShoppingList = await _culinaryPortalRepository.GetShoppingListAsync(shoppingListId);
-            foreach (var newItem in shoppingListDto.Items)
-            {//todo moze mozna uzywać mapera?
-                var newToAdd = new ListItem()
-                {
-                    Name = newItem.Name
-                };
-                existingShoppingList.Items.Add(newToAdd);
-            }
-            //await _culinaryPortalRepository.SaveChangesAsync();
-
-            //foreach (var recipeIngredient in shoppingListDto.Items)
-            //{
-            //    var newListItem = new ListItem()
-            //    {
-            //        Name = recipeIngredient.Name,
-            //        ShoppingListId = (int)shoppingListDto.Id,
-            //    };
-            // _culinaryPortalRepository.AddListItemsAsync(newListItem);
-
-            //}
-            //await _culinaryPortalRepository.SaveChangesAsync();
-
-
-            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
-
-            //    //one user only one cookbook   
-            //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-            //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
-
-            //    var recipeToAdd = new CookbookRecipe()
-            //    {
-            //        CookbookId = cookbook.Id,
-            //        RecipeId = cookbookRecipeDto.RecipeId
-            //    };
-            //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-            //    cookbook.CookbookRecipes.Add(recipeToAdd);
-            //    await _culinaryPortalRepository.SaveChangesAsync();
-            return Ok();
-        }
-
-        // DELETE: api/shoppingLists
-        [HttpDelete()]
-        public async Task<ActionResult> DeleteShoppingList([FromBody] int shoppingListId)
+        // DELETE: api/shoppingLists/1
+        [HttpDelete("{shoppingListId}")]
+        public async Task<ActionResult> DeleteShoppingList([FromRoute] int shoppingListId)
         {
             try
             {
@@ -208,10 +138,7 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return NotFound();
                 }
-
-                _culinaryPortalRepository.DeleteShoppingList(shoppingListFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
-
+                await _culinaryPortalRepository.DeleteShoppingListAsync(shoppingListFromRepo);
                 return Ok();
             }
             catch (Exception e)

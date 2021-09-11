@@ -28,46 +28,37 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CookbookDto>>> GetCookbooks()
         {
-            var cookbooksFromRepo = await _culinaryPortalRepository.GetCookbooksAsync();
-            return Ok(_mapper.Map<IEnumerable<Models.CookbookDto>>(cookbooksFromRepo));
+            try
+            {
+                var cookbooksFromRepo = await _culinaryPortalRepository.GetCookbooksAsync();
+                return Ok(_mapper.Map<IEnumerable<CookbookDto>>(cookbooksFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/cookbooks/5
         [HttpGet("{cookbookId}", Name = "GetCookbook")]
-        public async Task<ActionResult<CookbookDto>> GetCookbook(int cookbookId)
+        public async Task<ActionResult<CookbookDto>> GetCookbook([FromRoute] int cookbookId)
         {
-            var checkIfCookbookExists = await _culinaryPortalRepository.CookbookExistsAsync(cookbookId);
-
-            if (checkIfCookbookExists == false)
+            try
             {
-                return NotFound();
+                var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+                if (cookbookFromRepo == null)
+                {
+                    return NotFound();
+                }     
+                return Ok(_mapper.Map<CookbookDto>(cookbookFromRepo));
             }
-            var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-
-            var cookbook = _mapper.Map<Models.CookbookDto>(cookbookFromRepo);
-            //var recipesFromRepo = cookbookFromRepo.CookbookRecipes.Select(x => x.Recipe);
-            
-            
-
-            //if (recipesFromRepo.Any() && !cookbook.Recipes.Any())
-            //{
-            //    var recipeDtosFromRepo = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
-            //    //var a = cookbook.Recipes.ToList();
-            //    //a.AddRange(recipeDtosFromRepo);
-            //    //cookbook.Recipes.AddRange(recipeDtosFromRepo);
-
-            //    foreach (var recipe in recipeDtosFromRepo)
-            //    {
-            //        cookbook.Recipes.Add(recipe);
-            //    }
-            //}
-            //.ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
-
-
-            return Ok(cookbook);
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
-        //api/cookbooks/5
+        //POST: api/cookbooks
         [HttpPost]
         public async Task<ActionResult<Cookbook>> CreateCookbook([FromBody] CookbookDto cookbookDto)
         {
@@ -75,41 +66,20 @@ namespace CulinaryPortal.API.Controllers
             {
                 var cookbook = _mapper.Map<Cookbook>(cookbookDto);
                 await _culinaryPortalRepository.AddCookbookAsync(cookbook);
-                await _culinaryPortalRepository.SaveChangesAsync();
-
-                return CreatedAtAction("GetCookbook", new { cookbookId = cookbook.Id }, cookbook);
+                return CreatedAtAction(nameof(GetCookbook), new { cookbookId = cookbook.Id }, cookbook);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
-
         }
 
-        // PUT: api/cookbook
-        [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
-        public async Task<IActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
-        {            
-            //TODO try catch
-            //one user only one cookbook   
-            var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-            var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id); //TODO spr
-                    
-            var recipeToAdd = new CookbookRecipe()
-            {
-                CookbookId = cookbook.Id,
-                RecipeId = cookbookRecipeDto.RecipeId
-            };
-            //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-            cookbook.CookbookRecipes.Add(recipeToAdd);
-            await _culinaryPortalRepository.SaveChangesAsync();
-            return Ok();
-        }
+        
 
-        // DELETE: api/cookbooks
-        [HttpDelete]
-        public async Task<IActionResult> DeleteCookbook([FromBody] int cookbookId)
-        {//mam recipe.id i user.id
+        // DELETE: api/cookbooks/5
+        [HttpDelete("{cookbookId}")]
+        public async Task<ActionResult> DeleteCookbook([FromRoute] int cookbookId)
+        {   
             try
             {
                 var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
@@ -117,9 +87,7 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return NotFound();
                 }
-
-                _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
+                await _culinaryPortalRepository.DeleteCookbookAsync(cookbookFromRepo);
 
                 return Ok();
             }
@@ -131,14 +99,14 @@ namespace CulinaryPortal.API.Controllers
 
         // PUT: api/cookbooks/5 //TODO TYLKO ZROBIONE NA RemoveRecipeFromCookbook 
         [HttpPut("{cookbookId}")]
-        public async Task<IActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] CookbookRecipeDto cookbookRecipeDto)
-        {//mam recipe.id i user.id
-            if (!ModelState.IsValid)
+        public async Task<ActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] CookbookRecipeDto cookbookRecipeDto)
+        {
+            if (!ModelState.IsValid) //TODO CZY TO JEST POTRZEBNE?
             {
                 return BadRequest(ModelState);
-            }            
+            }
             try
-            {//czy user jest potrzebny? 
+            {//TODO czy user jest potrzebny? 
                 var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
                 var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
 
@@ -156,29 +124,30 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+        // PUT: api/cookbook
+        [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
+        public async Task<ActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)
+        {            
+            //one user only one cookbook   
+            try
+            {
+                var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
+                var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id); //TODO spr
 
-
-            //// DELETE: api/cookbooks
-            //[HttpDelete()]
-            //public async Task<ActionResult> DeleteCookbook([FromBody] int cookbookId)
-            //{
-            //    try
-            //    {
-            //        var cookbookFromRepo = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-            //        if (cookbookFromRepo == null)
-            //        {
-            //            return NotFound();
-            //        }
-
-            //        _culinaryPortalRepository.DeleteCookbook(cookbookFromRepo);
-            //        _culinaryPortalRepository.Save();
-
-            //        return NoContent();
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return StatusCode(StatusCodes.Status500InternalServerError, e);
-            //    }            
-            //}
+                var recipeToAdd = new CookbookRecipe()
+                {
+                    CookbookId = cookbook.Id,
+                    RecipeId = cookbookRecipeDto.RecipeId
+                };
+                //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
+                cookbook.CookbookRecipes.Add(recipeToAdd);
+                await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
+    }
 }

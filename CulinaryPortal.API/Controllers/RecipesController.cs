@@ -30,87 +30,77 @@ namespace CulinaryPortal.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes()
         {
-            var recipesFromRepo = await _culinaryPortalRepository.GetRecipesAsync();
-            return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+            try
+            {
+                var recipesFromRepo = await _culinaryPortalRepository.GetRecipesAsync();
+                return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/recipes/5
         [HttpGet("{recipeId}", Name = "GetRecipe")]
-        public async Task<ActionResult<RecipeDto>> GetRecipe(int recipeId)
-        {
-            //try catch
-            var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
-
-            if (checkIfRecipeExists == false)
-            {
-                return NotFound();
-            }
-            var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
-            var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
-            recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooks(recipeId);
-            //recipe.
-            return Ok(recipe);
-        }
-
-        [HttpPost]
-        public ActionResult<Recipe> CreateRecipe([FromBody] RecipeDto recipeDto)
-        {
-            var recipe = _mapper.Map<Recipe>(recipeDto);
-            var i = 0;
-            foreach (var instruction in recipe.Instructions)
-            {
-                i += 1;
-                if (instruction.Step == 0)
-                {
-                    instruction.Step = i;
-                }
-            }
-
-            _culinaryPortalRepository.AddRecipe(recipe);
-
-            //var i = 0;
-            //foreach (var instruction in recipe.Instructions)
-            //{
-            //    i+= 1;
-            //    if (instruction.Step == null || instruction.Step == 0)
-            //    {
-            //        instruction.Step = i;
-            //    }
-            //    _culinaryPortalRepository.AddInstruction(instruction);
-            //    i++;
-            //}
-
-            //foreach (var recipeIngredient in recipe.RecipeIngredients)
-            //{
-
-            //    recipe.RecipeIngredients.Add(recipeIngredient);
-            //}
-            //foreach (var recipeIngredient in recipe.RecipeIngredients)
-            //{
-            //    _culinaryPortalRepository.AddRecipeIngredient(recipeIngredient);
-            //}
-
-            _culinaryPortalRepository.SaveChangesAsync();
-            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
-            return CreatedAtAction("GetRecipe", new { recipeId = recipe.Id }, recipe);
-            //return Ok(recipe);
-        }
-
-        // DELETE: api/recipes/5
-        [HttpDelete("{recipeId}")]
-        public async Task<ActionResult> DeleteRecipe(int recipeId)
+        public async Task<ActionResult<RecipeDto>> GetRecipe([FromRoute] int recipeId)
         {
             try
             {
                 var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
                 if (recipeFromRepo == null)
                 {
-                    return NotFound(); //TODO DO OBSŁUŻENIA
+                    return NotFound();
+                }                
+                var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
+                recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooksAsync(recipeId);
+                return Ok(recipe);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
+        }
+
+        //POST: api/recipes
+        [HttpPost]
+        public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] RecipeDto recipeDto)
+        {
+            try
+            {
+                var recipe = _mapper.Map<Recipe>(recipeDto);
+                var i = 0;
+                foreach (var instruction in recipe.Instructions)
+                {
+                    i += 1;
+                    if (instruction.Step == 0)
+                    {
+                        instruction.Step = i;
+                    }
                 }
 
-                _culinaryPortalRepository.DeleteRecipe(recipeFromRepo);
-                await _culinaryPortalRepository.SaveChangesAsync();
+                await _culinaryPortalRepository.AddRecipeAsync(recipe);
 
+                return CreatedAtAction(nameof(GetRecipe), new { recipeId = recipe.Id }, recipe);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }      
+        }
+
+        // DELETE: api/recipes/5
+        [HttpDelete("{recipeId}")]
+        public async Task<ActionResult> DeleteRecipe([FromRoute] int recipeId)
+        {
+            try
+            {
+                var recipeFromRepo = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+                if (recipeFromRepo == null)
+                {
+                    return NotFound(); 
+                }
+                await _culinaryPortalRepository.DeleteRecipeAsync(recipeFromRepo);
                 return Ok();
             }
             catch (Exception e)
@@ -121,25 +111,19 @@ namespace CulinaryPortal.API.Controllers
 
         // PUT: api/recipes/5
         [HttpPut("{recipeId}")]
-        public async Task<IActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] RecipeDto recipeDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+        public async Task<ActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] RecipeDto recipeDto)
+        {            
             if (recipeId != recipeDto.Id)
             {
                 return BadRequest();
             }
             try
             {
-                var checkIfRecipeExists = await _culinaryPortalRepository.RecipeExistsAsync(recipeId);
-                if (checkIfRecipeExists == false)
+                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+                if (existingRecipe == null)
                 {
                     return NotFound();
-                }
-                var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+                }                
 
                 if (existingRecipe.Name != recipeDto.Name)
                     existingRecipe.Name = recipeDto.Name;
@@ -170,7 +154,6 @@ namespace CulinaryPortal.API.Controllers
                     else
                     {
                         existingRecipe.Instructions.Remove(exInstruction);
-                        //_culinaryPortalRepository.DeleteInstruction(exInstruction);   
                     }
 
                 }
@@ -184,8 +167,6 @@ namespace CulinaryPortal.API.Controllers
                         Description = newInstruction.Description
                     };
                     existingRecipe.Instructions.Add(newToAdd);
-
-                    //_culinaryPortalRepository.AddInstruction(newInstruction);
                 }
 
                 //RecipeIngredients
@@ -221,66 +202,13 @@ namespace CulinaryPortal.API.Controllers
                     existingRecipe.RecipeIngredients.Add(newToAdd);
                 }
 
-                //existingRecipe.RecipeIngredients.Clear();
-                //foreach (var exRecipeIngredient in existingRecipe.RecipeIngredients)
-                //{
-                //    _culinaryPortalRepository.DeleteRecipeIngredient(exRecipeIngredient);
-                //}
-
-                ////add all new
-                //foreach (var newRecipeIngredient in recipe.RecipeIngredients)
-                //{                    
-                //    recipe.RecipeIngredients.Add(newRecipeIngredient);
-                //}
-                // _culinaryPortalRepository.UpdateRecipe(recipe);
-                //foreach (var newRecipeIngredient in recipe.RecipeIngredients)
-                //{
-                //    _culinaryPortalRepository.AddRecipeIngredient(newRecipeIngredient);
-                //}  
-
                 await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
             }
             catch (Exception e)
             {
-                throw;
-            }
-            return NoContent();
-        }
-
-        //// PUT: api/recipes/5 -> jak zmienic link do wywołania, czy to w tym kontrolerze czy w kontrolerze listy zakupowej
-        [Route("recipes/addRecipeIngredients")]
-        [HttpPut()]
-        public async Task<IActionResult> AddRecipeIngredients([FromBody] ShoppingListDto shoppingListDto)
-        {
-
-            foreach (var recipeIngredient in shoppingListDto.Items)
-            {
-                var newListItem = new ListItem()
-                {
-                    Name = recipeIngredient.Name,
-                    ShoppingListId = (int)shoppingListDto.Id,
-                };
-                //await _culinaryPortalRepository.AddListItemsAsync(newListItem);
-
-            }
-            await _culinaryPortalRepository.SaveChangesAsync();
-
-
-            //TODO spr WYNIK i zwróć błąd jesli nie udało sie utworzyc
-
-            //    //one user only one cookbook   
-            //    var user = await _culinaryPortalRepository.GetUserAsync(cookbookRecipeDto.UserId);
-            //    var cookbook = await _culinaryPortalRepository.GetCookbookAsync(user.Cookbook.Id);
-
-            //    var recipeToAdd = new CookbookRecipe()
-            //    {
-            //        CookbookId = cookbook.Id,
-            //        RecipeId = cookbookRecipeDto.RecipeId
-            //    };
-            //    //var cookbook0 = await _culinaryPortalRepository.GetCookbookAsync(cookbookId);
-            //    cookbook.CookbookRecipes.Add(recipeToAdd);
-            //    await _culinaryPortalRepository.SaveChangesAsync();
-            return Ok();
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         //api/recipes/search
@@ -300,10 +228,7 @@ namespace CulinaryPortal.API.Controllers
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
-                //TODO czy tu powinno byc throw czy to co powyzej - a moze w innej formie?
-                //throw;
             }
-
         }
     }
 }

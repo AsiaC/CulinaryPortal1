@@ -2,6 +2,7 @@
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,73 +29,82 @@ namespace CulinaryPortal.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username))
+            try
             {
-                return BadRequest("Username is taken"); 
+                var userFromRepo = await _culinaryPortalRepository.GetUserAsync(registerDto.Username);
+                if (userFromRepo == null)
+                {
+                    return BadRequest("Username is taken");
+                }
+
+                using var hmac = new HMACSHA512();
+
+                var user = new User 
+                {
+                    Username = registerDto.Username.ToLower(),
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                    PasswordSalt = hmac.Key,
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    IsActive = true,
+                    Email = registerDto.Email
+                };
+
+                await _culinaryPortalRepository.AddUserAsync(user);
+
+                return new UserDto
+                {
+                    Username = user.Username,
+                    Token = _tokenService.CreateToken(user)
+                };
             }
-
-            using var hmac = new HMACSHA512();
-
-            var user = new User
+            catch (Exception e)
             {
-                Username = registerDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key,
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                IsActive = true,
-                Email = registerDto.Email
-            };
-
-            _culinaryPortalRepository.AddUser(user);
-            await _culinaryPortalRepository.SaveChangesAsync();
-
-            return new UserDto
-            {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user)
-            };
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginDto)
         {
-            var user = await _culinaryPortalRepository.GetUserAsync(loginDto.Username);
-
-            if (user == null)
-                return Unauthorized("Invalid username");
-
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
+            try
             {
-                if (computedHash[i] != user.PasswordHash[i])
+                var user = await _culinaryPortalRepository.GetUserAsync(loginDto.Username);
+
+                if (user == null)
+                    return Unauthorized("Invalid username");
+
+                using var hmac = new HMACSHA512(user.PasswordSalt);
+
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+
+                for (int i = 0; i < computedHash.Length; i++)
                 {
-                    return Unauthorized("Invalid password");
+                    if (computedHash[i] != user.PasswordHash[i])
+                    {
+                        return Unauthorized("Invalid password");
+                    }
                 }
-            }            
 
-            var userToReturn = new UserDto
+                var userToReturn = new UserDto 
+                {
+                    Username = user.Username,
+                    Token = _tokenService.CreateToken(user),
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                };
+
+                return userToReturn;
+            }
+            catch (Exception e)
             {
-                Username = user.Username,
-                Token = _tokenService.CreateToken(user), 
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,                
-            };
-
-            return userToReturn;
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
-
-        //metodapomocnicza do spr czy user o takiej nazwie uzytkownika istnieje
-        private async Task<bool> UserExists(string username)
-        {
-            return await _culinaryPortalRepository.UserExistsAsync(username);
-        }
+                
     }
 }

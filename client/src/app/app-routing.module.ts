@@ -11,6 +11,7 @@ import { UserRecipesComponent} from './users/user-recipes/user-recipes.component
 import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.component';
 import { UserShoppingListsComponent} from './users/user-shopping-lists/user-shopping-lists.component';
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
+import { UserListComponent } from './users/user-list/user-list.component';
 
 const routes: Routes = [
 {path:'', component: HomeComponent},
@@ -28,6 +29,7 @@ const routes: Routes = [
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
     {path: 'shoppingLists', component: ShopingListListComponent},
+    {path: 'users', component: UserListComponent}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

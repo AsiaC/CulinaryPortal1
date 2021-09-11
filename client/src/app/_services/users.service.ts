@@ -55,5 +55,10 @@ export class UsersService {
   searchUserCookbook(model: any, user:number){
     return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/cookbook/search', model)
   }
+
+  //dorobić w kontrolerze
+  // deleteUser(userId: number){
+  //   return this.http.delete(this.baseUrl + 'users/'+ userId)
+  // }
 }
 

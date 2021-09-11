@@ -1,0 +1,33 @@
+<h4>All Users</h4>
+<br/>
+
+<div class="row" *ngIf="users">
+    <div class="table table-stripped">
+        <thead>
+            <tr>
+                <th>User name</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Name (?)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{user.username}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.name}}</td>
+                <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)">Remove user</button> </td>
+            </tr>
+        </tbody>
+    </div>
+</div>
+
+<div *ngIf="!users">
+    <div class="alert alert-warning" role="alert">
+        No registered users.
+    </div>
+</div>

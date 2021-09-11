@@ -230,5 +230,24 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+
+        // GET: api/recipes/3/photos
+        [HttpGet("{recipeId}/photos", Name = "GetRecipePhotos")]
+        public async Task<IActionResult> GetRecipePhotosAsync([FromRoute] int recipeId)
+        {
+            try
+            {
+                var photosFromRepo = await _culinaryPortalRepository.GetRecipePhotosAsync(recipeId);
+                if (photosFromRepo.Any())
+                {
+                    return Ok(_mapper.Map<IEnumerable<PhotoDto>>(photosFromRepo));
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
     }
 }

@@ -22,7 +22,8 @@ namespace CulinaryPortal.API.Services
         Task<Recipe> GetRecipeAsync(int recipeId);
         Task AddRecipeAsync(Recipe recipe);
         Task<int> CountAssociatedCookbooksAsync(int recipeId);
-        Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto);
+        Task<IEnumerable<Recipe>> SearchRecipesAsync(SearchRecipeDto searchRecipeDto);        
+        Task<IEnumerable<Photo>> GetRecipePhotosAsync(int recipeId);
         #endregion
 
         #region User
@@ -77,5 +78,8 @@ namespace CulinaryPortal.API.Services
         Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId);
         #endregion
 
+        #region Photo
+        Task AddPhotoAsync(Photo photo);
+        #endregion
     }
 }

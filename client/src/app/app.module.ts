@@ -28,6 +28,7 @@ import { ShopingListListComponent } from './shopping-lists/shoping-list-list/sho
 import { InformComponent } from './modals/inform/inform.component';
 import { CreateCookbookComponent } from './modals/create-cookbook/create-cookbook.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { UserListComponent } from './users/user-list/user-list.component';
     ShopingListListComponent,
     InformComponent,
     CreateCookbookComponent,
-    UserListComponent
+    UserListComponent,
+    RecipePhotoComponent
   ],
   imports: [
     BrowserModule,

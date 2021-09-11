@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from 'src/app/_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { User } from 'src/app/_models/user';
@@ -15,7 +15,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list/select-shopping-list.component';
 import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
 import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-cookbook.component';
-
+// import {  Router} from '@angular/router';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -34,7 +34,7 @@ export class RecipeDetailComponent implements OnInit {
   bsModalRef: BsModalRef;
   recipeIsInsideCookbook: boolean = true;
   //Delete recipe only when it is not in culinary book
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService) { 
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
   }
 
@@ -176,5 +176,9 @@ export class RecipeDetailComponent implements OnInit {
 
     //ale tu moge dodać modal bo to ważna akcja a i tak musze przeładowac stronę bo wrócić do strony z przepisami wszystkimi
     
+  }
+
+  editPhotos(){
+    this.router.navigateByUrl('/recipes/'+ this.currentRecipe.id +'/photos');
   }
 }

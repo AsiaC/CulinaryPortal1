@@ -2,10 +2,9 @@
     <h1 >{{currentRecipe.name}}</h1>
 
     <div *ngIf="currentRecipe.userId === user.id">
-        <button class="btn btn-default" (click)="editThisRecipe()">Edit Recipe</button>
-    </div>
-    <div *ngIf="currentRecipe.userId == user.id">
-        <button class="btn btn-danger" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
+        <button class="btn btn-default mr-2" (click)="editThisRecipe()">Edit Recipe</button>
+        <button class="btn btn-default mr-2" (click)="editPhotos()">Add Photo</button>
+        <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
     </div>
 
     <h2>Basic informations</h2>
@@ -32,10 +31,9 @@
         </li>
     </ul>
 
-        <!-- <button class="btn btn-success" (click)="addToShoppingList()">Add all ingredients to shopping list</button>    -->
-        <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
-
-        
+    <!-- <button class="btn btn-success" (click)="addToShoppingList()">Add all ingredients to shopping list</button>    -->
+    <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
+      
     <!-- <h2>Directions</h2> -->
     <h2>Instructions</h2>
     <ol>
@@ -54,6 +52,17 @@
             <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
         </ul>
     </ol>
+    
+    <!-- <input type="file" class="file-upload" onchange="console.log(event.target.files)"> -->
+
+    <!-- <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+    <div class="file-upload">
+        {{fileName || "No file uploaded yet."}}
+        <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+            <mat-icon>attach_file</mat-icon>
+        </button>
+    </div> -->
+    
 </div>
 
 <div *ngIf="editRecipe == true">    

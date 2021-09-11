@@ -7,6 +7,7 @@ import {map, repeat} from 'rxjs/operators';
 import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
 import { Measure } from '../_models/measure';
+import { Photo } from '../_models/photo';
 
 @Injectable({
   providedIn: 'root'
@@ -43,15 +44,34 @@ export class RecipesService {
   }
 
   updateRecipe(recipeId: string, model: any){ 
-        return this.http.put(this.baseUrl + 'recipes/' + recipeId, model).pipe(
-          map((recipe: Recipe) => recipe)
-        )    
+    return this.http.put(this.baseUrl + 'recipes/' + recipeId, model).pipe(
+      map((recipe: Recipe) => recipe)
+    )    
   }
   
   deleteRecipe(recipeId: number){
     return this.http.delete(this.baseUrl + 'recipes/'+ recipeId)
   }
+
   searchRecipes(model: any){
     return this.http.put<Recipe[]>(this.baseUrl + 'recipes/search', model)
+  }
+
+  addPhoto(recipeId: number, model: any){
+    debugger;
+    // Create form data
+    //const formData = new FormData();         
+    // Store form name as "file" with file data
+    //formData.append("file", file, file.name);
+
+    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', model)
+    // .pipe(
+    //   map((recipe: Recipe) => recipe)
+    //)   
+  }
+
+  getRecipePhotos(recipeId: number){
+    debugger;
+    return this.http.get<Photo[]>(this.baseUrl + 'recipes/' + recipeId + '/photos');
   }
 }

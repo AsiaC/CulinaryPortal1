@@ -12,6 +12,7 @@ import { UserCookbookComponent } from './users/user-cookbook/user-cookbook.compo
 import { UserShoppingListsComponent} from './users/user-shopping-lists/user-shopping-lists.component';
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
+import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.component';
 
 const routes: Routes = [
 {path:'', component: HomeComponent},
@@ -21,15 +22,16 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   children:
   [
-    {path:'recipes', component: RecipeListComponent},
-    {path:'recipes/:id', component: RecipeDetailComponent},
-    {path:'cookbooks', component: CookbookListComponent},
+    {path: 'recipes', component: RecipeListComponent},
+    {path: 'recipes/:id', component: RecipeDetailComponent},
+    {path: 'cookbooks', component: CookbookListComponent},
     {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     {path: 'user/recipes', component: UserRecipesComponent},
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
     {path: 'shoppingLists', component: ShopingListListComponent},
-    {path: 'users', component: UserListComponent}
+    {path: 'users', component: UserListComponent},
+    {path: 'recipes/:id/photos', component: RecipePhotoComponent}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

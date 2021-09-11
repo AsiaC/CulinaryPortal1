@@ -1,0 +1,36 @@
+<p>recipe-photo works!</p>
+
+<input type="file" class="file-upload" onchange="console.log(event.target.files)">
+<br/>
+<input class="form-control" type="file" (change)="onChange($event)">
+<button (click)="onUpload()" class="btn btn-success">Upload</button>
+
+<div *ngIf="recipePhotos">
+    <table class="table table-stripped">
+        <thead>
+            <tr>   
+                <th scope="col">Foto</th>            
+                <th scope="col">Is Main</th> 
+                <th scope="col">Description</th>                            
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr *ngFor="let photo of recipePhotos">
+                <td>
+                    <ng-container>                                           
+                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                                        
+                    </ng-container>      
+                </td>
+                <td>{{photo.isMain}}</td>
+                <td>{{photo.description}}</td>
+                <td>
+                    <ng-container> 
+                        <button class="btn btn-success mr-2" (click)="editPhoto(photo.id)">Edit Photo</button><br><br>
+                        <button class="btn btn-danger mr-2" (click)="deletePhoto(photo.id)">Delete Photo</button>
+                    </ng-container>
+                </td>
+            </tr>            
+        </tbody>
+    </table>
+</div>

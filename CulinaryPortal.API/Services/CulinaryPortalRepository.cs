@@ -160,6 +160,12 @@ namespace CulinaryPortal.API.Services
             }           
             return query;
         }
+
+        public async Task<IEnumerable<Photo>> GetRecipePhotosAsync(int recipeId)
+        {
+            return await _context.Photos.Where(p => p.RecipeId == recipeId).ToListAsync();            
+        }
+
         public async Task<int> CountAssociatedCookbooksAsync(int recipeId) 
         {
             return await _context.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();
@@ -442,6 +448,19 @@ namespace CulinaryPortal.API.Services
                 query = query.Where(r => r.Name == searchRecipeDto.Name);
             }
             return query;
+        }
+        #endregion
+
+        #region Photo
+        public async Task AddPhotoAsync(Photo photo)
+        {
+            if (photo == null)
+            {
+                throw new ArgumentNullException(nameof(photo));
+            }
+
+            await _context.Photos.AddAsync(photo);
+            await _context.SaveChangesAsync();
         }
         #endregion
 

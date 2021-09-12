@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Photo } from 'src/app/_models/photo';
 import { Recipe } from 'src/app/_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe-photo',
@@ -13,9 +14,9 @@ export class RecipePhotoComponent implements OnInit {
   recipePhotos: Photo[];
   recipeId: number;
   file: File = null; // Variable to store file
-  loading: boolean = false; // Flag variable
+  //loading: boolean = false; // Flag variable
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute) { }
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadRecipePhotos();
@@ -42,35 +43,31 @@ export class RecipePhotoComponent implements OnInit {
   // OnClick of button Upload
   onUpload() {
     debugger;
-    this.loading = !this.loading;
+    //this.loading = !this.loading;
     console.log(this.file);
     const uploadData = new FormData();
     uploadData.append('upload', this.file);
     //uploadData.append('myFile', this.file, this.file.name);
-    this.recipeService.addPhoto(this.recipeId,uploadData).subscribe(
-    //this.recipeService.addPhoto(this.recipeId,this.file).subscribe(
-        (event: any) => {
-          debugger;
-            //if (typeof (event) === 'object') {
-//debugger;
-                // Short link via api response
-                //this.shortLink = event.link;
-
-                //this.loading = false; // Flag variable 
-            //}
-        }
-    );
-}
-
-  addPhoto(){
-
-  }
+    this.recipeService.addPhoto(this.recipeId,uploadData)
+    .subscribe(response => {
+      this.toastr.success('Photo added successfully!');
+      this.loadRecipePhotos();
+    }, error => {
+      console.log(error);
+    })
+  }  
 
   editPhoto(photoId: number){
 
   }
 
   deletePhoto(photoId: number){
-
+    this.recipeService.deletePhoto(photoId)
+      .subscribe(response => {
+        this.toastr.success('Photo removed successfully!');
+        this.loadRecipePhotos(); 
+      }, error => {
+         console.log(error);                      
+      })
   }
 }

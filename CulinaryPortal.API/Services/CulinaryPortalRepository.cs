@@ -462,6 +462,16 @@ namespace CulinaryPortal.API.Services
             await _context.Photos.AddAsync(photo);
             await _context.SaveChangesAsync();
         }
+        public async Task<Photo> GetPhotoAsync(int photoId)
+        {
+            return await _context.Photos.FirstOrDefaultAsync(u => u.Id == photoId);
+        }
+
+        public async Task DeletePhotoAsync(Photo photo)
+        {
+            _context.Photos.Remove(photo);
+            await _context.SaveChangesAsync();
+        }
         #endregion
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync()

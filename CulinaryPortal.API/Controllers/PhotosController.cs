@@ -83,39 +83,90 @@ namespace CulinaryPortal.API.Controllers
 
 
 
-        [HttpPost]
-        public async Task<IActionResult> UploadImage(IFormFile upload)
-        {//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
+        //[HttpPost]
+        //public async Task<IActionResult> UploadImage(IFormFile upload)
+        //{//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
+        //    try
+        //    {
+        //        using (var memoryStream = new MemoryStream())
+        //        {
+        //            await upload.CopyToAsync(memoryStream);
+
+        //            // Upload the file if less than 2 MB
+        //            if (memoryStream.Length < 2097152)
+        //            {
+        //                var photo = new Photo()
+        //                {
+        //                    ContentPhoto = memoryStream.ToArray(),
+        //                    IsMain = true,    
+        //                    RecipeId = 8
+        //                };
+
+        //                await _culinaryPortalRepository.AddPhotoAsync(photo);
+        //                return Ok();
+        //            }
+        //            else
+        //            {
+        //                //ModelState.AddModelError("File", "The file is too large.");
+        //                return BadRequest();
+        //            }
+        //        }               
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }
+        //}
+
+        // DELETE: api/photos/1
+        [HttpDelete("{photoId}")]
+        public async Task<ActionResult> DeletePhoto([FromRoute] int photoId)
+        {
             try
             {
-                using (var memoryStream = new MemoryStream())
+                var photoFromRepo = await _culinaryPortalRepository.GetPhotoAsync(photoId);
+                if (photoFromRepo == null)
                 {
-                    await upload.CopyToAsync(memoryStream);
-
-                    // Upload the file if less than 2 MB
-                    if (memoryStream.Length < 2097152)
-                    {
-                        var photo = new Photo()
-                        {
-                            ContentPhoto = memoryStream.ToArray(),
-                            IsMain = true,    
-                            RecipeId = 8
-                        };
-
-                        await _culinaryPortalRepository.AddPhotoAsync(photo);
-                        return Ok();
-                    }
-                    else
-                    {
-                        //ModelState.AddModelError("File", "The file is too large.");
-                        return BadRequest();
-                    }
-                }               
+                    return NotFound();
+                }
+                await _culinaryPortalRepository.DeletePhotoAsync(photoFromRepo);
+                return Ok();
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+
+        // PUT: api/photos/5
+        [HttpPut("{photoId}")]
+        public async Task<ActionResult> UpdatePhoto([FromRoute] int photoId, [FromBody] PhotoDto photoDto)
+        {
+            if (photoId != photoDto.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var existingPhotoData = await _culinaryPortalRepository.GetPhotoAsync(photoId);
+                if (existingPhotoData == null)
+                {
+                    return NotFound();
+                }
+                if (existingPhotoData.Description != photoDto.Description)
+                    existingPhotoData.Description = photoDto.Description;
+
+                if (existingPhotoData.IsMain != photoDto.IsMain)
+                    existingPhotoData.IsMain = photoDto.IsMain;
+
+                await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
     }
 }

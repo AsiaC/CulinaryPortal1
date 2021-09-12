@@ -291,5 +291,25 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+
+        //// DELETE: api/recipes/3/photos/1
+        //[HttpDelete("{photoId}")]
+        //public async Task<ActionResult> DeletePhoto([FromRoute] int photoId)
+        //{
+        //    try
+        //    {
+        //        var photoFromRepo = await _culinaryPortalRepository.GetPhotoAsync(photoId);
+        //        if (photoFromRepo == null)
+        //        {
+        //            return NotFound();
+        //        }
+        //        await _culinaryPortalRepository.DeletePhotoAsync(photoFromRepo);
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }
+        //}
     }
 }

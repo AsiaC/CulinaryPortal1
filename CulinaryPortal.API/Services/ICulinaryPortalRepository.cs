@@ -80,6 +80,8 @@ namespace CulinaryPortal.API.Services
 
         #region Photo
         Task AddPhotoAsync(Photo photo);
+        Task<Photo> GetPhotoAsync(int photoId);
+        Task DeletePhotoAsync(Photo photo);
         #endregion
     }
 }

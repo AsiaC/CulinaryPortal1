@@ -74,4 +74,11 @@ export class RecipesService {
     //debugger;
     return this.http.get<Photo[]>(this.baseUrl + 'recipes/' + recipeId + '/photos');
   }
+
+  deletePhoto(photoId: number){
+    return this.http.delete(this.baseUrl + 'photos/' + photoId)
+  }
+  // deletePhoto(photoId: number, recipeId: number){
+  //     return this.http.delete(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId)
+  //   }
 }

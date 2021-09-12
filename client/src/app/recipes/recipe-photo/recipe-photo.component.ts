@@ -4,6 +4,7 @@ import { Photo } from 'src/app/_models/photo';
 import { Recipe } from 'src/app/_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-recipe-photo',
@@ -15,8 +16,9 @@ export class RecipePhotoComponent implements OnInit {
   recipeId: number;
   file: File = null; // Variable to store file
   //loading: boolean = false; // Flag variable
+  bsModalRef: BsModalRef;
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService, private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.loadRecipePhotos();
@@ -29,7 +31,7 @@ export class RecipePhotoComponent implements OnInit {
     console.log();
     this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
       this.recipePhotos = recipePhotos;
-      debugger;
+      //debugger;
     }, error =>{       
       console.log(error);
     })
@@ -57,8 +59,36 @@ export class RecipePhotoComponent implements OnInit {
     })
   }  
 
-  editPhoto(photoId: number){
-
+  // editDescription(photo: Photo){
+  //   debugger;
+  //   const initialState = {
+  //     title: 'Edit photo description',
+  //     closeBtnName: 'Cancel',
+  //     submitBtnName: 'Confirm change',
+  //     photoData: photo
+  //   }
+  //   this.bsModalRef = this.modalService.show(EditPhotoDescriptionComponent, {initialState})
+  // }
+  // changeMainPhoto(){
+  //   debugger;
+  //   const initialState = {
+  //     title: 'Change main photo',
+  //     closeBtnName: 'Cancel',
+  //     submitBtnName: 'Confirm',
+  //     list: this.recipePhotoShoppingLists,
+  //   }
+  //   this.bsModalRef = this.modalService.show(, {initialState})
+     
+  // }
+  setAsMainPhoto(photoId: number){
+    debugger;
+    this.recipeService.updateMainRecipePhoto(photoId, this.recipeId)
+      .subscribe(response => {
+        this.toastr.success('Main photo changed successfully!');
+        this.loadRecipePhotos(); 
+      }, error => {
+        console.log(error);                      
+      })
   }
 
   deletePhoto(photoId: number){

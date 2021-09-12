@@ -311,5 +311,42 @@ namespace CulinaryPortal.API.Controllers
         //        return StatusCode(StatusCodes.Status500InternalServerError, e);
         //    }
         //}
+
+
+        // PUT: api/recipes/3/photos
+        [HttpPut("{recipeId}/photos")]
+        public async Task<IActionResult> UpdateMainPhoto([FromRoute] int recipeId, [FromBody] int photoId)
+        {
+            try
+            {
+                var photosFromRepo = await _culinaryPortalRepository.GetRecipePhotosAsync(recipeId);
+                if (!photosFromRepo.Any())
+                {
+                    return NotFound();
+                }
+                var newMainPhoto = photosFromRepo.FirstOrDefault(p => p.Id == photoId);
+                if (newMainPhoto == null)
+                {
+                    return NotFound();
+                }
+                newMainPhoto.IsMain = true;
+
+                var otherPhotos = photosFromRepo.Where(p => p.Id != photoId);
+                if (otherPhotos.Any())
+                {
+                    foreach (var otherPhoto in otherPhotos)
+                    {
+                        otherPhoto.IsMain = false;
+                    }
+                }               
+                
+                await _culinaryPortalRepository.SaveChangesAsync();
+                return Ok();               
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
     }
 }

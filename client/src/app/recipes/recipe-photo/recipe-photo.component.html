@@ -1,8 +1,14 @@
 <!-- <input type="file" class="file-upload" onchange="console.log(event.target.files)">
 <br/> 
 <input class="form-control" type="file" (change)="onChange($event)"> -->
-<input class="file-upload" type="file" (change)="onChange($event)" name="upload">
-<button (click)="onUpload()" class="btn btn-success">Upload</button>
+<div>
+    <input class="file-upload" type="file" (change)="onChange($event)" name="upload">
+    <button (click)="onUpload()" class="btn btn-success">Upload</button>
+</div>
+<!-- <div>
+    <p>Change main photo</p>
+    <button class="btn btn-success" (click)="changeMainPhoto()">Change main photo</button>
+</div> -->
 <!-- <div>
     <input style="display: none" type="file" (change)="onChange($event)" #fileInput>
     <button (click)="fileInput.click()">Select File</button>
@@ -13,8 +19,7 @@
         <thead>
             <tr>   
                 <th scope="col">Foto</th>            
-                <th scope="col">Is Main</th> 
-                <th scope="col">Description</th>                            
+                <th scope="col">Is Main</th>                           
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -26,10 +31,10 @@
                     </ng-container>      
                 </td>
                 <td>{{photo.isMain}}</td>
-                <td>{{photo.description}}</td>
                 <td>
                     <ng-container> 
-                        <button class="btn btn-success mr-2" (click)="editPhoto(photo.id)">Edit Photo</button><br><br>
+                        <!-- <button class="btn btn-success mr-2" (click)="editDescription(photo)">Edit Description</button><br><br> -->
+                         <button class="btn btn-success mr-2" (click)="setAsMainPhoto(photo.id)">Set as main photo</button><br><br>
                         <button class="btn btn-danger mr-2" (click)="deletePhoto(photo.id)">Delete Photo</button>
                     </ng-container>
                 </td>

@@ -81,4 +81,15 @@ export class RecipesService {
   // deletePhoto(photoId: number, recipeId: number){
   //     return this.http.delete(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId)
   //   }
+
+  updatePhoto(photoId: any, model: any){
+    debugger;
+    return this.http.put(this.baseUrl + 'photos/' + photoId, model).pipe(
+      map((photo: Photo) => photo)
+)   
+  }
+
+  updateMainRecipePhoto(photoId: number, recipeId: number){
+    return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId )   
+  }
 }

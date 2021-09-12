@@ -1,10 +1,13 @@
-<p>recipe-photo works!</p>
-
-<input type="file" class="file-upload" onchange="console.log(event.target.files)">
-<br/>
-<input class="form-control" type="file" (change)="onChange($event)">
+<!-- <input type="file" class="file-upload" onchange="console.log(event.target.files)">
+<br/> 
+<input class="form-control" type="file" (change)="onChange($event)"> -->
+<input class="file-upload" type="file" (change)="onChange($event)" name="upload">
 <button (click)="onUpload()" class="btn btn-success">Upload</button>
-
+<!-- <div>
+    <input style="display: none" type="file" (change)="onChange($event)" #fileInput>
+    <button (click)="fileInput.click()">Select File</button>
+    <button (click)="onUpload()">Upload!</button>
+</div> -->
 <div *ngIf="recipePhotos">
     <table class="table table-stripped">
         <thead>

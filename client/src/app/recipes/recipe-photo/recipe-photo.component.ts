@@ -22,7 +22,7 @@ export class RecipePhotoComponent implements OnInit {
   }
 
   loadRecipePhotos(){
-    debugger;
+    //debugger;
 
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
     console.log();
@@ -44,15 +44,20 @@ export class RecipePhotoComponent implements OnInit {
     debugger;
     this.loading = !this.loading;
     console.log(this.file);
-    this.recipeService.addPhoto(this.recipeId,this.file).subscribe(
+    const uploadData = new FormData();
+    uploadData.append('upload', this.file);
+    //uploadData.append('myFile', this.file, this.file.name);
+    this.recipeService.addPhoto(this.recipeId,uploadData).subscribe(
+    //this.recipeService.addPhoto(this.recipeId,this.file).subscribe(
         (event: any) => {
-            if (typeof (event) === 'object') {
-debugger;
+          debugger;
+            //if (typeof (event) === 'object') {
+//debugger;
                 // Short link via api response
                 //this.shortLink = event.link;
 
-                this.loading = false; // Flag variable 
-            }
+                //this.loading = false; // Flag variable 
+            //}
         }
     );
 }

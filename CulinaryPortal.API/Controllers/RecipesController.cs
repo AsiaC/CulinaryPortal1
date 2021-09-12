@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -243,6 +244,47 @@ namespace CulinaryPortal.API.Controllers
                     return Ok(_mapper.Map<IEnumerable<PhotoDto>>(photosFromRepo));
                 }
                 return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+        
+
+        // POST: api/recipes/3/photos
+        [HttpPost("{recipeId}/photos")]
+        public async Task<IActionResult> UploadImage([FromRoute] int recipeId, IFormFile upload)
+        {//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
+            try
+            {
+                if (upload != null && upload.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await upload.CopyToAsync(memoryStream);
+
+                        // Upload the file if less than 2 MB
+                        if (memoryStream.Length < 2097152)
+                        {
+                            var photo = new Photo()
+                            {
+                                ContentPhoto = memoryStream.ToArray(),
+                                IsMain = true,
+                                RecipeId = recipeId,
+                            };
+
+                            await _culinaryPortalRepository.AddPhotoAsync(photo);
+                            return Ok();
+                        }
+                        else
+                        {
+                            //ModelState.AddModelError("File", "The file is too large.");
+                            return BadRequest();
+                        }
+                    }
+                }
+                return BadRequest();
             }
             catch (Exception e)
             {

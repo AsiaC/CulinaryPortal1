@@ -57,21 +57,21 @@ export class RecipesService {
     return this.http.put<Recipe[]>(this.baseUrl + 'recipes/search', model)
   }
 
-  addPhoto(recipeId: number, model: any){
+  addPhoto(recipeId: number, upload: any){
     debugger;
     // Create form data
     //const formData = new FormData();         
     // Store form name as "file" with file data
     //formData.append("file", file, file.name);
 
-    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', model)
+    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload)
     // .pipe(
     //   map((recipe: Recipe) => recipe)
     //)   
   }
 
   getRecipePhotos(recipeId: number){
-    debugger;
+    //debugger;
     return this.http.get<Photo[]>(this.baseUrl + 'recipes/' + recipeId + '/photos');
   }
 }

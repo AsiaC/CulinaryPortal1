@@ -2,8 +2,8 @@
     <h1 >{{currentRecipe.name}}</h1>
 
     <div *ngIf="currentRecipe.userId === user.id">
-        <button class="btn btn-default mr-2" (click)="editThisRecipe()">Edit Recipe</button>
-        <button class="btn btn-default mr-2" (click)="editPhotos()">Edit Photos</button>
+        <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
+        <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
         <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
     </div>
 

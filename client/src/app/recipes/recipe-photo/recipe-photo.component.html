@@ -5,6 +5,9 @@
     <input class="file-upload" type="file" (change)="onChange($event)" name="upload">
     <button (click)="onUpload()" class="btn btn-success">Upload</button>
 </div>
+<div>
+    <button class="btn btn-default" (click)="back()">Back to receipe</button> 
+</div>
 <!-- <div>
     <p>Change main photo</p>
     <button class="btn btn-success" (click)="changeMainPhoto()">Change main photo</button>
@@ -33,7 +36,7 @@
                 <td>{{photo.isMain}}</td>
                 <td>
                     <ng-container> 
-                        <!-- <button class="btn btn-success mr-2" (click)="editDescription(photo)">Edit Description</button><br><br> -->
+                        <!-- <button class="btn btn-success mr-2" (click)="editDescription(photo)">Update Description</button><br><br> -->
                          <button class="btn btn-success mr-2" (click)="setAsMainPhoto(photo.id)">Set as main photo</button><br><br>
                         <button class="btn btn-danger mr-2" (click)="deletePhoto(photo.id)">Delete Photo</button>
                     </ng-container>

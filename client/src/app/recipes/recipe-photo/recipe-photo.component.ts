@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from 'src/app/_models/photo';
 import { Recipe } from 'src/app/_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
@@ -18,7 +18,7 @@ export class RecipePhotoComponent implements OnInit {
   //loading: boolean = false; // Flag variable
   bsModalRef: BsModalRef;
 
-  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService, private modalService: BsModalService) { }
+  constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadRecipePhotos();
@@ -62,7 +62,7 @@ export class RecipePhotoComponent implements OnInit {
   // editDescription(photo: Photo){
   //   debugger;
   //   const initialState = {
-  //     title: 'Edit photo description',
+  //     title: 'Update photo description',
   //     closeBtnName: 'Cancel',
   //     submitBtnName: 'Confirm change',
   //     photoData: photo
@@ -99,5 +99,9 @@ export class RecipePhotoComponent implements OnInit {
       }, error => {
          console.log(error);                      
       })
+  }
+
+  back(){
+    this.router.navigateByUrl('/recipes/'+ this.recipeId);
   }
 }

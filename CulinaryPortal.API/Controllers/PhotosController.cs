@@ -152,9 +152,7 @@ namespace CulinaryPortal.API.Controllers
                 if (existingPhotoData == null)
                 {
                     return NotFound();
-                }
-                if (existingPhotoData.Description != photoDto.Description)
-                    existingPhotoData.Description = photoDto.Description;
+                }                
 
                 if (existingPhotoData.IsMain != photoDto.IsMain)
                     existingPhotoData.IsMain = photoDto.IsMain;

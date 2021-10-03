@@ -12,9 +12,6 @@ namespace CulinaryPortal.API.Entities
     {
         [Key]
         public int Id { get; set; }
-
-        [MaxLength(100)]
-        public string Description { get; set; }
                        
         public byte[] ContentPhoto { get; set; }
 

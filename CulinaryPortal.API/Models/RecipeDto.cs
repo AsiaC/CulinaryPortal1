@@ -13,7 +13,11 @@ namespace CulinaryPortal.API.Models
 
         public string Name { get; set; }
 
-        public double Rate { get; set; } //DEFAULT 0
+        public double Rate { get; set; } //DEFAULT 0 TODO USUN Z BAZY TEZ
+        public int MyRate { get; set; }
+        public decimal TotalScore { get; set; }
+        public int RateValues{ get; set; }
+        public int CountRates { get; set; }
 
         public string Description { get; set; }
 
@@ -37,5 +41,7 @@ namespace CulinaryPortal.API.Models
         //public IList<CookbookDto> Cookbooks { get; set; }
 
         public IList<RecipeIngredientDto> RecipeIngredients { get; set; }
+
+        public IList<RateDto> Rates { get; set; }
     }
 }

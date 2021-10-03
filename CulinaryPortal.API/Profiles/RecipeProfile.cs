@@ -16,7 +16,14 @@ namespace CulinaryPortal.API.Profiles
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"))
                 .ForMember(
                 dest => dest.Category,
-                opt => opt.MapFrom(src => src.Category.Name));
+                opt => opt.MapFrom(src => src.Category.Name))
+                .ForMember(
+                dest => dest.CountRates,
+                opt => opt.MapFrom(src => src.Rates.Count()))
+                .ForMember(
+                dest => dest.RateValues,
+                opt => opt.MapFrom(src => src.Rates.Sum(x=>x.Value)))                
+                ;
             //.ForMember(
             //dest=>dest.Preparation,
             //opt => opt.MapFrom(src=>src.PreparationTime))
@@ -43,13 +50,16 @@ namespace CulinaryPortal.API.Profiles
                .ForMember(
                dest => dest.Category,
                opt => opt.MapFrom(src => src.Category));
-               //.ForMember(
-               //dest => dest.PreparationTime,
-               //opt => opt.MapFrom(src => src.Preparation))
-               //.ForMember(
-               //dest => dest.DifficultyLevel,
-               //opt => opt.MapFrom(src => src.Difficulty));  // CookbookRecipes.Select(x => x.Cookbook)));
+            //.ForMember(
+            //dest => dest.PreparationTime,
+            //opt => opt.MapFrom(src => src.Preparation))
+            //.ForMember(
+            //dest => dest.DifficultyLevel,
+            //opt => opt.MapFrom(src => src.Difficulty));  // CookbookRecipes.Select(x => x.Cookbook)));
 
+
+            CreateMap<Models.RateDto, Entities.Rate>();
+            CreateMap<Entities.Rate, Models.RateDto>();               
 
         }
     }

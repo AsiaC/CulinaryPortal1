@@ -179,6 +179,28 @@ namespace CulinaryPortal.API.Controllers
             }
         }
 
+        // GET: api/users/3/recipes/1
+        [HttpGet("{userId}/recipes/{recipeId}", Name = "GetUserRecipeRate")]
+        public async Task<ActionResult<Rate>> GetUserRecipeRate([FromRoute] int userId, [FromRoute] int recipeId)
+        {
+            try
+            {  
+                var rateFromRepo = await _culinaryPortalRepository.GetUserRecipeRateAsync(userId, recipeId); ;
+                if (rateFromRepo == null)
+                {
+                    return NotFound();
+                }
+                var rate = _mapper.Map<RateDto>(rateFromRepo);
+
+                return Ok(rate);
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
         //// PUT: api/users/3/recipes/search
         [HttpPut("{userId}/recipes/search")]
         public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserRecipesAsync([FromRoute] int userId, [FromBody] SearchRecipeDto searchRecipeDto)

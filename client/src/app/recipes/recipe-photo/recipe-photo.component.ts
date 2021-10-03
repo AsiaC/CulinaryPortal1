@@ -25,13 +25,10 @@ export class RecipePhotoComponent implements OnInit {
   }
 
   loadRecipePhotos(){
-    //debugger;
-
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
     console.log();
     this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
       this.recipePhotos = recipePhotos;
-      //debugger;
     }, error =>{       
       console.log(error);
     })
@@ -39,12 +36,10 @@ export class RecipePhotoComponent implements OnInit {
 
   // On file Select
   onChange(event) {
-    debugger;
     this.file = event.target.files[0];
   }
   // OnClick of button Upload
   onUpload() {
-    debugger;
     //this.loading = !this.loading;
     console.log(this.file);
     const uploadData = new FormData();
@@ -60,7 +55,6 @@ export class RecipePhotoComponent implements OnInit {
   }  
 
   // editDescription(photo: Photo){
-  //   debugger;
   //   const initialState = {
   //     title: 'Update photo description',
   //     closeBtnName: 'Cancel',
@@ -70,7 +64,6 @@ export class RecipePhotoComponent implements OnInit {
   //   this.bsModalRef = this.modalService.show(EditPhotoDescriptionComponent, {initialState})
   // }
   // changeMainPhoto(){
-  //   debugger;
   //   const initialState = {
   //     title: 'Change main photo',
   //     closeBtnName: 'Cancel',
@@ -81,7 +74,6 @@ export class RecipePhotoComponent implements OnInit {
      
   // }
   setAsMainPhoto(photoId: number){
-    debugger;
     this.recipeService.updateMainRecipePhoto(photoId, this.recipeId)
       .subscribe(response => {
         this.toastr.success('Main photo changed successfully!');

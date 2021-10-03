@@ -8,6 +8,7 @@ import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
 import { Measure } from '../_models/measure';
 import { Photo } from '../_models/photo';
+import { Rate } from '../_models/rate';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +59,6 @@ export class RecipesService {
   }
 
   addPhoto(recipeId: number, upload: any){
-    debugger;
     // Create form data
     //const formData = new FormData();         
     // Store form name as "file" with file data
@@ -71,7 +71,6 @@ export class RecipesService {
   }
 
   getRecipePhotos(recipeId: number){
-    //debugger;
     return this.http.get<Photo[]>(this.baseUrl + 'recipes/' + recipeId + '/photos');
   }
 
@@ -83,13 +82,32 @@ export class RecipesService {
   //   }
 
   updatePhoto(photoId: any, model: any){
-    debugger;
     return this.http.put(this.baseUrl + 'photos/' + photoId, model).pipe(
-      map((photo: Photo) => photo)
-)   
+      map((photo: Photo) => photo))   
   }
 
   updateMainRecipePhoto(photoId: number, recipeId: number){
     return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId )   
   }
+
+  // rateRecipe(rating: number, recipeId: number){
+  //   return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/rate', rating) //TODO CZY MUSZE ZWRACAC PRZEPIS?
+  // }
+  // rateRecipe(model: Rate){
+  //   return this.http.post(this.baseUrl + 'recipes/' + model.recipeId + '/rate', model) //TODO CZY MUSZE ZWRACAC PRZEPIS?
+  // }
+
+  addRate(model: Rate){
+    return this.http.post(this.baseUrl + 'rates', model).pipe(
+      map((rate: Rate) => rate)
+    ) //TODO CZY MUSZE ZWRACAC PRZEPIS?
+  }
+  
+
+  deleteRate(rateId: number){      
+    return this.http.delete(this.baseUrl + 'rates/' + rateId)
+  }
+  
+
+
 }

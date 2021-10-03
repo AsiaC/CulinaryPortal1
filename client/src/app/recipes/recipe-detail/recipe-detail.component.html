@@ -7,17 +7,53 @@
         <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
     </div>
 
-    <h2>Basic informations</h2>
+    <h2>Basic information</h2>
     <p>Author: {{currentRecipe.author}}</p>
-    <p>Author: {{currentRecipe.userId}}</p>
+    <!-- <p>Author: {{currentRecipe.userId}}</p> -->
     <p>Description: {{currentRecipe.description}}</p>
-    <!-- <p>CountCookbooks: {{recipe.countCookbooks}}</p> -->
-    <p>Rate: {{currentRecipe.rate}}</p>
+    <!-- <p>CountCookbooks: {{recipe.countCookbooks}}</p> -->       
     <p>Category: {{currentRecipe.category}}</p>
     <p>Difficulty Level Number: {{currentRecipe.difficultyLevel}}</p>
     <!-- <p>Difficulty: {{recipe.difficulty}}</p> -->
     <p>Preparation Time Number: {{currentRecipe.preparationTime}}</p>
     <!-- <p>Preparation: {{recipe.preparation}}</p> -->
+
+    
+     <!-- <button class="btn btn-default mr-2" (click)="rateRecipe()">Rate</button> -->
+    <!-- dodaj tooltipy -->
+    <div>
+        <div class="rating">
+            <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0">
+                <span *ngIf="currentRecipe.totalScore >= 1"><i class="fa fa-star"></i></span>
+                <span *ngIf="currentRecipe.totalScore > 0 && currentRecipe.totalScore < 1"><i class="fa fa-star-half-o"></i></span>
+                <span *ngIf="currentRecipe.totalScore === 0"><i class="fa fa-star-o"></i></span>        
+            </button>
+            <button class="btn btn-light" (click)="rate(2)" title="Rate the recipe 2" [disabled]="rateModel.value > 0">
+                <span *ngIf="currentRecipe.totalScore >= 2"><i class="fa fa-star"></i></span>
+                <span *ngIf="currentRecipe.totalScore > 1 && currentRecipe.totalScore < 2"><i class="fa fa-star-half-o"></i></span>
+                <span *ngIf="currentRecipe.totalScore <= 1"><i class="fa fa-star-o"></i></span>        
+            </button>
+            <button class="btn btn-light" (click)="rate(3)" title="Rate the recipe 3" [disabled]="rateModel.value > 0">
+                <span *ngIf="currentRecipe.totalScore >= 3"><i class="fa fa-star"></i></span>
+                <span *ngIf="currentRecipe.totalScore > 2 && currentRecipe.totalScore < 3"><i class="fa fa-star-half-o"></i></span>
+                <span *ngIf="currentRecipe.totalScore <= 2"><i class="fa fa-star-o"></i></span>        
+            </button>
+            <button class="btn btn-light" (click)="rate(4)" title="Rate the recipe 4" [disabled]="rateModel.value > 0">
+                <span *ngIf="currentRecipe.totalScore >= 4"><i class="fa fa-star"></i></span>
+                <span *ngIf="currentRecipe.totalScore > 3 && currentRecipe.totalScore < 4"><i class="fa fa-star-half-o"></i></span>
+                <span *ngIf="currentRecipe.totalScore <= 3"><i class="fa fa-star-o"></i></span>        
+            </button>
+            <button class="btn btn-light" (click)="rate(5)" title="Rate the recipe 5" [disabled]="rateModel.value > 0">
+                <span *ngIf="currentRecipe.totalScore === 5"><i class="fa fa-star"></i></span>
+                <span *ngIf="currentRecipe.totalScore > 4 && currentRecipe.totalScore < 5"><i class="fa fa-star-half-o"></i></span>
+                <span *ngIf="currentRecipe.totalScore <= 4"><i class="fa fa-star-o"></i></span>        
+            </button>
+        </div>
+        <p>Total Score: {{currentRecipe.totalScore}} ({{currentRecipe.countRates}} votes) </p>
+        <p>My Rating: {{rateModel.value}} 
+            <button class="btn btn-danger" (click)="deleteVote()" [disabled]="rateModel.value === 0">Remove my vote</button>
+        </p>        
+    </div>
 
     <h2>Ingredients</h2>
     <ul>

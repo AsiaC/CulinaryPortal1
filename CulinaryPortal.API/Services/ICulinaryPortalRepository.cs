@@ -38,6 +38,7 @@ namespace CulinaryPortal.API.Services
         //czy to jest potrzebne a nie wystarczyłoby getCookbookAsync?
         Task<Cookbook> GetUserCookbookAsync(int userId);
         Task<IEnumerable<Recipe>> SearchUserCookbookRecipesAsync(SearchRecipeDto searchRecipeDto);
+        Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId);
         #endregion
 
         #region Ingredient
@@ -82,6 +83,13 @@ namespace CulinaryPortal.API.Services
         Task AddPhotoAsync(Photo photo);
         Task<Photo> GetPhotoAsync(int photoId);
         Task DeletePhotoAsync(Photo photo);
+        #endregion
+
+        #region Rate
+        Task<IEnumerable<Rate>> GetRatesAsync();
+        Task<Rate> GetRateAsync(int rateId);
+        Task AddRateAsync(Rate rate);
+        Task DeleteRateAsync(Rate rate);
         #endregion
     }
 }

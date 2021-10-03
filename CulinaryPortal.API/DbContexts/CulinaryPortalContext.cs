@@ -36,5 +36,6 @@ namespace CulinaryPortal.API.DbContexts
         public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         //public DbSet<ListItem> Items { get; set; }
+        public DbSet<Rate> Rates { get; set; }
     }
 }

@@ -108,7 +108,9 @@ namespace CulinaryPortal.API.Services
                 //.Include(ri => ri.RecipeIngredients)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
+                .Include(rate => rate.Rates)
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
+            
             return recipe;
         }
 
@@ -240,6 +242,11 @@ namespace CulinaryPortal.API.Services
         {
             // no code in this implementation ?
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId) 
+        {
+            return await _context.Rates.FirstOrDefaultAsync(r => r.RecipeId == recipeId && r.UserId == userId);             
         }
         #endregion
 
@@ -474,6 +481,39 @@ namespace CulinaryPortal.API.Services
         }
         #endregion
 
+        #region Rate
+        public async Task<IEnumerable<Rate>> GetRatesAsync()
+        {
+            var rates = await _context.Rates                
+                .ToListAsync();          
+
+            return rates;
+        }
+
+        public async Task<Rate> GetRateAsync(int rateId)
+        {
+           var rate = await _context.Rates.FirstOrDefaultAsync(u => u.Id == rateId);
+            return rate;
+        }
+
+        public async Task AddRateAsync(Rate rate)
+        {
+            if (rate == null)
+            {
+                throw new ArgumentNullException(nameof(rate));
+            }
+
+            await _context.Rates.AddAsync(rate);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteRateAsync(Rate rate)
+        {
+            _context.Rates.Remove(rate);
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();  

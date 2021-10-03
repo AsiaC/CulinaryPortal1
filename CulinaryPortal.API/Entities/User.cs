@@ -39,5 +39,6 @@ namespace CulinaryPortal.API.Entities
         public byte[] PasswordSalt { get; set; }
         //string/ zachashowane/password
         //string / enum / role
+        public IList<Rate> Rates { get; set; }
     }
 }

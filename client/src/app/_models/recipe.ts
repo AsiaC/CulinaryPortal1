@@ -2,12 +2,12 @@ import { DifficultyLevelEnum } from './difficultyLevelEnum';
 import { Instruction } from './instruction';
 import { Photo } from './photo';
 import { PreparationTimeEnum } from './preparationTimeEnum';
+import { Rate } from './rate';
 import { RecipeIngredient } from './recipeIngredient';
 
 export interface Recipe {
   id: number | null;
   name: string;
-  rate: number;
   description?: string;
   userId: number;
   author: string;
@@ -22,6 +22,11 @@ export interface Recipe {
   photos: Photo[];
   recipeIngredients: RecipeIngredient[];
   countCookbooks: number;
+
+  rateValues: number;
+  countRates: number;
+  rates: Rate[];
+  totalScore: number;
 }
 
 

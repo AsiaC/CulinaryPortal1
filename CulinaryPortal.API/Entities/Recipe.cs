@@ -40,5 +40,7 @@ namespace CulinaryPortal.API.Entities
         public IList<CookbookRecipe> CookbookRecipes { get; set; }// = new List<CookbookRecipe>();
 
         public IList<RecipeIngredient> RecipeIngredients { get; set; }
+
+        public IList<Rate> Rates { get; set; }
     }
 }

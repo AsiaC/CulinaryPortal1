@@ -53,8 +53,13 @@ namespace CulinaryPortal.API.Controllers
                 {
                     return NotFound();
                 }                
-                var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);
+                var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);                
                 recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooksAsync(recipeId);
+                if (recipe.CountRates > 0)                
+                    recipe.TotalScore = Decimal.Round((decimal)recipe.RateValues / recipe.CountRates, 2);                
+                else
+                    recipe.TotalScore = 0;
+                
                 return Ok(recipe);
             }
             catch (Exception e)
@@ -348,5 +353,58 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+
+        //// PUT: api/recipes/5/rate
+        //[HttpPut("{recipeId}/rate")]
+        //public async Task<ActionResult> RateRecipe([FromRoute] int recipeId, [FromBody] int rating) 
+        //{
+        //    try
+        //    {
+        //        var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+        //        if (existingRecipe == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        if (existingRecipe.Rate != rating)
+        //        {
+                     
+        //            await _culinaryPortalRepository.SaveChangesAsync();
+        //        }
+        //            //existingRecipe.Name = recipeDto.Name;               
+                
+                
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }
+        //}
+
+        //POST: api/recipes/3/rate
+        //[HttpPost("{recipeId}/rate")]
+        //public async Task<IActionResult> AddRecipeRate([FromRoute] int recipeId, [FromBody] RateDto rating)
+        //{
+        //    try
+        //    {
+        //        var existingRecipe = await _culinaryPortalRepository.GetRecipeAsync(recipeId);
+        //        if (existingRecipe == null)
+        //        {
+        //            return NotFound();
+        //        }                
+        //        Rate newRate = _mapper.Map<Rate>(rating);
+        //        //existingRecipe.Rates.Add(newRate); //TODO nie trzeba robi update Recipe? nie trzeba dodawa tego w repository? mozna w kontrolerze?                        
+        //        await _culinaryPortalRepository.AddRecipesRate(newRate);
+        //        //return CreatedAtAction(nameof(GetCookbook), new { cookbookId = cookbook.Id }, cookbook);
+        //        return Ok();//TODO czy zwracac Ok czy Create?
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, e);
+        //    }
+        //}
+
+
     }
 }

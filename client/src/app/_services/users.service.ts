@@ -8,6 +8,8 @@ import { AccountService } from './account.service';
 import { Recipe } from '../_models/recipe';
 import { Cookbook } from '../_models/cookbook';
 import { ShoppingList } from '../_models/shoppingList';
+import { map } from 'rxjs/operators';
+import { Rate } from '../_models/rate';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +58,11 @@ export class UsersService {
     return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/cookbook/search', model)
   }
 
+  getUserRecipeRate(userId: number, recipeId: number){
+    return this.http.get(this.baseUrl  + 'users/' + userId + '/recipes/' + recipeId ).pipe(
+      map((rate: Rate) => rate)
+    )    
+  }
   //dorobić w kontrolerze
   // deleteUser(userId: number){
   //   return this.http.delete(this.baseUrl + 'users/'+ userId)

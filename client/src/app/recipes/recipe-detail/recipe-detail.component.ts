@@ -15,6 +15,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list/select-shopping-list.component';
 import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
 import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-cookbook.component';
+import { Rate } from 'src/app/_models/rate';
 // import {  Router} from '@angular/router';
 
 @Component({
@@ -33,6 +34,8 @@ export class RecipeDetailComponent implements OnInit {
   userShoppingLists: ShoppingList[];
   bsModalRef: BsModalRef;
   recipeIsInsideCookbook: boolean = true;
+  rateModel: Rate = {recipeId: 0, userId: 0, value: 0, id: 0};
+
   //Delete recipe only when it is not in culinary book
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
@@ -40,7 +43,7 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRecipe();
-    this.loadShoppingListsIds();    
+    this.loadShoppingListsIds();         
   }
 
   loadRecipe(){
@@ -48,6 +51,16 @@ export class RecipeDetailComponent implements OnInit {
       this.currentRecipe = recipe; 
       this.loadCookbook();
     }, error => {
+      console.log(error);
+    })
+    console.log(this.user.id, Number(this.route.snapshot.paramMap.get('id')));
+
+    this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
+      this.rateModel = rate;      
+    }, error => { 
+      if(error.status === 404){
+        this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: null};
+      } 
       console.log(error);
     })
   }
@@ -181,4 +194,30 @@ export class RecipeDetailComponent implements OnInit {
   editPhotos(){
     this.router.navigateByUrl('/recipes/'+ this.currentRecipe.id +'/photos');
   }
+
+  rateRecipe(){
+
+  }
+
+  rate(rating: number){
+    this.rateModel = {recipeId: this.currentRecipe.id, userId: this.user.id, value: rating, id: null};
+    this.recipeService.addRate(this.rateModel)
+    .subscribe(response => {
+      this.loadRecipe();
+      this.toastr.success('Recipe assessed successfully');
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  deleteVote(){
+    this.recipeService.deleteRate(this.rateModel.id).subscribe(response => {
+      this.loadRecipe();
+      this.toastr.success('Vote removed successfully');
+    }, error => {
+      console.log(error);
+    })
+
+  }
+
 }

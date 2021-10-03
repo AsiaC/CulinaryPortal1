@@ -12,9 +12,7 @@ namespace CulinaryPortal.API.Models
         public int? Id { get; set; }
 
         public string Name { get; set; }
-
-        public double Rate { get; set; } //DEFAULT 0 TODO USUN Z BAZY TEZ
-        public int MyRate { get; set; }
+        
         public decimal TotalScore { get; set; }
         public int RateValues{ get; set; }
         public int CountRates { get; set; }

@@ -16,9 +16,7 @@ namespace CulinaryPortal.API.Entities
 
         [Required]
         [MaxLength(30)]
-        public string Name { get; set; }
-
-        public double Rate { get; set; } //DEFAULT 0
+        public string Name { get; set; }        
 
         [MaxLength(100)]
         public string Description { get; set; }

@@ -10,17 +10,12 @@
     <h2>Basic information</h2>
     <p>Author: {{currentRecipe.author}}</p>
     <!-- <p>Author: {{currentRecipe.userId}}</p> -->
-    <p>Description: {{currentRecipe.description}}</p>
+    <p  *ngIf="currentRecipe.description !== null">Description: {{currentRecipe.description}}</p>
     <!-- <p>CountCookbooks: {{recipe.countCookbooks}}</p> -->       
-    <p>Category: {{currentRecipe.category}}</p>
-    <p>Difficulty Level Number: {{currentRecipe.difficultyLevel}}</p>
-    <!-- <p>Difficulty: {{recipe.difficulty}}</p> -->
-    <p>Preparation Time Number: {{currentRecipe.preparationTime}}</p>
-    <!-- <p>Preparation: {{recipe.preparation}}</p> -->
-
+    <p><i class="fa fa-cutlery" aria-hidden="true"></i> Category: {{currentRecipe.category}}</p>
+    <p><i class="fa fa-signal" aria-hidden="true"></i> Difficulty level: {{DifficultyLevelEnum[currentRecipe.difficultyLevel]}}</p>    
+    <p><i class="fa fa-clock-o" aria-hidden="true"></i> Preparation time: {{PreparationTimeEnum[currentRecipe.preparationTime]}}</p>
     
-     <!-- <button class="btn btn-default mr-2" (click)="rateRecipe()">Rate</button> -->
-    <!-- dodaj tooltipy -->
     <div>
         <div class="rating">
             <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0">

@@ -1,7 +1,7 @@
 export enum DifficultyLevelEnum
     {
         "Easy",//0,        
-        "Average Difficulty",//1,
+        "Medium",//1,
         "Difficult"//2
         //Easy = 'Easy',//0,        
         //AverageDifficulty = 'Average Difficulty',//1,

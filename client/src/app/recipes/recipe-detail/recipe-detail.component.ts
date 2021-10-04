@@ -16,6 +16,8 @@ import { SelectShoppingListComponent } from 'src/app/modals/select-shopping-list
 import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
 import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-cookbook.component';
 import { Rate } from 'src/app/_models/rate';
+import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
+import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 // import {  Router} from '@angular/router';
 
 @Component({
@@ -35,6 +37,8 @@ export class RecipeDetailComponent implements OnInit {
   bsModalRef: BsModalRef;
   recipeIsInsideCookbook: boolean = true;
   rateModel: Rate = {recipeId: 0, userId: 0, value: 0, id: 0};
+  PreparationTimeEnum = PreparationTimeEnum;
+  DifficultyLevelEnum = DifficultyLevelEnum;
 
   //Delete recipe only when it is not in culinary book
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { 

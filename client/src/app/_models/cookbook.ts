@@ -4,7 +4,8 @@ import { Recipe } from "./recipe";
 export interface Cookbook {
   id: number | null;
   name: string;
-  userId: number;
+  userId: number; //TODO czy tego potrzebuje
+  userName: string;
   cookbookRecipes: CookbookRecipe[];
   //recipes: Recipe[]
 }

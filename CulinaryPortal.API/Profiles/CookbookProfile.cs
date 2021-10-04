@@ -76,7 +76,11 @@ namespace CulinaryPortal.API.Profiles
             CreateMap<UserUpdateDto, User>();
 
             CreateMap<Models.ShoppingListDto, Entities.ShoppingList>();
-            CreateMap<Entities.ShoppingList, Models.ShoppingListDto>();
+            CreateMap<Entities.ShoppingList, Models.ShoppingListDto>()
+                .ForMember(
+                dest => dest.UserName,
+                opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
+            
             CreateMap<Models.ListItemDto, Entities.ListItem>();
             CreateMap<Entities.ListItem, Models.ListItemDto>();
 

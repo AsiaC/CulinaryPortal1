@@ -64,7 +64,7 @@ export class SelectShoppingListComponent implements OnInit {
     else if (this.readioSelected === 'radio2'){
       if(this.newShoppingListName !== null){ 
         //dodaj do nowej
-        var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId};
+        var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId, userName: ''};
 
         this.shoppingListService.addShoppingList(shoppingListDto2).subscribe(response => {
           console.log(response);

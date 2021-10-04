@@ -14,8 +14,8 @@
         <tbody>
             <tr *ngFor="let cookbook of cookbooks">
                 <td>{{cookbook.name}}</td>
-                <td>{{cookbook.userId}}</td>
-                <td></td>
+                <td>{{cookbook.userName}}</td>
+                <td>{{cookbook.cookbookRecipes.length}}</td>
                 <td><button class="btn btn-danger mr-2" (click)="deleteCookbook(cookbook.id)">Remove cookbook</button> </td>
             </tr>
         </tbody>

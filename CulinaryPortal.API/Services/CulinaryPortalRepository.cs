@@ -343,7 +343,8 @@ namespace CulinaryPortal.API.Services
         public async Task<IEnumerable<ShoppingList>> GetShoppingListsAsync()
         {
             var shoppingLists = await _context.ShoppingLists
-                .Include(l=>l.Items)
+                .Include(l => l.Items)
+                .Include(u => u.User)
                 .ToListAsync();
             return shoppingLists;
         }
@@ -388,6 +389,7 @@ namespace CulinaryPortal.API.Services
         {
             var cookbooks = await _context.Cookbooks
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
+                .Include(c => c.User)
                 .ToListAsync();
             return cookbooks;
         }
@@ -395,7 +397,7 @@ namespace CulinaryPortal.API.Services
         public async Task<Cookbook> GetCookbookAsync(int cookbookId)
         {
             var cookbook = await _context.Cookbooks
-                .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe).ThenInclude(p=>p.Photos)                     
+                .Include(c=>c.CookbookRecipes).ThenInclude(r=>r.Recipe).ThenInclude(p=>p.Photos)                    
                 .FirstOrDefaultAsync(u => u.Id == cookbookId);
             return cookbook;
         }

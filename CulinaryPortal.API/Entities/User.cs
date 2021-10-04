@@ -40,5 +40,6 @@ namespace CulinaryPortal.API.Entities
         //string/ zachashowane/password
         //string / enum / role
         public IList<Rate> Rates { get; set; }
+        public IList<ShoppingList> ShoppingLists { get; set; }
     }
 }

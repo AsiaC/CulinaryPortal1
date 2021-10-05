@@ -80,6 +80,7 @@ namespace CulinaryPortal.API.Services
                 .Include(ing=> ing.RecipeIngredients).ThenInclude(r=>r.Ingredient)
                 .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
                 .Include(c => c.Category)
+                .Include(r => r.Rates)
                 .ToListAsync();
 
             //var recipes1 = await _context.Recipes

@@ -29,6 +29,7 @@ import { InformComponent } from './modals/inform/inform.component';
 import { CreateCookbookComponent } from './modals/create-cookbook/create-cookbook.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.component';
+import { StatisticsComponent } from './statistics/statistics/statistics.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.compon
     InformComponent,
     CreateCookbookComponent,
     UserListComponent,
-    RecipePhotoComponent
+    RecipePhotoComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

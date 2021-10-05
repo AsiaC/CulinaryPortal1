@@ -13,6 +13,7 @@ import { UserShoppingListsComponent} from './users/user-shopping-lists/user-shop
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.component';
+import { StatisticsComponent } from './statistics/statistics/statistics.component';
 
 const routes: Routes = [
 {path:'', component: HomeComponent},
@@ -31,7 +32,8 @@ const routes: Routes = [
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
     {path: 'shoppingLists', component: ShopingListListComponent},
     {path: 'users', component: UserListComponent},
-    {path: 'recipes/:id/photos', component: RecipePhotoComponent}
+    {path: 'recipes/:id/photos', component: RecipePhotoComponent},
+    {path: 'statistics', component:StatisticsComponent}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

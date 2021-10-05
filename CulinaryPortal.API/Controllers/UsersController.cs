@@ -239,5 +239,21 @@ namespace CulinaryPortal.API.Controllers
             }
 
         }
+
+        //registeredUsers
+        // GET: api/users/3/registeredUsers
+        [HttpGet("{userId}/registeredUsers", Name = "GetNumberOfUsers")]
+        public async Task<ActionResult<int>> GetNumberOfUsers([FromRoute] int userId)
+        {
+            try
+            {
+                var registeredUsers = await _culinaryPortalRepository.GetUsersAsync();                
+                return registeredUsers.Count();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
     }
 }

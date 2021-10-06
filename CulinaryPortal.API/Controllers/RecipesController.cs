@@ -55,11 +55,7 @@ namespace CulinaryPortal.API.Controllers
                 }                
                 var recipe = _mapper.Map<RecipeDto>(recipeFromRepo);                
                 recipe.CountCookbooks = await _culinaryPortalRepository.CountAssociatedCookbooksAsync(recipeId);
-                if (recipe.CountRates > 0)                
-                    recipe.TotalScore = Decimal.Round((decimal)recipe.RateValues / recipe.CountRates, 2);                
-                else
-                    recipe.TotalScore = 0;
-                
+                                
                 return Ok(recipe);
             }
             catch (Exception e)
@@ -404,88 +400,5 @@ namespace CulinaryPortal.API.Controllers
         //        return StatusCode(StatusCodes.Status500InternalServerError, e);
         //    }
         //}
-
-        // GET: api/recipes
-        //[AllowAnonymous]
-        [HttpGet("top", Name = "GetTopRecipes")]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetTopRecipes()
-        {
-            try
-            {
-                var recipesFromRepo = await _culinaryPortalRepository.GetRecipesAsync();
-                var recipesDto = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
-                foreach (var recipe in recipesDto)
-                {
-                    if (recipe.CountRates > 0)
-                        recipe.TotalScore = Decimal.Round((decimal)recipe.RateValues / recipe.CountRates, 2);
-                    else
-                        recipe.TotalScore = 0;
-                }              
-                var topRecipes = recipesDto.OrderByDescending(r => r.TotalScore).Take(5);
-                return Ok(topRecipes);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-        }
-
-        // GET: api/recipes
-        //[AllowAnonymous]
-        [HttpGet("recipesByCategories", Name = "GetRecipesByCategories")]
-        public async Task<IActionResult> GetRecipesByCategories()
-        {
-            try
-            {
-                var dict = new Dictionary<string, List<RecipeDto>>();
-                var categories = await _culinaryPortalRepository.GetCategoriesAsync();
-                foreach (var category in categories)
-                {
-                    var recipesFromRepo = await _culinaryPortalRepository.SearchRecipesAsync(
-                        new SearchRecipeDto
-                        {
-                            CategoryId = category.Id,
-                        });
-                    var recipesDto = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo).ToList();
-                    dict.Add(category.Name, recipesDto);
-                }
-                
-                return Ok(dict);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-        }
-
-        // GET: api/recipes
-        //[AllowAnonymous]
-        [HttpGet("recipesByUsers", Name = "GetRecipesByUsers")]
-        public async Task<IActionResult> GetRecipesByUsers()
-        {
-            try
-            {
-                var dict = new Dictionary<UserDto, List<RecipeDto>>();
-                var users = await _culinaryPortalRepository.GetUsersAsync();
-                foreach (var user in users)
-                {
-                    var recipesFromRepo = await _culinaryPortalRepository.SearchRecipesAsync(
-                        new SearchRecipeDto
-                        {
-                            CategoryId = user.Id,
-                        });
-                    var recipesDto = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo).ToList();
-                    var userDto = _mapper.Map<UserDto>(user);
-                    dict.Add(userDto, recipesDto);
-                }
-
-                return Ok(dict);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-        }
-
     }
 }

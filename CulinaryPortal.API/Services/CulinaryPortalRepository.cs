@@ -519,7 +519,7 @@ namespace CulinaryPortal.API.Services
         #endregion
         public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
-            return await _context.Categories.ToListAsync();  
+            return await _context.Categories.Include(r=>r.Recipes).ToListAsync();  
         }
                 
     }

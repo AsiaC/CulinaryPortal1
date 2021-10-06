@@ -1,6 +1,6 @@
 <h4>Statistics</h4>
 <br/>
-<p>Liczba zarejestrowanych użytkowników: {{numberOfRegisteredUsers}}</p>
+
 <br/>
 <h5>Top 5 najwyżej ocenianych przepisów</h5>
 <div class="row" *ngIf="top5Recipes">
@@ -39,32 +39,40 @@
 
 <br/>
 <h5>Liczba przepisów w serwisie w podziale na kategorie</h5>
-<div class="row" *ngIf="numberOfRecipesByCategories3">
+<div class="row" *ngIf="allCategories">
     <table class="table table-stripped">
         <thead>
             <tr>                    
                 <th>Category</th>  
-                <th>Recipes</th>
+                <th>Number of added recipes</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let recipesByCategory of numberOfRecipesByCategories3">                    
-                <td>{{recipesByCategory}}</td>
-                <td>
-                    <!-- <ng-container>
-                        <ul>
-                            <li *ngFor="let item of recipesByCategory.recipe">
-                                {{item.name}}
-                            </li>
-                        </ul>
-                    </ng-container> -->
-                </td>                
+            <tr *ngFor="let category of allCategories">                    
+                <td>{{category.name}}</td>
+                <td>{{category.recipes.length}}</td>                
             </tr>
         </tbody>
     </table>
 </div>
-
-
+<br/>
+<h5>Liczba zarejestrowanych użytkowników: {{numberOfRegisteredUsers}}</h5>
 <br/>
 <h5>Liczba dodanych przepisów przez poszczególnych użytkowników</h5>
+<div class="row" *ngIf="users">
+    <table class="table table-stripped">
+        <thead>
+            <tr>                    
+                <th>Name</th> 
+                <th>Number of added recipes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">                    
+                <td>{{user.name}}</td>
+                <td>{{user.recipes.length}}</td>                
+            </tr>
+        </tbody>
+    </table>
+</div>
 

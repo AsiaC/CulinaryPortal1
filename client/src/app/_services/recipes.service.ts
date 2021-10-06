@@ -101,23 +101,9 @@ export class RecipesService {
     return this.http.post(this.baseUrl + 'rates', model).pipe(
       map((rate: Rate) => rate)
     ) //TODO CZY MUSZE ZWRACAC PRZEPIS?
-  }
-  
+  }  
 
   deleteRate(rateId: number){      
     return this.http.delete(this.baseUrl + 'rates/' + rateId)
   }
-  
-  getTopRecipes(){
-    return this.http.get<Recipe[]>(this.baseUrl + 'recipes/top');
-  }
-
-  getRecipesByCategories(){
-    return this.http.get<Map<string, Recipe[]>>(this.baseUrl + 'recipes/recipesByCategories');
-  }
-
-  getRecipesByUsers(){
-    return this.http.get(this.baseUrl + 'recipes/recipesByUsers');
-  }
-
 }

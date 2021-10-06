@@ -22,7 +22,9 @@ namespace CulinaryPortal.API.Profiles
                 opt => opt.MapFrom(src => src.Rates.Count()))
                 .ForMember(
                 dest => dest.RateValues,
-                opt => opt.MapFrom(src => src.Rates.Sum(x=>x.Value)))                
+                opt => opt.MapFrom(src => src.Rates.Sum(x=>x.Value)))
+                .ForMember(dest => dest.TotalScore, 
+                opt => opt.MapFrom(src => src.Rates.Count() == 0 ? 0 : (src.Rates.Sum(x => x.Value)/ src.Rates.Count())))
                 ;
             //.ForMember(
             //dest=>dest.Preparation,

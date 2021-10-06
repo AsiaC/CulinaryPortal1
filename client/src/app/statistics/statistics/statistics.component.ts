@@ -12,60 +12,44 @@ import { Category } from 'src/app/_models/category';
 })
 export class StatisticsComponent implements OnInit {
   numberOfRegisteredUsers: number;
-  top5Recipes: Recipe[];
-  numberOfRecipesByCategories: Map<string,Recipe[]>;
-  //numberOfRecipesByCategories: Array<Record<string,Recipe[]>>;
-  //numberOfRecipesByCategories2; 
-  numberOfRecipesByCategories3;
-
-  numberOfRecipesByUsers;
+  top5Recipes: Recipe[]; 
+  allCategories: Category[];
+  users: User[];
 
   constructor(private recipeService: RecipesService, private userService: UsersService) { }
 
-  ngOnInit(): void {
-    this.getTopRecipes();
-    this.getNumberOfUsers();
-    this.getRecipesByCategories();
-    this.getRecipesByUsers();
-  }
+  ngOnInit(): void {    
+    this.getRecipes();
+    this.getCategories();
+    this.getUsers();
+  }  
 
-  getTopRecipes(){
-    this.recipeService.getTopRecipes().subscribe(top5Recipes => {
-      this.top5Recipes = top5Recipes;
+  getRecipes(){
+    this.recipeService.getRecipes().subscribe(recipes => {     
+      var sortRecipes = recipes.sort(function(a, b) {
+        return a.totalScore - b.totalScore;
+      });
+      var reverseRecipes = sortRecipes.reverse();
+      this.top5Recipes = reverseRecipes.slice(0,5);
     }, error => {
       console.log(error);
     })
   }
 
-  getNumberOfUsers(){
-    this.userService.getNumberOfUsers().subscribe(numberOfRegisteredUsers => {
-      this.numberOfRegisteredUsers = numberOfRegisteredUsers;  
-      
-      
-
-    }, error => {
+  getCategories(){
+    this.recipeService.getCategories().subscribe(allCategories => {
+      this.allCategories = allCategories;
+    }, error =>{
       console.log(error);
     })
   }
 
-  getRecipesByCategories(){
-    this.recipeService.getRecipesByCategories().subscribe(response => {
-      this.numberOfRecipesByCategories = response;
-      debugger;
-      this.numberOfRecipesByCategories3 = Array.from(this.numberOfRecipesByCategories.values())
-      //this.numberOfRecipesByCategories2 = Array.of(this.numberOfRecipesByCategories);       
-      debugger;
+  getUsers(){
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.numberOfRegisteredUsers = users.length;
     }, error => {
       console.log(error);
     })
-  }
-
-  getRecipesByUsers(){
-    // this.recipeService.getRecipesByUsers().subscribe(response => {
-    //   this.numberOfRecipesByUsers = response;
-    //   //debugger;
-    // }, error => {
-    //   console.log(error);
-    // })
   }
 }

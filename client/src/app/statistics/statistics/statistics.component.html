@@ -3,7 +3,7 @@
 
 <br/>
 <h5>Top 5 najwyżej ocenianych przepisów</h5>
-<div class="row" *ngIf="top5Recipes">
+<div class="row" *ngIf="top6Recipes">
     <table class="table table-stripped">
         <thead>
             <tr>
@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let recipe of top5Recipes">   
+            <tr *ngFor="let recipe of top6Recipes">   
                 <td>
                     <ng-container *ngFor="let photo of recipe.photos">
                         <ng-container *ngIf="photo.isMain === true">                        

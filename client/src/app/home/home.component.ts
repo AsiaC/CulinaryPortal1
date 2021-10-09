@@ -46,12 +46,5 @@ export class HomeComponent implements OnInit {
       }, error => {
         console.log(error);               
     })
-
   }
-  //   this.recipeService.getTopRecipes().subscribe(recipes => {
-  //     this.recipes = recipes;
-  //   }, error => {
-  //     console.log(error);
-  //   })
-  // }
 }

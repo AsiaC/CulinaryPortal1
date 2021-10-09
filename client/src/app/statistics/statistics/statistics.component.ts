@@ -12,27 +12,25 @@ import { Category } from 'src/app/_models/category';
 })
 export class StatisticsComponent implements OnInit {
   numberOfRegisteredUsers: number;
-  top5Recipes: Recipe[]; 
+  top6Recipes: Recipe[]; 
   allCategories: Category[];
   users: User[];
 
   constructor(private recipeService: RecipesService, private userService: UsersService) { }
 
   ngOnInit(): void {    
-    this.getRecipes();
+    this.searchRecipes();
     this.getCategories();
     this.getUsers();
   }  
-
-  getRecipes(){
-    this.recipeService.getRecipes().subscribe(recipes => {     
-      var sortRecipes = recipes.sort(function(a, b) {
-        return a.totalScore - b.totalScore;
-      });
-      var reverseRecipes = sortRecipes.reverse();
-      this.top5Recipes = reverseRecipes.slice(0,5);
-    }, error => {
-      console.log(error);
+  
+  searchRecipes(){
+    var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
+    this.recipeService.searchRecipes(searchModel)
+    .subscribe(response => {
+      this.top6Recipes = response;
+      }, error => {
+        console.log(error);               
     })
   }
 

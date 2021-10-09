@@ -226,7 +226,7 @@ namespace CulinaryPortal.API.Controllers
                     var recipesDto = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
                     if (searchRecipeDto.Top != null)
                     {
-                        recipesDto = recipesDto.OrderBy(r => r.TotalScore).Take(searchRecipeDto.Top ?? 0);
+                        recipesDto = recipesDto.OrderByDescending(r => r.TotalScore).ThenBy(x =>x.Name).Take(searchRecipeDto.Top ?? 0);
                     }                    
 
                     return Ok(recipesDto);

@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Recipe } from '../_models/recipe';
+import { RecipesService } from 'src/app/_services/recipes.service';
 
 @Component({
   selector: 'app-home',
@@ -9,11 +11,13 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   registerMode: boolean = false;
   users: any;
+  recipes: Recipe[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private recipeService: RecipesService) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.searchRecipes();
   }
 
   registerToggle(){
@@ -34,4 +38,20 @@ export class HomeComponent implements OnInit {
     this.registerMode = event;
   }
 
+  searchRecipes(){
+    var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
+    this.recipeService.searchRecipes(searchModel)
+    .subscribe(response => {
+      this.recipes = response;
+      }, error => {
+        console.log(error);               
+    })
+
+  }
+  //   this.recipeService.getTopRecipes().subscribe(recipes => {
+  //     this.recipes = recipes;
+  //   }, error => {
+  //     console.log(error);
+  //   })
+  // }
 }

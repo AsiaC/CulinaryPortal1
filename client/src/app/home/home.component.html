@@ -1,9 +1,29 @@
 <div class="container mt-5">
-<h1>Home page!</h1>
+<h1>Culinary portal with best recipes!</h1>
+<br/>
 <div *ngIf="registerMode == false">
-
-    <p>tu bedzie lista, albo kafelki z grupami przepisów + mozliwosc zarejestrowqania sie</p>
-    <button class="btn btn-success btn-lg mr-2" (click)="registerToggle()" >Register</button>
+    <!-- <div style="background-image: url('img_girl.jpg');"> -->
+    <div class="recipeLink">
+        <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>Click here to view all recipes</a>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-3" *ngFor="let recipe of recipes">
+            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
+        </div>
+    </div>
+    <br/>
+    <div>
+        <p>Register account to:</p>
+        <ul>
+            <li>Add new recipes</li>
+            <li>Rate the recipes</li>
+            <li>Create your cookbook with favourites recipes</li>
+            <li>Create your shopping lists</li>
+        </ul>
+        <!-- <p>Zarejestruj sie a będziesz mógł dodawać nowe przepisy, stworzyć swoą książkę z ulibionymi przepisami, tworzyć listy zakupow, oceniać przepisy</p> -->
+        <button class="btn btn-success btn-lg mr-2" (click)="registerToggle()" >Register</button>
+    </div>
 </div>
 
 <div *ngIf="registerMode == true">

@@ -12,5 +12,6 @@ namespace CulinaryPortal.API.Models
         public int? DifficultyLevelId { get; set; }
         public int? PreparationTimeId { get; set; }
         public int? UserId { get; set; }
+        public int? Top { get; set; }
     }
 }

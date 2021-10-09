@@ -160,7 +160,8 @@ namespace CulinaryPortal.API.Services
             if (!String.IsNullOrWhiteSpace(searchRecipeDto.Name)) 
             {
                 query = query.Where(r => r.Name == searchRecipeDto.Name);
-            }           
+            }            
+            
             return query;
         }
 

@@ -4,4 +4,5 @@ export interface SearchRecipe {
     difficultyLevelId: number | null;   
     preparationTimeId: number | null; 
     userId: number | null; 
+    top: number | null;
   }

@@ -106,4 +106,5 @@ export class RecipesService {
   deleteRate(rateId: number){      
     return this.http.delete(this.baseUrl + 'rates/' + rateId)
   }
+
 }

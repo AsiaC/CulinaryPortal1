@@ -223,7 +223,13 @@ namespace CulinaryPortal.API.Controllers
                 var recipesFromRepo = await _culinaryPortalRepository.SearchRecipesAsync(searchRecipeDto);
                 if (recipesFromRepo.Any())
                 {
-                    return Ok(_mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo));
+                    var recipesDto = _mapper.Map<IEnumerable<RecipeDto>>(recipesFromRepo);
+                    if (searchRecipeDto.Top != null)
+                    {
+                        recipesDto = recipesDto.OrderBy(r => r.TotalScore).Take(searchRecipeDto.Top ?? 0);
+                    }                    
+
+                    return Ok(recipesDto);
                 }
                 return NotFound();
             }

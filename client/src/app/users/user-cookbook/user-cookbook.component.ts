@@ -112,7 +112,7 @@ export class UserCookbookComponent implements OnInit {
   }
 
   searchRecipes(){   
-    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: this.user.id}
+    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: this.user.id, top: null}
 
     this.userService.searchUserCookbook(this.searchModel, this.user.id)
     .subscribe(response => {

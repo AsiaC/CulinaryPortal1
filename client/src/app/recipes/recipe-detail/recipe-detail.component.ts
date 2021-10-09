@@ -47,26 +47,29 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRecipe();
-    this.loadShoppingListsIds();         
+    if(this.user !== null){
+      this.loadShoppingListsIds();  
+      this.loadCookbook();       
+    }
   }
 
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      this.currentRecipe = recipe; 
-      this.loadCookbook();
+      this.currentRecipe = recipe;       
     }, error => {
       console.log(error);
     })
-    console.log(this.user.id, Number(this.route.snapshot.paramMap.get('id')));
 
-    this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
-      this.rateModel = rate;      
-    }, error => { 
-      if(error.status === 404){
-        this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: null};
-      } 
-      console.log(error);
-    })
+    if(this.user !== null){
+      this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
+        this.rateModel = rate;      
+      }, error => { 
+        if(error.status === 404){
+          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: null};
+        } 
+        console.log(error);
+      })
+    }
   }
 
   loadCookbook(){

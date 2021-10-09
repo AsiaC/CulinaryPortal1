@@ -47,7 +47,14 @@
             </div>
           </div>  
 
-          <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
+          <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-15 navbar-nav mr-auto" (ngSubmit)="login()" autocomplete="off">
+          <div>
+            <ul class="navbar-nav mr-3 ml-3">
+              <li class="nav-item ">
+                <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>All Recipes</a>
+              </li>
+            </ul>   
+          </div>         
             <div *ngIf="loginPane">
               <input
                 name="username"

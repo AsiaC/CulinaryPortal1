@@ -1,10 +1,11 @@
 <div *ngIf="currentRecipe && editRecipe === false">
     <h1 >{{currentRecipe.name}}</h1>
-
-    <div *ngIf="currentRecipe.userId === user.id">
-        <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
-        <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
-        <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
+    <div *ngIf="currentRecipe.userId != null && user != null">    
+        <div *ngIf="currentRecipe.userId === user.id">
+            <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
+            <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
+            <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
+        </div>
     </div>
 
     <h2>Basic information</h2>
@@ -16,7 +17,7 @@
     <p><i class="fa fa-signal" aria-hidden="true"></i> Difficulty level: {{DifficultyLevelEnum[currentRecipe.difficultyLevel]}}</p>    
     <p><i class="fa fa-clock-o" aria-hidden="true"></i> Preparation time: {{PreparationTimeEnum[currentRecipe.preparationTime]}}</p>
     
-    <div>
+    <div *ngIf="user != null">
         <div class="rating">
             <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0">
                 <span *ngIf="currentRecipe.totalScore >= 1"><i class="fa fa-star"></i></span>
@@ -53,18 +54,14 @@
     <h2>Ingredients</h2>
     <ul>
         <li *ngFor="let ingred of currentRecipe.recipeIngredients">
-            {{ingred.quantity}} 
-            <!-- {{ingred.measureName}} 
-            {{ingred.ingredientName}} -->
-            {{ingred.measure.name}} 
-            {{ingred.ingredient.name}}
-            <!-- {{ingred | json}} -->
+            <!-- {{ingred.quantity}} {{ingred.measure.name}} {{ingred.ingredient.name}}             -->
+            {{ingred.ingredient.name}}: {{ingred.quantity}} [{{ingred.measure.name}}]               
         </li>
     </ul>
 
-    <!-- <button class="btn btn-success" (click)="addToShoppingList()">Add all ingredients to shopping list</button>    -->
-    <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
-      
+    <div *ngIf="user != null">
+        <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
+    </div>
     <!-- <h2>Directions</h2> -->
     <h2>Instructions</h2>
     <ol>
@@ -72,11 +69,13 @@
             {{instruction.description}}
         </li>
     </ol>
-    <div *ngIf="canAddToCookbook === true">
-        <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
-    </div>
-    <div *ngIf="canAddToCookbook === false">
-        <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from Culinarybook</button>
+    <div *ngIf="user != null">
+        <div *ngIf="canAddToCookbook === true">
+            <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
+        </div>
+        <div *ngIf="canAddToCookbook === false">
+            <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from Culinarybook</button>
+        </div>
     </div>
     <ol>
         <ul *ngFor="let photo of currentRecipe.photos">

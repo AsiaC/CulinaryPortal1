@@ -17,14 +17,15 @@ import { StatisticsComponent } from './statistics/statistics/statistics.componen
 
 const routes: Routes = [
 {path:'', component: HomeComponent},
+{path: 'recipes', component: RecipeListComponent},
+{path: 'recipes/:id', component: RecipeDetailComponent},
+{path: 'recipes/:id/photos', component: RecipePhotoComponent},
 {
   path: '',
   runGuardsAndResolvers: 'always',
   canActivate: [AuthGuard],
   children:
-  [
-    {path: 'recipes', component: RecipeListComponent},
-    {path: 'recipes/:id', component: RecipeDetailComponent},
+  [    
     {path: 'cookbooks', component: CookbookListComponent},
     {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     {path: 'user/recipes', component: UserRecipesComponent},
@@ -32,7 +33,6 @@ const routes: Routes = [
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
     {path: 'shoppingLists', component: ShopingListListComponent},
     {path: 'users', component: UserListComponent},
-    {path: 'recipes/:id/photos', component: RecipePhotoComponent},
     {path: 'statistics', component:StatisticsComponent}
   ]
 },

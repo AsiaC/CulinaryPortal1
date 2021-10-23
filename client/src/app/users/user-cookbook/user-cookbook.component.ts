@@ -39,6 +39,7 @@ export class UserCookbookComponent implements OnInit {
   selectedPreparationTime: any;
   PreparationTimeEnum = PreparationTimeEnum;
   DifficultyLevelEnum = DifficultyLevelEnum;
+  alertText: string;
 
   constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService, private recipeService: RecipesService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -58,14 +59,17 @@ export class UserCookbookComponent implements OnInit {
         this.userFavouriteRecipes = userCookbook.cookbookRecipes.map(x=>x.recipe);
       } else {
         this.userFavouriteRecipes = undefined;
+        this.alertText = "User does not have any favourite recipes yet. "
       }
       console.log(this.userFavouriteRecipes);
     }, error => {
-      if(error.status === 404){
-        this.userCookbook = undefined;
-        this.userFavouriteRecipes = undefined;
-      } 
-      console.log(error);
+      this.userCookbook = undefined;
+      this.userFavouriteRecipes = undefined;
+      if(error.status === 404){        
+        this.alertText = "User does not have a cookbook yet."
+      } else if(error.status === 401){        
+        this.alertText = "You do not have access to this content.";
+      }
     })
   }
 

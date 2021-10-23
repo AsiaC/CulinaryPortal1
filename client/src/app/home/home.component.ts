@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient, private recipeService: RecipesService) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    debugger;
+    //this.getUsers();//usun bo nie potrzebuje tego
     this.searchRecipes();
   }
 
@@ -26,19 +27,23 @@ export class HomeComponent implements OnInit {
     // this.registerMode = true;
     // console.log(this.registerMode);
   }
-  getUsers(){
-    this.http.get('http://localhost:50725/api/users').subscribe( users => {
-      this.users = users;
-    }, error => {
-      console.log(error);
-    })
-  }
+  // getUsers(){ //TODO usun bo nie potrzebuje tego
+  //   debugger;
+  //   this.http.get('http://localhost:50725/api/users').subscribe( users => {
+  //     this.users = users;
+  //     debugger;
+  //   }, error => {
+  //     debugger;
+  //     console.log(error);
+  //   })
+  // }
 
   cancelRegisterMode(event: boolean){
     this.registerMode = event;
   }
 
   searchRecipes(){
+    debugger;
     var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
     this.recipeService.searchRecipes(searchModel)
     .subscribe(response => {

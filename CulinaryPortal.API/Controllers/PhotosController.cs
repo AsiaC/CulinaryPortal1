@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CulinaryPortal.API.Controllers
 {
     //[Route("api/[controller]")]
     [Route("api/photos")]
+    [Authorize]
     [ApiController]
     public class PhotosController : ControllerBase
     {

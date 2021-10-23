@@ -6,6 +6,7 @@ using AutoMapper;
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace CulinaryPortal.API.Controllers
 {
     [Route("api/cookbooks")]
     [ApiController]
+    [Authorize]
     public class CookbooksController : ControllerBase
     {
         private readonly ICulinaryPortalRepository _culinaryPortalRepository;
@@ -24,7 +26,7 @@ namespace CulinaryPortal.API.Controllers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        // GET: api/cookbooks
+        // GET: api/cookbooks        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CookbookDto>>> GetCookbooks()
         {
@@ -74,8 +76,6 @@ namespace CulinaryPortal.API.Controllers
             }
         }
 
-        
-
         // DELETE: api/cookbooks/5
         [HttpDelete("{cookbookId}")]
         public async Task<ActionResult> DeleteCookbook([FromRoute] int cookbookId)
@@ -124,6 +124,7 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
+
         // PUT: api/cookbook
         [HttpPut] //czy to jest w dobrym kontrolerze ujednolić z lista zakupów
         public async Task<ActionResult> AddRecipeToCookbook([FromBody] CookbookRecipeDto cookbookRecipeDto)

@@ -1,5 +1,6 @@
 ﻿using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ namespace CulinaryPortal.API.Controllers
 {
 
     [Route("api/categories")]
+    [Authorize]
     [ApiController]
     public class CategoriesController : Controller
     {

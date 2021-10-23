@@ -8,10 +8,12 @@ using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CulinaryPortal.API.Controllers
 {
     [Route("api/rates")]
+    [Authorize]
     [ApiController]
     public class RateController : Controller
     {

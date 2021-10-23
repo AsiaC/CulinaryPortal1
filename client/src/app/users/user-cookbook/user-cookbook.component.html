@@ -159,14 +159,14 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
 
     <div *ngIf="!userFavouriteRecipes">
         <div class="alert alert-warning" role="alert">
-            User does not have any favourite recipes yet. 
+            {{alertText}}
         </div>
     </div>
 
 </div>
 <div *ngIf="!userCookbook">
     <div class="alert alert-warning" role="alert">
-        User does not have a cookbook yet. 
+        {{alertText} 
     </div>
 </div>
 

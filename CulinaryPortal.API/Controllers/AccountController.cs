@@ -2,6 +2,7 @@
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 namespace CulinaryPortal.API.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
@@ -32,9 +34,9 @@ namespace CulinaryPortal.API.Controllers
         public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerDto)
         {
             try
-            {
+            {//TODO do sprawdzenia pztrz na  37.using dtos - tam sprawdzam unikalnosc username dla usera 
                 var userFromRepo = await _culinaryPortalRepository.GetUserAsync(registerDto.Username);
-                if (userFromRepo == null)
+                if (userFromRepo != null)
                 {
                     return BadRequest("Username is taken");
                 }

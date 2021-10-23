@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace CulinaryPortal.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
@@ -25,8 +26,7 @@ namespace CulinaryPortal.API.Controllers
             _culinaryPortalRepository = culinaryPortalRepository ?? throw new ArgumentNullException(nameof(culinaryPortalRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-
-        [AllowAnonymous]
+                
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
@@ -41,7 +41,6 @@ namespace CulinaryPortal.API.Controllers
             }            
         }
 
-        //[Authorize] to poźniej dodam
         [HttpGet("{userId}", Name = "GetUser")]
         public async Task<ActionResult<UserDto>> GetUser([FromRoute] int userId)
         {

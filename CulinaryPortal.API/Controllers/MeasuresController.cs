@@ -6,12 +6,14 @@ using AutoMapper;
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CulinaryPortal.API.Controllers
 {
     [Route("api/measures")]
+    [Authorize]
     [ApiController]
     public class MeasuresController : ControllerBase
     {

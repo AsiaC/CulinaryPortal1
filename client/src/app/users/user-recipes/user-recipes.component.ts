@@ -52,7 +52,6 @@ export class UserRecipesComponent implements OnInit {
       if(error.status === 404){
         this.userRecipes = undefined;
       } 
-      console.log(error);
     })
   }
   getAllCategories(){

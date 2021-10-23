@@ -17,9 +17,10 @@ import { ToastrService } from 'ngx-toastr';
 export class UserShoppingListsComponent implements OnInit {
   userShoppingLists: ShoppingList[];
   user: User;
-  addNewListMode:boolean = false;
+  addNewListMode: boolean = false;
   selectedShoppingListId: number;
   bsModalRef: BsModalRef;
+  alertText: string;
 
   constructor(private userService:UsersService, private accountService:AccountService, private modalService: BsModalService, private toastr: ToastrService, private shoppingListService: ShoppingListService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -32,11 +33,14 @@ export class UserShoppingListsComponent implements OnInit {
   loadUserShoppingLists(){
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists=>{
       this.userShoppingLists = userShoppingLists;
-    }, error =>{
-      if(error.status === 404){
+    }, error =>{     
+      this.userShoppingLists = undefined; //TODO czy to potrzebne?     
+      if(error.status === 401){
+        this.alertText = "You do not have access to this content.";
+      } else if(error.status === 404){
         this.userShoppingLists = undefined;
-      }            
-      console.log(error);
+        this.alertText = "You do not have any shopping lists yet."
+      }    
     })
   }
 

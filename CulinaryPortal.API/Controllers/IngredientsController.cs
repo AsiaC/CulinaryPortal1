@@ -10,10 +10,12 @@ using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Services;
 using AutoMapper;
 using CulinaryPortal.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CulinaryPortal.API.Controllers
 {
     [Route("api/ingredients")]
+    [Authorize]
     [ApiController]
     public class IngredientsController : ControllerBase
     {

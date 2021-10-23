@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ShopingListListComponent implements OnInit {
   shoppingLists: ShoppingList[];
+  alertText: string;
 
   constructor(private shoppingListService: ShoppingListService, private toastr: ToastrService,) { }
 
@@ -21,7 +22,11 @@ export class ShopingListListComponent implements OnInit {
     this.shoppingListService.getShoppingLists().subscribe(shoppingLists=>{
       this.shoppingLists = shoppingLists;
     }, error => {
-      console.log(error);
+      if(error.status === 401){
+        this.alertText = "You do not have access to this content.";
+      } else if(error.status === 404){
+        this.alertText = "Users do not have any shopping lists yet."
+      }
     })
   }
 

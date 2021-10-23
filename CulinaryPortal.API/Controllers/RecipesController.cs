@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CulinaryPortal.API.Controllers
 {
     [Route("api/recipes")]
+    [AllowAnonymous]
     [ApiController]
     public class RecipesController : ControllerBase
     {

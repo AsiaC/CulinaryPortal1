@@ -16,7 +16,7 @@ import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.compon
 import { StatisticsComponent } from './statistics/statistics/statistics.component';
 
 const routes: Routes = [
-{path:'', component: HomeComponent},
+{path: '', component: HomeComponent},
 {path: 'recipes', component: RecipeListComponent},
 {path: 'recipes/:id', component: RecipeDetailComponent},
 {path: 'recipes/:id/photos', component: RecipePhotoComponent},
@@ -26,12 +26,12 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   children:
   [    
+    {path: 'shoppingLists', component: ShopingListListComponent},
     {path: 'cookbooks', component: CookbookListComponent},
     {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     {path: 'user/recipes', component: UserRecipesComponent},
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
-    {path: 'shoppingLists', component: ShopingListListComponent},
     {path: 'users', component: UserListComponent},
     {path: 'statistics', component:StatisticsComponent}
   ]

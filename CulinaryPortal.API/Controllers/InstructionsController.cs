@@ -6,12 +6,14 @@ using AutoMapper;
 using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Models;
 using CulinaryPortal.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CulinaryPortal.API.Controllers
 {// TODO CHYBA TEGO NIE POTRZEBUJĘ ZBADAJ FUNKCJE WEWNATRZ MOZE TEŻ SĄ DO USUNIECIA
-     [Route("api/instructions")]
+    [Route("api/instructions")]
+    [Authorize]
     [ApiController]
     public class InstructionsController : ControllerBase
     {

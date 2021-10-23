@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CookbookListComponent implements OnInit {
   cookbooks: Cookbook[];
+  alertText: string;
 
   constructor(private cookbookService: CookbookService, private toastr: ToastrService) { }
 
@@ -21,7 +22,11 @@ export class CookbookListComponent implements OnInit {
     this.cookbookService.getCookbooks().subscribe(cookbooks => {
       this.cookbooks = cookbooks;
     }, error => {
-      console.log(error);
+      if(error.status === 401){
+        this.alertText = "You do not have access to this content.";
+      } else if(error.status === 404){
+        this.alertText = "Users do not have any cookbooks yet."
+      }
     })
   }
 

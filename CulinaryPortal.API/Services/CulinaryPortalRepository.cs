@@ -209,7 +209,7 @@ namespace CulinaryPortal.API.Services
 
         public async Task<User> GetUserAsync(string username)
         {
-            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+            return await _context.Users.SingleOrDefaultAsync(x => x.UserName == username);
             //to rzuca wyjatek jeśli znajdzie wiecej elementów, jesli tylko 1 to spr. Tym sie rozni od FirstOrDefault 
         }
 

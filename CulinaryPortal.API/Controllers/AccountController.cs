@@ -45,7 +45,7 @@ namespace CulinaryPortal.API.Controllers
 
                 var user = new User 
                 {
-                    Username = registerDto.Username.ToLower(),
+                    UserName = registerDto.Username.ToLower(),
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                     PasswordSalt = hmac.Key,
                     FirstName = registerDto.FirstName,
@@ -58,7 +58,7 @@ namespace CulinaryPortal.API.Controllers
 
                 return new UserDto
                 {
-                    Username = user.Username,
+                    Username = user.UserName,
                     Token = _tokenService.CreateToken(user)
                 };
             }
@@ -92,7 +92,7 @@ namespace CulinaryPortal.API.Controllers
 
                 var userToReturn = new UserDto 
                 {
-                    Username = user.Username,
+                    Username = user.UserName,
                     Token = _tokenService.CreateToken(user),
                     Id = user.Id,
                     Email = user.Email,

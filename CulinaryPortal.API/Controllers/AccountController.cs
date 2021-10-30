@@ -11,6 +11,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CulinaryPortal.API.Controllers
 {
@@ -22,12 +24,15 @@ namespace CulinaryPortal.API.Controllers
         private readonly ICulinaryPortalRepository _culinaryPortalRepository;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AccountController(ICulinaryPortalRepository culinaryPortalRepository, IMapper mapper, ITokenService tokenService)
-        {
-            _culinaryPortalRepository = culinaryPortalRepository ?? throw new ArgumentNullException(nameof(culinaryPortalRepository));
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, ITokenService tokenService)
+        {           
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _tokenService = tokenService;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpPost("register")]
@@ -35,27 +40,30 @@ namespace CulinaryPortal.API.Controllers
         {
             try
             {//TODO do sprawdzenia pztrz na  37.using dtos - tam sprawdzam unikalnosc username dla usera 
-                var userFromRepo = await _culinaryPortalRepository.GetUserAsync(registerDto.Username);
-                if (userFromRepo != null)
-                {
-                    return BadRequest("Username is taken");
-                }
-
-                using var hmac = new HMACSHA512();
-
-                var user = new User 
+                // if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+                //var userFromRepo = await _culinaryPortalRepository.GetUserAsync(registerDto.Username);
+                //if (userFromRepo != null)
+                //{
+                //    return BadRequest("Username is taken");
+                //}
+                //var user = _mapper.Map<User>(registerDto);
+                var user = new User
                 {
                     UserName = registerDto.Username.ToLower(),
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                    PasswordSalt = hmac.Key,
                     FirstName = registerDto.FirstName,
                     LastName = registerDto.LastName,
                     IsActive = true,
                     Email = registerDto.Email
                 };
 
-                await _culinaryPortalRepository.AddUserAsync(user);
+                //user.IsActive = true;//czy tego potrzebuje
+                //user.UserName = registerDto.Username.ToLower();
+                var result = await _userManager.CreateAsync(user, registerDto.Password);
+                if (!result.Succeeded) return BadRequest(result.Errors);
 
+                var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                if (!roleResult.Succeeded) return BadRequest(result.Errors);
+                
                 return new UserDto
                 {
                     Username = user.UserName,
@@ -73,22 +81,11 @@ namespace CulinaryPortal.API.Controllers
         {
             try
             {
-                var user = await _culinaryPortalRepository.GetUserAsync(loginDto.Username);
+                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == loginDto.Username.ToLower()); 
+                if (user == null) return Unauthorized("Invalid username");
 
-                if (user == null)
-                    return Unauthorized("Invalid username");
-
-                using var hmac = new HMACSHA512(user.PasswordSalt);
-
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-
-                for (int i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != user.PasswordHash[i])
-                    {
-                        return Unauthorized("Invalid password");
-                    }
-                }
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+                if (!result.Succeeded) return Unauthorized();
 
                 var userToReturn = new UserDto 
                 {
@@ -107,6 +104,12 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            
         }
-                
+       
+           
+
+        //private async Task<bool> UserExists(string username)
+        //{
+        //    return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+        //}
     }
 }

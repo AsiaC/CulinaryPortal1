@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using CulinaryPortal.API.DbContexts;
+using CulinaryPortal.API.Entities;
 using CulinaryPortal.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,9 +44,18 @@ namespace CulinaryPortal.API
             {
                 options.UseSqlServer(
                     @"Server=(localdb)\mssqllocaldb;Database=CulinaryPortalDB;Trusted_Connection=True;");
+                    //@"Server=(localdb)\mssqllocaldb;Database=CulinaryPortalDB2;Trusted_Connection=True;");
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors();
+
+            services.AddIdentityCore<User>(opt => { opt.Password.RequiredLength = 2; })        
+                .AddRoles<AppRole>()
+                .AddRoleManager<RoleManager<AppRole>>()
+                .AddSignInManager<SignInManager<User>>()
+                .AddRoleValidator<RoleValidator<AppRole>>()
+                .AddEntityFrameworkStores<CulinaryPortalContext>();
+                
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

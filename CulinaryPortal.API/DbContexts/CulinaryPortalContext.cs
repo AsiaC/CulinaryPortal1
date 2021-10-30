@@ -1,4 +1,6 @@
 ﻿using CulinaryPortal.API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,12 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.API.DbContexts
 {
-    public class CulinaryPortalContext : DbContext
+    //public class CulinaryPortalContext : IdentityDbContext<User, string, int,
+    //    IdentityUserClaim<int>, IdentityRole<int>, IdentityUserLogin<int>,
+    //    IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public class CulinaryPortalContext : IdentityDbContext<User, AppRole, int, 
+        IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+
     {
         public CulinaryPortalContext(DbContextOptions<CulinaryPortalContext> options) : base(options)
         {
@@ -15,13 +22,30 @@ namespace CulinaryPortal.API.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<CookbookRecipe>()
                 .HasKey(cr => new { cr.CookbookId, cr.RecipeId });
 
             modelBuilder.Entity<RecipeIngredient>()
                 .HasKey(ri => new { ri.MeasureId, ri.RecipeId, ri.IngredientId });
+
+            modelBuilder.Entity<User>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.User)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppRole>()
+               .HasMany(ur => ur.UserRoles)
+               .WithOne(u => u.Role)
+               .HasForeignKey(ur => ur.RoleId)
+               .IsRequired();
+
+            modelBuilder.Entity<AppUserRole>()
+                .HasKey(aur => new { aur.RoleId, aur.UserId });
         }
+
 
         //nie dodaje encji, których nie chce wyświetlać jako odrebne elementy (jeśli zdjecie jest przypisane do użytkownika - uż moze miec wiele zdj - to nie ma sensu tu dodawać zdjecia bo jako osobny byt nigdy nie bedzie istniało zdjecie)
         public DbSet<Cookbook> Cookbooks { get; set; }
@@ -33,7 +57,6 @@ namespace CulinaryPortal.API.DbContexts
         public DbSet<Recipe> Recipes { get; set; }
         //      public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public DbSet<ShoppingList> ShoppingLists { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Category> Categories { get; set; }
         //public DbSet<ListItem> Items { get; set; }
         public DbSet<Rate> Rates { get; set; }

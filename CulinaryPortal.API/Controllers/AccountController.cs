@@ -40,12 +40,8 @@ namespace CulinaryPortal.API.Controllers
         {
             try
             {//TODO do sprawdzenia pztrz na  37.using dtos - tam sprawdzam unikalnosc username dla usera 
-                // if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
-                //var userFromRepo = await _culinaryPortalRepository.GetUserAsync(registerDto.Username);
-                //if (userFromRepo != null)
-                //{
-                //    return BadRequest("Username is taken");
-                //}
+                if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
+                
                 //var user = _mapper.Map<User>(registerDto);
                 var user = new User
                 {
@@ -104,12 +100,10 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            
         }
-       
-           
 
-        //private async Task<bool> UserExists(string username)
-        //{
-        //    return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
-        //}
+        private async Task<bool> UserExists(string username)
+        {
+            return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());
+        }
     }
 }

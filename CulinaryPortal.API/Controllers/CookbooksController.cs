@@ -27,6 +27,7 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // GET: api/cookbooks        
+        [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CookbookDto>>> GetCookbooks()
         {

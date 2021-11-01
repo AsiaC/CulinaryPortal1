@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,12 +44,11 @@ namespace CulinaryPortal.API
             {
                 options.UseSqlServer(
                     @"Server=(localdb)\mssqllocaldb;Database=CulinaryPortalDB;Trusted_Connection=True;");
-                    //@"Server=(localdb)\mssqllocaldb;Database=CulinaryPortalDB2;Trusted_Connection=True;");
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors();
 
-            services.AddIdentityCore<User>(opt => { opt.Password.RequiredLength = 2; })        
+            services.AddIdentityCore<User>(opt => { opt.Password.RequiredLength = 2; }) //to do zostawic to czy usunac bo i tak z defaultu haslo musi być dluzsze i zawierac rozne znaki to moze usunac?        
                 .AddRoles<AppRole>()
                 .AddRoleManager<RoleManager<AppRole>>()
                 .AddSignInManager<SignInManager<User>>()
@@ -67,6 +66,11 @@ namespace CulinaryPortal.API
                         ValidateAudience = false,
                     };
                 });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("OnlyAdminRole", policy => policy.RequireRole("Admin"));
+            });
 
         }
 

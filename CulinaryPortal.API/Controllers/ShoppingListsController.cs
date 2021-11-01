@@ -27,6 +27,7 @@ namespace CulinaryPortal.API.Controllers
         }
 
         // GET: api/shoppingLists
+        [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ShoppingListDto>>> GetShoppingLists()
         {

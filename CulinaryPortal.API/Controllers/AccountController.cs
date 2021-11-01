@@ -42,7 +42,7 @@ namespace CulinaryPortal.API.Controllers
             {//TODO do sprawdzenia pztrz na  37.using dtos - tam sprawdzam unikalnosc username dla usera 
                 if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
                 
-                //var user = _mapper.Map<User>(registerDto);
+                //var user = _mapper.Map<User>(registerDto); TODO dodaj mappera
                 var user = new User
                 {
                     UserName = registerDto.Username.ToLower(),
@@ -63,7 +63,7 @@ namespace CulinaryPortal.API.Controllers
                 return new UserDto
                 {
                     Username = user.UserName,
-                    Token = _tokenService.CreateToken(user)
+                    Token = await _tokenService.CreateToken(user)
                 };
             }
             catch (Exception e)
@@ -86,7 +86,7 @@ namespace CulinaryPortal.API.Controllers
                 var userToReturn = new UserDto 
                 {
                     Username = user.UserName,
-                    Token = _tokenService.CreateToken(user),
+                    Token = await _tokenService.CreateToken(user),
                     Id = user.Id,
                     Email = user.Email,
                     FirstName = user.FirstName,

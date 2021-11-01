@@ -26,7 +26,8 @@ namespace CulinaryPortal.API.Controllers
             _culinaryPortalRepository = culinaryPortalRepository ?? throw new ArgumentNullException(nameof(culinaryPortalRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-                
+        
+        [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {

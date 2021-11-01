@@ -28,8 +28,8 @@ namespace CulinaryPortal.API
                 {
                     var context = scope.ServiceProvider.GetService<CulinaryPortalContext>();
                     // for demo purposes, delete the database & migrate on startup so we can start with a clean state
-                    await context.Database.EnsureDeletedAsync(); // Drop the database if it exists
-                    await context.Database.MigrateAsync();                    
+                    //await context.Database.EnsureDeletedAsync(); // Drop the database if it exists
+                    //await context.Database.MigrateAsync();                    
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                     await Seed.SeedInitialData(userManager, roleManager, context);

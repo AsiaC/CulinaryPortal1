@@ -6,7 +6,6 @@
             <li class="nav-item ">
               <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>All Recipes</a>
             </li>
-
             <li class="nav-item ">
               <a class="nav-link" routerLink = '/user/recipes' routerLinkActive='active'>My Recipes</a>
             </li>
@@ -15,32 +14,23 @@
             </li>           
             <li class="nav-item ">
               <a class="nav-link" routerLink = '/user/shoppingLists' routerLinkActive='active'>My Shopping Lists</a>
-            </li>
-            
-            <li class="nav-item ">
-              <a class="nav-link" routerLink = '/cookbooks' routerLinkActive='active'>Cookbooks</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" routerLink = '/shoppingLists' routerLinkActive='active'>Shopping Lists</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" routerLink = '/users' routerLinkActive='active'>Users</a>
-            </li>
-            <li class="nav-item ">
-              <a class="nav-link" routerLink = '/statistics' routerLinkActive='active'>Statistics</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#" routerLinkActive='active'>Other</a>
-            </li> -->            
+            </li>       
           </ul>
+
+          <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+            <a class="dropdown-toggle text-light" dropdownToggle>Admin</a>
+            <div class="dropdown-menu mt-3" *dropdownMenu>
+              <a class="dropdown-item" routerLink = '/cookbooks'>All Cookbooks</a>
+              <a class="dropdown-item" routerLink = '/shoppingLists'>All Shopping Lists</a>
+              <a class="dropdown-item" routerLink = '/users'>All Users</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink = '/statistics'>Statistics</a>              
+            </div>
+          </div>  
 
           <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
             <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{user.username | titlecase}}</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
-              <!-- <a class="dropdown-item" routerLink='/user/recipes' >My Recipes</a>
-              <a class="dropdown-item" routerLink='/user/cookbook' >My Cookbook</a>
-              <a class="dropdown-item" routerLink='/user/shoppingLists' >My Shopping Lists</a> 
-              <div class="dropdown-divider"></div>-->
               <a class="dropdown-item" routerLink='/user/edit' >Update Profile</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" (click) = "logout()">Logout</a>

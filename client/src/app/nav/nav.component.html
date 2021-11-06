@@ -16,9 +16,9 @@
               <a class="nav-link" routerLink = '/user/shoppingLists' routerLinkActive='active'>My Shopping Lists</a>
             </li>       
           </ul>
-
+          
           <div class="dropdown mr-3" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-            <a class="dropdown-toggle text-light" dropdownToggle>Admin</a>
+            <a class="dropdown-toggle text-light" *appHasRole='["Admin"]' dropdownToggle>Admin</a>
             <div class="dropdown-menu mt-3" *dropdownMenu>
               <a class="dropdown-item" routerLink = '/cookbooks'>All Cookbooks</a>
               <a class="dropdown-item" routerLink = '/shoppingLists'>All Shopping Lists</a>

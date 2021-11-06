@@ -14,26 +14,27 @@ import { ShopingListListComponent } from './shopping-lists/shoping-list-list/sho
 import { UserListComponent } from './users/user-list/user-list.component';
 import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.component';
 import { StatisticsComponent } from './statistics/statistics/statistics.component';
+import { AdminGuard } from './_guards/admin.guard';
 
 const routes: Routes = [
 {path: '', component: HomeComponent},
 {path: 'recipes', component: RecipeListComponent},
-{path: 'recipes/:id', component: RecipeDetailComponent},
-{path: 'recipes/:id/photos', component: RecipePhotoComponent},
+{path: 'recipes/:id', component: RecipeDetailComponent}, //TODO PreventUnsavedChangesGuard
+{path: 'recipes/:id/photos', component: RecipePhotoComponent}, //TODO PreventUnsavedChangesGuard
 {
   path: '',
   runGuardsAndResolvers: 'always',
   canActivate: [AuthGuard],
   children:
   [    
-    {path: 'shoppingLists', component: ShopingListListComponent},
-    {path: 'cookbooks', component: CookbookListComponent},
     {path: 'user/edit', component: UserEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
     {path: 'user/recipes', component: UserRecipesComponent},
     {path: 'user/cookbook', component: UserCookbookComponent},
     {path: 'user/shoppingLists', component: UserShoppingListsComponent},
-    {path: 'users', component: UserListComponent},
-    {path: 'statistics', component:StatisticsComponent}
+    {path: 'users', component: UserListComponent, canActivate: [AdminGuard]},
+    {path: 'statistics', component:StatisticsComponent, canActivate: [AdminGuard]},
+    {path: 'shoppingLists', component: ShopingListListComponent, canActivate: [AdminGuard]},
+    {path: 'cookbooks', component: CookbookListComponent, canActivate: [AdminGuard]}
   ]
 },
 {path:'**', component: HomeComponent, pathMatch:'full'}

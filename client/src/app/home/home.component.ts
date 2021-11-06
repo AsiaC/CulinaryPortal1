@@ -15,8 +15,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private http: HttpClient, private recipeService: RecipesService) { }
 
-  ngOnInit(): void {
-    debugger;
+  ngOnInit(): void {    
     //this.getUsers();//usun bo nie potrzebuje tego
     this.searchRecipes();
   }
@@ -42,8 +41,7 @@ export class HomeComponent implements OnInit {
     this.registerMode = event;
   }
 
-  searchRecipes(){
-    debugger;
+  searchRecipes(){    
     var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
     this.recipeService.searchRecipes(searchModel)
     .subscribe(response => {

@@ -17,6 +17,7 @@ export class RecipePhotoComponent implements OnInit {
   file: File = null; // Variable to store file
   //loading: boolean = false; // Flag variable
   bsModalRef: BsModalRef;
+  alertText: string;
 
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { }
 
@@ -25,12 +26,18 @@ export class RecipePhotoComponent implements OnInit {
   }
 
   loadRecipePhotos(){
+    //debugger;
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
-    console.log();
+    console.log('loadRecipePhotos');
     this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
       this.recipePhotos = recipePhotos;
-    }, error =>{       
-      console.log(error);
+      debugger;
+    }, error =>{    
+      debugger;   
+      if(error.status === 404){
+        this.recipePhotos = undefined;
+        this.alertText = "No photos yet."
+      }
     })
   }
 
@@ -87,7 +94,8 @@ export class RecipePhotoComponent implements OnInit {
     this.recipeService.deletePhoto(photoId)
       .subscribe(response => {
         this.toastr.success('Photo removed successfully!');
-        this.loadRecipePhotos(); 
+        //debugger;
+        this.loadRecipePhotos(); //TODO NIE DZIAŁA? ALBO OBRAZ SIE NIE ODSWIEZA        
       }, error => {
          console.log(error);                      
       })

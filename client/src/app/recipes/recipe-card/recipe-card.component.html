@@ -5,7 +5,10 @@
             <ng-container *ngIf="photo.isMain === true">                
                 <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="card-img-top"/>            
             </ng-container>
-        </ng-container>       
+        </ng-container>   
+        <ng-container *ngIf="recipeFromList.photos.length === 0">
+            <div class="noPhoto"><br/><br/><p>No photos</p><br/><br/><br/></div>            
+        </ng-container>      
     </div>
     <div class="card-body p-1">
         <h6 class="card-title text-center mb-1">

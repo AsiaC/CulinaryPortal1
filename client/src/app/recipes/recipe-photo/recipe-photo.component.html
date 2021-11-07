@@ -1,22 +1,12 @@
-<!-- <input type="file" class="file-upload" onchange="console.log(event.target.files)">
-<br/> 
-<input class="form-control" type="file" (change)="onChange($event)"> -->
 <div>
     <input class="file-upload" type="file" (change)="onChange($event)" name="upload">
     <button (click)="onUpload()" class="btn btn-success">Upload</button>
 </div>
 <div>
-    <button class="btn btn-default" (click)="back()">Back to receipe</button> 
+    <button class="btn btn-info" (click)="back()">Back to receipe</button> 
 </div>
-<!-- <div>
-    <p>Change main photo</p>
-    <button class="btn btn-success" (click)="changeMainPhoto()">Change main photo</button>
-</div> -->
-<!-- <div>
-    <input style="display: none" type="file" (change)="onChange($event)" #fileInput>
-    <button (click)="fileInput.click()">Select File</button>
-    <button (click)="onUpload()">Upload!</button>
-</div> -->
+<br/>
+
 <div *ngIf="recipePhotos">
     <table class="table table-stripped">
         <thead>
@@ -44,4 +34,10 @@
             </tr>            
         </tbody>
     </table>
+</div>
+
+<div *ngIf="!recipePhotos">
+    <div class="alert alert-warning" role="alert">
+        {{alertText}} 
+    </div>
 </div>

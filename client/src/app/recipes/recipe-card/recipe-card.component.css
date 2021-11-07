@@ -18,3 +18,9 @@
 .card {
     cursor: pointer; 
 }
+
+.noPhoto{
+    background-color: rgba(233, 233, 144, 0.87);
+    text-align: center;
+    font-family: cursive;
+}

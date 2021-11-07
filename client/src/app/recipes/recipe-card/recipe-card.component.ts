@@ -13,6 +13,8 @@ export class RecipeCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('recipeFromList');
+    console.log(this.recipeFromList);
   }
 
 }

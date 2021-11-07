@@ -268,6 +268,12 @@ namespace CulinaryPortal.API.Controllers
             {
                 if (upload != null && upload.Length > 0)
                 {
+                    //Check if photo should be the main or not
+                    bool isMainPhoto = true;
+                    var allRecipePhotos = await _culinaryPortalRepository.GetRecipePhotosAsync(recipeId);
+                    if (allRecipePhotos.Any())
+                        isMainPhoto = false;
+
                     using (var memoryStream = new MemoryStream())
                     {
                         await upload.CopyToAsync(memoryStream);
@@ -278,7 +284,7 @@ namespace CulinaryPortal.API.Controllers
                             var photo = new Photo()
                             {
                                 ContentPhoto = memoryStream.ToArray(),
-                                IsMain = true,
+                                IsMain = isMainPhoto,
                                 RecipeId = recipeId,
                             };
 

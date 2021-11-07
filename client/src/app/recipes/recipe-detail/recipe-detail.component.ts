@@ -55,7 +55,8 @@ export class RecipeDetailComponent implements OnInit {
 
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      this.currentRecipe = recipe;       
+      this.currentRecipe = recipe;  
+      console.log(this.currentRecipe);     
     }, error => {
       console.log(error);
     })

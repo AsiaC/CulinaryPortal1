@@ -8,6 +8,7 @@
                 <th>Cookbook name</th>
                 <th>Owner</th>
                 <th>Number of recipes</th>
+                <th>Include recipes</th>
                 <th></th>
             </tr>
         </thead>
@@ -16,6 +17,15 @@
                 <td>{{cookbook.name}}</td>
                 <td>{{cookbook.userName}}</td>
                 <td>{{cookbook.cookbookRecipes.length}}</td>
+                <td>
+                    <ng-container>
+                        <ul>
+                            <li *ngFor="let item of cookbook.cookbookRecipes">
+                                {{item.recipe.name}}
+                            </li>
+                        </ul>
+                    </ng-container>
+                </td>
                 <td><button class="btn btn-danger mr-2" (click)="deleteCookbook(cookbook.id)">Remove cookbook</button> </td>
             </tr>
         </tbody>

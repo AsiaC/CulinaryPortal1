@@ -75,7 +75,8 @@ namespace CulinaryPortal.API.Controllers
             }           
         }
 
-        [HttpDelete("userId")]
+        [Authorize(Policy = "OnlyAdminRole")]
+        [HttpDelete("{userId}")]
         public async Task<ActionResult> DeleteUser([FromRoute] int userId)
         {
             try

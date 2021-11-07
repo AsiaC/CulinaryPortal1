@@ -63,10 +63,11 @@ export class UsersService {
       map((rate: Rate) => rate)
     )    
   }
-  //dorobić w kontrolerze
-  // deleteUser(userId: number){
-  //   return this.http.delete(this.baseUrl + 'users/'+ userId)
-  // }
+
+  deleteUser(userId: number){
+    debugger;
+    return this.http.delete(this.baseUrl + 'users/'+ userId)
+  }
 
   getNumberOfUsers(){
     return this.http.get<number>(this.baseUrl  + 'users/' + this.user.id + '/registeredUsers') //to moze nie potrzebuje w kontrolerach tego user skoro tu mam

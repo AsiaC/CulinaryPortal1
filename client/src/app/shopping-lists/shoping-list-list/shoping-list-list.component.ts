@@ -31,8 +31,7 @@ export class ShopingListListComponent implements OnInit {
   }
 
   deleteShoppingList(shoppingListId) {    
-    this.shoppingListService.deleteShoppingList(shoppingListId)
-      .subscribe(response => {
+    this.shoppingListService.deleteShoppingList(shoppingListId).subscribe(response => {
         this.toastr.success('Shopping list removed successfully!');
         this.loadShoppingLists(); 
       }, error => {

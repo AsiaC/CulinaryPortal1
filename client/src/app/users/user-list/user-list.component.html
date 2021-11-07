@@ -9,7 +9,7 @@
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Email</th>
-                <th>Name (?)</th>
+                <th>Full name</th>
                 <th></th>
             </tr>
         </thead>
@@ -20,7 +20,7 @@
                 <td>{{user.lastName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.name}}</td>
-                <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)">Remove user</button> </td>
+                <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)" [disabled]="user.id == currentUser.id">Remove user</button> </td>
             </tr>
         </tbody>
     </div>

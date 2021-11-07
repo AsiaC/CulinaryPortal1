@@ -15,7 +15,7 @@
             <tr *ngFor="let shoppingList of shoppingLists">
                 <td>{{shoppingList.name}}</td>
                 <td>{{shoppingList.userName}}</td>
-                <td>{{shoppingList.items.length}}</td>
+                <td>{{shoppingList.items.length}}</td>                
                 <td><button class="btn btn-danger mr-2" (click)="deleteShoppingList(shoppingList.id)">Remove shopping list</button> </td>
             </tr>
         </tbody>

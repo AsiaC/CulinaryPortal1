@@ -1,7 +1,7 @@
 <div *ngIf="currentRecipe && editRecipe === false">
     <h1 >{{currentRecipe.name}}</h1>
-    <div *ngIf="currentRecipe.userId != null && user != null">    
-        <div *ngIf="currentRecipe.userId === user.id">
+    <div *ngIf="user !== null">    
+        <div *ngIf="currentRecipe?.userId === user.id || user.roles.includes('Admin')" >
             <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
             <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
             <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>

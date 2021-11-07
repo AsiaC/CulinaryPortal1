@@ -46,17 +46,18 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadRecipe();
-    if(this.user !== null){
-      this.loadShoppingListsIds();  
-      this.loadCookbook();       
-    }
+    this.loadRecipe();   
   }
 
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
       this.currentRecipe = recipe;  
-      console.log(this.currentRecipe);     
+      console.log('this.user');
+      console.log(this.user); 
+      console.log('this.currentRecipe') ;
+      console.log(this.currentRecipe) ;  
+      this.loadShoppingListsIds();  
+      this.loadCookbook();        
     }, error => {
       console.log(error);
     })
@@ -76,6 +77,9 @@ export class RecipeDetailComponent implements OnInit {
   loadCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;  
+
+      console.log('this.currentRecipe 2');
+      console.log(this.currentRecipe);
 
       if(this.userCookbook !== undefined){
         if(this.userCookbook.cookbookRecipes !== undefined){

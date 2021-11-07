@@ -20,6 +20,7 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((response: User)=>{
         const user=response;
+        debugger;
         if (user) {
           this.setCurrentUser(user);
           this.currentUserSource.next(user);          

@@ -97,8 +97,10 @@
             </div>
             <div class="form-group col-sm-4"> 
                 <label>Ingredient</label>
-                <select class="form-control" formControlName='ingredientId'>
+                <!-- <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient($event)"> -->
+                <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient(ingredient)">
                     <option [ngValue]="null" disabled>Choose ingredient</option>
+                    <option [ngValue]= 0 >Other</option>
                     <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient.id">
                         {{ingredient.name }}
                     </option>

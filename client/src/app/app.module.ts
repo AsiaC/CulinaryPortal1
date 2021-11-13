@@ -32,6 +32,7 @@ import { RecipePhotoComponent } from './recipes/recipe-photo/recipe-photo.compon
 import { StatisticsComponent } from './statistics/statistics/statistics.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { HasRoleDirective } from './_directives/has-role.directive';
+import { CreateIngredientComponent } from './modals/create-ingredient/create-ingredient.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     UserListComponent,
     RecipePhotoComponent,
     StatisticsComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    CreateIngredientComponent
   ],
   imports: [
     BrowserModule,

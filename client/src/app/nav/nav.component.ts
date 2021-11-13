@@ -26,9 +26,9 @@ export class NavComponent implements OnInit {
     this.accountService.login(this.model).subscribe(response => {    
       this.router.navigateByUrl('/recipes');
     }, error => {
-      debugger;
-      console.log(error);  
-      this.toastr.error(error.error);
+      if(error.status === 401){        
+        this.toastr.error(error.error);
+      }// todo what if else
     })
   }
 

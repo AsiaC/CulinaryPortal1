@@ -107,4 +107,11 @@ export class RecipesService {
     return this.http.delete(this.baseUrl + 'rates/' + rateId)
   }
 
+  addIngredient(model: Ingredient){
+    debugger;
+    return this.http.post(this.baseUrl + 'ingredients', model).pipe(
+      map((ingredient : Ingredient) => ingredient)
+    )
+  }
+
 }

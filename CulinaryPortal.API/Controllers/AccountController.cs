@@ -95,7 +95,7 @@ namespace CulinaryPortal.API.Controllers
 
                 return userToReturn;
             }
-            catch (Exception e)
+            catch (Exception e) //TODO logować bład powinnam a nie wyświetlac
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            

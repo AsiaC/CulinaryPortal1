@@ -245,11 +245,11 @@ namespace CulinaryPortal.API.Data
                         RecipeIngredients = new List<RecipeIngredient>
                         {
                             new RecipeIngredient{ IngredientId = 23, MeasureId = 1, Quantity  = 2},
-                            new RecipeIngredient{ IngredientId = 24, MeasureId = 1, Quantity  = 1/4},
+                            new RecipeIngredient{ IngredientId = 24, MeasureId = 1, Quantity  = 0.25M},
                             new RecipeIngredient{ IngredientId = 21, MeasureId = 4, Quantity  = 1},
-                            new RecipeIngredient{ IngredientId = 19, MeasureId = 7, Quantity  = 1/4},
-                            new RecipeIngredient{ IngredientId = 20, MeasureId = 7, Quantity  = 1/2},
-                            new RecipeIngredient{ IngredientId = 22, MeasureId = 7, Quantity  = 1/2},
+                            new RecipeIngredient{ IngredientId = 19, MeasureId = 7, Quantity  = 0.25M},
+                            new RecipeIngredient{ IngredientId = 20, MeasureId = 7, Quantity  = 0.5M},
+                            new RecipeIngredient{ IngredientId = 22, MeasureId = 7, Quantity  = 0.5M},
                         },
                     },
                     new Recipe{
@@ -273,14 +273,14 @@ namespace CulinaryPortal.API.Data
                         },
                         RecipeIngredients = new List<RecipeIngredient>
                         {
-                            new RecipeIngredient{ IngredientId = 6, MeasureId = 1, Quantity  = 1/2},
-                            new RecipeIngredient{ IngredientId = 15, MeasureId = 1, Quantity  = 3/2},
+                            new RecipeIngredient{ IngredientId = 6, MeasureId = 1, Quantity  = 0.5M},
+                            new RecipeIngredient{ IngredientId = 15, MeasureId = 1, Quantity  = 1.5M},
                             new RecipeIngredient{ IngredientId = 25, MeasureId = 1, Quantity  = 1},
                             new RecipeIngredient{ IngredientId = 17, MeasureId = 2, Quantity  = 6},
                             new RecipeIngredient{ IngredientId = 26, MeasureId = 5, Quantity  = 450},
-                            new RecipeIngredient{ IngredientId = 13, MeasureId = 7, Quantity  = 3/2},
+                            new RecipeIngredient{ IngredientId = 13, MeasureId = 7, Quantity  = 1.5M},
                             new RecipeIngredient{ IngredientId = 14, MeasureId = 7, Quantity  = 2},
-                            new RecipeIngredient{ IngredientId = 16, MeasureId = 7, Quantity  = 1/2},
+                            new RecipeIngredient{ IngredientId = 16, MeasureId = 7, Quantity  = 0.5M},
                         },
                     },
                     new Recipe{
@@ -304,12 +304,12 @@ namespace CulinaryPortal.API.Data
                         {
                             new RecipeIngredient{ IngredientId = 31, MeasureId = 2, Quantity  = 2},
                             new RecipeIngredient{ IngredientId = 32, MeasureId = 2, Quantity  = 2},
-                            new RecipeIngredient{ IngredientId = 27, MeasureId = 4, Quantity  = 1/4},
-                            new RecipeIngredient{ IngredientId = 28, MeasureId = 4, Quantity  = 1/4},
+                            new RecipeIngredient{ IngredientId = 27, MeasureId = 4, Quantity  = 0.25M},
+                            new RecipeIngredient{ IngredientId = 28, MeasureId = 4, Quantity  = 0.25M},
                             new RecipeIngredient{ IngredientId = 29, MeasureId = 4, Quantity  = 4},
                             new RecipeIngredient{ IngredientId = 6, MeasureId = 6, Quantity  = 1},
                             new RecipeIngredient{ IngredientId = 33, MeasureId = 6, Quantity  = 1},
-                            new RecipeIngredient{ IngredientId = 30, MeasureId = 7, Quantity  = 3/5},
+                            new RecipeIngredient{ IngredientId = 30, MeasureId = 7, Quantity  = 0.66M},
                         },
                     },
                 };

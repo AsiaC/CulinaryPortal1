@@ -13,6 +13,8 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { CreateIngredientComponent } from 'src/app/modals/create-ingredient/create-ingredient.component';
 
 @Component({
   selector: 'app-recipe-new-form',
@@ -36,8 +38,10 @@ export class RecipeNewFormComponent implements OnInit {
   recipe: Recipe;
   isAddMode: boolean;
   id: string;
+
+  bsModalRef: BsModalRef;
   
-  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
+  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router, private modalService: BsModalService) { 
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(key => ({ title: this.difficultyLevel[key], value: key }));
@@ -304,5 +308,16 @@ export class RecipeNewFormComponent implements OnInit {
     //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
     window.location.reload();
   }
-
+  changeOnIgredient(recipeIngredient){
+    //debugger;
+    var selectedIngredientId = recipeIngredient.value.ingredientId;    
+    if(selectedIngredientId === 0){
+      const initialState = {     
+        title: 'Add ingredient'       
+      };
+      this.bsModalRef = this.modalService.show(CreateIngredientComponent, {initialState});
+      this.bsModalRef.content.closeBtnName = 'Cancel';
+      this.bsModalRef.content.submitBtnName = 'Confirm';    
+    }
+  }
 }

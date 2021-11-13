@@ -19,16 +19,6 @@ export class CreateIngredientComponent implements OnInit {
   }
 
   confirmAddingNewIngredient(){
-    debugger;
-    // var ingredientToCreate: Ingredient = {id: null, name: this.newIngredientName};
-    // this.recipeService.addIngredient(ingredientToCreate).subscribe(response => {
-    //   debugger
-    //   console.log(response)
-    //   this.toastr.success('Ingredient added successfully!');
-    //   //dodaj tą wartość do listy + ustaw
-    // }, error => {
-    //   console.log(error);
-    // })
     this.createNewIngredient.emit(this.newIngredientName);
     this.bsModalRef.hide();
   }

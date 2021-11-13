@@ -309,30 +309,38 @@ export class RecipeNewFormComponent implements OnInit {
     window.location.reload();
   }
   changeOnIgredient(recipeIngredient){
-    //debugger;
     var selectedIngredientId = recipeIngredient.value.ingredientId;    
     if(selectedIngredientId === 0){
-      const initialState = {     
-        //title: 'Add ingredient'       
-      };
+      const initialState = {};
       this.bsModalRef = this.modalService.show(CreateIngredientComponent, {initialState});
       
       this.bsModalRef.content.createNewIngredient.subscribe(value => {
-        debugger;
         var newIngredientName = value;
 
         if(newIngredientName !== null){
           var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
-          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {
-            debugger;
-            //jeli 201 albo objekt to we ponownie liste wszystkich skadników i przypisz do obecnej listy, albo dodaj to jedno do obecnej listy i przypisz do obecnego selectu
+          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {            
             if(response.id !== null){
               this.allIngredients.push(response);
             }
-            //ustaw w obecnym selekcie jako wartosc
+            
+            this.recipe=this.addRecipeForm.value;
+            this.recipe.recipeIngredients.forEach(element => {
+              if(element.ingredientId === 0){
+                element.ingredientId = response.id;
+              }
+            });
+
+            var recipeIngredientsArray = [];
+            this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
+              quantity: recipeIngredient.quantity,
+              measureId: recipeIngredient.measureId,
+              ingredientId: recipeIngredient.ingredientId, 
+            })));
+            this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
+
           })
         }
-
       });
 
     }

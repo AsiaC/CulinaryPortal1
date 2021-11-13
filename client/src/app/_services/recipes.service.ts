@@ -108,7 +108,6 @@ export class RecipesService {
   }
 
   addIngredient(model: Ingredient){
-    debugger;
     return this.http.post(this.baseUrl + 'ingredients', model).pipe(
       map((ingredient : Ingredient) => ingredient)
     )

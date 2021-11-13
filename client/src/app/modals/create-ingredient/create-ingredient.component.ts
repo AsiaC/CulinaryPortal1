@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Ingredient } from 'src/app/_models/ingredient';
@@ -10,27 +10,26 @@ import { RecipesService } from 'src/app/_services/recipes.service';
   styleUrls: ['./create-ingredient.component.css']
 })
 export class CreateIngredientComponent implements OnInit {
-  title: string;
+  @Input() createNewIngredient = new EventEmitter();
   newIngredientName: string = null;
-  closeBtnName: string;
-  submitBtnName: string;
 
-  constructor(public bsModalRef: BsModalRef, private recipeService: RecipesService, private toastr: ToastrService) { }
+  constructor(public bsModalRef: BsModalRef) { }
 
   ngOnInit(): void {
   }
 
   confirmAddingNewIngredient(){
     debugger;
-    var ingredientToCreate: Ingredient = {id: null, name: this.newIngredientName};
-    this.recipeService.addIngredient(ingredientToCreate).subscribe(response => {
-      debugger
-      console.log(response)
-      this.toastr.success('Ingredient added successfully!');
-      //dodaj tą wartość do listy + ustaw
-    }, error => {
-      console.log(error);
-    })
+    // var ingredientToCreate: Ingredient = {id: null, name: this.newIngredientName};
+    // this.recipeService.addIngredient(ingredientToCreate).subscribe(response => {
+    //   debugger
+    //   console.log(response)
+    //   this.toastr.success('Ingredient added successfully!');
+    //   //dodaj tą wartość do listy + ustaw
+    // }, error => {
+    //   console.log(error);
+    // })
+    this.createNewIngredient.emit(this.newIngredientName);
     this.bsModalRef.hide();
   }
 

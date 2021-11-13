@@ -313,11 +313,28 @@ export class RecipeNewFormComponent implements OnInit {
     var selectedIngredientId = recipeIngredient.value.ingredientId;    
     if(selectedIngredientId === 0){
       const initialState = {     
-        title: 'Add ingredient'       
+        //title: 'Add ingredient'       
       };
       this.bsModalRef = this.modalService.show(CreateIngredientComponent, {initialState});
-      this.bsModalRef.content.closeBtnName = 'Cancel';
-      this.bsModalRef.content.submitBtnName = 'Confirm';    
+      
+      this.bsModalRef.content.createNewIngredient.subscribe(value => {
+        debugger;
+        var newIngredientName = value;
+
+        if(newIngredientName !== null){
+          var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
+          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {
+            debugger;
+            //jeli 201 albo objekt to we ponownie liste wszystkich skadników i przypisz do obecnej listy, albo dodaj to jedno do obecnej listy i przypisz do obecnego selectu
+            if(response.id !== null){
+              this.allIngredients.push(response);
+            }
+            //ustaw w obecnym selekcie jako wartosc
+          })
+        }
+
+      });
+
     }
   }
 }

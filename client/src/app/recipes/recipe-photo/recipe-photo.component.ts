@@ -28,7 +28,7 @@ export class RecipePhotoComponent implements OnInit {
   loadRecipePhotos(){
     //debugger;
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
-    console.log('loadRecipePhotos');
+    //console.log('loadRecipePhotos');
     this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
       this.recipePhotos = recipePhotos;
       debugger;
@@ -48,7 +48,7 @@ export class RecipePhotoComponent implements OnInit {
   // OnClick of button Upload
   onUpload() {
     //this.loading = !this.loading;
-    console.log(this.file);
+    //console.log(this.file);
     const uploadData = new FormData();
     uploadData.append('upload', this.file);
     //uploadData.append('myFile', this.file, this.file.name);

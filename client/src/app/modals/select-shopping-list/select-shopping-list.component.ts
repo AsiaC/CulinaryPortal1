@@ -32,8 +32,8 @@ export class SelectShoppingListComponent implements OnInit {
   }
 
   confirmAddingIngredients(){
-    console.log(this.newShoppingListName);
-    console.log(this.selectOptionVal);
+    //console.log(this.newShoppingListName);
+    //console.log(this.selectOptionVal);
     //this.shoppingListDto.id = this.selectOptionVal;    
     
     var newIngredients= [];
@@ -48,11 +48,11 @@ export class SelectShoppingListComponent implements OnInit {
         this.shoppingListDto = this.list.find(x=>x.id === parseInt(this.selectOptionVal));
         //this.shoppingListDto.items = this.shoppingListDto.items.concat(newIngredients);
         this.shoppingListDto.items = this.shoppingListDto.items.concat(newIngredients);
-        console.log(this.shoppingListDto);
+        //console.log(this.shoppingListDto);
 
         this.shoppingListService.updateShoppingList(this.selectOptionVal, this.shoppingListDto)
         .subscribe(response => {
-          console.log(response);
+          //console.log(response);
             this.toastr.success('Success. Ingredients added to the list.');        
         }, error => {
             console.log(error);                      
@@ -67,7 +67,7 @@ export class SelectShoppingListComponent implements OnInit {
         var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId, userName: ''};
 
         this.shoppingListService.addShoppingList(shoppingListDto2).subscribe(response => {
-          console.log(response);
+          //console.log(response);
           this.toastr.success('Success. Ingredients added to the new list.');
         }, error => {
           console.log(error);

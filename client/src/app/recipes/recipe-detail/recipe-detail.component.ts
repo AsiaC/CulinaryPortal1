@@ -52,10 +52,10 @@ export class RecipeDetailComponent implements OnInit {
   loadRecipe(){
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
       this.currentRecipe = recipe;  
-      console.log('this.user');
-      console.log(this.user); 
-      console.log('this.currentRecipe') ;
-      console.log(this.currentRecipe) ;  
+      //console.log('this.user');
+      //console.log(this.user); 
+      //console.log('this.currentRecipe') ;
+      //console.log(this.currentRecipe) ;  
       this.loadShoppingListsIds();  
       this.loadCookbook();        
     }, error => {
@@ -78,8 +78,8 @@ export class RecipeDetailComponent implements OnInit {
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;  
 
-      console.log('this.currentRecipe 2');
-      console.log(this.currentRecipe);
+      //console.log('this.currentRecipe 2');
+      //console.log(this.currentRecipe);
 
       if(this.userCookbook !== undefined){
         if(this.userCookbook.cookbookRecipes !== undefined){
@@ -108,8 +108,8 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addToCookbook(){ 
-    console.log(this.user);
-    console.log(this.userCookbook);
+    //console.log(this.user);
+    //console.log(this.userCookbook);
 
     // if(this.userCookbook === undefined){
     //   this.cookbookRecipe.cookbookId = 0;
@@ -161,7 +161,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   modalAddToShoppingList() {
-    console.log(this.userShoppingLists);
+    //console.log(this.userShoppingLists);
 
     const initialState = {     
       recipeIngredients: this.currentRecipe.recipeIngredients,

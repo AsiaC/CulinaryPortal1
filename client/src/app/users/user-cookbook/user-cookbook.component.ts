@@ -61,7 +61,7 @@ export class UserCookbookComponent implements OnInit {
         this.userFavouriteRecipes = undefined;
         this.alertText = "User does not have any favourite recipes yet. "
       }
-      console.log(this.userFavouriteRecipes);
+      //console.log(this.userFavouriteRecipes);
     }, error => {
       this.userCookbook = undefined;
       this.userFavouriteRecipes = undefined;
@@ -89,7 +89,7 @@ export class UserCookbookComponent implements OnInit {
     
     this.cookbookService.removeRecipeFromCookbook(this.userCookbook.id, this.cookbookRecipe)
     .subscribe(response => {
-      console.log("success");
+      //("success");
       this.toastr.success('Recipe removed successfully!');
       this.loadUserCookbook();
     }, error => {
@@ -100,7 +100,7 @@ export class UserCookbookComponent implements OnInit {
   deleteCookbook(cookbookId: number){
     this.cookbookService.deleteCookbook(cookbookId)
     .subscribe(response => {
-      console.log(response);
+     // console.log(response);
       this.toastr.success('Cookbook removed successfully!');  
       this.loadUserCookbook(); 
     }, error => {

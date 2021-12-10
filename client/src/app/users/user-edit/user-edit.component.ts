@@ -33,9 +33,8 @@ export class UserEditComponent implements OnInit {
     })
   }
 
-  updateUser(){
-    
-    console.log(this.user);
+  updateUser(){    
+    //console.log(this.user);
     this.userService.updateUser(this.user).subscribe(() => {
       this.editForm.reset(this.user);
     });    

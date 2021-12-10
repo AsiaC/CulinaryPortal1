@@ -4,7 +4,6 @@ import { RecipesService } from 'src/app/_services/recipes.service';
 import {Category} from 'src/app/_models/category';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
-import { Console } from 'console';
 import { Ingredient } from 'src/app/_models/ingredient';
 import { Measure } from 'src/app/_models/measure';
 import { FormGroup, FormControl,FormArray, FormBuilder, Validators, NgForm } from '@angular/forms'
@@ -22,14 +21,12 @@ import { CreateIngredientComponent } from 'src/app/modals/create-ingredient/crea
   styleUrls: ['./recipe-new-form.component.css']
 })
 export class RecipeNewFormComponent implements OnInit {
- // @ViewChild('editForm') editForm: NgForm;
   allCategories: Category[];
   difficultyLevel = DifficultyLevelEnum;
   difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
   submitted = false;
- // firstPartFormSubmitted = false;
   allIngredients: Ingredient[];
   allMeasures: Measure[];
 
@@ -42,11 +39,7 @@ export class RecipeNewFormComponent implements OnInit {
   bsModalRef: BsModalRef;
   
   constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router, private modalService: BsModalService) { 
-    //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k)));
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
-    //this.enumKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(key => ({ title: this.difficultyLevel[key], value: key }));
-    //this.enumKeys = Object.keys(this.difficultyLevel);
-    //this.preparationTimeKeys = Object.keys(this.preparationTime);   
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
@@ -87,100 +80,69 @@ export class RecipeNewFormComponent implements OnInit {
       })));
       this.addRecipeForm.setControl('instructions', this.fb.array(instructionsArray || []));
       
-      //this.addRecipeForm.setControl('instructions', this.fb.array(this.recipe.instructions || []));
-      //this.addRecipeForm.setControl('recipeIngredients', this.fb.array(this.recipe.recipeIngredients || []));      
-
       var recipeIngredientsArray = [];
       this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
         quantity: recipeIngredient.quantity,
-        //measureId: recipeIngredient.measureId,
-        measureId: recipeIngredient.measure.id,
-        //ingredientId: recipeIngredient.ingredientId,  
-        ingredientId: recipeIngredient.ingredient.id, 
-        //measure: recipeIngredient.measure, //OST ZAKOMENTOWANE
-        //measure: this.allMeasures.find
-        //ingredient: recipeIngredient.ingredient, //OST ZAKOMENTOWANE
-        //measureName: recipeIngredient.measureName,  
-        //ingredientName: recipeIngredient.ingredientName,    
-          
+        measureId: recipeIngredient.measure.id, 
+        ingredientId: recipeIngredient.ingredient.id,    
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
     }, error => {
       console.log(error);
     });
-    // this.recipesService.getRecipe(Number(this.id))
-    //             .pipe(first())
-    //             .subscribe(x => this.addRecipeForm.patchValue(x));
-
-    // this.recipesService.getRecipe(Number(this.id))
-    //             .pipe(first())
-    //             .subscribe(x => {
-    //               this.addRecipeForm.patchValue(x)
-    //             });
-
-                // this.userService.editUserBlog(id).pipe(first()).subscribe(user => {
-                //   user = user;
-                //   this.editBlogForm.setValue({
-                //     title: user["0"].title,
-                //     blog: user["0"].blog,
-                //   });
-                // });
   }
   
   initializeForm(){
     this.addRecipeForm = this.fb.group({
-      // name: new FormControl(),
-      // description: new FormControl(),
       id: [],
-      name: ['',Validators.required],
+      name: ['', [Validators.required]],
       description: [],
-      difficultyLevel:[],
-      //difficultyLevel:this.fb.array([]),
-      preparationTime:[],
-      categoryId: [],
-      //category: [],
-      //ingredients: this.fb.array([]),
-      recipeIngredients:this.fb.array([]),
-      instructions: this.fb.array([]),
-      //userId: [{value: this.user.id}]
+      difficultyLevel:[null, [Validators.required]],
+      preparationTime:[null, [Validators.required]],
+      categoryId: [null, [Validators.required]],
+      recipeIngredients:this.fb.array([this.createIngrFormGroup()], [Validators.required]),
+      instructions: this.fb.array([this.createInstrFormGroup()], [Validators.required]),
       userId: [this.user.id]
     });
+  }
+
+  createIngrFormGroup(){
+    return this.fb.group({
+      quantity: ['', [Validators.required, Validators.min(0)]],
+      ingredientId: [null, [Validators.required, Validators.min(1)]],
+      measureId: [null, [Validators.required]],
+    })
   }
 
   get recipeIngredients() : FormArray {
     return this.addRecipeForm.get("recipeIngredients") as FormArray
   }
- 
-  newIngredient(): FormGroup {
-    return this.fb.group({
-      quantity: '',
-      ingredientId: [],
-      measureId: [],
-      //ingredient:[],      
-      //measure: [],
-    })
-  } 
+
   addIngredients() {
-    this.recipeIngredients.push(this.newIngredient());
+    let fg = this.createIngrFormGroup();
+    this.recipeIngredients.push(fg);
   } 
   removeIngredient(i:number) {
     this.recipeIngredients.removeAt(i);
   }
 
-  get instructions() : FormArray {
-    return this.addRecipeForm.get("instructions") as FormArray
-  }
- 
-  newInstructions(): FormGroup {
+  createInstrFormGroup(){
     return this.fb.group({
       //step: '',
       name: '',
-      description: ''      
+      description: ['', [Validators.required]]      
     })
+  }
+
+  get instructions() : FormArray {
+    return this.addRecipeForm.get("instructions") as FormArray
   } 
+
   addInstructions() {
-    this.instructions.push(this.newInstructions());
-  } 
+    let fb = this.createInstrFormGroup();
+    this.instructions.push(fb);
+  }
+
   removeInstruction(i:number) {
     this.instructions.removeAt(i);
   }
@@ -196,7 +158,6 @@ export class RecipeNewFormComponent implements OnInit {
   getAllIngredients(){
     this.recipesService.getIngredients().subscribe(allIngredients => {
       this.allIngredients = allIngredients;
-      //console.log(allCategories);
     }, error =>{
       console.log(error);
     })
@@ -211,36 +172,22 @@ export class RecipeNewFormComponent implements OnInit {
   }
 
   createNewRecipe(){
-    console.log("create new recipe");
-    console.log(this.addRecipeForm.value);
-    console.log(this.submitted);
-    this.submitted = true;
-    console.log(this.submitted);
-    console.log(this.addRecipeForm.value);  
-    //let newUser: User = this.userForm.value;   
-    
+    this.submitted = true;    
     this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
-      console.log(response);
-      //this.router.navigateByUrl('/members');
       this.isAddMode = false;
       window.location.reload();
     }, error => {
-      //this.validationErrors = error;
       console.log(error);
     })
 
   }
 
-  onSubmit() {
-    console.log(this.addRecipeForm.value);      
-
+  onSubmit() { 
     var recipeIngredientsArray = [];
       this.addRecipeForm.value.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
         quantity: recipeIngredient.quantity,        
         measureId: recipeIngredient.measureId,        
         ingredientId: recipeIngredient.ingredientId,         
-        //measure: this.allMeasures.find(({id}) => id === recipeIngredient.measureId),               
-        //ingredient: this.allIngredients.find(({id}) => id === recipeIngredient.ingredientId)
       })));
       this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
     if(this.isAddMode){
@@ -248,61 +195,23 @@ export class RecipeNewFormComponent implements OnInit {
     }
     else{
       this.updateRecipe();
-    }
-    
+    }  
   }
+
   private updateRecipe() {
-    //this.recipesService.updateRecipe(this.member).subscribe(() => {
-      //this.toastr.success('Profile updated successfully');
-      //this.editForm.reset(this.member);
-    //})
+    this.recipesService.updateRecipe(this.id, this.addRecipeForm.value).subscribe(response => {
+        //this.toastr.success('Profile updated successfully');
+        this.recipe=this.addRecipeForm.value;
+        this.isAddMode = false;
+        this.addRecipeForm.reset(this.recipe);
+        window.location.reload();
+      }, error => {
+          console.log(error);                      
+      })    
+  }
 
-    // let recipeToUpdate: BlogPost = {
-    //   postId: this.existingBlogPost.postId,
-    //   dt: this.existingBlogPost.dt,
-    //   creator: this.existingBlogPost.creator,
-    //   title: this.form.get(this.formTitle).value,
-    //   body: this.form.get(this.formBody).value
-    // };
-    // this.recipesService.updateRecipe(recipeToUpdate.postId, recipeToUpdate)
-    //   .subscribe((data) => {
-    //     this.router.navigate([this.router.url]);
-    //   });
-
-    
-
-     this.recipesService.updateRecipe(this.id, this.addRecipeForm.value)
-          .subscribe(response => {
-            //this.toastr.success('Profile updated successfully');
-            this.recipe=this.addRecipeForm.value;
-            this.isAddMode = false;
-            this.addRecipeForm.reset(this.recipe);
-            window.location.reload();
-          }, error => {
-              console.log(error);                      
-          })
-
-
-
-
-    //     .pipe(first())
-    //     .subscribe({
-    //         next: () => {
-    //             this.alertService.success('User updated', { keepAfterRouteChange: true });
-    //             this.router.navigate(['../../'], { relativeTo: this.route });
-    //         },
-    //         error: error => {
-    //             this.alertService.error(error);
-    //             this.loading = false;
-    //         }
-    //     });
-
-    
-}
-
-  //pod przyciskiem cancel
   cancel(){
-    console.log("cancel");
+    //console.log("cancel");
     //this.cancelRegister.emit(false);
     //this.router.navigateByUrl('/user/recipes');
     //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
@@ -310,20 +219,22 @@ export class RecipeNewFormComponent implements OnInit {
   }
   changeOnIgredient(recipeIngredient){
     var selectedIngredientId = recipeIngredient.value.ingredientId;    
+    console.log(this.addRecipeForm.status);
+
     if(selectedIngredientId === 0){
+      console.log(this.addRecipeForm.status);
       const initialState = {};
       this.bsModalRef = this.modalService.show(CreateIngredientComponent, {initialState});
-      
+
       this.bsModalRef.content.createNewIngredient.subscribe(value => {
         var newIngredientName = value;
-
+        debugger;
         if(newIngredientName !== null){
           var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
           this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {            
             if(response.id !== null){
               this.allIngredients.push(response);
-            }
-            
+            }            
             this.recipe=this.addRecipeForm.value;
             this.recipe.recipeIngredients.forEach(element => {
               if(element.ingredientId === 0){
@@ -342,7 +253,6 @@ export class RecipeNewFormComponent implements OnInit {
           })
         }
       });
-
     }
   }
 }

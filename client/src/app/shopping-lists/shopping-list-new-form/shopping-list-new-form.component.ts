@@ -98,7 +98,7 @@ export class ShoppingListNewFormComponent implements OnInit {
   }
 
   onSubmit() {    
-    console.log(this.addShoppingListForm.value);   
+    //console.log(this.addShoppingListForm.value);   
     if(this.isAddMode){
       this.createNewShoppingList();
     }
@@ -109,7 +109,7 @@ export class ShoppingListNewFormComponent implements OnInit {
   createNewShoppingList(){
     this.submitted = true;
     this.shoppingListService.addShoppingList(this.addShoppingListForm.value).subscribe(response => {
-      console.log(response);
+      //console.log(response);
       //this.router.navigateByUrl('/members');
       this.isAddMode = false;
       window.location.reload(); //spr czy to konieczne
@@ -131,7 +131,7 @@ export class ShoppingListNewFormComponent implements OnInit {
       })
   }
   cancel(){
-    console.log("cancel");
+    //console.log("cancel");
     //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
     window.location.reload();
   }

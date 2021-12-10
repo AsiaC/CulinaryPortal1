@@ -16,213 +16,133 @@
 <div class="col-12 mt-5">
 
 <form [formGroup]='addRecipeForm' (ngSubmit)="onSubmit()" autocomplete="off">
-    
 
-<div class="form-group">
-    <label>Name</label>
-    <input type="text" class="form-control" formControlName='name' placeholder="Name">
-</div>
-
-
-<div class="form-group">
-    <label>Description</label>
-    <input type="text" class="form-control" formControlName='description' placeholder="Description">
-</div>
-
-<!-- <div class="form-group">
-    <label>Difficulty</label>
-    <select class="form-control" formControlName='difficultyLevel' >
-        <option [ngValue]="null" disabled>Choose difficulty level</option>
-        <option *ngFor="let diffName of enumKeys" [ngValue]="diffName.value">
-            {{diffName.title}}       
-        </option> 
-    </select>    
-</div> -->
-
-<div class="form-group">
-    <label>Difficulty</label>
-    <select class="form-control" formControlName="difficultyLevel" >
-        <option [ngValue]="null" disabled>Choose difficulty level</option>
-        <option *ngFor="let diffName of difficultyLevelKeys" [ngValue]="diffName">
-            {{difficultyLevel[diffName]}}       
-        </option> 
-    </select>    
-</div>
-
-<div class="form-group">
-    <label>Preparation</label>
-    <select class="form-control" formControlName="preparationTime" >
-        <option [ngValue]="null" disabled>Choose preparation time</option>
-        <option *ngFor="let prepName of preparationTimeKeys" [ngValue]="prepName">
-            {{preparationTime[prepName]}}       
-        </option> 
-    </select>
-    
-</div>
-
-<div class="form-group">
-    <label>Category</label>
-    <select class="form-control" formControlName='categoryId'>
-        <option [ngValue]="null" disabled>Choose category</option>
-        <option *ngFor="let prf of allCategories" [ngValue]="prf.id">
-            {{prf.name }}
-        </option>
-    </select>    
-</div>
-
-<h5>Ingredients:</h5>
-  <div class="form-group" formArrayName="recipeIngredients">
-    <div *ngFor="let ingredient of recipeIngredients.controls; let i=index">
-      <div [formGroupName]="i">
-        <!-- {{i}} -->
-        <div class="form-group row">
-            <div class="form-group col-sm-3">
-                <label>Quantity</label>            
-                <input type="number" class="form-control" formControlName="quantity" placeholder="Quantity">        
-            </div>   
-            <div class="form-group col-sm-4"> 
-                <label>Measure</label>  
-                <select class="form-control" formControlName='measureId'>
-                    <option [ngValue]="null" disabled>Choose measure</option>
-                    <option *ngFor="let measure of allMeasures" [ngValue]="measure.id">
-                        {{measure.name }}
-                    </option>
-                </select>   
-                <!-- <select class="form-control" formControlName='measure'>
-                    <option [ngValue]="null" disabled>Choose measure</option>
-                    <option *ngFor="let measure of allMeasures" [ngValue]="measure">
-                        {{measure.name }}
-                    </option>
-                </select>    -->
-            </div>
-            <div class="form-group col-sm-4"> 
-                <label>Ingredient</label>
-                <!-- <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient($event)"> -->
-                <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient(ingredient)">
-                    <option [ngValue]="null" disabled>Choose ingredient</option>
-                    <option [ngValue]= 0 >Other</option>
-                    <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient.id">
-                        {{ingredient.name }}
-                    </option>
-                </select>
-                <!-- <select class="form-control" formControlName='ingredient'>
-                    <option [ngValue]="null" disabled>Choose ingredient</option>
-                    <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient">
-                        {{ingredient.name }}
-                    </option>
-                </select> -->
-            </div>
-            <div class="form-group col-sm-1"> 
-                <button class="btn btn-default" type="button" (click)="removeIngredient(i)">Remove</button>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<div class="form-group">
-    <button class="btn btn-success mr-2" type="button" (click)="addIngredients()" >Add Ingredient</button>        
-</div> 
-
-<h5>Instructions:</h5>
-  <div class="form-group" formArrayName="instructions">
-    <div *ngFor="let instruction of instructions.controls; let i=index">
-      <div [formGroupName]="i">
-        <!-- {{i}} -->
-        <!-- <input type="hidden" formControlName='step' value="i"> -->
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Instruction Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" formControlName='name' placeholder="Instruction Name">
-            </div>  
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Description</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" formControlName="description" placeholder="Instruction Description">        
-            </div>
-        </div>
-        <div class="form-group row justify-content-end">
-            <button class="btn btn-default" type="button" (click)="removeInstruction(i)">Remove above instruction</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<div class="form-group">
-    <button class="btn btn-success mr-2" type="button" (click)="addInstructions()" >Add Instruction</button>        
-</div>
-
-
-
-<div class="form-group text-center">
-    <button  [disabled]="!addRecipeForm.dirty" class="btn btn-success mr-2" type="submit">Save</button>
-    <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
-</div>
-
-  
-
-<p>Form value: {{addRecipeForm.value | json}} </p>
-<p>Form status: {{addRecipeForm.status | json}} </p>
-
-    <!-- <div class="form-group">
+    <div class="form-group">
         <label>Name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="model.name" placeholder="Name" required #name="ngModel">
-        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
-          Name is required
+        <input type="text" class="form-control" formControlName='name' placeholder="Name">
+        <div class="error-info" *ngIf="!addRecipeForm.get('name').valid && addRecipeForm.get('name').touched">
+            The name of recipe is required!
         </div>
     </div>
 
     <div class="form-group">
         <label>Description</label>
-        <input type="text" class="form-control" name="description" [(ngModel)]="model.description" placeholder="Description">
+        <input type="text" class="form-control" formControlName='description' placeholder="Description">
     </div>
 
     <div class="form-group">
         <label>Difficulty</label>
-        <select class="form-control" [(ngModel)]="model.difficultyLevel" name="diffL" required #diffL="ngModel">
-            <option *ngFor="let diffName of enumKeys" [value]="diffName">
+        <select class="form-control" formControlName="difficultyLevel" >
+            <option [ngValue]="null" disabled>Choose difficulty level</option>
+            <option *ngFor="let diffName of difficultyLevelKeys" [ngValue]="diffName">
                 {{difficultyLevel[diffName]}}       
             </option> 
-        </select>
-        <div [hidden]="diffL.valid || diffL.pristine" class="alert alert-danger">
-            Difficulty is required
-          </div>
+        </select>    
     </div>
 
     <div class="form-group">
         <label>Preparation</label>
-        <select class="form-control" [(ngModel)]="model.preparationTime" name="prepT" required #prepT="ngModel">
-            <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
+        <select class="form-control" formControlName="preparationTime" >
+            <option [ngValue]="null" disabled>Choose preparation time</option>
+            <option *ngFor="let prepName of preparationTimeKeys" [ngValue]="prepName">
                 {{preparationTime[prepName]}}       
             </option> 
         </select>
-        <div [hidden]="prepT.valid || prepT.pristine" class="alert alert-danger">
-            Preparation is required
-          </div>
+        
     </div>
-    
+
     <div class="form-group">
         <label>Category</label>
-        <select class="form-control" [(ngModel)]="model.categoryId" name="categoryId" required #categoryId="ngModel">
-            <option *ngFor="let category of allCategories" [value]="category.id">
-                {{category.name}}       
-            </option> 
-        </select>
-        <div [hidden]="categoryId.valid || categoryId.pristine" class="alert alert-danger">
-            Category is required
-          </div>
+        <select class="form-control" formControlName='categoryId'>
+            <option [ngValue]="null" disabled>Choose category</option>
+            <option *ngFor="let prf of allCategories" [ngValue]="prf.id">
+                {{prf.name }}
+            </option>
+        </select>    
     </div>
-     <div class="form-group text-center">
-        <button class="btn btn-success mr-2" type="button" >Add Ingredient</button>        
+
+    <h5>Ingredients:</h5>
+    <div class="form-group" formArrayName="recipeIngredients">
+        <div *ngFor="let ingredient of recipeIngredients.controls; let i=index">
+        <div [formGroupName]="i">
+            <!-- {{i}} -->
+            <div class="form-group row">
+                <div class="form-group col-sm-3">
+                    <label>Quantity</label>            
+                    <input type="number" class="form-control" formControlName="quantity" placeholder="Quantity">     
+                     
+                </div>   
+                <div class="form-group col-sm-4"> 
+                    <label>Measure</label>  
+                    <select class="form-control" formControlName='measureId'>
+                        <option [ngValue]="null" disabled>Choose measure</option>
+                        <option *ngFor="let measure of allMeasures" [ngValue]="measure.id">
+                            {{measure.name }}
+                        </option>
+                    </select>   
+                </div>
+                <div class="form-group col-sm-4"> 
+                    <label>Ingredient</label>
+                    <!-- <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient($event)"> -->
+                    <select class="form-control" formControlName='ingredientId' (change)="changeOnIgredient(ingredient)">
+                        <option [ngValue]="null" disabled>Choose ingredient</option>
+                        <option [ngValue]= 0 >OTHER</option>
+                        <option *ngFor="let ingredient of allIngredients" [ngValue]="ingredient.id">
+                            {{ingredient.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-1"> 
+                    <button class="btn btn-default" type="button" (click)="removeIngredient(i)">Remove</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-success mr-2" type="button" (click)="addIngredients()" >Add Ingredient</button>        
     </div> 
 
+    <h5>Instructions:</h5>
+    <div class="form-group" formArrayName="instructions">
+        <div *ngFor="let instruction of instructions.controls; let i=index">
+        <div [formGroupName]="i">
+            <!-- {{i}} -->
+            <!-- <input type="hidden" formControlName='step' value="i"> -->
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Instruction Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName='name' placeholder="Instruction Name">
+                </div>  
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" formControlName="description" placeholder="Instruction Description">        
+                </div>
+                <div class="error-info" *ngIf="!addRecipeForm.get('instructions')['controls'][i].valid && addRecipeForm.get('instructions')['controls'][i].touched">
+                    The description is required!
+                </div> 
+            </div>
+            <div class="form-group row justify-content-end">
+                <button class="btn btn-default" type="button" (click)="removeInstruction(i)">Remove above instruction</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-success mr-2" type="button" (click)="addInstructions()" >Add Instruction</button>        
+    </div>
 
     <div class="form-group text-center">
-        <button class="btn btn-success mr-2" type="submit" [disabled]="!addRecipeForm.form.valid">Create</button>
+        <button  [disabled]="!(addRecipeForm.dirty && addRecipeForm.valid)" class="btn btn-success mr-2" type="submit">Save</button>        
         <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
-    </div> -->
-
+    </div>
+    
+    <p>Form value: {{addRecipeForm.value | json}} </p>
+    <p>Form status: {{addRecipeForm.status | json}} </p>
 </form>
 </div>
 </div>

@@ -21,10 +21,10 @@ export class RegisterComponent implements OnInit {
   
   //pod przycieskiem Register
   register(){
-    console.log("przed rej");
-    console.log(this.model);
+    //console.log("przed rej");
+    //console.log(this.model);
     this.accountService.register(this.model).subscribe(response=>{
-      console.log(response);
+      //console.log(response);
       this.cancel();  
     }, error=>{
       console.log(error);

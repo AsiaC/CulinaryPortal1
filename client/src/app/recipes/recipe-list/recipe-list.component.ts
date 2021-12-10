@@ -56,12 +56,10 @@ export class RecipeListComponent implements OnInit {
   }
 
   searchRecipes(){ 
-    console.log(this.searchByName);
-    console.log(this.selectOptionVal);
-    console.log(this.selectedDifficultyLevel);
-    console.log(this.selectedPreparationTime);
-
-
+    //console.log(this.searchByName);
+    //console.log(this.selectOptionVal);
+    //console.log(this.selectedDifficultyLevel);
+    //console.log(this.selectedPreparationTime);
     this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: null, top: null}
 
     this.recipeService.searchRecipes(this.searchModel)

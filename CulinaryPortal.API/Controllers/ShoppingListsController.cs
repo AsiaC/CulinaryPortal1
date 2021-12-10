@@ -106,8 +106,8 @@ namespace CulinaryPortal.API.Controllers
                     if (checkIfItemExist)
                     {
                         var itemDto = shoppingListDto.Items.FirstOrDefault(i => i.Id == exItem.Id);
-                        if (exItem.Name != itemDto.Name) 
-                            exItem.Name = itemDto.Name;                        
+                        if (exItem.Name != itemDto.ItemName) 
+                            exItem.Name = itemDto.ItemName;                        
                     }
                     else
                     {

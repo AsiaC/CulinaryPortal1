@@ -81,8 +81,14 @@ namespace CulinaryPortal.API.Profiles
                 dest => dest.UserName,
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
             
-            CreateMap<Models.ListItemDto, Entities.ListItem>();
-            CreateMap<Entities.ListItem, Models.ListItemDto>();
+            CreateMap<Models.ListItemDto, Entities.ListItem>()
+                .ForMember(
+                dest => dest.Name,
+                opt => opt.MapFrom(src => src.ItemName));
+            CreateMap<Entities.ListItem, Models.ListItemDto>()
+                .ForMember(
+                dest => dest.ItemName,
+                opt => opt.MapFrom(src => src.Name));
 
             //opt => opt.MapFrom(src => src.CookbookRecipes.Select(x => x.Recipe).Where(s=>s.Id == RecipeId)));
 

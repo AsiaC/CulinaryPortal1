@@ -8,6 +8,6 @@ namespace CulinaryPortal.API.Models
     public class ListItemDto
     {
         public int? Id { get; set; }
-        public string Name { get; set; }
+        public string ItemName { get; set; }
     }
 }

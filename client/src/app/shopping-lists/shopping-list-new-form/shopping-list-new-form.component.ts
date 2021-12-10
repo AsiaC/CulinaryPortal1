@@ -58,7 +58,7 @@ export class ShoppingListNewFormComponent implements OnInit {
       });
       var listItemsArray = [];
       this.shoppingList.items.forEach(listItem => listItemsArray.push(this.fb.group({
-        name: listItem.name,
+        itemName: listItem.itemName,
         id: listItem.id
       })));
       this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));
@@ -71,25 +71,26 @@ export class ShoppingListNewFormComponent implements OnInit {
   initializeListForm() {
     this.addShoppingListForm = this.fb.group({
       id: [],
-      name: ['',Validators.required],
-      items: this.fb.array([]),
+      name: ['', [Validators.required]],
+      items: this.fb.array([this.createItemFormGroup()], [Validators.required]),
       userId: [this.user.id]
     })
   }
 
+  createItemFormGroup(){
+    return this.fb.group({
+      itemName:  ['', [Validators.required]]
+    })
+  }
+
   get items() : FormArray {
-    return this.addShoppingListForm.get("items") as FormArray
+    return (this.addShoppingListForm.get("items") as FormArray)
   }
 
   addItem() {
-    this.items.push(this.newItem());
-  } 
-
-  newItem(): FormGroup {
-    return this.fb.group({
-      name: '',
-    })
-  }
+    let fg = this.createItemFormGroup();
+    this.items.push(fg);
+  }  
 
   removeItem(i:number) {
     this.items.removeAt(i);
@@ -134,4 +135,6 @@ export class ShoppingListNewFormComponent implements OnInit {
     //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
     window.location.reload();
   }
+
+ 
 }

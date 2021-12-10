@@ -20,17 +20,23 @@
                 <div class="form-group row">
                     <label class="col-sm-1 col-form-label">Name</label>
                     <input type="text" class="form-control col-sm-8" formControlName='name' placeholder="Name">
+                    <div class="error-info" *ngIf="!addShoppingListForm.get('name').valid && addShoppingListForm.get('name').touched">
+                        The name of shopping list is required!
+                    </div>
                 </div>
-            </div>
+            </div>            
             
             <h5>Items:</h5>
             <div class="form-group" formArrayName="items">
-                <div *ngFor="let instruction of items.controls; let i=index">
-                <div [formGroupName]="i">                   
+                <div *ngFor="let instruction of items.controls; let i=index" [formGroupName]="i">
+                <div>                   
                     <div class="form-group row">
                         <label class="col-sm-1 col-form-label">{{i+1}}</label>
-                        <input type="text" class="form-control col-sm-8" formControlName='name' placeholder="Name">
+                        <input type="text" class="form-control col-sm-8" formControlName='itemName' placeholder="Item Name">
                         <button class="btn btn-danger" type="button" (click)="removeItem(i)">Remove item</button>
+                        <div class="error-info" *ngIf="!(addShoppingListForm.get('items')['controls'][i].valid) && addShoppingListForm.get('items')['controls'][i].touched">
+                            The name of shopping list item is required!
+                        </div>
                     </div>   
                 </div>
                 </div>
@@ -41,7 +47,7 @@
             </div>
             
             <div class="form-group text-center">
-                <button  [disabled]="(!addShoppingListForm.dirty && !itemIsRemoved)" class="btn btn-success mr-2" type="submit">Save</button>
+                <button  [disabled]="!(addShoppingListForm.valid && addShoppingListForm.dirty) && !itemIsRemoved" class="btn btn-success mr-2" type="submit">Save</button>
                 <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>                
             </div>          
             
@@ -50,7 +56,7 @@
             <p>Dirty: {{addShoppingListForm.dirty | json}} </p>
             <p>itemIsRemoved: {{itemIsRemoved | json}} </p>
             <p>touched: {{addShoppingListForm.touched | json}} </p>
-
+            <p>valid: {{addShoppingListForm.valid}}</p>
         </form>
     </div>
 </div>

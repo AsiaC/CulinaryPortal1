@@ -65,7 +65,6 @@ export class UsersService {
   }
 
   deleteUser(userId: number){
-    debugger;
     return this.http.delete(this.baseUrl + 'users/'+ userId)
   }
 

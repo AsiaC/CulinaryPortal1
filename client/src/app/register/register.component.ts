@@ -9,7 +9,6 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  @Input() usersFromHomeComponents: any;
   @Output() cancelRegister = new EventEmitter();
   model: any = {};
 
@@ -18,7 +17,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  //pod przycieskiem Register
   register(){
     //console.log("przed rej");
     //console.log(this.model);
@@ -31,7 +29,6 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  //pod przyciskiem cancel
   cancel(){
     this.cancelRegister.emit(false);
   }

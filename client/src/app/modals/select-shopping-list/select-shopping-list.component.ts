@@ -31,24 +31,18 @@ export class SelectShoppingListComponent implements OnInit {
     //this.list.push({name: "--select--", id:0});
   }
 
-  confirmAddingIngredients(){
-    //console.log(this.newShoppingListName);
-    //console.log(this.selectOptionVal);
-    //this.shoppingListDto.id = this.selectOptionVal;    
-    
+  confirmAddingIngredients(){   
     var newIngredients= [];
     this.recipeIngredients.forEach(element => {
       var newName = element.quantity + " " + element.measure.name + " " + element.ingredient.name;
-      newIngredients.push({id: null, name: newName});
+      newIngredients.push({id: null, itemName: newName});
     });
 
     if(this.readioSelected === 'radio1'){
       if(this.selectOptionVal !== undefined){
         //dodaj do istniejacej        
         this.shoppingListDto = this.list.find(x=>x.id === parseInt(this.selectOptionVal));
-        //this.shoppingListDto.items = this.shoppingListDto.items.concat(newIngredients);
         this.shoppingListDto.items = this.shoppingListDto.items.concat(newIngredients);
-        //console.log(this.shoppingListDto);
 
         this.shoppingListService.updateShoppingList(this.selectOptionVal, this.shoppingListDto)
         .subscribe(response => {

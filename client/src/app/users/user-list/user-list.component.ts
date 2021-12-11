@@ -31,7 +31,6 @@ export class UserListComponent implements OnInit {
   }
 
   deleteUser(userId: number){//TODO delete user
-    debugger;
     this.userService.deleteUser(userId)
     .subscribe(response => {
       this.toastr.success('User removed successfully!');  

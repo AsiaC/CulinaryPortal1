@@ -27,12 +27,9 @@ export class HomeComponent implements OnInit {
     // console.log(this.registerMode);
   }
   // getUsers(){ //TODO usun bo nie potrzebuje tego
-  //   debugger;
   //   this.http.get('http://localhost:50725/api/users').subscribe( users => {
   //     this.users = users;
-  //     debugger;
   //   }, error => {
-  //     debugger;
   //     console.log(error);
   //   })
   // }

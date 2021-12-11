@@ -228,7 +228,6 @@ export class RecipeNewFormComponent implements OnInit {
 
       this.bsModalRef.content.createNewIngredient.subscribe(value => {
         var newIngredientName = value;
-        debugger;
         if(newIngredientName !== null){
           var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
           this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {            

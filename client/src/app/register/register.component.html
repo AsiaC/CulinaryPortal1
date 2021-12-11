@@ -33,12 +33,3 @@
     <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
 </div>
 </form>
-
-<div>
-    <label>Who is your favourite user?</label>
-    <select class="form-control">
-        <option *ngFor="let user of usersFromHomeComponents" [value]="user.username">
-            {{user.username}}       
-        </option> 
-    </select>
-</div>

@@ -2,7 +2,6 @@
 <h1>Culinary portal with best recipes!</h1>
 <br/>
 <div *ngIf="registerMode == false">
-    <!-- <div style="background-image: url('img_girl.jpg');"> -->
     <div class="recipeLink">
         <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>Click here to view all recipes</a>
     </div>
@@ -29,6 +28,6 @@
 </div>
 
 <div *ngIf="registerMode == true">
-    <app-register [usersFromHomeComponents] = "users" (cancelRegister)="cancelRegisterMode($event)"></app-register>
+    <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
 </div>
 

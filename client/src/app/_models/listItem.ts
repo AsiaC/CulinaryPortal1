@@ -1,4 +1,4 @@
 export interface ListItem {
-    id: number;
+    id: number | null;
     itemName: string;
   }

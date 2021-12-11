@@ -26,14 +26,10 @@ export class RecipePhotoComponent implements OnInit {
   }
 
   loadRecipePhotos(){
-    //debugger;
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
-    //console.log('loadRecipePhotos');
     this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
       this.recipePhotos = recipePhotos;
-      debugger;
-    }, error =>{    
-      debugger;   
+    }, error =>{   
       if(error.status === 404){
         this.recipePhotos = undefined;
         this.alertText = "No photos yet."
@@ -94,7 +90,6 @@ export class RecipePhotoComponent implements OnInit {
     this.recipeService.deletePhoto(photoId)
       .subscribe(response => {
         this.toastr.success('Photo removed successfully!');
-        //debugger;
         this.loadRecipePhotos(); //TODO NIE DZIAŁA? ALBO OBRAZ SIE NIE ODSWIEZA        
       }, error => {
          console.log(error);                      

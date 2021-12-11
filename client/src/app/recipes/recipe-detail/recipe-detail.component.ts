@@ -161,8 +161,6 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   modalAddToShoppingList() {
-    //console.log(this.userShoppingLists);
-
     const initialState = {     
       recipeIngredients: this.currentRecipe.recipeIngredients,
       list: this.userShoppingLists,
@@ -177,7 +175,6 @@ export class RecipeDetailComponent implements OnInit {
   deleteRecipe(){
     //check if recipe is inside in cookbook if yes user cannot delete recipe
     
-
     // if(this.recipeIsInsideCookbook === true){
     // const initialState = {  
     //   title: 'You cannott delete the recipe because at least one user has it in their cookbook',      

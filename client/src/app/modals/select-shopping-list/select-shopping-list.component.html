@@ -22,7 +22,7 @@
         <input type="radio"  value="radio2" name="customRadio" class="radioButton" [(ngModel)]="readioSelected">
         <label for="customRadio2">Create a new shopping list</label> 
         <div *ngIf="readioSelected=='radio2'">
-            <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify the list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
+            <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
         </div>
     </div>
 </div>

@@ -37,6 +37,7 @@ export class RecipeNewFormComponent implements OnInit {
   id: string;
 
   bsModalRef: BsModalRef;
+  itemIsRemoved: boolean = false;
   
   constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router, private modalService: BsModalService) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
@@ -124,6 +125,7 @@ export class RecipeNewFormComponent implements OnInit {
   } 
   removeIngredient(i:number) {
     this.recipeIngredients.removeAt(i);
+    this.itemIsRemoved = true;
   }
 
   createInstrFormGroup(){
@@ -145,6 +147,7 @@ export class RecipeNewFormComponent implements OnInit {
 
   removeInstruction(i:number) {
     this.instructions.removeAt(i);
+    this.itemIsRemoved = true;
   }
 
   getAllCategories(){

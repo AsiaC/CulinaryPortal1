@@ -1,7 +1,7 @@
 <div class="container mt-5">
 <h1>Culinary portal with best recipes!</h1>
 <br/>
-<div *ngIf="registerMode == false">
+<div *ngIf="registerMode === false">
     <div class="recipeLink">
         <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>Click here to view all recipes</a>
     </div>
@@ -27,7 +27,7 @@
     </div>
 </div>
 
-<div *ngIf="registerMode == true">
+<div *ngIf="registerMode === true">
     <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
 </div>
 

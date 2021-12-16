@@ -18,7 +18,7 @@
                 <td>{{user.firstName}}</td>
                 <td>{{user.lastName}}</td>
                 <td>{{user.email}}</td>
-                <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)" [disabled]="user.id == currentUser.id">Remove user</button> </td>
+                <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)" [disabled]="user.id === currentUser.id">Remove user</button> </td>
             </tr>
         </tbody>
     </div>

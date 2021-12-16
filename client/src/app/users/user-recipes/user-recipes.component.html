@@ -1,8 +1,8 @@
-<div *ngIf="addNewMode == true">
+<div *ngIf="addNewMode === true">
     <app-recipe-new-form></app-recipe-new-form>
 </div>
 
-<div *ngIf="addNewMode == false">
+<div *ngIf="addNewMode === false">
     <h4>My added recipes</h4>
     <br/>
     <button class="btn btn-success mb-4" (click)="addRecipe()">Create new recipe</button>

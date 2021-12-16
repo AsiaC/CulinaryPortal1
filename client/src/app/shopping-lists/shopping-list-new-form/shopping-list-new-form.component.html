@@ -1,9 +1,8 @@
-<!-- https://angular.io/guide/forms -->
 <div class="row">
-    <div class="col-12" *ngIf="isAddMode == true">
+    <div class="col-12" *ngIf="isAddMode === true">
         <h1>Create a new shopping list</h1>
     </div>
-    <div class="col-12" *ngIf="isAddMode == false">
+    <div class="col-12" *ngIf="isAddMode === false">
         <h1>Update existing shopping list</h1>
     </div>
 
@@ -47,14 +46,7 @@
             <div class="form-group text-center">
                 <button  [disabled]="!(addShoppingListForm.valid && addShoppingListForm.dirty) && !itemIsRemoved" class="btn btn-success mr-2" type="submit">Save</button>
                 <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>                
-            </div>          
-            
-            <p>Form value: {{addShoppingListForm.value | json}} </p>
-            <p>Form status: {{addShoppingListForm.status | json}} </p>
-            <p>Dirty: {{addShoppingListForm.dirty | json}} </p>
-            <p>itemIsRemoved: {{itemIsRemoved | json}} </p>
-            <p>touched: {{addShoppingListForm.touched | json}} </p>
-            <p>valid: {{addShoppingListForm.valid}}</p>
+            </div>      
         </form>
     </div>
 </div>

@@ -12,17 +12,17 @@
             <div class="form-group">
                 <label for="firstName">First name</label>
                 <input [(ngModel)]="user.firstName" type="text" name="firstName" class="form-control mb-3" required>
-                <div [hidden]="user.firstName.length != 0" class="alert alert-danger">First name is required</div>
+                <div [hidden]="user.firstName.length !== 0" class="alert alert-danger">First name is required</div>
             </div>
             <div class="form-group">
                 <label for="lastName">Last name</label>
                 <input [(ngModel)]="user.lastName" type="text" name="lastName" class="form-control mb-3" required>
-                <div [hidden]="user.lastName.length != 0" class="alert alert-danger">Last name is required</div>
+                <div [hidden]="user.lastName.length !== 0" class="alert alert-danger">Last name is required</div>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input [(ngModel)]="user.email" type="text" name="email" class="form-control mb-3" reguired>  
-                <div [hidden]="user.email.length != 0" class="alert alert-danger">Email is required</div>          
+                <div [hidden]="user.email.length !== 0" class="alert alert-danger">Email is required</div>          
             </div>
             <button [disabled]="!editForm.dirty || !editForm.form.valid" class="btn btn-success mr-2" type="submit">Save Changes</button> 
         </form>

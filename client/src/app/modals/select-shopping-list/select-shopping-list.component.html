@@ -27,7 +27,7 @@
     </div>
 </div>
 <div class="modal-footer">    
-    <div *ngIf="readioSelected != undefined">
+    <div *ngIf="readioSelected !== undefined">
         <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()">{{submitBtnName}}</button>
     </div>
     <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">{{closeBtnName}}</button>

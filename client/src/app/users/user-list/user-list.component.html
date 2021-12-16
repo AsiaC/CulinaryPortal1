@@ -5,11 +5,10 @@
     <div class="table table-stripped">
         <thead>
             <tr>
-                <th>User name</th>
+                <th>Username</th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Email</th>
-                <th>Full name</th>
                 <th></th>
             </tr>
         </thead>
@@ -19,7 +18,6 @@
                 <td>{{user.firstName}}</td>
                 <td>{{user.lastName}}</td>
                 <td>{{user.email}}</td>
-                <td>{{user.name}}</td>
                 <td><button class="btn btn-danger mr-2" (click)="deleteUser(user.id)" [disabled]="user.id == currentUser.id">Remove user</button> </td>
             </tr>
         </tbody>

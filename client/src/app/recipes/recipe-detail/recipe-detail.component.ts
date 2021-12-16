@@ -134,7 +134,6 @@ export class RecipeDetailComponent implements OnInit {
     //this.cookbookRecipe.recipeId = this.currentRecipe.id;
     //this.cookbookRecipe.userId = this.user.id;    
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe}
-    
       this.cookbookService.addRecipeToCookbook(this.cookbookRecipe)
       .subscribe(response =>{
          this.toastr.success('Recipe added successfully!');

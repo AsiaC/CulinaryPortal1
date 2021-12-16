@@ -1,10 +1,10 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { UsersService } from 'src/app/_services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-edit',
@@ -15,9 +15,7 @@ export class UserEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   user:User;
 
-  constructor(private accountService:AccountService, private userService:UsersService) {
-    
-    var check=this.accountService.currentUser$
+  constructor(private accountService:AccountService, private userService:UsersService, private toastr: ToastrService) {    
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
@@ -25,7 +23,6 @@ export class UserEditComponent implements OnInit {
     this.loadUser();
   }
 
-  //member
   loadUser(){
     var checkId=this.user.id;
     this.userService.getUser(this.user.id).subscribe(user=>{
@@ -33,10 +30,12 @@ export class UserEditComponent implements OnInit {
     })
   }
 
-  updateUser(){    
-    //console.log(this.user);
+  updateUser(){
     this.userService.updateUser(this.user).subscribe(() => {
-      this.editForm.reset(this.user);
+      this.toastr.success('User updated successfully!');
+      this.editForm.reset(this.user);      
+    }, error => {
+      console.log(error);
     });    
   }
 }

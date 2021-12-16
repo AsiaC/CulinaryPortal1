@@ -241,11 +241,11 @@ namespace CulinaryPortal.API.Services
             return users;
         }         
 
-        public async Task UpdateUserAsync(User user)//TODO togo mozna sie pozbyc - przykład jak recipe czy shoppinglist
-        {
-            // no code in this implementation ?
-            _context.Entry(user).State = EntityState.Modified;
-        }
+        //public async Task UpdateUserAsync(User user)//TODO togo mozna sie pozbyc - przykład jak recipe czy shoppinglist
+        //{
+        //    // no code in this implementation ?
+        //    _context.Entry(user).State = EntityState.Modified;
+        //}
 
         public async Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId) 
         {

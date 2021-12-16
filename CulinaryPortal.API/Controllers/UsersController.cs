@@ -128,7 +128,7 @@ namespace CulinaryPortal.API.Controllers
                 }
                 _mapper.Map(userUpdateDto, user);
 
-                await _culinaryPortalRepository.UpdateUserAsync(user);
+                //await _culinaryPortalRepository.UpdateUserAsync(user);
 
                 if (await _culinaryPortalRepository.SaveAllAsync()) 
                     return NoContent();

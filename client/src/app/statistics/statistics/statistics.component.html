@@ -63,13 +63,13 @@
     <table class="table table-stripped">
         <thead>
             <tr>                    
-                <th>Name</th> 
+                <th>Username</th> 
                 <th>Number of added recipes</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let user of users">                    
-                <td>{{user.name}}</td>
+                <td>{{user.username}}</td>
                 <td>{{user.recipes.length}}</td>                
             </tr>
         </tbody>

@@ -3,7 +3,6 @@ export interface User{
     token: string;    
     id: number;
     email: string;
-    name: string;
     firstName: string;
     lastName: string;
     roles: string[];

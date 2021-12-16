@@ -9,11 +9,9 @@ namespace CulinaryPortal.API.Profiles
     public class UsersProfile : Profile
     {
         public UsersProfile()
-        {
-            CreateMap<Entities.User, Models.UserDto>()
-                .ForMember(
-                dest => dest.Name,
-                opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));            
+        {     
+            CreateMap<Entities.User, Models.UserDto>();
+            CreateMap<Models.UserDto, Entities.User>();
         }
     }
 }

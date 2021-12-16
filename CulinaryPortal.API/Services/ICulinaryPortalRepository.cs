@@ -33,7 +33,7 @@ namespace CulinaryPortal.API.Services
         Task<IEnumerable<User>> GetUsersAsync(IEnumerable<int> userIds);
         Task AddUserAsync(User user);
         Task DeleteUserAsync(User user);
-        Task UpdateUserAsync(User user);
+        //Task UpdateUserAsync(User user);
 
         //czy to jest potrzebne a nie wystarczyłoby getCookbookAsync?
         Task<Cookbook> GetUserCookbookAsync(int userId);

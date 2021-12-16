@@ -31,12 +31,12 @@ namespace CulinaryPortal.API.Data
                 {
                     var users = new List<User>
                     {
-                        new User{FirstName = "Joanna", LastName = "Czaplicka", Email = "jczaplicka@wp.pl", IsActive = true, UserName = "jczaplicka", SecurityStamp = Guid.NewGuid().ToString()},
-                        new User{FirstName = "Anna", LastName = "Nowak", Email = "anowak@wp.pl", IsActive = true, UserName = "anowak", SecurityStamp = Guid.NewGuid().ToString()},
-                        new User{FirstName = "Olga", LastName = "Kowalska", Email = "okowalska@wp.pl", IsActive = true, UserName = "okowalska", SecurityStamp = Guid.NewGuid().ToString()},
-                        new User{FirstName = "Kinga", LastName = "Tulipan", Email = "ktulipan@wp.pl", IsActive = true, UserName = "ktulipan", SecurityStamp = Guid.NewGuid().ToString()},
-                        new User{FirstName = "Jolanta", LastName = "Bratek", Email = "jbratek@wp.pl", IsActive = true, UserName = "jbratek", SecurityStamp = Guid.NewGuid().ToString()},
-                        new User{FirstName = "Katarzyna", LastName = "Krokus", Email = "kkrokus@wp.pl", IsActive = true, UserName = "kkrokus", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Joanna", LastName = "Czaplicka", Email = "jczaplicka@wp.pl", UserName = "jczaplicka", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Anna", LastName = "Nowak", Email = "anowak@wp.pl", UserName = "anowak", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Olga", LastName = "Kowalska", Email = "okowalska@wp.pl", UserName = "okowalska", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Kinga", LastName = "Tulipan", Email = "ktulipan@wp.pl", UserName = "ktulipan", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Jolanta", LastName = "Bratek", Email = "jbratek@wp.pl", UserName = "jbratek", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Katarzyna", LastName = "Krokus", Email = "kkrokus@wp.pl", UserName = "kkrokus", SecurityStamp = Guid.NewGuid().ToString()},
                     };
                     foreach (var user in users)
                     {
@@ -47,7 +47,7 @@ namespace CulinaryPortal.API.Data
 
                     var adminUsers = new List<User>
                     {
-                        new User{FirstName = "Rafal", LastName = "Nowa", Email = "rnowa@wp.pl", IsActive = true, UserName = "rnowa", SecurityStamp = Guid.NewGuid().ToString()},
+                        new User{FirstName = "Rafal", LastName = "Nowa", Email = "rnowa@wp.pl", UserName = "rnowa", SecurityStamp = Guid.NewGuid().ToString()},
                     };
                     foreach (var admin in adminUsers)
                     {

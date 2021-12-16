@@ -47,12 +47,10 @@ namespace CulinaryPortal.API.Controllers
                 {
                     UserName = registerDto.Username.ToLower(),
                     FirstName = registerDto.FirstName,
-                    LastName = registerDto.LastName,
-                    IsActive = true,
+                    LastName = registerDto.LastName,                 
                     Email = registerDto.Email
                 };
-
-                //user.IsActive = true;//czy tego potrzebuje
+                
                 //user.UserName = registerDto.Username.ToLower();
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
                 if (!result.Succeeded) return BadRequest(result.Errors);

@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
-  user:User;
+  user: User;
 
   constructor(private accountService:AccountService, private userService:UsersService, private toastr: ToastrService) {    
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -24,7 +24,6 @@ export class UserEditComponent implements OnInit {
   }
 
   loadUser(){
-    var checkId=this.user.id;
     this.userService.getUser(this.user.id).subscribe(user=>{
       this.user = user;
     })

@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit {
   }
   
   register(){
-    //console.log("przed rej");
-    //console.log(this.model);
     this.accountService.register(this.model).subscribe(response=>{
       //console.log(response);
       this.cancel();  

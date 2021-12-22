@@ -7,5 +7,4 @@ export interface Cookbook {
   userId: number; //TODO czy tego potrzebuje
   userName: string;
   cookbookRecipes: CookbookRecipe[];
-  //recipes: Recipe[]
 }

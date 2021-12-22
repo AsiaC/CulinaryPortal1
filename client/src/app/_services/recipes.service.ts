@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
-import {map, repeat} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
 import { Measure } from '../_models/measure';
@@ -14,7 +14,7 @@ import { Rate } from '../_models/rate';
   providedIn: 'root'
 })
 export class RecipesService {
-  baseUrl=environment.apiUrl;
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -59,15 +59,7 @@ export class RecipesService {
   }
 
   addPhoto(recipeId: number, upload: any){
-    // Create form data
-    //const formData = new FormData();         
-    // Store form name as "file" with file data
-    //formData.append("file", file, file.name);
-
-    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload)
-    // .pipe(
-    //   map((recipe: Recipe) => recipe)
-    //)   
+    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload) 
   }
 
   getRecipePhotos(recipeId: number){
@@ -77,9 +69,6 @@ export class RecipesService {
   deletePhoto(photoId: number){
     return this.http.delete(this.baseUrl + 'photos/' + photoId)
   }
-  // deletePhoto(photoId: number, recipeId: number){
-  //     return this.http.delete(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId)
-  //   }
 
   updatePhoto(photoId: any, model: any){
     return this.http.put(this.baseUrl + 'photos/' + photoId, model).pipe(
@@ -88,14 +77,7 @@ export class RecipesService {
 
   updateMainRecipePhoto(photoId: number, recipeId: number){
     return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId )   
-  }
-
-  // rateRecipe(rating: number, recipeId: number){
-  //   return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/rate', rating) //TODO CZY MUSZE ZWRACAC PRZEPIS?
-  // }
-  // rateRecipe(model: Rate){
-  //   return this.http.post(this.baseUrl + 'recipes/' + model.recipeId + '/rate', model) //TODO CZY MUSZE ZWRACAC PRZEPIS?
-  // }
+  }  
 
   addRate(model: Rate){
     return this.http.post(this.baseUrl + 'rates', model).pipe(

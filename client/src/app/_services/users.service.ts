@@ -16,9 +16,8 @@ import { Rate } from '../_models/rate';
 })
 export class UsersService {
   users: User[] = [];
-  user:User;
-  baseUrl=environment.apiUrl;
-
+  user: User;
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private accountService: AccountService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {

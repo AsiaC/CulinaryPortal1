@@ -15,9 +15,7 @@ export interface Recipe {
   categoryId: number;
   category: string;
   difficultyLevel: DifficultyLevelEnum;
-  //difficulty: string;
   preparationTime: PreparationTimeEnum;
-  //preparation: string;
   instructions: Instruction[];
   photos: Photo[];
   recipeIngredients: RecipeIngredient[];

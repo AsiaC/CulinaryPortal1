@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Cookbook} from '../_models/cookbook';
-import { map, repeat} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CookbookRecipe } from '../_models/cookbookRecipe';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class CookbookService {
         return this.http.get<Cookbook[]>(this.baseUrl + 'cookbooks');
     }
 
-    getCookbook(cookbookId: number): Observable<Cookbook> {  
+    getCookbook(cookbookId: number): Observable<Cookbook> {   ////TODO
         return this.http.get<Cookbook>(this.baseUrl + 'cookbooks/' + cookbookId);
     }
 
@@ -28,7 +28,7 @@ export class CookbookService {
     
     removeRecipeFromCookbook(cookbookId: number, model: CookbookRecipe){
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, model).pipe(
-            map((cookbook: Cookbook) => cookbook)
+            map((cookbook: Cookbook) => cookbook) //TODO
         )  
     }
 
@@ -38,7 +38,7 @@ export class CookbookService {
 
     addCookbook(model: Cookbook){               
         return this.http.post(this.baseUrl + 'cookbooks', model).pipe(
-            map((cookbook: Cookbook) => cookbook)
+            map((cookbook: Cookbook) => cookbook) //TODO
         )
     }
 }

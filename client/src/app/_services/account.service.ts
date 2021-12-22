@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
-import {map, repeat} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  //baseUrl = 'http://localhost:50725/api/';
   baseUrl = environment.apiUrl;
   
   private currentUserSource = new ReplaySubject<User>(1);
@@ -35,7 +34,7 @@ export class AccountService {
           localStorage.setItem('user', JSON.stringify(user));
           this.currentUserSource.next(user);
         }
-        return user; //response
+        return user;
       })
     )
   }

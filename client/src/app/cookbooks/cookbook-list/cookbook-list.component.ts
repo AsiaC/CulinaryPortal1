@@ -19,9 +19,9 @@ export class CookbookListComponent implements OnInit {
   }
 
   loadCookbooks(){
-    this.cookbookService.getCookbooks().subscribe(cookbooks => {
-      this.cookbooks = cookbooks;
-    }, error => {
+    this.cookbookService.getCookbooks().subscribe( 
+      cookbooks => { this.cookbooks = cookbooks; },
+      error => { debugger;
       if(error.status === 401){
         this.alertText = "You do not have access to this content.";
       } else if(error.status === 404){

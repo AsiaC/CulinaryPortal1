@@ -31,7 +31,6 @@ export class RecipeDetailComponent implements OnInit {
   editRecipe: boolean = false;
   canAddToCookbook: boolean = true;
   userCookbook: Cookbook;
-  //cookbookRecipe: any = {recipeId: null, userId: null};
   cookbookRecipe: CookbookRecipe;
   userShoppingLists: ShoppingList[];
   bsModalRef: BsModalRef;

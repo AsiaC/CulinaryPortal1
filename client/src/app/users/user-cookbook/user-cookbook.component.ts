@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
+import { Category } from 'src/app/_models/category';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -23,12 +24,11 @@ import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 export class UserCookbookComponent implements OnInit {
   userCookbook: Cookbook;
   user: User;
-  //cookbookRecipe: any = {recipeId: null, userId: null};  
   cookbookRecipe: CookbookRecipe;
   userFavouriteRecipes: Recipe[];
   searchByName: string = null; 
   selectOptionVal: any;
-  allCategories: any[] = [];
+  allCategories: Category[] = [];
   difficultyLevel = DifficultyLevelEnum;
   difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
@@ -55,16 +55,12 @@ export class UserCookbookComponent implements OnInit {
   loadUserCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;
-      if(userCookbook.cookbookRecipes.length > 0){
+      if(userCookbook?.cookbookRecipes.length > 0){
         this.userFavouriteRecipes = userCookbook.cookbookRecipes.map(x=>x.recipe);
-      } else {
-        this.userFavouriteRecipes = undefined;
+      } else {        
         this.alertText = "User does not have any favourite recipes yet. "
       }
-      //console.log(this.userFavouriteRecipes);
-    }, error => {
-      this.userCookbook = undefined;
-      this.userFavouriteRecipes = undefined;
+    }, error => {      
       if(error.status === 404){        
         this.alertText = "User does not have a cookbook yet."
       } else if(error.status === 401){        

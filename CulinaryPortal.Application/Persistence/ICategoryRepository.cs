@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Application.Persistence
 {
-    public interface IIngredientRepository : IAsyncRepository<Ingredient>
+    public interface ICategoryRepository : IAsyncRepository<Category>
     {
+        Task<List<Category>> GetCategoriesWithRecipesAsync();
     }
 }

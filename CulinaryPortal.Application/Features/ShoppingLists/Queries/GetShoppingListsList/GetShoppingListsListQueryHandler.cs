@@ -14,17 +14,17 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingL
 {
     class GetShoppingListsListQueryHandler : IRequestHandler<GetShoppingListsListQuery, List<ShoppingListDto>>
     {
-        private readonly IAsyncRepository<ShoppingList> _shoppingListRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
         private readonly IMapper _mapper;
 
-        public GetShoppingListsListQueryHandler(IMapper mapper, IAsyncRepository<ShoppingList> shoppingListRepository)
+        public GetShoppingListsListQueryHandler(IMapper mapper, IShoppingListRepository shoppingListRepository)
         {
             _mapper = mapper;
             _shoppingListRepository = shoppingListRepository;
         }
         public async Task<List<ShoppingListDto>> Handle(GetShoppingListsListQuery request, CancellationToken cancellationToken)
         {
-            var allShoppingLists = (await _shoppingListRepository.ListAllAsync()).OrderBy(x => x.Id);
+            var allShoppingLists = (await _shoppingListRepository.GetShoppingListsWithDetailsAsync()).OrderBy(x => x.Id);
             return _mapper.Map<List<ShoppingListDto>>(allShoppingLists);
         }
     }

@@ -14,16 +14,16 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList
 {
     public class GetRecipesListQueryHandler : IRequestHandler<GetRecipesListQuery, List<RecipeDto>>
     {
-        private readonly IAsyncRepository<Recipe> _recipeRepository;
+        private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
-        public GetRecipesListQueryHandler(IMapper mapper, IAsyncRepository<Recipe> recipeRepository)
+        public GetRecipesListQueryHandler(IMapper mapper, IRecipeRepository recipeRepository)
         {
             _mapper = mapper;
             _recipeRepository = recipeRepository;
         }
         public async Task<List<RecipeDto>> Handle(GetRecipesListQuery request, CancellationToken cancellationToken)
         {
-            var allRecipes = (await _recipeRepository.ListAllAsync()).OrderBy(x => x.Id);
+            var allRecipes = (await _recipeRepository.GetRecipesWithDetailsAsync()).OrderBy(x => x.Id);
             return _mapper.Map<List<RecipeDto>>(allRecipes);
         }
     }

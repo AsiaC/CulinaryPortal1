@@ -8,20 +8,20 @@ namespace CulinaryPortal.Application.Models
 {
     public class RegisterDto
     {
-        [Required]
-        [MaxLength(30)]
+        //[Required]
+        //[MaxLength(30)]
         public string FirstName { get; set; }
-        [Required]
-        [MaxLength(30)]
+        //[Required]
+        //[MaxLength(30)]
         public string LastName { get; set; }
-        [Required]
-        [MaxLength(30)]
+        //[Required]
+        //[MaxLength(30)]
         public string Username { get; set; }
-        [Required]
-        [MaxLength(20)]
-        [EmailAddress]
+        //[Required]
+        //[MaxLength(20)]
+        //[EmailAddress]
         public string Email { get; set; }
-        [Required]
+        //[Required]
         public string Password { get; set; }
     }
 }

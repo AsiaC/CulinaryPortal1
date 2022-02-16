@@ -15,8 +15,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Recipes\Commands\" />
-    <Folder Include="Features\ShoppingLists\Commands\" />
+    <Folder Include="Features\Cookbooks\Commands\CreateCookbook\" />
+    <Folder Include="Features\Cookbooks\Commands\DeleteCookbook\" />
+    <Folder Include="Features\Cookbooks\Commands\UpdateCookbook\" />
+    <Folder Include="Features\Ingredients\Commands\CreateIngredient\" />
+    <Folder Include="Features\Instructions\" />
+    <Folder Include="Features\Measures\Commands\CreateMeasure\" />
+    <Folder Include="Features\Measures\Queries\GetMeasureDetail\" />
+    <Folder Include="Features\Measures\Queries\GetMeasuresList\" />
+    <Folder Include="Features\Photos\Commands\DeletePhoto\" />
+    <Folder Include="Features\Photos\Commands\UpdatePhoto\" />
+    <Folder Include="Features\Rates\Commands\CreateRate\" />
+    <Folder Include="Features\Rates\Commands\DeleteRate\" />
+    <Folder Include="Features\Rates\Queries\GetRateDetail\" />
+    <Folder Include="Features\Rates\Queries\GetRatesList\" />
+    <Folder Include="Features\Recipes\Commands\CreateRecipe\" />
+    <Folder Include="Features\Recipes\Commands\UpdateRecipe\" />
+    <Folder Include="Features\ShoppingLists\Commands\CreateShoppingList\" />
+    <Folder Include="Features\ShoppingLists\Commands\DeleteShoppingList\" />
+    <Folder Include="Features\ShoppingLists\Commands\UpdateShoppingList\" />
+    <Folder Include="Features\Users\Commands\CreateUser\" />
+    <Folder Include="Features\Users\Commands\DeleteUser\" />
+    <Folder Include="Features\Users\Commands\UpdateUser\" />
+    <Folder Include="Features\Users\Queries\GetUserDetail\" />
   </ItemGroup>
 
 </Project>

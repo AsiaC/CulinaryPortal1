@@ -1,5 +1,6 @@
 ﻿using CulinaryPortal.Application.Persistence;
 using CulinaryPortal.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,22 @@ namespace CulinaryPortal.Persistence.Repositories
         {
 
         }
+        public async Task<List<ShoppingList>> GetShoppingListsWithDetailsAsync()
+        {
+            var shoppingLists = await _dbContext.ShoppingLists
+                .Include(l => l.Items)
+                .Include(u => u.User)
+                .ToListAsync();
+            return shoppingLists;
+        }
+
+        public async Task<ShoppingList> GetShoppingListWithDetailsAsync(int shoppingListId)
+        {
+            var shoppingList = await _dbContext.ShoppingLists
+                .Include(l => l.Items)
+                .FirstOrDefaultAsync(u => u.Id == shoppingListId);
+            return shoppingList;
+        }
+
     }
 }

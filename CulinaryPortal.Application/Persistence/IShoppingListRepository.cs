@@ -9,5 +9,7 @@ namespace CulinaryPortal.Application.Persistence
 {
     public interface IShoppingListRepository : IAsyncRepository<ShoppingList>
     {
+        Task<List<ShoppingList>> GetShoppingListsWithDetailsAsync();
+        Task<ShoppingList> GetShoppingListWithDetailsAsync(int shoppingListId);
     }
 }

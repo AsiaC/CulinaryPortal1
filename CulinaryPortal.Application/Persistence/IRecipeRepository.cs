@@ -9,5 +9,7 @@ namespace CulinaryPortal.Application.Persistence
 {
     public interface IRecipeRepository : IAsyncRepository<Recipe>
     {
+        Task<List<Recipe>> GetRecipesWithDetailsAsync();
+        Task<Recipe> GetRecipeWithDetailsAsync(int recipeId);
     }
 }

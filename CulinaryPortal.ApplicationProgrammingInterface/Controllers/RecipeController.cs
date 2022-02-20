@@ -24,10 +24,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
-
-        //[Authorize]
+        
         [HttpGet(Name = "GetRecipes")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<List<RecipeDto>>> GetRecipes()
         {
             var dtos = await _mediator.Send(new GetRecipesListQuery());

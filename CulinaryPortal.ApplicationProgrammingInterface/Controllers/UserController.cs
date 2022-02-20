@@ -1,4 +1,6 @@
-﻿using CulinaryPortal.Application.Features.Users.Queries.GetUsersList;
+﻿using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
+using CulinaryPortal.Application.Features.Users.Queries.GetUserDetail;
+using CulinaryPortal.Application.Features.Users.Queries.GetUsersList;
 using CulinaryPortal.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +24,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
+
         [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
@@ -36,7 +39,32 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
-    }
 
-   
+        [HttpGet("{userId}", Name = "GetUser")]
+        public async Task<ActionResult<UserDto>> GetUser(int userId)
+        { //todo czy try catch tu potrzeba?
+            var getUserDetailQuery = new GetUserDetailQuery() { Id = userId };
+            var recipe = await _mediator.Send(getUserDetailQuery);
+            if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+            {
+                return NotFound();
+            }
+            return Ok(recipe);
+        }
+
+        [HttpDelete("{userId}", Name = "DeleteUser")]
+        public async Task<ActionResult> DeleteUser(int userId)
+        {
+            var deleteUserCommand = new DeleteUserCommand() { Id = userId };
+            await _mediator.Send(deleteUserCommand);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateShoppingList([FromBody] UserUpdateDto userUpdateDto) //todo nie jestem pewna typu czy nie powinien być command
+        {
+            await _mediator.Send(userUpdateDto);
+            return NoContent();
+        }
+    }   
 }

@@ -24,9 +24,6 @@
     <Folder Include="Features\Photos\Commands\DeletePhoto\" />
     <Folder Include="Features\Photos\Commands\UpdatePhoto\" />
     <Folder Include="Features\Users\Commands\CreateUser\" />
-    <Folder Include="Features\Users\Commands\DeleteUser\" />
-    <Folder Include="Features\Users\Commands\UpdateUser\" />
-    <Folder Include="Features\Users\Queries\GetUserDetail\" />
   </ItemGroup>
 
 </Project>

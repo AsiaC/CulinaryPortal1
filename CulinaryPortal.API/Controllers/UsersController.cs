@@ -94,28 +94,7 @@ namespace CulinaryPortal.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
-
-        // GET: api/users/3/cookbook
-        [HttpGet("{userId}/cookbook", Name = "GetUserCookbook")]
-        public async Task<ActionResult<CookbookDto>> GetUserCookbookAsync([FromRoute] int userId)
-        {
-            try
-            {
-                var cookbookFromRepo = await _culinaryPortalRepository.GetUserCookbookAsync(userId);
-                if (cookbookFromRepo == null) //==false? spr co zwróci?
-                {
-                    return NotFound();
-                }
-                var cookbook = _mapper.Map<CookbookDto>(cookbookFromRepo);
-
-                return Ok(cookbook);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }            
-        }
-
+                
         [HttpPut]
         public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto userUpdateDto)
         {
@@ -138,6 +117,34 @@ namespace CulinaryPortal.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            
+        }
+
+
+
+
+
+
+
+
+        // GET: api/users/3/cookbook
+        [HttpGet("{userId}/cookbook", Name = "GetUserCookbook")]
+        public async Task<ActionResult<CookbookDto>> GetUserCookbookAsync([FromRoute] int userId)
+        {
+            try
+            {
+                var cookbookFromRepo = await _culinaryPortalRepository.GetUserCookbookAsync(userId);
+                if (cookbookFromRepo == null) //==false? spr co zwróci?
+                {
+                    return NotFound();
+                }
+                var cookbook = _mapper.Map<CookbookDto>(cookbookFromRepo);
+
+                return Ok(cookbook);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         // GET: api/users/3/recipes

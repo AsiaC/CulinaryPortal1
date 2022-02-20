@@ -1,4 +1,5 @@
-﻿using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetail;
+﻿using CulinaryPortal.Application.Features.Cookbooks.Commands.DeleteCookbook;
+using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetail;
 using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbooksList;
 using CulinaryPortal.Application.Models;
 using MediatR;
@@ -55,6 +56,23 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CookbookDto>> CreateCookbook([FromBody] CookbookDto cookbookDto) //todo nie jestem pewna typu czy nie powinien być command
+        {
+            var objectToReturn = await _mediator.Send(cookbookDto);
+
+            return CreatedAtAction(nameof(GetCookbook), objectToReturn);
+        }
+
+
+        [HttpDelete("{cookbookId}")]
+        public async Task<ActionResult> DeleteCookbook([FromRoute] int cookbookId)
+        {
+            var deleteCommand = new DeleteCookbookCommand() { Id = cookbookId };
+            await _mediator.Send(deleteCommand);
+            return NoContent();
         }
     }
 }

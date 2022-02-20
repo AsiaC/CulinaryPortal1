@@ -1,4 +1,7 @@
-﻿using CulinaryPortal.Application.Models;
+﻿using CulinaryPortal.Application.Features.Rates.Commands.DeleteRate;
+using CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail;
+using CulinaryPortal.Application.Features.Rates.Queries.GetRatesList;
+using CulinaryPortal.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +29,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var dtos = await _mediator.Send(new GetRateListQuery());
+                var dtos = await _mediator.Send(new GetRatesListQuery());
                 return Ok(dtos);
             }
             catch (Exception e)

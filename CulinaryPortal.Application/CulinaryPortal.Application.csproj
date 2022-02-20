@@ -15,8 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Cookbooks\Commands\CreateCookbook\" />
-    <Folder Include="Features\Cookbooks\Commands\DeleteCookbook\" />
     <Folder Include="Features\Cookbooks\Commands\UpdateCookbook\" />
     <Folder Include="Features\Ingredients\Commands\CreateIngredient\" />
     <Folder Include="Features\Instructions\" />

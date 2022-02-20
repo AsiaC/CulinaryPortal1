@@ -25,10 +25,6 @@
     <Folder Include="Features\Measures\Queries\GetMeasuresList\" />
     <Folder Include="Features\Photos\Commands\DeletePhoto\" />
     <Folder Include="Features\Photos\Commands\UpdatePhoto\" />
-    <Folder Include="Features\Rates\Commands\CreateRate\" />
-    <Folder Include="Features\Rates\Commands\DeleteRate\" />
-    <Folder Include="Features\Rates\Queries\GetRateDetail\" />
-    <Folder Include="Features\Rates\Queries\GetRatesList\" />
     <Folder Include="Features\Users\Commands\CreateUser\" />
     <Folder Include="Features\Users\Commands\DeleteUser\" />
     <Folder Include="Features\Users\Commands\UpdateUser\" />

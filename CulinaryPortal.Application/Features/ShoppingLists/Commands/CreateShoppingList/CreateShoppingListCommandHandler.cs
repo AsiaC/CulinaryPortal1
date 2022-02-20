@@ -14,9 +14,9 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShopp
 {
     public class CreateShoppingListCommandHandler : IRequestHandler<CreateShoppingListCommand, ShoppingListDto>
     {
-        private readonly IAsyncRepository<ShoppingList> _shoppingListRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
         private readonly IMapper _mapper;
-        public CreateShoppingListCommandHandler(IMapper mapper, IAsyncRepository<ShoppingList> shoppingListRepository)
+        public CreateShoppingListCommandHandler(IMapper mapper, IShoppingListRepository shoppingListRepository)
         {
             _mapper = mapper;
             _shoppingListRepository = shoppingListRepository;

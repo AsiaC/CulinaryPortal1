@@ -13,8 +13,8 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShopp
 {
     public class DeleteShoppingListCommandHandler : IRequestHandler<DeleteShoppingListCommand>
     {
-        private readonly IAsyncRepository<ShoppingList> _shoppingListRepository;
-        public DeleteShoppingListCommandHandler(IMapper mapper, IAsyncRepository<ShoppingList> shoppingListRepository)
+        private readonly IShoppingListRepository _shoppingListRepository;
+        public DeleteShoppingListCommandHandler(IMapper mapper, IShoppingListRepository shoppingListRepository)
         {            
             _shoppingListRepository = shoppingListRepository;
         }

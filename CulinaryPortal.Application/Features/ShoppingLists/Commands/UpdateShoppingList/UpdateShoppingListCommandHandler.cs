@@ -13,9 +13,9 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShopp
 {
     public class UpdateShoppingListCommandHandler : IRequestHandler<UpdateShoppingListCommand>
     {
-        private readonly IAsyncRepository<ShoppingList> _shoppingListRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
         private readonly IMapper _mapper;
-        public UpdateShoppingListCommandHandler(IMapper mapper, IAsyncRepository<ShoppingList> shoppingListRepository)
+        public UpdateShoppingListCommandHandler(IMapper mapper, IShoppingListRepository shoppingListRepository)
         {
             _mapper = mapper;
             _shoppingListRepository = shoppingListRepository;

@@ -46,30 +46,24 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             return Ok(recipe);
         }
 
-        [HttpPost(Name = "AddRecipe")] //CreateRecipe
-        public async Task<ActionResult<Recipe>> Create([FromBody] RecipeDto createRecipeDtoCommand)
-        {//todo dodac handler
+        [HttpPost]
+        public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] RecipeDto createRecipeDtoCommand)//todo nie jestem pewna typu czy nie powinien być command
+        {
             var response = await _mediator.Send(createRecipeDtoCommand); 
             return Ok(response);
         }
 
         [HttpDelete("{recipeId}", Name = "DeleteRecipe")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesDefaultResponseType]
-        public async Task<ActionResult> Delete(int recipeId) //DeleteRecipe
+        public async Task<ActionResult> DeleteRecipe(int recipeId)
         {
-            var deleteRecipeCommand = new DeleteRecipeCommand() { RecipeId = recipeId };
+            var deleteRecipeCommand = new DeleteRecipeCommand() { Id = recipeId };
             await _mediator.Send(deleteRecipeCommand);
             return NoContent();
         }
 
         [HttpPut(Name = "UpdateRecipe")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] RecipeDto updateRecipeCommand)
-        { //todo dokoncz
+        public async Task<ActionResult> UpdateRecipe([FromBody] RecipeDto updateRecipeCommand)
+        { 
             await _mediator.Send(updateRecipeCommand);
             return NoContent();
         }

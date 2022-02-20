@@ -1,4 +1,5 @@
-﻿using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListDetail;
+﻿using CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShoppingList;
+using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListDetail;
 using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListsList;
 using CulinaryPortal.Application.Models;
 using MediatR;
@@ -56,6 +57,30 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ShoppingListDto>> CreateShoppingList([FromBody] ShoppingListDto shoppingListDto) //todo nie jestem pewna typu czy nie powinien być command
+        {
+            var shoppingListToReturn = await _mediator.Send(shoppingListDto);
+            
+            return CreatedAtAction(nameof(GetShoppingList), shoppingListToReturn);
+        }
+
+        [HttpPut("{shoppingListId}")]        
+        public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto) //todo nie jestem pewna typu czy nie powinien być command
+        {
+            await _mediator.Send(shoppingListDto);
+            return NoContent();
+        }
+
+
+        [HttpDelete("{shoppingListId}")]
+        public async Task<ActionResult> DeleteShoppingList([FromRoute] int shoppingListId)
+        {
+            var deleteCommand = new DeleteShoppingListCommand() { Id = shoppingListId };
+            await _mediator.Send(deleteCommand);
+            return NoContent();
         }
     }
 }

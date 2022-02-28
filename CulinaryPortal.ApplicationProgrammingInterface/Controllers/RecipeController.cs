@@ -13,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 {
+    [Route("api/recipes")]
     [AllowAnonymous]
-    [Route("api/[controller]")]
     [ApiController]
     public class RecipeController : ControllerBase
     {

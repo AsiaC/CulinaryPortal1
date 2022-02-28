@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ingredients")]
     [ApiController]
     [Authorize]
     public class IngredientController : ControllerBase

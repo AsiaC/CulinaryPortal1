@@ -23,8 +23,17 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList
         }
         public async Task<List<RecipeDto>> Handle(GetRecipesListQuery request, CancellationToken cancellationToken)
         {
-            var allRecipes = (await _recipeRepository.GetRecipesWithDetailsAsync()).OrderBy(x => x.Id);
-            return _mapper.Map<List<RecipeDto>>(allRecipes);
+            try
+            {
+                var allRecipes = (await _recipeRepository.GetRecipesWithDetailsAsync()).OrderBy(x => x.Id);
+                return _mapper.Map<List<RecipeDto>>(allRecipes);
+            }
+            catch (Exception e )
+            {
+
+                throw;
+            }
+            
         }
     }
 }

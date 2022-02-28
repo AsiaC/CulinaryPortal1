@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Persistence
 {
-    public class CulinaryPortalDbContext : IdentityDbContext<User, AppRole, int,
-        IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>    //: DbContext
+    public class CulinaryPortalDbContext : IdentityDbContext<User, AppRole, int, IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>    //: DbContext
     {
         public CulinaryPortalDbContext(DbContextOptions<CulinaryPortalDbContext>options)
             : base(options)

@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CulinaryPortal.Application.Features.Ingredients.Queries.GetIngredientDetail
+namespace CulinaryPortal.Application.Features.Measures.Queries.GetMeasuresList
 {
-    public class GetIngredientDetailQuery : IRequest<IngredientDto>
+    public class GetMeasuresListQuery :IRequest<List<MeasureDto>>
     {
-        public int Id { get; set; }
     }
 }

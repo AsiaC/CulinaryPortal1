@@ -14,9 +14,9 @@ namespace CulinaryPortal.Application.Features.Ingredients.Queries.GetIngredients
 {
     public class GetIngredientsListQueryHandler : IRequestHandler<GetIngredientsListQuery, List<IngredientDto>>
     {
-        private readonly IAsyncRepository<Ingredient> _ingredientRepository;
+        private readonly IIngredientRepository _ingredientRepository;
         private readonly IMapper _mapper;
-        public GetIngredientsListQueryHandler(IMapper mapper, IAsyncRepository<Ingredient> ingresientRepository)
+        public GetIngredientsListQueryHandler(IMapper mapper, IIngredientRepository ingresientRepository)
         {
             _mapper = mapper;
             _ingredientRepository = ingresientRepository;

@@ -13,8 +13,5 @@ namespace CulinaryPortal.Domain.Entities
 
         public int RecipeId { get; set; }
         public Recipe Recipe { get; set; }
-
-        [MaxLength(180)]
-        public string Note { get; set; }
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Persistence.Repositories
 {
-    public class RateRepository : BaseRepository<Rate>, IRateRepository
+    public class IngredientRepository : BaseRepository<Ingredient>, IIngredientRepository
     {
-        public RateRepository(CulinaryPortalDbContext dbContext) : base(dbContext)
+        public IngredientRepository(CulinaryPortalDbContext dbContext) : base(dbContext)
         {
 
         }

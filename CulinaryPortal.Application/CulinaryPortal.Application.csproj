@@ -17,10 +17,7 @@
   <ItemGroup>
     <Folder Include="Features\Cookbooks\Commands\UpdateCookbook\" />
     <Folder Include="Features\Ingredients\Commands\CreateIngredient\" />
-    <Folder Include="Features\Instructions\" />
     <Folder Include="Features\Measures\Commands\CreateMeasure\" />
-    <Folder Include="Features\Measures\Queries\GetMeasureDetail\" />
-    <Folder Include="Features\Measures\Queries\GetMeasuresList\" />
     <Folder Include="Features\Photos\Commands\DeletePhoto\" />
     <Folder Include="Features\Photos\Commands\UpdatePhoto\" />
     <Folder Include="Features\Users\Commands\CreateUser\" />

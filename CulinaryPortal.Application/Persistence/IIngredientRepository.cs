@@ -1,13 +1,13 @@
-﻿using System;
+﻿using CulinaryPortal.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CulinaryPortal.Domain.Entities;
 
 namespace CulinaryPortal.Application.Persistence
 {
-    public interface IInstructionRepository : IAsyncRepository<Instruction>
+    public interface IIngredientRepository: IAsyncRepository<Ingredient>
     {
     }
 }

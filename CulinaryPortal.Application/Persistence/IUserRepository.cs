@@ -11,5 +11,9 @@ namespace CulinaryPortal.Application.Persistence
     {
         ////Task<IEnumerable<ShoppingList>> GetUserShoppingListsAsync(int userId);
         Task<List<User>> GetUsersWithDetailsAsync();
+        Task<Cookbook> GetUserCookbookAsync(int userId);
+        Task<List<Recipe>> GetUserRecipesAsync(int userId);
+        Task<List<ShoppingList>> GetUserShoppingListsAsync(int userId);
+        Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId);
     }
 }

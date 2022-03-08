@@ -73,9 +73,9 @@ export class UsersService {
       catchError(this.handleError<Rate>('getUserRecipeRate userId = ' + userId + ' recipeId = ' + recipeId)));
   } 
 
-  getNumberOfUsers(){
-    return this.http.get<number>(this.baseUrl  + 'users/' + this.user.id + '/registeredUsers') //to moze nie potrzebuje w kontrolerach tego user skoro tu mam
-  }
+  // getNumberOfUsers(){
+  //   return this.http.get<number>(this.baseUrl  + 'users/' + this.user.id + '/registeredUsers') //to moze nie potrzebuje w kontrolerach tego user skoro tu mam
+  // }
 
   private handleError<T> (operation = 'operation',result?:T){ debugger;
     return (error: any): Observable<T> => {

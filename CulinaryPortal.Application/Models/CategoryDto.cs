@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Application.Models
 {
-    public class CategoryDto //TODO UPDATE CONTROLLER,REPOSITORY, HANDLERS
+    public class CategoryDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

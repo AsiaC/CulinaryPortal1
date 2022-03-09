@@ -81,9 +81,7 @@ namespace CulinaryPortal.Application.Profiles
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));      
                         
             CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-            
-            CreateMap<UserUpdateDto, User>();
+            CreateMap<UserDto, User>();    
         }
     }
 }

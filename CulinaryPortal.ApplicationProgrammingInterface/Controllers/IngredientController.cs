@@ -1,4 +1,5 @@
-﻿using CulinaryPortal.Application.Features.Ingredients.Queries.GetIngredientsList;
+﻿using CulinaryPortal.Application.Features.Ingredients.Commands.CreateIngredient;
+using CulinaryPortal.Application.Features.Ingredients.Queries.GetIngredientsList;
 using CulinaryPortal.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,14 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
+        }        
+
+        [HttpPost]
+        public async Task<ActionResult<IngredientDto>> CreateIngredient([FromBody] CreateIngredientCommand createIngredientCommand)
+        {
+            var objectToReturn = await _mediator.Send(createIngredientCommand);
+            return Ok();//todo czy musze dodawac metode GetIngredient
+            //return CreatedAtAction(nameof(GetIngredient), objectToReturn);
         }
-        //TODO Add ingredient
     }
 }

@@ -11,5 +11,7 @@ namespace CulinaryPortal.Application.Persistence
     {
         Task<List<Recipe>> GetRecipesWithDetailsAsync();
         Task<Recipe> GetRecipeWithDetailsAsync(int recipeId);
+        Task<List<Photo>> GetRecipePhotosAsync(int recipeId);
+        Task AddPhotoAsync(Photo photo);
     }
 }

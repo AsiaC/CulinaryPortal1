@@ -1,13 +1,22 @@
-﻿using CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe;
+﻿using CulinaryPortal.Application.Features.Photos.Commands.CreatePhoto;
+using CulinaryPortal.Application.Features.Photos.Commands.DeletePhoto;
+using CulinaryPortal.Application.Features.Photos.Commands.UpdatePhoto;
+using CulinaryPortal.Application.Features.Photos.Queries.GetPhotoDetail;
+using CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe;
+using CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe;
+using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipeDetail;
+using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipePhotos;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,9 +54,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] RecipeDto createRecipeDtoCommand)//todo nie jestem pewna typu czy nie powinien być command
+        public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] CreateRecipeCommand createRecipeCommand)
         {
-            var response = await _mediator.Send(createRecipeDtoCommand); 
+            var response = await _mediator.Send(createRecipeCommand); 
             return Ok(response);
         }
 
@@ -60,11 +69,174 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpPut(Name = "UpdateRecipe")]
-        public async Task<ActionResult> UpdateRecipe([FromBody] RecipeDto updateRecipeCommand)
+        public async Task<ActionResult> UpdateRecipe([FromBody] UpdateRecipeCommand updateRecipeCommand)
         { 
             await _mediator.Send(updateRecipeCommand);
             return NoContent();
         }
 
+        // GET: api/recipes/3/photos
+        [HttpGet("{recipeId}/photos", Name = "GetRecipePhotos")]
+        public async Task<ActionResult<List<PhotoDto>>> GetRecipePhotosAsync([FromRoute] int recipeId)
+        {
+            try
+            {
+                var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                var photos = await _mediator.Send(getRecipePhotosQuery);
+                if (photos.Any())
+                {
+                    return Ok(photos);
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+
+        // POST: api/recipes/3/photos
+        [HttpPost("{recipeId}/photos")]
+        public async Task<IActionResult> UploadImage([FromRoute] int recipeId, IFormFile upload)
+        {//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
+            try
+            {
+                if (upload != null && upload.Length > 0)
+                {
+                    //Check if photo should be the main or not
+                    bool isMainPhoto = true;
+
+                    var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                    var allRecipePhotos = await _mediator.Send(getRecipePhotosQuery);                    
+                    if (allRecipePhotos.Any())
+                        isMainPhoto = false;
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await upload.CopyToAsync(memoryStream);
+
+                        // Upload the file if less than 2 MB
+                        if (memoryStream.Length < 2097152)
+                        {
+                            var createPhotoCommand = new CreatePhotoCommand()
+                            {
+                                ContentPhoto = memoryStream.ToArray(),
+                                IsMain = isMainPhoto,
+                                RecipeId = recipeId,
+                            };
+
+                            var addedPhoto = await _mediator.Send(createPhotoCommand);
+                            return Ok();
+                        }
+                        else
+                        {
+                            //ModelState.AddModelError("File", "The file is too large.");
+                            return BadRequest();
+                        }
+                    }
+                }
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        [HttpPut("{recipeId}/photos")]
+        public async Task<IActionResult> UpdateMainPhoto([FromRoute] int recipeId, [FromBody] int photoId)
+        {
+            try
+            {
+                var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                var allRecipePhotos = await _mediator.Send(getRecipePhotosQuery);
+                if (!allRecipePhotos.Any())
+                {
+                    return NotFound();
+                }
+                var newMainPhoto = allRecipePhotos.FirstOrDefault(p => p.Id == photoId);
+                if (newMainPhoto == null)
+                {
+                    return NotFound();
+                }
+                var updateMainPhotoCommand = new UpdatePhotoCommand()
+                {
+                    ContentPhoto = newMainPhoto.ContentPhoto,
+                    IsMain = true
+                };                
+                await _mediator.Send(updateMainPhotoCommand);
+
+                var otherPhotos = allRecipePhotos.Where(p => p.Id != photoId);
+                if (otherPhotos.Any())
+                {
+                    foreach (var otherPhoto in otherPhotos)
+                    {
+                        var updatePhotoCommand = new UpdatePhotoCommand()
+                        {
+                            ContentPhoto = otherPhoto.ContentPhoto,
+                            IsMain = false
+                        };
+                        await _mediator.Send(updatePhotoCommand);                        
+                    }
+                }
+                
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        // DELETE: api/recipes/3/photos/1
+        [HttpDelete("{recipeId}/photos/{photoId}")]
+        public async Task<ActionResult> DeletePhoto([FromRoute] int photoId)
+        {
+            try
+            {
+                var getPhotoQuery = new GetPhotoDetailQuery() { Id = photoId };
+                var photo = await _mediator.Send(getPhotoQuery);                
+                if (photo == null)
+                {
+                    return NotFound();
+                }
+                var deleteCommand = new DeletePhotoCommand() { Id = photoId };
+                await _mediator.Send(deleteCommand);                
+                return Ok(); //todo or return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
+
+        // PUT: api/photos/5
+        [HttpPut("{photoId}")]
+        public async Task<ActionResult> UpdatePhoto([FromRoute] int photoId, [FromBody] UpdatePhotoCommand updatePhotoCommand)
+        {
+            if (photoId != updatePhotoCommand.Id)
+            {
+                return BadRequest();
+            }
+            try
+
+            {
+                var getPhotoQuery = new GetPhotoDetailQuery() { Id = photoId };
+                var photo = await _mediator.Send(getPhotoQuery);
+                if (photo == null)
+                {
+                    return NotFound();
+                }
+
+                await _mediator.Send(updatePhotoCommand);
+
+                return Ok(); //todo OK czy nocontent?
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
     }
 }

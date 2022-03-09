@@ -1,4 +1,5 @@
-﻿using CulinaryPortal.Application.Features.Rates.Commands.DeleteRate;
+﻿using CulinaryPortal.Application.Features.Rates.Commands.CreateRate;
+using CulinaryPortal.Application.Features.Rates.Commands.DeleteRate;
 using CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail;
 using CulinaryPortal.Application.Features.Rates.Queries.GetRatesList;
 using CulinaryPortal.Application.Models;
@@ -58,9 +59,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RateDto>> CreateRate([FromBody] RateDto rateDto) //todo nie jestem pewna typu czy nie powinien być command
+        public async Task<ActionResult<RateDto>> CreateRate([FromBody] CreateRateCommand createRateCommand)
         {
-            var objectToReturn = await _mediator.Send(rateDto);
+            var objectToReturn = await _mediator.Send(createRateCommand);
 
             return CreatedAtAction(nameof(GetRate), objectToReturn);
         }

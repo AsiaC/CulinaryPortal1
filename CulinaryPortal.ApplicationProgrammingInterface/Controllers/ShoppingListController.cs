@@ -1,4 +1,6 @@
-﻿using CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShoppingList;
+﻿using CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShoppingList;
+using CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShoppingList;
+using CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShoppingList;
 using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListDetail;
 using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListsList;
 using CulinaryPortal.Application.Models;
@@ -60,17 +62,17 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ShoppingListDto>> CreateShoppingList([FromBody] ShoppingListDto shoppingListDto) //todo nie jestem pewna typu czy nie powinien być command
+        public async Task<ActionResult<ShoppingListDto>> CreateShoppingList([FromBody] CreateShoppingListCommand createShoppingListCommand)
         {
-            var shoppingListToReturn = await _mediator.Send(shoppingListDto);
+            var shoppingListToReturn = await _mediator.Send(createShoppingListCommand);
             
             return CreatedAtAction(nameof(GetShoppingList), shoppingListToReturn);
         }
 
         [HttpPut("{shoppingListId}")]        
-        public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] ShoppingListDto shoppingListDto) //todo nie jestem pewna typu czy nie powinien być command
+        public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] UpdateShoppingListCommand updateShoppingListCommand)
         {
-            await _mediator.Send(shoppingListDto);
+            await _mediator.Send(updateShoppingListCommand);
             return NoContent();
         }
 

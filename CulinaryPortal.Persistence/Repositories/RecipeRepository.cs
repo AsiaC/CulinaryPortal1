@@ -43,5 +43,21 @@ namespace CulinaryPortal.Persistence.Repositories
 
             return recipe;
         }
+
+        public async Task<List<Photo>> GetRecipePhotosAsync(int recipeId)
+        {
+            return await _dbContext.Photos.Where(p => p.RecipeId == recipeId).ToListAsync();
+        }
+
+        public async Task AddPhotoAsync(Photo photo)
+        {
+            if (photo == null)
+            {
+                throw new ArgumentNullException(nameof(photo));
+            }
+
+            await _dbContext.Photos.AddAsync(photo);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

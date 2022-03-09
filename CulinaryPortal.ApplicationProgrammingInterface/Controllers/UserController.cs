@@ -1,4 +1,5 @@
 ﻿using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
+using CulinaryPortal.Application.Features.Users.Commands.UpdateUser;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserCookbook;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserDetail;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserRate;
@@ -65,9 +66,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateShoppingList([FromBody] UserUpdateDto userUpdateDto) //todo nie jestem pewna typu czy nie powinien być command
+        public async Task<ActionResult> UpdateUser([FromBody] UpdateUserCommand updateUserCommand)
         {
-            await _mediator.Send(userUpdateDto);
+            await _mediator.Send(updateUserCommand);
             return NoContent();
         }
 

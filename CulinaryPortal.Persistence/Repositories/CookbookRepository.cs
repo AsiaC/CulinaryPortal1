@@ -32,6 +32,15 @@ namespace CulinaryPortal.Persistence.Repositories
                 .FirstOrDefaultAsync(u => u.Id == cookbookId);
             return cookbook;
         }
-        //todo PUT
+        public async Task AddRecipeToCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook)
+        {
+            cookbook.CookbookRecipes.Add(cookbookRecipe);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook)
+        {
+            cookbook.CookbookRecipes.Remove(cookbookRecipe);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

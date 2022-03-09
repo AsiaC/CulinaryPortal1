@@ -11,5 +11,7 @@ namespace CulinaryPortal.Application.Persistence
     {
         Task<List<Cookbook>> GetCookbooksWithRecipesAsync();
         Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId);
+        Task AddRecipeToCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
+        Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
     }
 }

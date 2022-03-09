@@ -14,7 +14,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,6 +23,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetCategories()
         {

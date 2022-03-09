@@ -17,7 +17,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 {
     [Route("api/shoppingLists")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class ShoppingListController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -25,6 +25,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
+
         // GET: api/shoppingLists
         [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
@@ -64,25 +65,45 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         [HttpPost]
         public async Task<ActionResult<ShoppingListDto>> CreateShoppingList([FromBody] CreateShoppingListCommand createShoppingListCommand)
         {
-            var shoppingListToReturn = await _mediator.Send(createShoppingListCommand);
-            
-            return CreatedAtAction(nameof(GetShoppingList), shoppingListToReturn);
+            try
+            {
+                var shoppingListToReturn = await _mediator.Send(createShoppingListCommand);
+
+                return CreatedAtAction(nameof(GetShoppingList), shoppingListToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         [HttpPut("{shoppingListId}")]        
         public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] UpdateShoppingListCommand updateShoppingListCommand)
         {
-            await _mediator.Send(updateShoppingListCommand);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(updateShoppingListCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
-
 
         [HttpDelete("{shoppingListId}")]
         public async Task<ActionResult> DeleteShoppingList([FromRoute] int shoppingListId)
         {
-            var deleteCommand = new DeleteShoppingListCommand() { Id = shoppingListId };
-            await _mediator.Send(deleteCommand);
-            return NoContent();
+            try
+            {
+                var deleteCommand = new DeleteShoppingListCommand() { Id = shoppingListId };
+                await _mediator.Send(deleteCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
     }
 }

@@ -41,9 +41,16 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         [HttpPost]
         public async Task<ActionResult<IngredientDto>> CreateIngredient([FromBody] CreateIngredientCommand createIngredientCommand)
         {
-            var objectToReturn = await _mediator.Send(createIngredientCommand);
-            return Ok();//todo czy musze dodawac metode GetIngredient
-            //return CreatedAtAction(nameof(GetIngredient), objectToReturn);
+            try
+            {
+                var objectToReturn = await _mediator.Send(createIngredientCommand);
+                return Ok();//todo czy musze dodawac metode GetIngredient
+                            //return CreatedAtAction(nameof(GetIngredient), objectToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
     }
 }

@@ -61,18 +61,31 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         [HttpPost]
         public async Task<ActionResult<RateDto>> CreateRate([FromBody] CreateRateCommand createRateCommand)
         {
-            var objectToReturn = await _mediator.Send(createRateCommand);
-
-            return CreatedAtAction(nameof(GetRate), objectToReturn);
+            try
+            {
+                var objectToReturn = await _mediator.Send(createRateCommand);
+                return CreatedAtAction(nameof(GetRate), objectToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
        
 
         [HttpDelete("{rateId}")]
         public async Task<ActionResult> DeleteRate([FromRoute] int rateId)
         {
-            var deleteCommand = new DeleteRateCommand() { Id = rateId };
-            await _mediator.Send(deleteCommand);
-            return NoContent();
+            try
+            {
+                var deleteCommand = new DeleteRateCommand() { Id = rateId };
+                await _mediator.Send(deleteCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
     }
 }

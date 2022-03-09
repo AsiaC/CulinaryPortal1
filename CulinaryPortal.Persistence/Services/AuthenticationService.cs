@@ -23,25 +23,23 @@ namespace CulinaryPortal.Persistence.Services
 
         public AuthenticationService(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            _userManager = userManager;            
+            _userManager = userManager;
             _signInManager = signInManager;
             _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
         }
 
         public async Task<UserDto> AuthenticateAsync(LoginDto request)
-        {            
+        {
             var user = await _userManager.FindByNameAsync(request.Username);
             if (user == null)
             {
                 throw new Exception($"User with {request.Username} not found.");
             }
-
-            var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
-
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded)
             {
                 throw new Exception($"Credentials for '{request.Username} aren't valid'.");
-            }        
+            }
 
             var response = new UserDto
             {
@@ -55,10 +53,10 @@ namespace CulinaryPortal.Persistence.Services
 
             return response;
         }
-        
+
         public async Task<UserDto> RegisterAsync(RegisterDto request)
         {
-            
+
             var existingUser = await _userManager.FindByNameAsync(request.Username);
 
             if (existingUser != null)
@@ -85,7 +83,7 @@ namespace CulinaryPortal.Persistence.Services
                 {
                     throw new Exception($"{result.Errors}");
                 }
-                else 
+                else
                 {
                     var roleResult = await _userManager.AddToRoleAsync(user, "Member");
                     if (!roleResult.Succeeded)
@@ -109,9 +107,9 @@ namespace CulinaryPortal.Persistence.Services
             else
             {
                 throw new Exception($"Email {request.Email } already exists.");
-            }            
+            }
         }
-                
+
         public async Task<string> CreateToken(User user)
         {
             var userRoles = await _userManager.GetRolesAsync(user);

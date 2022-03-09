@@ -47,29 +47,51 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         [HttpGet("{userId}", Name = "GetUser")]
         public async Task<ActionResult<UserDto>> GetUser(int userId)
-        { 
-            var getUserDetailQuery = new GetUserDetailQuery() { Id = userId };
-            var recipe = await _mediator.Send(getUserDetailQuery);
-            if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+        {
+            try
             {
-                return NotFound();
+                var getUserDetailQuery = new GetUserDetailQuery() { Id = userId };
+                var recipe = await _mediator.Send(getUserDetailQuery);
+                if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+                {
+                    return NotFound();
+                }
+                return Ok(recipe);
             }
-            return Ok(recipe);
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
+        [Authorize(Policy = "OnlyAdminRole")]
         [HttpDelete("{userId}", Name = "DeleteUser")]
         public async Task<ActionResult> DeleteUser(int userId)
         {
-            var deleteUserCommand = new DeleteUserCommand() { Id = userId };
-            await _mediator.Send(deleteUserCommand);
-            return NoContent();
+            try
+            {
+                var deleteUserCommand = new DeleteUserCommand() { Id = userId };
+                await _mediator.Send(deleteUserCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateUser([FromBody] UpdateUserCommand updateUserCommand)
         {
-            await _mediator.Send(updateUserCommand);
-            return NoContent();
+            try
+            {
+                await _mediator.Send(updateUserCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/users/3/cookbook

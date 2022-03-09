@@ -14,9 +14,4 @@
     <ProjectReference Include="..\CulinaryPortal.Domain\CulinaryPortal.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Measures\Commands\CreateMeasure\" />
-    <Folder Include="Features\Users\Commands\CreateUser\" />
-  </ItemGroup>
-
 </Project>

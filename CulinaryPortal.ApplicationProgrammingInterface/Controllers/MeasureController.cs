@@ -21,6 +21,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
         public async Task<ActionResult<List<MeasureDto>>> GetMeasures()
         {

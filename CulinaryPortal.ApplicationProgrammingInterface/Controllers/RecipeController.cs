@@ -37,42 +37,80 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         [HttpGet(Name = "GetRecipes")]
         public async Task<ActionResult<List<RecipeDto>>> GetRecipes()
         {
-            var dtos = await _mediator.Send(new GetRecipesListQuery());
-            return Ok(dtos);
+            try
+            {
+                var dtos = await _mediator.Send(new GetRecipesListQuery());
+                return Ok(dtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         [HttpGet("{recipeId}", Name = "GetRecipe")]
         public async Task<ActionResult<RecipeDto>> GetRecipe(int recipeId)
-        { //todo czy try catch tu potrzeba?
-            var getRecipeDetailQuery = new GetRecipeDetailQuery() { Id = recipeId };
-            var recipe = await _mediator.Send(getRecipeDetailQuery);
-            if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+        {
+            try
             {
-                return NotFound();
+                var getRecipeDetailQuery = new GetRecipeDetailQuery() { Id = recipeId };
+                var recipe = await _mediator.Send(getRecipeDetailQuery);
+                if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+                {
+                    return NotFound();
+                }
+                return Ok(recipe);
             }
-            return Ok(recipe);
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] CreateRecipeCommand createRecipeCommand)
         {
-            var response = await _mediator.Send(createRecipeCommand); 
-            return Ok(response);
+            try
+            {
+                var response = await _mediator.Send(createRecipeCommand);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
+        [Authorize]
         [HttpDelete("{recipeId}", Name = "DeleteRecipe")]
         public async Task<ActionResult> DeleteRecipe(int recipeId)
         {
-            var deleteRecipeCommand = new DeleteRecipeCommand() { Id = recipeId };
-            await _mediator.Send(deleteRecipeCommand);
-            return NoContent();
+            try
+            {
+                var deleteRecipeCommand = new DeleteRecipeCommand() { Id = recipeId };
+                await _mediator.Send(deleteRecipeCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
+        [Authorize]
         [HttpPut(Name = "UpdateRecipe")]
         public async Task<ActionResult> UpdateRecipe([FromBody] UpdateRecipeCommand updateRecipeCommand)
-        { 
-            await _mediator.Send(updateRecipeCommand);
-            return NoContent();
+        {
+            try
+            {
+                await _mediator.Send(updateRecipeCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }            
         }
 
         // GET: api/recipes/3/photos
@@ -97,8 +135,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
 
         // POST: api/recipes/3/photos
+        [Authorize]
         [HttpPost("{recipeId}/photos")]
-        public async Task<IActionResult> UploadImage([FromRoute] int recipeId, IFormFile upload)
+        public async Task<ActionResult> UploadImage([FromRoute] int recipeId, IFormFile upload)
         {//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
             try
             {
@@ -144,8 +183,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("{recipeId}/photos")]
-        public async Task<IActionResult> UpdateMainPhoto([FromRoute] int recipeId, [FromBody] int photoId)
+        public async Task<ActionResult> UpdateMainPhoto([FromRoute] int recipeId, [FromBody] int photoId)
         {
             try
             {
@@ -189,6 +229,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
+        [Authorize]
         // DELETE: api/recipes/3/photos/1
         [HttpDelete("{recipeId}/photos/{photoId}")]
         public async Task<ActionResult> DeletePhoto([FromRoute] int photoId)
@@ -203,7 +244,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 }
                 var deleteCommand = new DeletePhotoCommand() { Id = photoId };
                 await _mediator.Send(deleteCommand);                
-                return Ok(); //todo or return NoContent();
+                return Ok();
             }
             catch (Exception e)
             {
@@ -211,6 +252,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
+        [Authorize]
         // PUT: api/photos/5
         [HttpPut("{photoId}")]
         public async Task<ActionResult> UpdatePhoto([FromRoute] int photoId, [FromBody] UpdatePhotoCommand updatePhotoCommand)
@@ -220,7 +262,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 return BadRequest();
             }
             try
-
             {
                 var getPhotoQuery = new GetPhotoDetailQuery() { Id = photoId };
                 var photo = await _mediator.Send(getPhotoQuery);
@@ -230,8 +271,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 }
 
                 await _mediator.Send(updatePhotoCommand);
-
-                return Ok(); //todo OK czy nocontent?
+                return Ok();
             }
             catch (Exception e)
             {

@@ -35,7 +35,7 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('deleteCookbook')));
     }
 
-
+//todo to bedzie do zmiany
     //PUT czy muszé miec dwie? moze jedna starczy i z parametrem opcjonalnym?
     addRecipeToCookbook(cookbook: CookbookRecipe): Observable<any>{
         return this.http.put(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(

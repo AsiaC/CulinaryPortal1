@@ -25,7 +25,7 @@ export class RecipesService {
       catchError(this.handleError<Recipe[]>('getRecipes', [])));
   }
 
-  getRecipe(recipeId: number): Observable<Recipe> {
+  getRecipe(recipeId: number): Observable<Recipe> {debugger;
     return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipeId).pipe(
       catchError(this.handleError<Recipe>('getRecipe recipeId = '+ recipeId)));
   }

@@ -4,7 +4,7 @@
         <div class="col">
             <p *ngIf="currentRecipe.author !== null">Author: {{currentRecipe.author}}</p>
         </div>
-        <div class="col" *ngIf="user !== null">    
+        <div class="col" *ngIf="user !== undefined">    
             <div *ngIf="currentRecipe?.userId === user.id || user.roles.includes('Admin')" >
                 <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
                 <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
@@ -20,7 +20,7 @@
             <p><i class="fa fa-signal" aria-hidden="true"></i> Difficulty level: {{DifficultyLevelEnum[currentRecipe.difficultyLevel]}}</p>    
             <p><i class="fa fa-clock-o" aria-hidden="true"></i> Preparation time: {{PreparationTimeEnum[currentRecipe.preparationTime]}}</p>
         </div>
-        <div class="col" *ngIf="user !== null">            
+        <div class="col" *ngIf="user !== undefined">            
             <div class="rating mt-3">
                 <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0">
                     <span *ngIf="currentRecipe.totalScore >= 1"><i class="fa fa-star"></i></span>
@@ -53,7 +53,7 @@
         </div>
     </div>
     
-    <div class="mb-3" *ngIf="user !== null">
+    <div class="mb-3" *ngIf="user !== undefined">
         <div *ngIf="canAddToCookbook === true">
             <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Culinarybook</button>
         </div>
@@ -69,7 +69,7 @@
         </li>
     </ul>
 
-    <div class="mb-3" *ngIf="user !== null">
+    <div class="mb-3" *ngIf="user !== undefined">
         <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
     </div>
     

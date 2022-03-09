@@ -51,18 +51,17 @@ export class RecipeDetailComponent implements OnInit {
   loadRecipe(){
     debugger;
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      this.currentRecipe = recipe;  
-      //console.log('this.user');
-      //console.log(this.user); 
-      //console.log('this.currentRecipe') ;
-      //console.log(this.currentRecipe) ;  
-      this.loadShoppingListsIds();  
-      this.loadCookbook();        
+      debugger;
+      this.currentRecipe = recipe; 
+      if(this.user !== undefined){
+        this.loadShoppingListsIds();  
+        this.loadCookbook();
+      }                
     }, error => {
       console.log(error);
     })
 
-    if(this.user !== null){
+    if(this.user !== undefined){
       this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
         if(rate !== undefined){
           this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: null};

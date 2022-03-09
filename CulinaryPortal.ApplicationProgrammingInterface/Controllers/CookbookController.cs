@@ -25,6 +25,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             _mediator = mediator;
         }
+
         [Authorize(Policy = "OnlyAdminRole")]
         [HttpGet]
         public async Task<ActionResult<List<CookbookDto>>> GetCookbooks()
@@ -62,31 +63,42 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         [HttpPost]
         public async Task<ActionResult<CookbookDto>> CreateCookbook([FromBody] CreateCookbookCommand createCookbookCommand)
-
         {
-            var objectToReturn = await _mediator.Send(createCookbookCommand);
+            try
+            {
+                var objectToReturn = await _mediator.Send(createCookbookCommand);
 
-            return CreatedAtAction(nameof(GetCookbook), objectToReturn);
+                return CreatedAtAction(nameof(GetCookbook), objectToReturn);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         [HttpDelete("{cookbookId}")]
         public async Task<ActionResult> DeleteCookbook([FromRoute] int cookbookId)
         {
-            var deleteCommand = new DeleteCookbookCommand() { Id = cookbookId };
-            await _mediator.Send(deleteCommand);
-            return NoContent();
+            try
+            {
+                var deleteCommand = new DeleteCookbookCommand() { Id = cookbookId };
+                await _mediator.Send(deleteCommand);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
-        // PUT: api/cookbooks/5 //
+        // PUT: api/cookbooks/5
         [HttpPut("{cookbookId}")]
         public async Task<ActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] UpdateCookbookCommand updateCookbookCommand)
-        {            
+        {
             try
             {   //TODO czy user jest potrzebny? 
                 //todo spr czy id  istnieje jak tak to delete jak nie to add recipe//dodaam parametr IsRecipeAdded
-
                 await _mediator.Send(updateCookbookCommand);
-
                 return Ok();
             }
             catch (Exception e)

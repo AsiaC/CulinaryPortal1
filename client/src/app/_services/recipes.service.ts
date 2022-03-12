@@ -106,7 +106,6 @@ export class RecipesService {
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
         console.log(error);
-        //console.error(operation + ' has error = '+ error);
         return of(result as T);
     }
   }

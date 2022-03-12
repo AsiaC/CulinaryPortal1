@@ -67,7 +67,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var objectToReturn = await _mediator.Send(createCookbookCommand);
-
                 return CreatedAtAction(nameof(GetCookbook), objectToReturn);
             }
             catch (Exception e)
@@ -96,8 +95,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         public async Task<ActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] UpdateCookbookCommand updateCookbookCommand)
         {
             try
-            {   //TODO czy user jest potrzebny? 
-                //todo spr czy id  istnieje jak tak to delete jak nie to add recipe//dodaam parametr IsRecipeAdded
+            {   
                 await _mediator.Send(updateCookbookCommand);
                 return Ok();
             }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShoppingList;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using System;
@@ -78,8 +79,13 @@ namespace CulinaryPortal.Application.Profiles
             CreateMap<ShoppingList, ShoppingListDto>()
                 .ForMember(
                 dest => dest.UserName,
-                opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));      
-                        
+                opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
+
+            CreateMap<CreateShoppingListCommand, ShoppingList>().ReverseMap();//TODO CZY POTRZEBUJE?
+            //.ForMember(
+            //dest => dest.Items,
+            //opt => opt.MapFrom(src => src.Items));
+
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();    
         }

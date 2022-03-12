@@ -37,7 +37,7 @@ export class CreateCookbookComponent implements OnInit {
     this.cookbookService.addCookbook(cookbookToCreate)
     .subscribe(response => {      
       this.currentRecipe.cookbookId = response.id;      
-      this.cookbookService.addRecipeToCookbook(this.currentRecipe)
+      this.cookbookService.updateCookbook(this.currentRecipe.cookbookId, this.currentRecipe) //TODO check if IsAdded: true is needed or not 
       .subscribe(response => {
         this.toastr.success('Cookbook created and recipe added successfully!');
         })

@@ -236,12 +236,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getPhotoQuery = new GetPhotoDetailQuery() { Id = photoId };
-                var photo = await _mediator.Send(getPhotoQuery);                
-                if (photo == null)
-                {
-                    return NotFound();
-                }
                 var deleteCommand = new DeletePhotoCommand() { Id = photoId };
                 await _mediator.Send(deleteCommand);                
                 return Ok();
@@ -263,13 +257,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
             try
             {
-                var getPhotoQuery = new GetPhotoDetailQuery() { Id = photoId };
-                var photo = await _mediator.Send(getPhotoQuery);
-                if (photo == null)
-                {
-                    return NotFound();
-                }
-
                 await _mediator.Send(updatePhotoCommand);
                 return Ok();
             }

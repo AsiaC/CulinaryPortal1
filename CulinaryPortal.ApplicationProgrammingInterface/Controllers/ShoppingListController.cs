@@ -68,7 +68,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var shoppingListToReturn = await _mediator.Send(createShoppingListCommand);
-
                 return CreatedAtAction(nameof(GetShoppingList), shoppingListToReturn);
             }
             catch (Exception e)

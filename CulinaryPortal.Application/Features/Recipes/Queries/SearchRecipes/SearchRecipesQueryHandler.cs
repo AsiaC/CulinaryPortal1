@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Application.Features.Recipes.Queries.SearchRecipes
 {
-    class SearchRecipesQueryHandler : IRequestHandler<SearchRecipesQuery, List<RecipeDto>>
+    public class SearchRecipesQueryHandler : IRequestHandler<SearchRecipesQuery, List<RecipeDto>>
     {
         private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
@@ -23,7 +23,14 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.SearchRecipes
         public async Task<List<RecipeDto>> Handle(SearchRecipesQuery request, CancellationToken cancellationToken)
         {
             var list = await _recipeRepository.SearchRecipesAsync(request.Name, request.CategoryId, request.DifficultyLevelId, request.PreparationTimeId, request.UserId, request.Top);
-            return _mapper.Map<List<RecipeDto>>(list);         
+            var searchRecipesDto = _mapper.Map<List<RecipeDto>>(list);
+
+            if (request.Top != null)
+            {
+                searchRecipesDto = searchRecipesDto.OrderByDescending(r => r.TotalScore).ThenBy(x => x.Name).Take(request.Top ?? 0).ToList();
+            }
+
+            return searchRecipesDto;
         }
     }
 }

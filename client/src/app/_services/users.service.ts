@@ -60,12 +60,76 @@ export class UsersService {
       catchError(this.handleError<ShoppingList[]>('getUserShoppingLists userId = ' + userId, [])));
   }
 
-  searchUserRecipes(model: any, user: number){
-    return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/recipes/search', model)
+  searchUserRecipes(model: any, user: number){debugger;
+    var httpSearchUrl = '/recipes/search';
+    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
+      httpSearchUrl = httpSearchUrl + '?';
+   
+      if(model.name !== null){
+        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
+      }
+      if(model.categoryId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
+      }
+      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
+      }
+      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
+      }
+      if(model.userId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
+      }
+    }
+    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl)
   }
 
-  searchUserCookbook(model: any, user:number){
-    return this.http.put<Recipe[]>(this.baseUrl  + 'users/' + user + '/cookbook/search', model)
+  searchUserCookbookRecipes(model: any, user:number){debugger;
+    var httpSearchUrl = '/cookbook/search';
+    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
+      httpSearchUrl = httpSearchUrl + '?';
+   
+      if(model.name !== null){
+        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
+      }
+      if(model.categoryId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
+      }
+      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
+      }
+      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
+      }
+      if(model.userId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
+      }      
+    }
+    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl)
   }
 
   getUserRecipeRate(userId: number, recipeId: number): Observable<Rate>{

@@ -62,7 +62,7 @@ export class RecipesService {
 
   searchRecipes(model: any){ debugger;
     var httpSearchUrl = 'recipes/search';
-    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== 6){
+    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== null){
       httpSearchUrl = httpSearchUrl + '?';
    
       if(model.name !== null){

@@ -8,6 +8,7 @@ using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipeDetail;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipePhotos;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
+using CulinaryPortal.Application.Features.Recipes.Queries.SearchRecipes;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using MediatR;
@@ -111,6 +112,21 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            
+        }
+
+        [HttpGet("search", Name = "Search")]
+        public async Task<ActionResult<List<RecipeDto>>> SearchRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)
+        {
+            try
+            {
+                var searchRecipesQuery = new SearchRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId, Top = top };
+                var dtos = await _mediator.Send(searchRecipesQuery);
+                return Ok(dtos);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         // GET: api/recipes/3/photos

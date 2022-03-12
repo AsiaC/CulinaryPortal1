@@ -60,8 +60,46 @@ export class RecipesService {
       catchError(this.handleError<Measure[]>('getMeasures', [])));
   }
 
-  searchRecipes(model: any){
-    return this.http.put<Recipe[]>(this.baseUrl + 'recipes/search', model)
+  searchRecipes(model: any){ debugger;
+    var httpSearchUrl = 'recipes/search';
+    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== 6){
+      httpSearchUrl = httpSearchUrl + '?';
+   
+      if(model.name !== null){
+        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
+      }
+      if(model.categoryId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
+      }
+      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
+      }
+      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
+      }
+      if(model.userId !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
+      }
+      if(model.top !== null){
+        if(!httpSearchUrl.endsWith('?')){
+          httpSearchUrl = httpSearchUrl + '&';
+        }
+        httpSearchUrl = httpSearchUrl + 'top=' + model.top;
+      }
+    }
+    return this.http.get<Recipe[]>(this.baseUrl + httpSearchUrl);
   }
 
   addPhoto(recipeId: number, upload: any){

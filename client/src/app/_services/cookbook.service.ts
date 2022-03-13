@@ -25,7 +25,7 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('getCookbook cookbookId = ' + cookbookId)));
     }
 
-    addCookbook(cookbook: Cookbook): Observable<Cookbook> {       debugger;        
+    addCookbook(cookbook: Cookbook): Observable<Cookbook> {               
         return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(
             catchError(this.handleError<Cookbook>('addCookbook')));
     }

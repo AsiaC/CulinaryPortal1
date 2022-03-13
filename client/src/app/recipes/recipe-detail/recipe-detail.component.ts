@@ -50,6 +50,7 @@ export class RecipeDetailComponent implements OnInit {
 
   loadRecipe(){  
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{    
+      debugger;
       this.currentRecipe = recipe; 
       if(this.user !== undefined){
         this.loadShoppingListsIds();  
@@ -62,8 +63,11 @@ export class RecipeDetailComponent implements OnInit {
     if(this.user !== undefined){
       this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
         if(rate !== undefined){
-          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: null};
-        }              
+          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rate.value, id: rate.id};
+        }  
+        else{
+          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
+        }            
       })
     }
   }

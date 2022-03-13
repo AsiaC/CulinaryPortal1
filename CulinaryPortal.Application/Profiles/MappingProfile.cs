@@ -62,7 +62,7 @@ namespace CulinaryPortal.Application.Profiles
                 dest => dest.RateValues,
                 opt => opt.MapFrom(src => src.Rates.Sum(x => x.Value)))
                 .ForMember(dest => dest.TotalScore,
-                opt => opt.MapFrom(src => src.Rates.Count() == 0 ? 0 : (src.Rates.Sum(x => x.Value) / src.Rates.Count())));
+                opt => opt.MapFrom(src => src.Rates.Count() == 0 ? 0 : Math.Round(( (decimal)src.Rates.Sum(x => x.Value) / (decimal)src.Rates.Count() ),2) ));
             CreateMap<RecipeDto, Recipe>()
                .ForMember(
                dest => dest.Category,

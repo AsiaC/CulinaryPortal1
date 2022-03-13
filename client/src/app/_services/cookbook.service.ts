@@ -35,7 +35,11 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('deleteCookbook')));
     }
 
-    updateCookbook(cookbookId: number, cookbook: Cookbook): Observable<any>{debugger;
+    // updateCookbook(cookbookId: number, cookbook: Cookbook): Observable<any>{debugger;
+    //     return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
+    //         catchError(this.handleError<any>('updateCookbook')));  
+    // }
+    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{debugger;
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
             catchError(this.handleError<any>('updateCookbook')));  
     }

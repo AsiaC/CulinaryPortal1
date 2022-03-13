@@ -29,10 +29,17 @@ namespace CulinaryPortal.Application.Profiles
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
             CreateMap<CookbookDto, Cookbook>();
             CreateMap<CreateCookbookCommand, Cookbook>().ReverseMap();
-            CreateMap<UpdateCookbookCommand, Cookbook>().ReverseMap();
+            //CreateMap<UpdateCookbookCommand, Cookbook>()
+            //    .ForMember(
+            //    dest => dest.CookbookRecipes,
+            //    opt => opt.MapFrom(src => src.CookbookRecipes));
 
-            CreateMap<CookbookRecipeDto, CookbookRecipe>().ReverseMap();
-            //CreateMap<UpdateCookbookCommand, CookbookRecipe>().ReverseMap();
+            CreateMap<CookbookRecipeDto, CookbookRecipe>()
+                .ForMember(
+                dest => dest.Recipe,
+                opt => opt.MapFrom(src => src.Recipe))
+                .ReverseMap();
+            CreateMap<UpdateCookbookCommand, CookbookRecipe>().ReverseMap();
 
             CreateMap<IngredientDto, Ingredient>().ReverseMap();
 

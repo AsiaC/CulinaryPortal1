@@ -135,8 +135,10 @@ export class RecipeDetailComponent implements OnInit {
     //todo uncomment  
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: true}
     this.userCookbook.cookbookRecipes.push(this.cookbookRecipe);
-    this.cookbookService.updateCookbook(this.userCookbook.id, this.userCookbook)
+    //this.cookbookService.updateCookbook(this.userCookbook.id, this.userCookbook)
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
       .subscribe(response =>{debugger;
+        //todo to zdebuguj i popraw zeby wiedziec czy sukces czy nie
          this.toastr.success('Recipe added successfully!');
          this.canAddToCookbook = false;
       }, error => {

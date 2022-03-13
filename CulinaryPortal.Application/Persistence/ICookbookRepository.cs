@@ -13,5 +13,6 @@ namespace CulinaryPortal.Application.Persistence
         Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId);
         Task AddRecipeToCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
         Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
+        Task<Cookbook> GetCookbookWithDetailsAsync(int cookbookId);
     }
 }

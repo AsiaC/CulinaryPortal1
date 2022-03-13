@@ -14,10 +14,10 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe
 {
     public class CreateRecipeCommandHandler : IRequestHandler<CreateRecipeCommand, RecipeDto>
     {
-        private readonly IAsyncRepository<Recipe> _recipeRepository;
+        private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
 
-        public CreateRecipeCommandHandler(IMapper mapper, IAsyncRepository<Recipe> recipeRepository)
+        public CreateRecipeCommandHandler(IMapper mapper, IRecipeRepository recipeRepository)
         {
             _mapper = mapper;
             _recipeRepository = recipeRepository;

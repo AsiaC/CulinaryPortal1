@@ -18,6 +18,7 @@ export class CreateCookbookComponent implements OnInit {
   closeBtnName: string;
   submitBtnName: string;
   currentRecipe: CookbookRecipe;
+  userCookbook: Cookbook;
 
   newCookbookName: string = null; 
 
@@ -32,15 +33,19 @@ export class CreateCookbookComponent implements OnInit {
     var recipes = [];
     recipes.push(this.currentRecipe);
     //var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: recipes};
-    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};
+    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: '', isRecipeAdded: true};
     
     this.cookbookService.addCookbook(cookbookToCreate)
-    .subscribe(response => {     
-       
-      this.currentRecipe.cookbookId = response.id;      
-      this.cookbookService.updateCookbook(this.currentRecipe.cookbookId, this.currentRecipe) //TODO check if IsAdded: true is needed or not 
+    .subscribe(userCookbook => {
+      this.userCookbook = userCookbook;          
+       debugger;
+      //this.currentRecipe.cookbookId = userCookbook.id;    
+      var cookbookToUpdate : Cookbook = {id: userCookbook.id, name: this.newCookbookName, userId: this.userId, cookbookRecipes: recipes, userName: '', isRecipeAdded: true};
+      debugger;
+      this.cookbookService.updateCookbook(userCookbook.id, cookbookToUpdate)
+      //this.cookbookService.updateCookbook(this.currentRecipe.cookbookId, this.currentRecipe) //TODO check if IsAdded: true is needed or not 
       .subscribe(response => {
-        
+        debugger;
         this.toastr.success('Cookbook created and recipe added successfully!');
         })
     }, error => {      

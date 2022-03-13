@@ -11,6 +11,6 @@ namespace CulinaryPortal.Application.Models
         public RecipeDto Recipe { get; set; }
         public int RecipeId { get; set; }
         public int CookbookId { get; set; }    
-        public int UserId { get; set; } //dod // CZY JA TEGO POTRZEBUJE?
+        //public int UserId { get; set; } //dod // CZY JA TEGO POTRZEBUJE?
     }
 }

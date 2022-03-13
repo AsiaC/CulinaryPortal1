@@ -13,8 +13,8 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe
 {
     public class DeleteRecipeCommandHandler : IRequestHandler<DeleteRecipeCommand>
     {
-        private readonly IAsyncRepository<Recipe> _recipeRepository;        
-        public DeleteRecipeCommandHandler(IAsyncRepository<Recipe> recipeRepository)
+        private readonly IRecipeRepository _recipeRepository;        
+        public DeleteRecipeCommandHandler(IRecipeRepository recipeRepository)
         {            
             _recipeRepository = recipeRepository;
         }

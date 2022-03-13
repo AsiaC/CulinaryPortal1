@@ -99,9 +99,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
-        [Authorize]
-        [HttpPut(Name = "UpdateRecipe")]
-        public async Task<ActionResult> UpdateRecipe([FromBody] UpdateRecipeCommand updateRecipeCommand)
+        //[Authorize]
+        [HttpPut("{recipeId}")]
+        public async Task<ActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] UpdateRecipeCommand updateRecipeCommand)
         {
             try
             {

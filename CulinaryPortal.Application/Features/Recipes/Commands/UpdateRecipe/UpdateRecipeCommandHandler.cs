@@ -13,9 +13,9 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe
 {
     public class UpdateRecipeCommandHandler : IRequestHandler<UpdateRecipeCommand>
     {
-        private readonly IAsyncRepository<Recipe> _recipeRepository;
+        private readonly IRecipeRepository _recipeRepository;
         private readonly IMapper _mapper;
-        public UpdateRecipeCommandHandler(IMapper mapper, IAsyncRepository<Recipe> recipeRepository)
+        public UpdateRecipeCommandHandler(IMapper mapper, IRecipeRepository recipeRepository)
         {
             _mapper = mapper;
             _recipeRepository = recipeRepository;
@@ -23,17 +23,17 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe
 
         public async Task<Unit> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
         {
-            var objectToUpdate = await _recipeRepository.GetByIdAsync(request.Id);
+            var objectToUpdate = await _recipeRepository.GetRecipeWithDetailsAsync(request.Id);
 
-            if (objectToUpdate == null)
-            {
-                //TODO DODAC EXCEPTIONS
-                //throw new NotFoundException(nameof(Event), request.EventId);
-            }
-            //todo validacja?
-            var @event = _mapper.Map<Recipe>(request);
+            //if (objectToUpdate == null)
+            //{
+            //    //TODO DODAC EXCEPTIONS
+            //    //throw new NotFoundException(nameof(Event), request.EventId);
+            //}
+            ////todo validacja?
+            _mapper.Map(request, objectToUpdate, typeof(UpdateRecipeCommand), typeof(Recipe));
 
-            await _recipeRepository.UpdateAsync(@event);
+            await _recipeRepository.UpdateAsync(objectToUpdate);
 
             return Unit.Value;
         }

@@ -21,18 +21,19 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShopp
             _shoppingListRepository = shoppingListRepository;
         }
         public async Task<Unit> Handle(UpdateShoppingListCommand request, CancellationToken cancellationToken)
-        {//todo update nie działa
+        {  //todoczy przy updatacvh m,usze spr czy cos istnieje i rzucac wyjatek
             //var objectToUpdate = await _shoppingListRepository.GetByIdAsync(request.Id);
+            var objectToUpdate = await _shoppingListRepository.GetShoppingListWithDetailsAsync(request.Id);
 
             //if (objectToUpdate == null)
             //{
-                //TODO DODAC EXCEPTIONS
-                //throw new NotFoundException(nameof(Event), request.EventId);
+            //TODO DODAC EXCEPTIONS?
+            //throw new NotFoundException(nameof(Event), request.EventId);
             //}
             //TODO co z items? validacja?
-            var @event = _mapper.Map<ShoppingList>(request);
-            
-            await _shoppingListRepository.UpdateAsync(@event);
+            _mapper.Map(request, objectToUpdate, typeof(UpdateShoppingListCommand), typeof(ShoppingList));
+
+            await _shoppingListRepository.UpdateAsync(objectToUpdate);
 
             return Unit.Value;
         }

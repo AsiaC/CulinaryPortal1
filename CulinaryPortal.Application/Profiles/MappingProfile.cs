@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using CulinaryPortal.Application.Features.Cookbooks.Commands.CreateCookbook;
+using CulinaryPortal.Application.Features.Cookbooks.Commands.UpdateCookbook;
 using CulinaryPortal.Application.Features.Rates.Commands.CreateRate;
+using CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe;
+using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
 using CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShoppingList;
 using CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShoppingList;
+using CulinaryPortal.Application.Features.Users.Commands.UpdateUser;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using System;
@@ -25,9 +29,11 @@ namespace CulinaryPortal.Application.Profiles
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
             CreateMap<CookbookDto, Cookbook>();
             CreateMap<CreateCookbookCommand, Cookbook>().ReverseMap();
+            CreateMap<UpdateCookbookCommand, Cookbook>().ReverseMap();
 
             CreateMap<CookbookRecipeDto, CookbookRecipe>().ReverseMap();
-            
+            //CreateMap<UpdateCookbookCommand, CookbookRecipe>().ReverseMap();
+
             CreateMap<IngredientDto, Ingredient>().ReverseMap();
 
             CreateMap<Instruction, InstructionDto>().ReverseMap();
@@ -68,6 +74,9 @@ namespace CulinaryPortal.Application.Profiles
                dest => dest.Category,
                opt => opt.MapFrom(src => src.Category));
 
+            CreateMap<CreateRecipeCommand, Recipe>().ReverseMap();
+            CreateMap<UpdateRecipeCommand, Recipe>().ReverseMap();
+
             CreateMap<RecipeIngredientDto, RecipeIngredient>().ReverseMap();              
 
             CreateMap<ShoppingListDto, ShoppingList>()
@@ -86,6 +95,7 @@ namespace CulinaryPortal.Application.Profiles
             CreateMap<UpdateShoppingListCommand, ShoppingList>().ReverseMap();
 
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UpdateUserCommand, User>().ReverseMap();
         }
     }
 }

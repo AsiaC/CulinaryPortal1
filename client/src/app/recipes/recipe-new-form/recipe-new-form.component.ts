@@ -202,12 +202,14 @@ export class RecipeNewFormComponent implements OnInit {
   }
 
   private updateRecipe() {
+    debugger;
     this.recipesService.updateRecipe(this.id, this.addRecipeForm.value).subscribe(response => {
+      debugger;
         //this.toastr.success('Profile updated successfully');
         this.recipe=this.addRecipeForm.value;
         this.isAddMode = false;
         this.addRecipeForm.reset(this.recipe);
-        window.location.reload();
+        //window.location.reload();
       }, error => {
           console.log(error);                      
       })    

@@ -25,15 +25,15 @@ namespace CulinaryPortal.Application.Features.Users.Commands.UpdateUser
         {
             var objectToUpdate = await _userRepository.GetByIdAsync(request.Id);
 
-            if (objectToUpdate == null)
-            {
+            //if (objectToUpdate == null)
+            //{
                 //TODO DODAC EXCEPTIONS
                 //throw new NotFoundException(nameof(Event), request.EventId);
-            }
+            //}
             //TODO co z items? validacja?
-            var @event = _mapper.Map<User>(request);
+            _mapper.Map(request, objectToUpdate, typeof(UpdateUserCommand), typeof(User));
 
-            await _userRepository.UpdateAsync(@event);
+            await _userRepository.UpdateAsync(objectToUpdate);
 
             return Unit.Value;
         }

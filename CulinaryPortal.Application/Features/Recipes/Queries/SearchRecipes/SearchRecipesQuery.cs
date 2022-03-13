@@ -15,6 +15,6 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.SearchRecipes
         public int? DifficultyLevelId { get; set; }
         public int? PreparationTimeId { get; set; }
         public int? UserId { get; set; }
-        public int? Top { get; set; } //todo czy potrzebuje?
+        public int? Top { get; set; }
     }
 }

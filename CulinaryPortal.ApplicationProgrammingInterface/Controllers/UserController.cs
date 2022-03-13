@@ -178,11 +178,11 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         // GET: api/users/3/recipes/search
         [HttpGet("{userId}/recipes/search", Name = "SearchUserRecipes")]
-        public async Task<ActionResult<List<RecipeDto>>> SearchUserRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)
+        public async Task<ActionResult<List<RecipeDto>>> SearchUserRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {
             try
             {
-                var searchUserRecipesQuery = new SearchUserRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId, Top = top };
+                var searchUserRecipesQuery = new SearchUserRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
                 var dtos = await _mediator.Send(searchUserRecipesQuery);
                 return Ok(dtos);
             }
@@ -194,11 +194,11 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         // GET: api/users/3/cookbook/search
         [HttpGet("{userId}/cookbook/search", Name = "SearchUserCookbookRecipes")]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserCookbookRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)
+        public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserCookbookRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {
             try
             {
-                var searchUserCookbookRecipesQuery = new SearchUserCookbookRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId, Top = top };
+                var searchUserCookbookRecipesQuery = new SearchUserCookbookRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
                 var dtos = await _mediator.Send(searchUserCookbookRecipesQuery);
                 return Ok(dtos);
             }

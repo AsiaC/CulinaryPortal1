@@ -39,7 +39,7 @@ import { ShoppingList } from '../_models/shoppingList';
         catchError(this.handleError<ShoppingList>('deleteShoppingList')));
     }
 
-    private handleError<T> (operation = 'operation',result?:T){ debugger;
+    private handleError<T> (operation = 'operation',result?:T){
       return (error: any): Observable<T> => {
           console.log(operation + ' has error.');
           console.log(error);

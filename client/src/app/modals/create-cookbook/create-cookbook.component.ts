@@ -33,12 +33,14 @@ export class CreateCookbookComponent implements OnInit {
     recipes.push(this.currentRecipe);
     //var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: recipes};
     var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};
-    
+    debugger;
     this.cookbookService.addCookbook(cookbookToCreate)
-    .subscribe(response => {      
+    .subscribe(response => {     
+      debugger; 
       this.currentRecipe.cookbookId = response.id;      
       this.cookbookService.updateCookbook(this.currentRecipe.cookbookId, this.currentRecipe) //TODO check if IsAdded: true is needed or not 
       .subscribe(response => {
+        debugger;
         this.toastr.success('Cookbook created and recipe added successfully!');
         })
     }, error => {      

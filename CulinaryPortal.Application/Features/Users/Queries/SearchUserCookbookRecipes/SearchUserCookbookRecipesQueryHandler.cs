@@ -23,7 +23,7 @@ namespace CulinaryPortal.Application.Features.Users.Queries.SearchUserCookbookRe
 
         public async Task<List<RecipeDto>> Handle(SearchUserCookbookRecipesQuery request, CancellationToken cancellationToken)
         {
-            var list = await _userRepository.SearchCokbookUserRecipesAsync(request.Name, request.CategoryId, request.DifficultyLevelId, request.PreparationTimeId, request.UserId, request.Top);
+            var list = await _userRepository.SearchCokbookUserRecipesAsync(request.Name, request.CategoryId, request.DifficultyLevelId, request.PreparationTimeId, request.UserId);
             return _mapper.Map<List<RecipeDto>>(list);
         }
     }

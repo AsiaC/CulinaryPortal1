@@ -48,10 +48,8 @@ export class RecipeDetailComponent implements OnInit {
     this.loadRecipe();   
   }
 
-  loadRecipe(){
-    debugger;
-    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{
-      debugger;
+  loadRecipe(){  
+    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{    
       this.currentRecipe = recipe; 
       if(this.user !== undefined){
         this.loadShoppingListsIds();  

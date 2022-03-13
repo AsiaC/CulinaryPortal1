@@ -25,7 +25,7 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('getCookbook cookbookId = ' + cookbookId)));
     }
 
-    addCookbook(cookbook: Cookbook): Observable<Cookbook> {               
+    addCookbook(cookbook: Cookbook): Observable<Cookbook> {       debugger;        
         return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(
             catchError(this.handleError<Cookbook>('addCookbook')));
     }
@@ -40,7 +40,7 @@ export class CookbookService {
             catchError(this.handleError<any>('updateCookbook')));  
     }
 
-    private handleError<T> (operation = 'operation',result?:T){ debugger;
+    private handleError<T> (operation = 'operation',result?:T){
         return (error: any): Observable<T> => {
             console.log(operation + ' has error.');
             console.log(error);

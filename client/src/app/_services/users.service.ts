@@ -60,15 +60,15 @@ export class UsersService {
       catchError(this.handleError<ShoppingList[]>('getUserShoppingLists userId = ' + userId, [])));
   }
 
-  searchUserRecipes(model: any, user: number){debugger;
+  searchUserRecipes(model: any, user: number){
     var httpSearchUrl = '/recipes/search';
-    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
+    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
       httpSearchUrl = httpSearchUrl + '?';
    
       if(model.name !== null){
         httpSearchUrl = httpSearchUrl + 'name=' + model.name;
       }
-      if(model.categoryId !== null){
+      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
         if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
         }
@@ -96,15 +96,15 @@ export class UsersService {
     return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl)
   }
 
-  searchUserCookbookRecipes(model: any, user:number){debugger;
+  searchUserCookbookRecipes(model: any, user:number){
     var httpSearchUrl = '/cookbook/search';
-    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
+    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
       httpSearchUrl = httpSearchUrl + '?';
    
       if(model.name !== null){
         httpSearchUrl = httpSearchUrl + 'name=' + model.name;
       }
-      if(model.categoryId !== null){
+      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
         if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
         }
@@ -141,7 +141,7 @@ export class UsersService {
   //   return this.http.get<number>(this.baseUrl  + 'users/' + this.user.id + '/registeredUsers') //to moze nie potrzebuje w kontrolerach tego user skoro tu mam
   // }
 
-  private handleError<T> (operation = 'operation',result?:T){ debugger;
+  private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
         console.log(error);  

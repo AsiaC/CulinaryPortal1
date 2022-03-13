@@ -21,14 +21,14 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShopp
             _shoppingListRepository = shoppingListRepository;
         }
         public async Task<Unit> Handle(UpdateShoppingListCommand request, CancellationToken cancellationToken)
-        {
-            var objectToUpdate = await _shoppingListRepository.GetByIdAsync(request.Id);
+        {//todo update nie działa
+            //var objectToUpdate = await _shoppingListRepository.GetByIdAsync(request.Id);
 
-            if (objectToUpdate == null)
-            {
+            //if (objectToUpdate == null)
+            //{
                 //TODO DODAC EXCEPTIONS
                 //throw new NotFoundException(nameof(Event), request.EventId);
-            }
+            //}
             //TODO co z items? validacja?
             var @event = _mapper.Map<ShoppingList>(request);
             

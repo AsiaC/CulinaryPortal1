@@ -25,7 +25,7 @@ export class RecipesService {
       catchError(this.handleError<Recipe[]>('getRecipes', [])));
   }
 
-  getRecipe(recipeId: number): Observable<Recipe> {debugger;
+  getRecipe(recipeId: number): Observable<Recipe> {
     return this.http.get<Recipe>(this.baseUrl + 'recipes/' + recipeId).pipe(
       catchError(this.handleError<Recipe>('getRecipe recipeId = '+ recipeId)));
   }
@@ -60,15 +60,15 @@ export class RecipesService {
       catchError(this.handleError<Measure[]>('getMeasures', [])));
   }
 
-  searchRecipes(model: any){ debugger;
+  searchRecipes(model: any){
     var httpSearchUrl = 'recipes/search';
-    if(model.name !== null || model.categoryId !== null || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== null){
+    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== null){
       httpSearchUrl = httpSearchUrl + '?';
    
       if(model.name !== null){
         httpSearchUrl = httpSearchUrl + 'name=' + model.name;
       }
-      if(model.categoryId !== null){
+      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
         if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
         }
@@ -140,7 +140,7 @@ export class RecipesService {
      catchError(this.handleError<Ingredient>('addIngredient')));
   }
 
-  private handleError<T> (operation = 'operation',result?:T){ debugger;
+  private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
         console.log(error);

@@ -14,8 +14,6 @@ namespace CulinaryPortal.Application.Features.Users.Queries.SearchUserCookbookRe
         public int? CategoryId { get; set; }
         public int? DifficultyLevelId { get; set; }
         public int? PreparationTimeId { get; set; }
-        public int? UserId { get; set; }
-        public int? Top { get; set; } //todo czy potrzebuje?
-
+        public int? UserId { get; set; }    
     }
 }

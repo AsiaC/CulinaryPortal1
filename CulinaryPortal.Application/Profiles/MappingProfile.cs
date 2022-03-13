@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using CulinaryPortal.Application.Features.Cookbooks.Commands.CreateCookbook;
+using CulinaryPortal.Application.Features.Rates.Commands.CreateRate;
 using CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShoppingList;
+using CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShoppingList;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using System;
@@ -14,23 +17,20 @@ namespace CulinaryPortal.Application.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<CategoryDto, Category>();
-            CreateMap<Category, CategoryDto>();
+            CreateMap<CategoryDto, Category>().ReverseMap();
 
             CreateMap<Cookbook, CookbookDto>()
                 .ForMember(
                 dest => dest.UserName,
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
             CreateMap<CookbookDto, Cookbook>();
+            CreateMap<CreateCookbookCommand, Cookbook>().ReverseMap();
 
-            CreateMap<CookbookRecipeDto, CookbookRecipe>();
-            CreateMap<CookbookRecipe, CookbookRecipeDto>();
+            CreateMap<CookbookRecipeDto, CookbookRecipe>().ReverseMap();
+            
+            CreateMap<IngredientDto, Ingredient>().ReverseMap();
 
-            CreateMap<IngredientDto, Ingredient>();
-            CreateMap<Ingredient, IngredientDto>();
-
-            CreateMap<Instruction, InstructionDto>();
-            CreateMap<InstructionDto, Instruction>();
+            CreateMap<Instruction, InstructionDto>().ReverseMap();
 
             CreateMap<ListItemDto, ListItem>()
                .ForMember(
@@ -41,13 +41,12 @@ namespace CulinaryPortal.Application.Profiles
                 dest => dest.ItemName,
                 opt => opt.MapFrom(src => src.Name));
 
-            CreateMap<MeasureDto, Measure>();
-            CreateMap<Measure, MeasureDto>();
+            CreateMap<MeasureDto, Measure>().ReverseMap();
 
             CreateMap<Photo, PhotoDto>();
 
-            CreateMap<RateDto, Rate>();
-            CreateMap<Rate, RateDto>();
+            CreateMap<RateDto, Rate>().ReverseMap();
+            CreateMap<CreateRateCommand, Rate>().ReverseMap();            
 
             CreateMap<Recipe, RecipeDto>()
                 .ForMember(
@@ -69,8 +68,7 @@ namespace CulinaryPortal.Application.Profiles
                dest => dest.Category,
                opt => opt.MapFrom(src => src.Category));
 
-            CreateMap<RecipeIngredientDto, RecipeIngredient>();
-            CreateMap<RecipeIngredient, RecipeIngredientDto>();                                
+            CreateMap<RecipeIngredientDto, RecipeIngredient>().ReverseMap();              
 
             CreateMap<ShoppingListDto, ShoppingList>()
                 .ForMember(
@@ -85,9 +83,9 @@ namespace CulinaryPortal.Application.Profiles
             //.ForMember(
             //dest => dest.Items,
             //opt => opt.MapFrom(src => src.Items));
+            CreateMap<UpdateShoppingListCommand, ShoppingList>().ReverseMap();
 
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();    
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

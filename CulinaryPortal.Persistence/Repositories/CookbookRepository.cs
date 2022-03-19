@@ -39,8 +39,12 @@ namespace CulinaryPortal.Persistence.Repositories
         }
         public async Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook)
         {
-            cookbook.CookbookRecipes.Remove(cookbookRecipe);//todo nie dziaa
-            await _dbContext.SaveChangesAsync();
+            var itemToRemove = cookbook.CookbookRecipes.FirstOrDefault(c=>c.CookbookId == cookbookRecipe.CookbookId && c.RecipeId == cookbookRecipe.RecipeId);
+            if (itemToRemove != null)
+            {
+                cookbook.CookbookRecipes.Remove(itemToRemove);
+                await _dbContext.SaveChangesAsync();
+            }            
         }
 
         public async Task<Cookbook> GetCookbookWithDetailsAsync(int cookbookId)

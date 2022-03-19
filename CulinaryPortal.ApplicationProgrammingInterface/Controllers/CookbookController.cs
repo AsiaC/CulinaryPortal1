@@ -67,7 +67,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var objectToReturn = await _mediator.Send(createCookbookCommand);
-                return CreatedAtAction(nameof(GetCookbook), objectToReturn);
+                return Ok(objectToReturn);
             }
             catch (Exception e)
             {

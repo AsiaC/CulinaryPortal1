@@ -64,7 +64,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var objectToReturn = await _mediator.Send(createRateCommand);
-                return CreatedAtAction(nameof(GetRate), objectToReturn);
+                return Ok(objectToReturn);
             }
             catch (Exception e)
             {

@@ -77,20 +77,16 @@ export class UserCookbookComponent implements OnInit {
     })
   }
 
-  removeFromCookbook(recipeId){   
-    //this.cookbookRecipe.recipeId = recipeId;
-    //this.cookbookRecipe.userId = this.user.id;
-    //TODO note ponizej chyba do usuniecia?
+  removeFromCookbook(recipeId){
     this.cookbookRecipe = {recipeId: recipeId, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: null, isRecipeAdded: false}
     
-    //todo uncomment
-    // this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    // .subscribe(response => {debugger;
-    //   this.toastr.success('Recipe removed successfully!');
-    //   this.loadUserCookbook();
-    // }, error => {
-    //     console.log(error);
-    // })
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
+    .subscribe(response => {debugger;
+      this.toastr.success('Recipe removed successfully!');
+      this.loadUserCookbook();
+    }, error => {
+        console.log(error);
+    })
   }
 
   deleteCookbook(cookbookId: number){

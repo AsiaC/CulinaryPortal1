@@ -25,29 +25,25 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('getCookbook cookbookId = ' + cookbookId)));
     }
 
-    addCookbook(cookbook: Cookbook): Observable<Cookbook> {               
+    addCookbook(cookbook: Cookbook): Observable<Cookbook> {
         return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(
-            catchError(this.handleError<Cookbook>('addCookbook')));
+            catchError(this.handleError<Cookbook>('addCookbook')));        
     }
 
     deleteCookbook(cookbookId: number): Observable<Cookbook> {
         return this.http.delete<Cookbook>(this.baseUrl + 'cookbooks/'+ cookbookId, this.httpOptions).pipe(
             catchError(this.handleError<Cookbook>('deleteCookbook')));
     }
-
-    // updateCookbook(cookbookId: number, cookbook: Cookbook): Observable<any>{debugger;
-    //     return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
-    //         catchError(this.handleError<any>('updateCookbook')));  
-    // }
-    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{debugger;
+    
+    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{debugger; //todo czy typ zwracany przy update jest ok?
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
             catchError(this.handleError<any>('updateCookbook')));  
     }
 
     private handleError<T> (operation = 'operation',result?:T){
         return (error: any): Observable<T> => {
-            console.log(operation + ' has error.');
-            console.log(error);
+            console.log(operation + ' has error.'); //todo do usuniecia
+            console.log(error); //todo do usuniecia
             return of(result as T);
         }
     }

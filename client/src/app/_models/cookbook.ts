@@ -1,11 +1,10 @@
 import { CookbookRecipe } from "./cookbookRecipe";
 import { Recipe } from "./recipe";
 
-export interface Cookbook {
-  isRecipeAdded: boolean | null;
+export interface Cookbook {  
   id: number | null;
   name: string;
   userId: number; //TODO czy tego potrzebuje
-  userName: string;
+  userName: string | null; //TODO CZY JA TEGO POTRZEBUJE?
   cookbookRecipes: CookbookRecipe[];
 }

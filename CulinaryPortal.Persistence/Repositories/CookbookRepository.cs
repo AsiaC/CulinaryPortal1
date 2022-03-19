@@ -39,7 +39,7 @@ namespace CulinaryPortal.Persistence.Repositories
         }
         public async Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook)
         {
-            cookbook.CookbookRecipes.Remove(cookbookRecipe);
+            cookbook.CookbookRecipes.Remove(cookbookRecipe);//todo nie dziaa
             await _dbContext.SaveChangesAsync();
         }
 

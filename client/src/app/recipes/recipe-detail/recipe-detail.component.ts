@@ -105,18 +105,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addToCookbook(){ 
-    //console.log(this.user);
-    //console.log(this.userCookbook);
-
-    // if(this.userCookbook === undefined){
-    //   this.cookbookRecipe.cookbookId = 0;
-    // }else{
-    //   this.cookbookRecipe.cookbookId = this.userCookbook.id;
-    // }
     if(this.userCookbook === undefined){
-        //modal + utowrz nową + 1 powiazanie
-        //this.cookbookRecipe.recipeId = this.currentRecipe.id;
-        //this.cookbookRecipe.userId = this.user.id;  
         this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: 0, recipe: this.currentRecipe, isRecipeAdded: true}
         const initialState = {     
           title: 'Create cookbook and add indicated recipe', 
@@ -129,13 +118,8 @@ export class RecipeDetailComponent implements OnInit {
         this.canAddToCookbook = false;
     }else{
       debugger;
-    //this.cookbookRecipe.recipeId = this.currentRecipe.id;
-    //this.cookbookRecipe.userId = this.user.id;    
-    //this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, note: null, recipe: this.currentRecipe, isRecipeAdded: true}
-    //todo uncomment  
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: true}
     this.userCookbook.cookbookRecipes.push(this.cookbookRecipe);
-    //this.cookbookService.updateCookbook(this.userCookbook.id, this.userCookbook)
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
       .subscribe(response =>{debugger;
         //todo to zdebuguj i popraw zeby wiedziec czy sukces czy nie
@@ -148,18 +132,15 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   removeFromCookbook(){
-    //this.cookbookRecipe.recipeId = this.currentRecipe.id;
-    //this.cookbookRecipe.userId = this.user.id;
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: false}
     
-    //todo uncomment
-    // this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    // .subscribe(response => {debugger;
-    //   this.toastr.success('Recipe removed successfully');
-    //   this.canAddToCookbook = true;
-    // }, error => {
-    //     console.log(error);
-    // })
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
+    .subscribe(response => {debugger;//todo to zdebuguj i popraw zeby wiedziec czy sukces czy nie, a moze cos zwracaj?
+      this.toastr.success('Recipe removed successfully');
+      this.canAddToCookbook = true;
+    }, error => {
+        console.log(error);
+    })
 
   }
 

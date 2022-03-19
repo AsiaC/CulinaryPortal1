@@ -39,6 +39,7 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Commands.UpdateCookbook
             }
             else //remove recipe from cookbook
             {
+                cookbookRecipe.Cookbook = cookbook;
                 await _cookbookRepository.RemoveRecipeFromCookbookAsync(cookbookRecipe, cookbook);
             }
             return Unit.Value;

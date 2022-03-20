@@ -4,6 +4,8 @@ import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,25 +19,22 @@ export class AccountService {
 
   login(model: any){ 
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      map((user: User) => {   
-        //const user=response;     
+      map((user: User) => {  
         if (user){
-          this.setCurrentUser(user);
-          //this.currentUserSource.next(user);          
+          this.setCurrentUser(user);                   
         }
       })
-    );
+    ).pipe(catchError(this.handleError<User>('login')));
   }
 
   register(model: any){
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
       map((user: User) => {
         if(user){
-          this.setCurrentUser(user);
-          //this.currentUserSource.next(user);
+          this.setCurrentUser(user);          
         }
       })
-    )
+    ).pipe(catchError(this.handleError<User>('register')));
   }
 
   setCurrentUser(user: User){   
@@ -53,5 +52,13 @@ export class AccountService {
 
   getDecodedToken(token) {
     return JSON.parse(atob(token.split('.')[1]));
+  }
+
+  private handleError<T> (operation = 'operation',result?:T){
+    return (error: any): Observable<T> => {
+        console.log(operation + ' has error.');
+        console.log(error);
+        return of(result as T);
+    }
   }
 }

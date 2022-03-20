@@ -263,26 +263,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
-        }
-
-        [Authorize]
-        // PUT: api/recipes/3/photos/5
-        [HttpPut("{recipeId}/photos/{photoId}")]
-        public async Task<ActionResult> UpdatePhoto([FromRoute] int photoId, [FromBody] UpdatePhotoCommand updatePhotoCommand)
-        {
-            if (photoId != updatePhotoCommand.Id)
-            {
-                return BadRequest();
-            }
-            try
-            {
-                await _mediator.Send(updatePhotoCommand);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-        }
+        }       
     }
 }

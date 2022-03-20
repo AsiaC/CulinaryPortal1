@@ -93,7 +93,8 @@ export class UsersService {
         httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
       }
     }
-    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl)
+    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl).pipe(
+      catchError(this.handleError<Recipe[]>('searchUserRecipes', [])));
   }
 
   searchUserCookbookRecipes(model: any, user:number){
@@ -129,17 +130,14 @@ export class UsersService {
         httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
       }      
     }
-    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl)
+    return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl).pipe(
+      catchError(this.handleError<Recipe[]>('searchUserCookbookRecipes', [])));
   }
 
   getUserRecipeRate(userId: number, recipeId: number): Observable<Rate>{
     return this.http.get<Rate>(this.baseUrl  + 'users/' + userId + '/recipes/' + recipeId ).pipe(
       catchError(this.handleError<Rate>('getUserRecipeRate userId = ' + userId + ' recipeId = ' + recipeId)));
-  } 
-
-  // getNumberOfUsers(){
-  //   return this.http.get<number>(this.baseUrl  + 'users/' + this.user.id + '/registeredUsers') //to moze nie potrzebuje w kontrolerach tego user skoro tu mam
-  // }
+  }  
 
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {

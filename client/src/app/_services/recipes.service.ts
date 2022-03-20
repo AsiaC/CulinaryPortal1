@@ -99,11 +99,13 @@ export class RecipesService {
         httpSearchUrl = httpSearchUrl + 'top=' + model.top;
       }
     }
-    return this.http.get<Recipe[]>(this.baseUrl + httpSearchUrl);
+    return this.http.get<Recipe[]>(this.baseUrl + httpSearchUrl).pipe(
+      catchError(this.handleError<Recipe[]>('searchRecipes', [])));
   }
 
   addPhoto(recipeId: number, upload: any){
-    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload) 
+    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload).pipe(
+      catchError(this.handleError<Photo>('addPhoto')));
   }
 
   getRecipePhotos(recipeId: number): Observable<Photo[]>{
@@ -116,13 +118,9 @@ export class RecipesService {
       catchError(this.handleError<Photo>('deletePhoto')));
   }
 
-  updatePhoto(photoId: any, model: any){
-    return this.http.put(this.baseUrl + 'photos/' + photoId, model).pipe(
-      map((photo: Photo) => photo))   
-  }
-
   updateMainRecipePhoto(photoId: number, recipeId: number){
-    return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId )   
+    return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId).pipe(
+      catchError(this.handleError<Photo>('updateMainRecipePhoto')));     
   }  
 
   addRate(rate: Rate): Observable<Rate> {

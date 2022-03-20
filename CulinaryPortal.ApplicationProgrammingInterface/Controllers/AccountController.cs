@@ -24,13 +24,27 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto request)
         {
-            return Ok(await _authenticationService.RegisterAsync(request));
+            try
+            {
+                return Ok(await _authenticationService.RegisterAsync(request));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto request)
         {
-            return Ok(await _authenticationService.AuthenticateAsync(request));
-        }       
+            try
+            {
+                return Ok(await _authenticationService.AuthenticateAsync(request));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e);
+            }
+        }
     }
 }

@@ -20,11 +20,6 @@ export class CookbookService {
             catchError(this.handleError<Cookbook[]>('getCookbooks', [])));
     }
 
-    getCookbook(cookbookId: number): Observable<Cookbook> { //to jest nie uzywane a powinno byc?
-        return this.http.get<Cookbook>(this.baseUrl + 'cookbooks/' + cookbookId).pipe(
-            catchError(this.handleError<Cookbook>('getCookbook cookbookId = ' + cookbookId)));
-    }
-
     addCookbook(cookbook: Cookbook): Observable<Cookbook> {
         return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(
             catchError(this.handleError<Cookbook>('addCookbook')));        

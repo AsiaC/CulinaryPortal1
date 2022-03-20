@@ -100,7 +100,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [Authorize]
-        //[AllowAnonymous]
         [HttpPut("{recipeId}")]
         public async Task<ActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] UpdateRecipeCommand updateRecipeCommand)
         {
@@ -238,8 +237,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                         };
                         await _mediator.Send(updatePhotoCommand);                        
                     }
-                }
-                
+                }                
                 return Ok();
             }
             catch (Exception e)

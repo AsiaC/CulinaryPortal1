@@ -33,7 +33,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface
                     //await context.Database.MigrateAsync();
                     await Seed.SeedInitialDataAsync(userManager, roleManager, context);                    
                 }
-                catch (Exception ex)
+                catch (Exception ex) //TODO WYCZYSC
                 {
                     //var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     //logger.LogError(ex, "An error occurred while migrating the database.");

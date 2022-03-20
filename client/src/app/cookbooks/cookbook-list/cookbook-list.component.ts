@@ -33,7 +33,6 @@ export class CookbookListComponent implements OnInit {
   deleteCookbook(cookbookId: number){
     this.cookbookService.deleteCookbook(cookbookId)
     .subscribe(response => {
-      //console.log(response);
       this.toastr.success('Cookbook removed successfully!');  
       this.loadCookbooks(); 
     }, error => {

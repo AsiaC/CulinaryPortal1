@@ -42,25 +42,6 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
-        [HttpGet("{cookbookId}", Name = "GetCookbook")]
-        public async Task<ActionResult<CookbookDto>> GetCookbook([FromRoute] int cookbookId)
-        {
-            try
-            {
-                GetCookbookDetailQuery getCookbookDetailQuery = new GetCookbookDetailQuery() { Id = cookbookId };
-                var cookbook = await _mediator.Send(getCookbookDetailQuery);
-                if (cookbook == null)
-                {
-                    return NotFound();
-                }
-                return Ok(cookbook);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
-            }
-        }
-
         [HttpPost]
         public async Task<ActionResult<CookbookDto>> CreateCookbook([FromBody] CreateCookbookCommand createCookbookCommand)
         {

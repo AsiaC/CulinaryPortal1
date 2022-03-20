@@ -27,6 +27,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                
         [HttpGet]
         public async Task<ActionResult<List<RateDto>>> GetRates()
+        
         {
             try
             {

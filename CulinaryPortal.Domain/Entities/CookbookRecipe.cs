@@ -9,7 +9,7 @@ namespace CulinaryPortal.Domain.Entities
     public class CookbookRecipe
     {
         public int CookbookId { get; set; }
-        //public Cookbook Cookbook { get; set; }
+        //public Cookbook Cookbook { get; set; } //TODO do sprawdzenia czy usunac czy nie
 
         public int RecipeId { get; set; }
         public Recipe Recipe { get; set; }

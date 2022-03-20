@@ -81,7 +81,7 @@ export class UserCookbookComponent implements OnInit {
     this.cookbookRecipe = {recipeId: recipeId, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: null, isRecipeAdded: false}
     
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    .subscribe(response => {debugger;
+    .subscribe(response => {
       this.toastr.success('Recipe removed successfully!');
       this.loadUserCookbook();
     }, error => {

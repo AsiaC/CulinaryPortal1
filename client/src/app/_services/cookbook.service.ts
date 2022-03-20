@@ -35,7 +35,7 @@ export class CookbookService {
             catchError(this.handleError<Cookbook>('deleteCookbook')));
     }
     
-    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{debugger; //todo czy typ zwracany przy update jest ok?
+    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{ //todo czy typ zwracany przy update jest ok?
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
             catchError(this.handleError<any>('updateCookbook')));  
     }

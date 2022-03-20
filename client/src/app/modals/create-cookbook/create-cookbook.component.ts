@@ -38,12 +38,12 @@ export class CreateCookbookComponent implements OnInit {
     this.cookbookService.addCookbook(cookbookToCreate)
     .subscribe(userCookbook => {
       this.userCookbook = userCookbook;          
-       debugger;
-      this.currentRecipe.cookbookId = userCookbook.id;     //to do tu jest problem
-      debugger;
+       
+      this.currentRecipe.cookbookId = userCookbook.id;     
+      
       this.cookbookService.updateCookbook(userCookbook.id, this.currentRecipe)
-      .subscribe(response => { //topdo spr response / rresponse == null bo zwracam OK() morze to jakoś inaczej trzeba rozwiazac?
-        debugger;
+      .subscribe(response => { //todo spr response / response == null bo zwracam OK() morze to jakoś inaczej trzeba rozwiazac?
+        
         this.toastr.success('Cookbook created and recipe added successfully!');
         })
     }, error => {      

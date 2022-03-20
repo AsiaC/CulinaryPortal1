@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CulinaryPortal.Application.Features.Cookbooks.Commands.CreateCookbook;
 using CulinaryPortal.Application.Features.Cookbooks.Commands.UpdateCookbook;
+using CulinaryPortal.Application.Features.Ingredients.Commands.CreateIngredient;
 using CulinaryPortal.Application.Features.Rates.Commands.CreateRate;
 using CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
@@ -42,6 +43,7 @@ namespace CulinaryPortal.Application.Profiles
             CreateMap<UpdateCookbookCommand, CookbookRecipe>().ReverseMap();
 
             CreateMap<IngredientDto, Ingredient>().ReverseMap();
+            CreateMap<CreateIngredientCommand, Ingredient>().ReverseMap();
 
             CreateMap<Instruction, InstructionDto>().ReverseMap();
 

@@ -19,7 +19,7 @@ export class ShopingListListComponent implements OnInit {
   }
 
   loadShoppingLists(){
-    this.shoppingListService.getShoppingLists().subscribe(shoppingLists=>{ debugger;
+    this.shoppingListService.getShoppingLists().subscribe(shoppingLists=>{
       this.shoppingLists = shoppingLists;
     }, error => {
       if(error.status === 401){

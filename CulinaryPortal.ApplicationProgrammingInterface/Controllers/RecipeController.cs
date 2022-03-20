@@ -99,7 +99,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
-        //[Authorize]
+        [Authorize]
+        //[AllowAnonymous]
         [HttpPut("{recipeId}")]
         public async Task<ActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] UpdateRecipeCommand updateRecipeCommand)
         {
@@ -263,8 +264,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [Authorize]
-        // PUT: api/photos/5
-        [HttpPut("{photoId}")]
+        // PUT: api/recipes/3/photos/5
+        [HttpPut("{recipeId}/photos/{photoId}")]
         public async Task<ActionResult> UpdatePhoto([FromRoute] int photoId, [FromBody] UpdatePhotoCommand updatePhotoCommand)
         {
             if (photoId != updatePhotoCommand.Id)

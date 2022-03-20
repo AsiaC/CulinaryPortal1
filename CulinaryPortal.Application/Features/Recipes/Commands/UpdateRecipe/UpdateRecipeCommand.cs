@@ -15,18 +15,18 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe
 
         public string Name { get; set; }
 
-        public decimal TotalScore { get; set; }
-        public int RateValues { get; set; }
-        public int CountRates { get; set; }
+        //public decimal TotalScore { get; set; }
+        //public int RateValues { get; set; }
+        //public int CountRates { get; set; }
 
         public string Description { get; set; }
 
-        public int? UserId { get; set; }
+        //public int? UserId { get; set; }
         //public User User { get; set; }
-        public string Author { get; set; }
+        //public string Author { get; set; }
         public int CategoryId { get; set; }
-        public string Category { get; set; }
-        public int CountCookbooks { get; set; }
+        //public string Category { get; set; }
+        //public int CountCookbooks { get; set; }
 
 
         public DifficultyLevel DifficultyLevel { get; set; }
@@ -42,6 +42,6 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe
 
         public IList<RecipeIngredientDto> RecipeIngredients { get; set; }
 
-        public IList<RateDto> Rates { get; set; }
+        //public IList<RateDto> Rates { get; set; }
     }
 }

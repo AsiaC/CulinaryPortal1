@@ -219,18 +219,20 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 }
                 var updateMainPhotoCommand = new UpdatePhotoCommand()
                 {
+                    Id = newMainPhoto.Id,
                     ContentPhoto = newMainPhoto.ContentPhoto,
                     IsMain = true
                 };                
                 await _mediator.Send(updateMainPhotoCommand);
 
-                var otherPhotos = allRecipePhotos.Where(p => p.Id != photoId);
+                var otherPhotos = allRecipePhotos.Where(p => p.Id != photoId && p.IsMain == true);
                 if (otherPhotos.Any())
                 {
                     foreach (var otherPhoto in otherPhotos)
                     {
                         var updatePhotoCommand = new UpdatePhotoCommand()
                         {
+                            Id = otherPhoto.Id,
                             ContentPhoto = otherPhoto.ContentPhoto,
                             IsMain = false
                         };

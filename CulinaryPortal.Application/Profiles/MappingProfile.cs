@@ -2,6 +2,8 @@
 using CulinaryPortal.Application.Features.Cookbooks.Commands.CreateCookbook;
 using CulinaryPortal.Application.Features.Cookbooks.Commands.UpdateCookbook;
 using CulinaryPortal.Application.Features.Ingredients.Commands.CreateIngredient;
+using CulinaryPortal.Application.Features.Photos.Commands.CreatePhoto;
+using CulinaryPortal.Application.Features.Photos.Commands.UpdatePhoto;
 using CulinaryPortal.Application.Features.Rates.Commands.CreateRate;
 using CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
@@ -58,11 +60,13 @@ namespace CulinaryPortal.Application.Profiles
 
             CreateMap<MeasureDto, Measure>().ReverseMap();
 
-            CreateMap<Photo, PhotoDto>();
+            CreateMap<Photo, PhotoDto>().ReverseMap();
+            CreateMap<CreatePhotoCommand, Photo>().ReverseMap();
+            CreateMap<UpdatePhotoCommand, Photo>().ReverseMap();
 
             CreateMap<RateDto, Rate>().ReverseMap();
-            CreateMap<CreateRateCommand, Rate>().ReverseMap();            
-
+            CreateMap<CreateRateCommand, Rate>().ReverseMap();         
+           
             CreateMap<Recipe, RecipeDto>()
                 .ForMember(
                 dest => dest.Author,

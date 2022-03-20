@@ -56,26 +56,7 @@ export class RecipePhotoComponent implements OnInit {
       console.log(error);
     })
   }  
-
-  // editDescription(photo: Photo){
-  //   const initialState = {
-  //     title: 'Update photo description',
-  //     closeBtnName: 'Cancel',
-  //     submitBtnName: 'Confirm change',
-  //     photoData: photo
-  //   }
-  //   this.bsModalRef = this.modalService.show(EditPhotoDescriptionComponent, {initialState})
-  // }
-  // changeMainPhoto(){
-  //   const initialState = {
-  //     title: 'Change main photo',
-  //     closeBtnName: 'Cancel',
-  //     submitBtnName: 'Confirm',
-  //     list: this.recipePhotoShoppingLists,
-  //   }
-  //   this.bsModalRef = this.modalService.show(, {initialState})
-     
-  // }
+  
   setAsMainPhoto(photoId: number){
     this.recipeService.updateMainRecipePhoto(photoId, this.recipeId)
       .subscribe(response => {
@@ -87,7 +68,7 @@ export class RecipePhotoComponent implements OnInit {
   }
 
   deletePhoto(photoId: number){
-    this.recipeService.deletePhoto(photoId)
+    this.recipeService.deletePhoto(photoId, this.recipeId)
       .subscribe(response => {
         this.toastr.success('Photo removed successfully!');
         this.loadRecipePhotos(); //TODO NIE DZIAŁA? ALBO OBRAZ SIE NIE ODSWIEZA        

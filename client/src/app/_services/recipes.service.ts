@@ -111,8 +111,8 @@ export class RecipesService {
       catchError(this.handleError<Photo[]>('getRecipePhotos', [])));
   }
 
-  deletePhoto(photoId: number): Observable<Photo> {
-    return this.http.delete<Photo>(this.baseUrl + 'photos/' + photoId, this.httpOptions).pipe(
+  deletePhoto(photoId: number, recipeId: number): Observable<Photo> {
+    return this.http.delete<Photo>(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId, this.httpOptions).pipe(
       catchError(this.handleError<Photo>('deletePhoto')));
   }
 

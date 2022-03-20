@@ -24,15 +24,15 @@ namespace CulinaryPortal.Application.Features.Photos.Commands.UpdatePhoto
         {
             var objectToUpdate = await _photoRepository.GetByIdAsync(request.Id);
 
-            if (objectToUpdate == null)
-            {
+            //if (objectToUpdate == null)
+           // {
                 //TODO DODAC EXCEPTIONS
                 //throw new NotFoundException(nameof(Event), request.EventId);
-            }
+            //}
             //TODO co z items? validacja?
-            var @event = _mapper.Map<Photo>(request);
+            _mapper.Map(request,objectToUpdate,typeof(UpdatePhotoCommand),typeof(Photo));
 
-            await _photoRepository.UpdateAsync(@event);
+            await _photoRepository.UpdateAsync(objectToUpdate);
 
             return Unit.Value;
         }

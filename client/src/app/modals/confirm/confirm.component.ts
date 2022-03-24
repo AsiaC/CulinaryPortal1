@@ -47,7 +47,7 @@ export class ConfirmComponent implements OnInit {
         }    
         this.bsModalRef = this.modalService.show(InformComponent, {initialState});
       }, error => {
-        console.log("Error while deleting a recipe.");
+        console.log("Error during deleting the recipe.");
         console.log(error);
       })
     }    

@@ -30,13 +30,17 @@ export class ShopingListListComponent implements OnInit {
     })
   }
 
-  deleteShoppingList(shoppingListId) {    
+  deleteShoppingList(shoppingListId: number) {    
     this.shoppingListService.deleteShoppingList(shoppingListId).subscribe(response => {
-        this.toastr.success('Shopping list removed successfully!');
-        this.loadShoppingLists(); 
-      }, error => {
-         console.log(error);                      
-      })
-
+      this.loadShoppingLists(); 
+      if(response.status === 200 ){ 
+        this.toastr.success('Shopping list removed successfully!');  
+      } else {
+        this.toastr.error('Error! The shopping list has not been removed.');  
+      }
+    }, error => {
+      this.toastr.error('Error during deleting the shopping list.'); 
+      console.log(error);                      
+    })
   }
 }

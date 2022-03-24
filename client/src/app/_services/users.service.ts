@@ -17,7 +17,10 @@ import { Rate } from '../_models/rate';
 export class UsersService {
   user: User;
   baseUrl = environment.apiUrl;
-  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+  httpOptions = {    
+    headers: { 'Content-Type': 'application/json' },    
+    observe: 'response' as const    
+  } 
 
   constructor(private http: HttpClient, private accountService: AccountService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
@@ -35,14 +38,14 @@ export class UsersService {
       catchError(this.handleError<User>('getUser userId = ' + userId)));
   }
 
-  updateUser(user: User): Observable<any> {
+  updateUser(user: User): Observable<Response> {
     return this.http.put(this.baseUrl + 'users', user, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateUser')));
   }
 
-  deleteUser(userId: number): Observable<User>{
-    return this.http.delete<User>(this.baseUrl + 'users/'+ userId, this.httpOptions).pipe(
-      catchError(this.handleError<User>('deleteUser')));
+  deleteUser(userId: number): Observable<Response>{
+    return this.http.delete(this.baseUrl + 'users/'+ userId, this.httpOptions).pipe(
+      catchError(this.handleError<any>('deleteUser')));
   }
 
   getUserRecipes(userId: number): Observable<Recipe[]> {

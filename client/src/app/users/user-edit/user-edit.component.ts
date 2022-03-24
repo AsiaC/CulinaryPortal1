@@ -28,12 +28,18 @@ export class UserEditComponent implements OnInit {
       this.user = user;
     })
   }
-
+  
   updateUser(){
-    this.userService.updateUser(this.user).subscribe(() => {
-      this.toastr.success('User updated successfully!');
-      this.editForm.reset(this.user);      
+    this.userService.updateUser(this.user).subscribe(response => {
+      if(response.status === 200 ){ 
+        this.toastr.success('User updated successfully!');
+        this.editForm.reset(this.user);     
+      } else {
+        console.log('Error during updating the user.');  
+        this.editForm.reset(this.user);
+      }
     }, error => {
+      console.log('Error during updating the user.'); 
       console.log(error);
     });    
   }

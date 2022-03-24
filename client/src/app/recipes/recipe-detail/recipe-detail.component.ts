@@ -18,7 +18,6 @@ import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-c
 import { Rate } from 'src/app/_models/rate';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
-// import {  Router} from '@angular/router';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -39,7 +38,7 @@ export class RecipeDetailComponent implements OnInit {
   PreparationTimeEnum = PreparationTimeEnum;
   DifficultyLevelEnum = DifficultyLevelEnum;
 
-  //Delete recipe only when it is not in culinary book
+  //Delete recipe only when it is not in culinary book TODO NIE DZIAA?
   constructor(private recipeService: RecipesService, private route: ActivatedRoute, private accountService:AccountService, private cookbookService:CookbookService, private userService:UsersService, private toastr: ToastrService, private modalService: BsModalService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.user = user;});
   }
@@ -156,7 +155,8 @@ export class RecipeDetailComponent implements OnInit {
     this.bsModalRef.content.submitBtnName = 'Confirm adding ingredients';
   }
 
-  deleteRecipe(){
+  deleteRecipe(){//TODO! NIE MA SPRAWDZENIA CZY MOZNA USUNAC PRZEPIS - JESLI ISTNIEJE W CZYJEJ KSIAZCE TO POWINNAM MIEC MOZLIWO USUNIECIA CZY NIE?
+    //NA TEN MOMENT MOGÉ USUNAC PRZEPIS SWÓJ JHELI MAM TEZ GO W SWOJEJ KSIAZCE
     //check if recipe is inside in cookbook if yes user cannot delete recipe
     
     // if(this.recipeIsInsideCookbook === true){
@@ -197,8 +197,14 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.addRate(this.rateModel)
     .subscribe(response => {
       this.loadRecipe();
-      this.toastr.success('Recipe assessed successfully');
+      if(response.status === 200 ){         
+        this.toastr.success('Recipe assessed successfully');
+      } else {
+        this.toastr.error('Error! Rate cannot be added.');
+        console.log(response);
+      }  
     }, error => {
+      this.toastr.error('Error! Rate cannot be added.');
       console.log(error);
     })
   }
@@ -206,11 +212,15 @@ export class RecipeDetailComponent implements OnInit {
   deleteVote(){
     this.recipeService.deleteRate(this.rateModel.id).subscribe(response => {
       this.loadRecipe();
-      this.toastr.success('Vote removed successfully');
+      if(response.status === 200 ){ 
+        this.toastr.success('Vote removed successfully');        
+      } else {
+        this.toastr.error('Error! Rate cannot be removed.');
+        console.log(response);
+      }          
     }, error => {
+      this.toastr.error('Error! Rate cannot be removed.');
       console.log(error);
     })
-
   }
-
 }

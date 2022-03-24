@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
-import { map } from 'rxjs/operators';
 import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
 import { Measure } from '../_models/measure';
@@ -16,10 +15,15 @@ import { catchError } from 'rxjs/operators';
 })
 export class RecipesService {
   baseUrl = environment.apiUrl;
-  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+
+  httpOptions = {    
+    headers: { 'Content-Type': 'application/json' },    
+    observe: 'response' as const    
+  }   
 
   constructor(private http: HttpClient) { }
 
+//#region Recipe
   getRecipes() : Observable<Recipe[]> {
     return this.http.get<Recipe[]>(this.baseUrl + 'recipes').pipe(
       catchError(this.handleError<Recipe[]>('getRecipes', [])));
@@ -30,34 +34,19 @@ export class RecipesService {
       catchError(this.handleError<Recipe>('getRecipe recipeId = '+ recipeId)));
   }
 
-  addRecipe(recipe: Recipe): Observable<Recipe>{
-    return this.http.post<Recipe>(this.baseUrl + 'recipes', recipe, this.httpOptions).pipe(
-      catchError(this.handleError<Recipe>('addRecipe')));
+  addRecipe(recipe: Recipe): Observable<Response>{
+    return this.http.post(this.baseUrl + 'recipes', recipe, this.httpOptions).pipe(
+      catchError(this.handleError<any>('addRecipe')));
   }
 
-  updateRecipe(recipeId: number, recipe: Recipe): Observable<any> { //todo id mi nie jest potrzebne bo w modelu je mogę miec 
+  updateRecipe(recipeId: number, recipe: Recipe): Observable<Response> { //todo id mi nie jest potrzebne bo w modelu je mogę miec 
     return this.http.put(this.baseUrl + 'recipes/' + recipeId, recipe, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateRecipe')));
   }
   
-  deleteRecipe(recipeId: number): Observable<Recipe>{
-    return this.http.delete<Recipe>(this.baseUrl + 'recipes/'+ recipeId, this.httpOptions).pipe(
-      catchError(this.handleError<Recipe>('deleteRecipe')));
-  }
-
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.baseUrl + 'categories').pipe(
-      catchError(this.handleError<Category[]>('getCategories', [])));
-  }
-
-  getIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(this.baseUrl + 'ingredients').pipe(
-      catchError(this.handleError<Ingredient[]>('getIngredients', [])));
-  }
-  
-  getMeasures(): Observable<Measure[]> {
-    return this.http.get<Measure[]>(this.baseUrl + 'measures').pipe(
-      catchError(this.handleError<Measure[]>('getMeasures', [])));
+  deleteRecipe(recipeId: number): Observable<Response>{
+    return this.http.delete(this.baseUrl + 'recipes/'+ recipeId, this.httpOptions).pipe(
+      catchError(this.handleError<any>('deleteRecipe')));
   }
 
   searchRecipes(model: any){
@@ -100,12 +89,40 @@ export class RecipesService {
       }
     }
     return this.http.get<Recipe[]>(this.baseUrl + httpSearchUrl).pipe(
-      catchError(this.handleError<Recipe[]>('searchRecipes', [])));
+      catchError(this.handleError<any>('searchRecipes', [])));
+  }
+//#endregion
+
+//#region Category
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.baseUrl + 'categories').pipe(
+      catchError(this.handleError<Category[]>('getCategories', [])));
+  }
+//#endregion
+
+//#region Ingredient
+  getIngredients(): Observable<Ingredient[]> {
+    return this.http.get<Ingredient[]>(this.baseUrl + 'ingredients').pipe(
+      catchError(this.handleError<Ingredient[]>('getIngredients', [])));
   }
 
-  addPhoto(recipeId: number, upload: any){
-    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload).pipe(
-      catchError(this.handleError<Photo>('addPhoto')));
+  addIngredient(ingredient: Ingredient): Observable<Ingredient>{
+    return this.http.post<Ingredient>(this.baseUrl + 'ingredients', ingredient).pipe(
+     catchError(this.handleError<Ingredient>('addIngredient')));
+  }
+//#endregion
+
+//#region Measure
+  getMeasures(): Observable<Measure[]> {
+    return this.http.get<Measure[]>(this.baseUrl + 'measures').pipe(
+      catchError(this.handleError<Measure[]>('getMeasures', [])));
+  }
+//#endregion
+
+//#region Photo  
+  addPhoto(recipeId: number, upload: any): Observable<Response>{
+    return this.http.post(this.baseUrl + 'recipes/'+ recipeId + '/photos', upload, {observe: 'response'}).pipe(
+      catchError(this.handleError<any>('addPhoto')));
   }
 
   getRecipePhotos(recipeId: number): Observable<Photo[]>{
@@ -113,30 +130,28 @@ export class RecipesService {
       catchError(this.handleError<Photo[]>('getRecipePhotos', [])));
   }
 
-  deletePhoto(photoId: number, recipeId: number): Observable<Photo> {
-    return this.http.delete<Photo>(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId, this.httpOptions).pipe(
-      catchError(this.handleError<Photo>('deletePhoto')));
+  deletePhoto(photoId: number, recipeId: number): Observable<Response> {
+    return this.http.delete(this.baseUrl + 'recipes/' + recipeId + '/photos/' + photoId, this.httpOptions).pipe(
+      catchError(this.handleError<any>('deletePhoto')));
   }
 
-  updateMainRecipePhoto(photoId: number, recipeId: number){
-    return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId).pipe(
-      catchError(this.handleError<Photo>('updateMainRecipePhoto')));     
+  updateMainRecipePhoto(photoId: number, recipeId: number): Observable<Response>{
+    return this.http.put(this.baseUrl + 'recipes/' + recipeId + '/photos', photoId, this.httpOptions).pipe(
+      catchError(this.handleError<any>('updateMainRecipePhoto')));     
+  }  
+//#endregion
+
+//#region Rate
+  addRate(rate: Rate): Observable<Response> {
+    return this.http.post(this.baseUrl + 'rates', rate, this.httpOptions).pipe(
+      catchError(this.handleError<any>('addRate')));
   }  
 
-  addRate(rate: Rate): Observable<Rate> {
-    return this.http.post<Rate>(this.baseUrl + 'rates', rate, this.httpOptions).pipe(
-      catchError(this.handleError<Rate>('addRate')));
-  }  
-
-  deleteRate(rateId: number): Observable<Rate>{      
-    return this.http.delete<Rate>(this.baseUrl + 'rates/' + rateId, this.httpOptions).pipe(
-      catchError(this.handleError<Rate>('deleteRate')));
+  deleteRate(rateId: number): Observable<Response>{      
+    return this.http.delete(this.baseUrl + 'rates/' + rateId, this.httpOptions).pipe(
+      catchError(this.handleError<any>('deleteRate')));
   }
-
-  addIngredient(ingredient: Ingredient): Observable<Ingredient>{
-    return this.http.post<Ingredient>(this.baseUrl + 'ingredients', ingredient, this.httpOptions).pipe(
-     catchError(this.handleError<Ingredient>('addIngredient')));
-  }
+//#endregion
 
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {

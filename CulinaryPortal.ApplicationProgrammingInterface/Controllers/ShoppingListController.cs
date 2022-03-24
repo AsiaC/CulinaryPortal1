@@ -72,7 +72,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 {
                     throw new Exception("Server error while creating a list");
                 }
-                return Ok();                
+                return Ok(shoppingListToReturn);                
             }
             catch (Exception e)
             {

@@ -75,6 +75,10 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var response = await _mediator.Send(createRecipeCommand);
+                if (response.Id == null)
+                {
+                    throw new Exception("Server error while creating a recipe");
+                }      
                 return Ok(response);
             }
             catch (Exception e)

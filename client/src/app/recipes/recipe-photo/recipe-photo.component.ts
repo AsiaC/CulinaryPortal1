@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Photo } from 'src/app/_models/photo';
-import { Recipe } from 'src/app/_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { ToastrService } from 'ngx-toastr';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
@@ -15,7 +14,6 @@ export class RecipePhotoComponent implements OnInit {
   recipePhotos: Photo[];
   recipeId: number;
   file: File = null; // Variable to store file
-  //loading: boolean = false; // Flag variable
   bsModalRef: BsModalRef;
   alertText: string;
 
@@ -41,18 +39,22 @@ export class RecipePhotoComponent implements OnInit {
   onChange(event) {
     this.file = event.target.files[0];
   }
+
   // OnClick of button Upload
   onUpload() {
-    //this.loading = !this.loading;
-    //console.log(this.file);
     const uploadData = new FormData();
     uploadData.append('upload', this.file);
-    //uploadData.append('myFile', this.file, this.file.name);
-    this.recipeService.addPhoto(this.recipeId,uploadData)
-    .subscribe(response => {
-      this.toastr.success('Photo added successfully!');
-      this.loadRecipePhotos();
+    this.recipeService.addPhoto(this.recipeId, uploadData)
+    .subscribe(response => { debugger;
+      if(response.status === 200 ){ 
+        this.toastr.success('Photo added successfully!');
+        this.loadRecipePhotos();
+      } else {
+        this.toastr.error('Error! Photo cannot be added.');
+        console.log(response);
+      }   
     }, error => {
+      this.toastr.error('Error! Photo cannot be added.');
       console.log(error);
     })
   }  
@@ -60,9 +62,15 @@ export class RecipePhotoComponent implements OnInit {
   setAsMainPhoto(photoId: number){
     this.recipeService.updateMainRecipePhoto(photoId, this.recipeId)
       .subscribe(response => {
-        this.toastr.success('Main photo changed successfully!');
-        this.loadRecipePhotos(); 
+        if(response.status === 200 ){ 
+          this.toastr.success('Main photo changed successfully!');
+          this.loadRecipePhotos();
+        } else {
+          this.toastr.error('Error! Main photo cannot be changed.');
+          console.log(response);
+        }   
       }, error => {
+        this.toastr.error('Error! Main photo cannot be changed.');
         console.log(error);                      
       })
   }
@@ -70,10 +78,16 @@ export class RecipePhotoComponent implements OnInit {
   deletePhoto(photoId: number){
     this.recipeService.deletePhoto(photoId, this.recipeId)
       .subscribe(response => {
-        this.toastr.success('Photo removed successfully!');
-        this.loadRecipePhotos(); //TODO NIE DZIAŁA? ALBO OBRAZ SIE NIE ODSWIEZA        
+        if(response.status === 200 ){ 
+          this.toastr.success('Photo removed successfully!');
+          this.loadRecipePhotos();
+        } else {
+          this.toastr.error('Error! Photo cannot be removed.');
+          console.log(response);
+        }               
       }, error => {
-         console.log(error);                      
+        this.toastr.error('Error! Photo cannot be removed.');
+        console.log(error);                      
       })
   }
 

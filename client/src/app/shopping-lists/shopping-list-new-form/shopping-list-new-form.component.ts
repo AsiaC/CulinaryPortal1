@@ -132,11 +132,11 @@ export class ShoppingListNewFormComponent implements OnInit {
           this.addShoppingListForm.reset(this.shoppingList);
           // It is necessary to reload the window
           window.location.reload();
-          console.log('Error during updating a list.');         
+          console.log('Error during updating the list.');         
           console.log(response);
         }
       }, error => {
-        console.log('Error during updating a list.'); 
+        console.log('Error during updating the list.'); 
         console.log(error);                    
       })
   }

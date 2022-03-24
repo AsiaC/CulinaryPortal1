@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -28,17 +28,17 @@ import { ShoppingList } from '../_models/shoppingList';
           catchError(this.handleError<ShoppingList>('getShoppingList shoppingListId = ' + shoppingListId)));
     }   
  
-    addShoppingList(shoppingList: ShoppingList):  Observable<HttpHeaderResponse> {
+    addShoppingList(shoppingList: ShoppingList):  Observable<Response> {
         return this.http.post(this.baseUrl + 'shoppingLists', shoppingList, this.httpOptions).pipe(
           catchError(this.handleError<any>('addShoppingList')));
     }
 
-    updateShoppingList(shoppingListId: string, shoppingList: ShoppingList): Observable<HttpHeaderResponse>{       
+    updateShoppingList(shoppingListId: string, shoppingList: ShoppingList): Observable<Response>{       
         return this.http.put(this.baseUrl + 'shoppingLists/' + shoppingListId, shoppingList, this.httpOptions).pipe(
           catchError(this.handleError<any>('updateShoppingList')));
     }
 
-    deleteShoppingList(shoppingListId: number): Observable<HttpHeaderResponse> {      
+    deleteShoppingList(shoppingListId: number): Observable<Response> {      
       return this.http.delete(this.baseUrl + 'shoppinglists/' + shoppingListId, this.httpOptions).pipe(
         catchError(this.handleError<any>('deleteShoppingList')));
     }

@@ -28,7 +28,11 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var objectToReturn = await _mediator.Send(createRateCommand);
+                var objectToReturn = await _mediator.Send(createRateCommand);       
+                if (objectToReturn.Id == null)
+                {
+                    throw new Exception("Server error while creating a rate");
+                }
                 return Ok(objectToReturn);
             }
             catch (Exception e)

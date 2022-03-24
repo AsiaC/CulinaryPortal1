@@ -44,8 +44,11 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var objectToReturn = await _mediator.Send(createIngredientCommand);
-                return Ok(objectToReturn);//todo czy musze dodawac metode GetIngredient
-                            //return CreatedAtAction(nameof(GetIngredient), objectToReturn);
+                if (objectToReturn.Id == null)
+                {
+                    throw new Exception("Server error while creating an ingredient");
+                }
+                return Ok(objectToReturn);                            
             }
             catch (Exception e)
             {

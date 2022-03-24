@@ -1,17 +1,17 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { RecipesService } from 'src/app/_services/recipes.service';
-import {Category} from 'src/app/_models/category';
+import { Category } from 'src/app/_models/category';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { Ingredient } from 'src/app/_models/ingredient';
 import { Measure } from 'src/app/_models/measure';
-import { FormGroup, FormControl,FormArray, FormBuilder, Validators, NgForm } from '@angular/forms'
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms'
 import { Recipe } from 'src/app/_models/recipe';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CreateIngredientComponent } from 'src/app/modals/create-ingredient/create-ingredient.component';
 
@@ -39,7 +39,7 @@ export class RecipeNewFormComponent implements OnInit {
   bsModalRef: BsModalRef;
   itemIsRemoved: boolean = false;
   
-  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router, private modalService: BsModalService) { 
+  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private modalService: BsModalService, private toastr: ToastrService) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -130,7 +130,7 @@ export class RecipeNewFormComponent implements OnInit {
 
   createInstrFormGroup(){
     return this.fb.group({
-      //step: '',
+      //step: '', todo spr i usun
       name: '',
       description: ['', [Validators.required]]      
     })
@@ -176,13 +176,19 @@ export class RecipeNewFormComponent implements OnInit {
 
   createNewRecipe(){
     this.submitted = true;    
-    this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
+    this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => { debugger;
+      if(response.status === 200 ){ 
+        this.toastr.success('Success. Recipe added.');
+      } else {
+        this.toastr.error('Error! Recipe cannot be added.');
+        console.log(response);
+      }
       this.isAddMode = false;
       window.location.reload();
     }, error => {
+      this.toastr.error('Error! Recipe cannot be added.');
       console.log(error);
     })
-
   }
 
   onSubmit() { 
@@ -201,27 +207,31 @@ export class RecipeNewFormComponent implements OnInit {
     }  
   }
 
-  private updateRecipe() {
-    
+  private updateRecipe() {    
     this.recipesService.updateRecipe(Number(this.id), this.addRecipeForm.value).subscribe(response => {
-      
-        //this.toastr.success('Profile updated successfully');
+      if(response.status === 200 ){ 
         this.recipe=this.addRecipeForm.value;
         this.isAddMode = false;
         this.addRecipeForm.reset(this.recipe);
-        window.location.reload();
-      }, error => {
-          console.log(error);                      
-      })    
+        window.location.reload();        
+        this.toastr.success('Success. Recipe updated.');        
+      } else {
+        this.isAddMode = false;
+        this.addRecipeForm.reset(this.recipe);
+        window.location.reload();    
+        this.toastr.error('Error! Recipe cannot be added.');
+        console.log(response);
+      }      
+    }, error => {
+      console.log('Error during updating the recipe.'); 
+      console.log(error);                      
+    })    
   }
 
-  cancel(){
-    //console.log("cancel");
-    //this.cancelRegister.emit(false);
-    //this.router.navigateByUrl('/user/recipes');
-    //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
+  cancel(){    
     window.location.reload();
   }
+
   changeOnIgredient(recipeIngredient){
     var selectedIngredientId = recipeIngredient.value.ingredientId;    
     console.log(this.addRecipeForm.status);
@@ -235,25 +245,28 @@ export class RecipeNewFormComponent implements OnInit {
         var newIngredientName = value;
         if(newIngredientName !== null){
           var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
-          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {            
+          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {   
             if(response.id !== null){
               this.allIngredients.push(response);
-            }            
-            this.recipe=this.addRecipeForm.value;
-            this.recipe.recipeIngredients.forEach(element => {
-              if(element.ingredientId === 0){
-                element.ingredientId = response.id;
-              }
-            });
+                        
+              this.recipe=this.addRecipeForm.value;
+              this.recipe.recipeIngredients.forEach(element => {
+                if(element.ingredientId === 0){
+                  element.ingredientId = response.id;
+                }
+              });
 
-            var recipeIngredientsArray = [];
-            this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
-              quantity: recipeIngredient.quantity,
-              measureId: recipeIngredient.measureId,
-              ingredientId: recipeIngredient.ingredientId, 
-            })));
-            this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
-
+              var recipeIngredientsArray = [];
+              this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
+                quantity: recipeIngredient.quantity,
+                measureId: recipeIngredient.measureId,
+                ingredientId: recipeIngredient.ingredientId, 
+              })));
+              this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));            
+            } else {
+              this.toastr.error('Error! Ingredient cannot be added.');
+              console.log('Error during adding the ingredient.');
+            }
           })
         }
       });

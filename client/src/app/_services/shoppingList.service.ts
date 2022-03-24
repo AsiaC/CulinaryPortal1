@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaderResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { ShoppingList } from '../_models/shoppingList';
 
 @Injectable({
@@ -10,33 +10,37 @@ import { ShoppingList } from '../_models/shoppingList';
   })
   export class ShoppingListService {
     baseUrl = environment.apiUrl;
-    httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
-
+   
+    httpOptions = {    
+      headers: { 'Content-Type': 'application/json' },    
+      observe: 'response' as const    
+    }    
+    
     constructor(private http: HttpClient) { }
   
     getShoppingLists(): Observable<ShoppingList[]> {
         return this.http.get<ShoppingList[]>(this.baseUrl + 'shoppingLists').pipe(
-          catchError(this.handleError<ShoppingList[]>('getShoppingLists')));
+          catchError(this.handleError<any>('getShoppingLists')));
     }
 
     getShoppingList(shoppingListId: number): Observable<ShoppingList> {
         return this.http.get<ShoppingList>(this.baseUrl + 'shoppingLists/' + shoppingListId).pipe(
           catchError(this.handleError<ShoppingList>('getShoppingList shoppingListId = ' + shoppingListId)));
+    }   
+ 
+    addShoppingList(shoppingList: ShoppingList):  Observable<HttpHeaderResponse> {
+        return this.http.post(this.baseUrl + 'shoppingLists', shoppingList, this.httpOptions).pipe(
+          catchError(this.handleError<any>('addShoppingList')));
     }
 
-    addShoppingList(shoppingList: ShoppingList): Observable<ShoppingList> {
-        return this.http.post<ShoppingList>(this.baseUrl + 'shoppingLists', shoppingList, this.httpOptions).pipe(
-          catchError(this.handleError<ShoppingList>('addShoppingList')));
-    }
-
-    updateShoppingList(shoppingListId: string, shoppingList: ShoppingList): Observable<any>{ 
+    updateShoppingList(shoppingListId: string, shoppingList: ShoppingList): Observable<HttpHeaderResponse>{       
         return this.http.put(this.baseUrl + 'shoppingLists/' + shoppingListId, shoppingList, this.httpOptions).pipe(
           catchError(this.handleError<any>('updateShoppingList')));
     }
 
-    deleteShoppingList(shoppingListId: number): Observable<ShoppingList> {      
-      return this.http.delete<ShoppingList>(this.baseUrl + 'shoppinglists/' + shoppingListId, this.httpOptions).pipe(
-        catchError(this.handleError<ShoppingList>('deleteShoppingList')));
+    deleteShoppingList(shoppingListId: number): Observable<HttpHeaderResponse> {      
+      return this.http.delete(this.baseUrl + 'shoppinglists/' + shoppingListId, this.httpOptions).pipe(
+        catchError(this.handleError<any>('deleteShoppingList')));
     }
 
     private handleError<T> (operation = 'operation',result?:T){

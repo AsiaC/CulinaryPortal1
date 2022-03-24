@@ -5,8 +5,7 @@ import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ConfirmComponent } from 'src/app/modals/confirm/confirm.component';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -22,7 +21,7 @@ export class UserShoppingListsComponent implements OnInit {
   bsModalRef: BsModalRef;
   alertText: string;
 
-  constructor(private userService:UsersService, private accountService:AccountService, private modalService: BsModalService, private toastr: ToastrService, private shoppingListService: ShoppingListService) { 
+  constructor(private userService:UsersService, private accountService:AccountService, private toastr: ToastrService, private shoppingListService: ShoppingListService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -40,6 +39,9 @@ export class UserShoppingListsComponent implements OnInit {
       } else if(error.status === 404){
         this.userShoppingLists = undefined;
         this.alertText = "You do not have any shopping lists yet."
+      } else {
+        console.log('Error during loading a shopping list.'); 
+        console.log(error);
       }    
     })
   }
@@ -54,27 +56,18 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   deleteShoppingList(shoppingListId) {
-    //delete list and items and refresh site
-    // const initialState = {  
-    //   title: 'Are you sure that you would like to delete indicated shopping list?',      
-    //   idToRemove: shoppingListId,
-    //   objectName:'Shopping list', 
-    //   userId: this.user.id,
-    //   userShoppingLists: this.userShoppingLists,
-    //   //functionAfterClose: this.loadUserShoppingLists()
-    // };
-    // this.bsModalRef = this.modalService.show(ConfirmComponent, {initialState});
-    // this.bsModalRef.content.closeBtnName = 'Cancel'; //a moze to w initial state wrzuc? co za róznica?
-    // this.bsModalRef.content.submitBtnName = 'Confirm deleting shopping list';
-    
-    //ponizsze rozwiazanie jest lepsze zamiast modale potwierdzającego bo nie trzeba przeładowywać strony tylko nika lista z ekranu, ale nie ma modala.
     this.shoppingListService.deleteShoppingList(shoppingListId)
       .subscribe(response => {
-        this.toastr.success('Shopping list removed successfully!');
-        this.loadUserShoppingLists(); 
+        if(response.status === 200 ){ 
+          this.toastr.success('Shopping list removed successfully!');
+          this.loadUserShoppingLists(); 
+        } else {
+          this.toastr.error('Error! Shopping list cannot be removed.');
+          console.log(response);
+        }        
       }, error => {
-         console.log(error);                      
+          this.toastr.error('Error! Shopping list cannot be removed.');
+          console.log(error);                      
       })
-
   }
 }

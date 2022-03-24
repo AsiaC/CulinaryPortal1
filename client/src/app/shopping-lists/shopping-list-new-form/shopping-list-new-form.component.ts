@@ -1,18 +1,9 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { RecipesService } from 'src/app/_services/recipes.service';
-import {Category} from 'src/app/_models/category';
-import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
-import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
-import { Console } from 'console';
-import { Ingredient } from 'src/app/_models/ingredient';
-import { Measure } from 'src/app/_models/measure';
-import { FormGroup, FormControl,FormArray, FormBuilder, Validators, NgForm } from '@angular/forms'
-import { Recipe } from 'src/app/_models/recipe';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms'
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
 
@@ -31,7 +22,7 @@ export class ShoppingListNewFormComponent implements OnInit {
   itemIsRemoved: boolean = false;
   @Input()selectedListId: number;
   
-  constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private router: Router) { 
+  constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private toastr: ToastrService,) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
@@ -61,9 +52,9 @@ export class ShoppingListNewFormComponent implements OnInit {
         itemName: listItem.itemName,
         id: listItem.id
       })));
-      this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));
-      
+      this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));      
     }, error => {
+      console.log('Error during list loading.');
       console.log(error);
     });
   }
@@ -97,44 +88,60 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.itemIsRemoved = true;
   }
 
-  onSubmit() {    
-    //console.log(this.addShoppingListForm.value);   
+  onSubmit() {
     if(this.isAddMode){
       this.createNewShoppingList();
-    }
-    else{
+    } else{
       this.updateShoppingList();
     }
   }
+
   createNewShoppingList(){
     this.submitted = true;
     this.shoppingListService.addShoppingList(this.addShoppingListForm.value).subscribe(response => {
-      //console.log(response);
-      //this.router.navigateByUrl('/members');
-      this.isAddMode = false;
-      window.location.reload(); //spr czy to konieczne
-    }, error => {
-      //this.validationErrors = error;
+      if(response.status === 200 ){ 
+        this.isAddMode = false;
+        // It is necessary to reload the window
+        window.location.reload(); 
+        this.toastr.success('Success. The new list has been created.');
+      } else {   
+        this.isAddMode = false;
+        // It is necessary to reload the window
+        window.location.reload();      
+        this.toastr.error('Error! The new list has not been created.');
+        console.log(response);
+      }   
+    }, error => {     
+      console.log('Error during creating a list.'); 
       console.log(error);
     })
   }
+
   updateShoppingList(){
     this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value)
       .subscribe(response => {
-        //this.toastr.success('Profile updated successfully');
-        this.shoppingList = this.addShoppingListForm.value;
-        this.isAddMode = false;
-        this.addShoppingListForm.reset(this.shoppingList);
-        window.location.reload();
+        if(response.status === 200 ){ 
+          this.shoppingList = this.addShoppingListForm.value;
+          this.isAddMode = false;
+          this.addShoppingListForm.reset(this.shoppingList);
+          // It is necessary to reload the window
+          window.location.reload();
+          this.toastr.success('Success. The list has been updated.');
+        } else {  
+          this.isAddMode = false;
+          this.addShoppingListForm.reset(this.shoppingList);
+          // It is necessary to reload the window
+          window.location.reload();
+          console.log('Error during updating a list.');         
+          console.log(response);
+        }
       }, error => {
-          console.log(error);                      
+        console.log('Error during updating a list.'); 
+        console.log(error);                    
       })
   }
-  cancel(){
-    //console.log("cancel");
-    //REFRESH PAGE OR addNewMode=FALSE ALE TO JEST Z componentu rodzica wiec trzebaby przekazać do rodzica
+
+  cancel(){    
     window.location.reload();
   }
-
- 
 }

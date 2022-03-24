@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
-import { RecipesService } from 'src/app/_services/recipes.service';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 
 @Component({
@@ -23,12 +22,10 @@ export class SelectShoppingListComponent implements OnInit {
 
   readioSelected: any;  
   shoppingListDto: ShoppingList;
-  //newListItems: ShoppingList;
 
-  constructor(public bsModalRef: BsModalRef, private toastr: ToastrService, private recipeService: RecipesService, private shoppingListService: ShoppingListService) {}
+  constructor(public bsModalRef: BsModalRef, private toastr: ToastrService, private shoppingListService: ShoppingListService) {}
 
   ngOnInit(): void {
-    //this.list.push({name: "--select--", id:0});
   }
 
   confirmAddingIngredients(){   
@@ -40,37 +37,49 @@ export class SelectShoppingListComponent implements OnInit {
 
     if(this.readioSelected === 'radio1'){
       if(this.selectOptionVal !== undefined){
-        //dodaj do istniejacej        
+        // Adding ingredients to an existing and selected shopping list         
         this.shoppingListDto = this.list.find(x=>x.id === parseInt(this.selectOptionVal));
         this.shoppingListDto.items = this.shoppingListDto.items.concat(newIngredients);
 
         this.shoppingListService.updateShoppingList(this.selectOptionVal, this.shoppingListDto)
         .subscribe(response => {
-          //console.log(response);
-            this.toastr.success('Success. Ingredients added to the list.');        
+          if(response.status === 200 ){ 
+            this.toastr.success('Success. Ingredients added to the existing list.');
+          } else {
+            this.toastr.error('Error! Ingredients cannot be added.');
+            console.log(response);
+          }  
         }, error => {
+            this.toastr.error('Error! Ingredients cannot be added.');
             console.log(error);                      
         })
       } else {         
         this.toastr.error('Failed to add ingredients to the shopping list. No list was selected.');    
+        console.log('Failed to add ingredients to the shopping list. No list was selected.');
       }
     }
     else if (this.readioSelected === 'radio2'){
-      if(this.newShoppingListName !== null){ 
-        //dodaj do nowej
+      if(this.newShoppingListName !== null){        
+        // Adding ingredients to a new shopping list
         var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId, userName: ''};
 
         this.shoppingListService.addShoppingList(shoppingListDto2).subscribe(response => {
-          //console.log(response);
-          this.toastr.success('Success. Ingredients added to the new list.');
+          if(response.status === 200 ){ 
+            this.toastr.success('Success. Ingredients added to the new list.');
+          } else {
+            this.toastr.error('Error! Ingredients cannot be added.');
+            console.log(response);
+          }
         }, error => {
+          this.toastr.error('Error! Ingredients cannot be added.');
           console.log(error);
         })        
       } else {      
         this.toastr.error('Failed to add ingredients to the shopping list. The name of the new list has not been provided.'); 
+        console.log('Failed to add ingredients to the shopping list. The name of the new list has not been provided.');
       }
     }
-    this.bsModalRef.hide();//TODO dla error?toastr? - przy sukcesie dodawania jest
+    this.bsModalRef.hide();
   }
 
   getValue(event: Event): string {

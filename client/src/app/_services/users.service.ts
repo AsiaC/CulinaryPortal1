@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
@@ -8,7 +8,6 @@ import { AccountService } from './account.service';
 import { Recipe } from '../_models/recipe';
 import { Cookbook } from '../_models/cookbook';
 import { ShoppingList } from '../_models/shoppingList';
-import { map } from 'rxjs/operators';
 import { Rate } from '../_models/rate';
 
 @Injectable({

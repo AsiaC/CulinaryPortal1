@@ -12,7 +12,7 @@ import { take } from 'rxjs/operators';
 })
 export class UserListComponent implements OnInit {
   users: User[];
-  currentUser: User; //current
+  currentUser: User;
 
   constructor(private userService: UsersService, private toastr: ToastrService, private accountService: AccountService) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {this.currentUser = user;});

@@ -31,12 +31,16 @@ export class CookbookListComponent implements OnInit {
   }
 
   deleteCookbook(cookbookId: number){
-    this.cookbookService.deleteCookbook(cookbookId)
-    .subscribe(response => {
-      this.toastr.success('Cookbook removed successfully!');  
+    this.cookbookService.deleteCookbook(cookbookId).subscribe(response => {
       this.loadCookbooks(); 
+      if(response.status === 200){
+        this.toastr.success('Cookbook removed successfully!');        
+      } else {
+        this.toastr.error('Error! Cookbook cannot be removed.'); 
+      }
     }, error => {
-       console.log(error);                      
+      this.toastr.error('Error! Cookbook cannot be removed.'); 
+      console.log(error);                      
     })
   }
 

@@ -11,7 +11,10 @@ import { CookbookRecipe } from '../_models/cookbookRecipe';
 })
 export class CookbookService {
     baseUrl = environment.apiUrl;
-    httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
+    httpOptions = {    
+        headers: { 'Content-Type': 'application/json' },    
+        observe: 'response' as const    
+      } 
 
     constructor(private http: HttpClient){}
 
@@ -21,24 +24,24 @@ export class CookbookService {
     }
 
     addCookbook(cookbook: Cookbook): Observable<Cookbook> {
-        return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook, this.httpOptions).pipe(
+        return this.http.post<Cookbook>(this.baseUrl + 'cookbooks', cookbook).pipe(
             catchError(this.handleError<Cookbook>('addCookbook')));        
     }
 
-    deleteCookbook(cookbookId: number): Observable<Cookbook> {
-        return this.http.delete<Cookbook>(this.baseUrl + 'cookbooks/'+ cookbookId, this.httpOptions).pipe(
-            catchError(this.handleError<Cookbook>('deleteCookbook')));
+    deleteCookbook(cookbookId: number): Observable<Response> {
+        return this.http.delete(this.baseUrl + 'cookbooks/'+ cookbookId, this.httpOptions).pipe(
+            catchError(this.handleError<any>('deleteCookbook')));
     }
     
-    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<any>{ //todo czy typ zwracany przy update jest ok?
+    updateCookbook(cookbookId: number, cookbook: CookbookRecipe): Observable<Response>{
         return this.http.put(this.baseUrl + 'cookbooks/' + cookbookId, cookbook, this.httpOptions).pipe(
             catchError(this.handleError<any>('updateCookbook')));  
     }
 
     private handleError<T> (operation = 'operation',result?:T){
         return (error: any): Observable<T> => {
-            console.log(operation + ' has error.'); //todo do usuniecia
-            console.log(error); //todo do usuniecia
+            console.log(operation + ' has error.');
+            console.log(error);
             return of(result as T);
         }
     }

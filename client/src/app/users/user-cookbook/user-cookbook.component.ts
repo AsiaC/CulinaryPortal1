@@ -6,8 +6,6 @@ import { AccountService } from 'src/app/_services/account.service';
 import { take } from 'rxjs/operators';
 import { Recipe } from 'src/app/_models/recipe';
 import { CookbookService } from 'src/app/_services/cookbook.service';
-import { DecimalPipe } from '@angular/common';
-import { FormControl } from '@angular/forms';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
@@ -82,21 +80,30 @@ export class UserCookbookComponent implements OnInit {
     
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
     .subscribe(response => {
-      this.toastr.success('Recipe removed successfully!');
+      if(response.status === 200 ){ 
+        this.toastr.success('Recipe removed successfully!');          
+      } else {
+        this.toastr.error('Error! Recipe cannot be removed.');
+        console.log(response);
+      }      
       this.loadUserCookbook();
     }, error => {
-        console.log(error);
+      this.toastr.error('Error! Recipe cannot be removed.');
+      console.log(error);
     })
   }
 
   deleteCookbook(cookbookId: number){
-    this.cookbookService.deleteCookbook(cookbookId)
-    .subscribe(response => {
-     // console.log(response);
-      this.toastr.success('Cookbook removed successfully!');  
+    this.cookbookService.deleteCookbook(cookbookId).subscribe(response => {
       this.loadUserCookbook(); 
+      if(response.status === 200){
+        this.toastr.success('Cookbook removed successfully!');        
+      } else {
+        this.toastr.error('Error! Cookbook cannot be removed.'); 
+      }
     }, error => {
-       console.log(error);                      
+      this.toastr.error('Error! Cookbook cannot be removed.'); 
+      console.log(error);                      
     })
   }
 

@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { Cookbook } from 'src/app/_models/cookbook';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
-import { Recipe } from 'src/app/_models/recipe';
 import { CookbookService } from 'src/app/_services/cookbook.service';
-
 
 @Component({
   selector: 'app-create-cookbook',
@@ -28,25 +26,29 @@ export class CreateCookbookComponent implements OnInit {
   }
 
   confirmAddingIngredients(){
-    //create cookbook and do relations
-    //this.cookbookService //czy tu powinna byc jakaś metoda create popatrz nak w przypadku listy zrobiłam
+    // Create cookbook and do relations    
     var recipes = [];
-    recipes.push(this.currentRecipe);
-    //var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, description: null, userId: this.userId, cookbookRecipes: recipes};
+    recipes.push(this.currentRecipe);    
     var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};
     
     this.cookbookService.addCookbook(cookbookToCreate)
     .subscribe(userCookbook => {
       this.userCookbook = userCookbook;          
-       
-      this.currentRecipe.cookbookId = userCookbook.id;     
-      
-      this.cookbookService.updateCookbook(userCookbook.id, this.currentRecipe)
-      .subscribe(response => { //todo spr response / response == null bo zwracam OK() morze to jakoś inaczej trzeba rozwiazac?
-        
-        this.toastr.success('Cookbook created and recipe added successfully!');
-        })
+      if(userCookbook !== undefined){
+        this.currentRecipe.cookbookId = userCookbook.id;           
+        this.cookbookService.updateCookbook(userCookbook.id, this.currentRecipe).subscribe(response => {
+          if(response.status === 200 ){ 
+            this.toastr.success('Cookbook created and recipe added successfully!');          
+          } else {
+            this.toastr.error('Error! Cookbook and recipe cannot be added.');
+            console.log(response);
+          }})
+      } else {
+        this.toastr.error('Error! Cookbook cannot be added.');
+        console.log('Error! Cookbook cannot be added.');
+      }
     }, error => {      
+      this.toastr.error('Error! Cookbook cannot be added.');
       console.log(error);
     })
     this.bsModalRef.hide();

@@ -73,10 +73,6 @@ export class RecipeDetailComponent implements OnInit {
   loadCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
       this.userCookbook = userCookbook;  
-
-      //console.log('this.currentRecipe 2');
-      //console.log(this.currentRecipe);
-
       if(this.userCookbook !== undefined){
         if(this.userCookbook.cookbookRecipes !== undefined){
           var recipeInCookbook = this.userCookbook.cookbookRecipes.find(r=>r.recipeId === this.currentRecipe.id);
@@ -91,7 +87,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadShoppingListsIds(){
-    ////potrzebne do modala bo user moze miec kilka list wiec trzeba wybrać 
+    // Potrzebne do modala, user moze miec kilka list wiec trzeba wybrać 
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
       this.userShoppingLists = userShoppingLists;              
     }, error => {
@@ -115,16 +111,20 @@ export class RecipeDetailComponent implements OnInit {
         this.bsModalRef.content.closeBtnName = 'Cancel';
         this.bsModalRef.content.submitBtnName = 'Confirm';
         this.canAddToCookbook = false;
-    }else{
-      
+    }else{      
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: true}
     this.userCookbook.cookbookRecipes.push(this.cookbookRecipe);
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
       .subscribe(response =>{
-        //todo to zdebuguj i popraw zeby wiedziec czy sukces czy nie
-         this.toastr.success('Recipe added successfully!');
-         this.canAddToCookbook = false;
+        if(response.status === 200 ){ 
+          this.toastr.success('Recipe added successfully!');          
+        } else {
+          this.toastr.error('Error! Recipe cannot be added.');
+          console.log(response);
+        }   
+        this.canAddToCookbook = false;
       }, error => {
+        this.toastr.error('Error! Recipe cannot be added.');
         console.log(error);
       })
     }
@@ -134,13 +134,18 @@ export class RecipeDetailComponent implements OnInit {
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: false}
     
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    .subscribe(response => {//todo to zdebuguj i popraw zeby wiedziec czy sukces czy nie, a moze cos zwracaj?
-      this.toastr.success('Recipe removed successfully');
+    .subscribe(response => {
+      if(response.status === 200 ){ 
+        this.toastr.success('Recipe removed successfully!');          
+      } else {
+        this.toastr.error('Error! Recipe cannot be removed.');
+        console.log(response);
+      }        
       this.canAddToCookbook = true;
     }, error => {
-        console.log(error);
+      this.toastr.error('Error! Recipe cannot be removed.');
+      console.log(error);
     })
-
   }
 
   modalAddToShoppingList() {
@@ -188,8 +193,7 @@ export class RecipeDetailComponent implements OnInit {
     this.router.navigateByUrl('/recipes/'+ this.currentRecipe.id +'/photos');
   }
 
-  rateRecipe(){
-
+  rateRecipe(){ //todo czy to jest potrzebne
   }
 
   rate(rating: number){

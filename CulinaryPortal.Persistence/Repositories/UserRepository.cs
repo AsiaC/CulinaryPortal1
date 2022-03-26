@@ -99,13 +99,13 @@ namespace CulinaryPortal.Persistence.Repositories
 
             if (!String.IsNullOrWhiteSpace(name))
             {
-                query = query.Where(r => r.Name == name);
+                query = query.Where(r => r.Name.ToLower() == name.ToLower());
             }
 
             return query.ToList();
         }
 
-        public async Task<List<Recipe>> SearchCokbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
+        public async Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {
             var cookbook = await _dbContext.Cookbooks
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c => c.Category)
@@ -131,7 +131,7 @@ namespace CulinaryPortal.Persistence.Repositories
 
             if (!String.IsNullOrWhiteSpace(name))
             {
-                query = query.Where(r => r.Name == name);
+                query = query.Where(r => r.Name.ToLower() == name.ToLower());
             }
             return query.ToList();
         }

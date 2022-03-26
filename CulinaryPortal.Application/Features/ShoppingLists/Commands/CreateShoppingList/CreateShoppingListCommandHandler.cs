@@ -23,13 +23,13 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.CreateShopp
         }
         public async Task<ShoppingListDto> Handle(CreateShoppingListCommand request, CancellationToken cancellationToken)
         {            
-            var @event = _mapper.Map<ShoppingList>(request);
+            var shoppingList = _mapper.Map<ShoppingList>(request);
 
-            @event = await _shoppingListRepository.AddAsync(@event);
+            shoppingList = await _shoppingListRepository.AddAsync(shoppingList);
 
-            var objestToReturn = _mapper.Map<ShoppingListDto>(@event);
+            var objectToReturn = _mapper.Map<ShoppingListDto>(shoppingList);
 
-            return objestToReturn;
+            return objectToReturn;
         }
     }    
 }

@@ -23,8 +23,8 @@ namespace CulinaryPortal.Application.Features.Users.Queries.GetUserDetail
 
         public async Task<UserDto> Handle(GetUserDetailQuery request, CancellationToken cancellationToken)
         {
-            var @user = await _userRepository.GetByIdAsync(request.Id);
-            var userDto = _mapper.Map<UserDto>(@user);
+            var user = await _userRepository.GetByIdAsync(request.Id);
+            var userDto = _mapper.Map<UserDto>(user);
             return userDto;
         }
     }

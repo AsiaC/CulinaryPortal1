@@ -24,13 +24,13 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe
         }
         public async Task<RecipeDto> Handle(CreateRecipeCommand request, CancellationToken cancellationToken)
         {
-            var @event = _mapper.Map<Recipe>(request);
+            var recipe = _mapper.Map<Recipe>(request);
 
-            @event = await _recipeRepository.AddAsync(@event);
+            recipe = await _recipeRepository.AddAsync(recipe);
 
-            var objestToReturn = _mapper.Map<RecipeDto>(@event);
+            var objectToReturn = _mapper.Map<RecipeDto>(recipe);
 
-            return objestToReturn;
+            return objectToReturn;
         }
     }
 }

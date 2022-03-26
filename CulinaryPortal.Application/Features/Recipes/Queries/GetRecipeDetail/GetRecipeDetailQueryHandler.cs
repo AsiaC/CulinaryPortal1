@@ -23,8 +23,8 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipeDetail
         }
         public async Task<RecipeDto> Handle(GetRecipeDetailQuery request, CancellationToken cancellationToken)
         {
-            var @recipe = await _recipeRepository.GetRecipeWithDetailsAsync(request.Id);
-            var recipeDetailDto = _mapper.Map<RecipeDto>(@recipe);
+            var recipe = await _recipeRepository.GetRecipeWithDetailsAsync(request.Id);
+            var recipeDetailDto = _mapper.Map<RecipeDto>(recipe);
             return recipeDetailDto;
         }
     }

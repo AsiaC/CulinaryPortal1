@@ -74,12 +74,12 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var response = await _mediator.Send(createRecipeCommand);
-                if (response.Id == null)
+                var objectToReturn = await _mediator.Send(createRecipeCommand);
+                if (objectToReturn.Id == null)
                 {
                     throw new Exception("Server error while creating a recipe");
                 }      
-                return Ok(response);
+                return Ok(objectToReturn);
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         [Authorize]
         [HttpDelete("{recipeId}", Name = "DeleteRecipe")]
-        public async Task<ActionResult> DeleteRecipe(int recipeId)
+        public async Task<ActionResult> DeleteRecipe([FromRoute] int recipeId)
         {
             try
             {
@@ -190,8 +190,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                         }
                         else
                         {
-                            //ModelState.AddModelError("File", "The file is too large.");
-                            return BadRequest();
+                            throw new Exception("Server error while adding a photo. The file is too large.");
                         }
                     }
                 }

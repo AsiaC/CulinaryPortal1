@@ -24,13 +24,13 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Commands.CreateCookbook
         }
         public async Task<CookbookDto> Handle(CreateCookbookCommand request, CancellationToken cancellationToken)
         {
-            var @event = _mapper.Map<Cookbook>(request);
+            var cookbook = _mapper.Map<Cookbook>(request);
 
-            @event = await _cookbookRepository.AddAsync(@event);
+            cookbook = await _cookbookRepository.AddAsync(cookbook);
 
-            var objestToReturn = _mapper.Map<CookbookDto>(@event);
+            var objectToReturn = _mapper.Map<CookbookDto>(cookbook);
 
-            return objestToReturn;
+            return objectToReturn;
         }
     }
 }

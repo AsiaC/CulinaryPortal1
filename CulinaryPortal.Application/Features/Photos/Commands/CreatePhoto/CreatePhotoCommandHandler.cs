@@ -25,13 +25,13 @@ namespace CulinaryPortal.Application.Features.Photos.Commands.CreatePhoto
 
         public async Task<PhotoDto> Handle(CreatePhotoCommand request, CancellationToken cancellationToken)
         {
-            var @event = _mapper.Map<Photo>(request);
+            var photo = _mapper.Map<Photo>(request);
 
-            @event = await _photoRepository.AddAsync(@event);
+            photo = await _photoRepository.AddAsync(photo);
 
-            var objestToReturn = _mapper.Map<PhotoDto>(@event);
+            var objectToReturn = _mapper.Map<PhotoDto>(photo);
 
-            return objestToReturn;
+            return objectToReturn;
         }
     }
 }

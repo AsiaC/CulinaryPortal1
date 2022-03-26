@@ -48,6 +48,10 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             try
             {
                 var objectToReturn = await _mediator.Send(createCookbookCommand);
+                if (objectToReturn.Id == null)
+                {
+                    throw new Exception("Server error while creating a cookbook");
+                }
                 return Ok(objectToReturn);
             }
             catch (Exception e)

@@ -15,6 +15,6 @@ namespace CulinaryPortal.Application.Persistence
         Task<List<ShoppingList>> GetUserShoppingListsAsync(int userId);
         Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId);
         Task<List<Recipe>> SearchUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId);
-        Task<List<Recipe>> SearchCokbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId);
+        Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId);
     }
 }

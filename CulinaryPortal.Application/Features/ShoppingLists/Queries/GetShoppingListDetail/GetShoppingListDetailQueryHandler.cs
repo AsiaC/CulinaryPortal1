@@ -22,8 +22,8 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingL
         }
         public async Task<ShoppingListDto> Handle(GetShoppingListDetailQuery request, CancellationToken cancellationToken)
         {
-            var @shoppingList = await _shoppingListRepository.GetShoppingListWithDetailsAsync(request.Id);
-            var shoppingListDetailDto = _mapper.Map<ShoppingListDto>(@shoppingList);
+            var shoppingList = await _shoppingListRepository.GetShoppingListWithDetailsAsync(request.Id);
+            var shoppingListDetailDto = _mapper.Map<ShoppingListDto>(shoppingList);
             return shoppingListDetailDto;
         }
     }

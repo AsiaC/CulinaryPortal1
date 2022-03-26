@@ -26,7 +26,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                return Ok(await _authenticationService.RegisterAsync(request));
+                var objectToReturn = await _authenticationService.RegisterAsync(request);                
+                return Ok(objectToReturn);
             }
             catch (Exception e)
             {

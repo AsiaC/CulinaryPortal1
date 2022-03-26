@@ -93,7 +93,7 @@ namespace CulinaryPortal.Persistence.Repositories
 
             if (!String.IsNullOrWhiteSpace(name))
             {
-                query = query.Where(r => r.Name == name);
+                query = query.Where(r => r.Name.ToLower() == name.ToLower());
             }
 
             return query.ToList();            

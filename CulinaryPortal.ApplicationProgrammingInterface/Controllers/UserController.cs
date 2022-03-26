@@ -68,7 +68,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
         [Authorize(Policy = "OnlyAdminRole")]
         [HttpDelete("{userId}", Name = "DeleteUser")]
-        public async Task<ActionResult> DeleteUser(int userId)
+        public async Task<ActionResult> DeleteUser([FromRoute] int userId)
         {
             try
             {

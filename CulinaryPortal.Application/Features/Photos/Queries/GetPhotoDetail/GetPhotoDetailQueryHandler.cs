@@ -22,8 +22,8 @@ namespace CulinaryPortal.Application.Features.Photos.Queries.GetPhotoDetail
         }
         public async Task<PhotoDto> Handle(GetPhotoDetailQuery request, CancellationToken cancellationToken)
         {
-            var @photo = await _photoRepository.GetByIdAsync(request.Id);
-            var photoDto = _mapper.Map<PhotoDto>(@photo);
+            var photo = await _photoRepository.GetByIdAsync(request.Id);
+            var photoDto = _mapper.Map<PhotoDto>(photo);
             return photoDto;
         }
     }

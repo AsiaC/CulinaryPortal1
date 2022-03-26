@@ -26,13 +26,13 @@ namespace CulinaryPortal.Application.Features.Rates.Commands.CreateRate
         }
         public async Task<RateDto> Handle(CreateRateCommand request, CancellationToken cancellationToken)
         {
-            var @event = _mapper.Map<Rate>(request);
+            var rate = _mapper.Map<Rate>(request);
 
-            @event = await _rateRepository.AddAsync(@event);
+            rate = await _rateRepository.AddAsync(rate);
 
-            var objestToReturn = _mapper.Map<RateDto>(@event);
+            var objectToReturn = _mapper.Map<RateDto>(rate);
 
-            return objestToReturn;
+            return objectToReturn;
         }
     }
 }

@@ -67,12 +67,12 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var shoppingListToReturn = await _mediator.Send(createShoppingListCommand);
-                if (shoppingListToReturn.Id == null)
+                var objectToReturn = await _mediator.Send(createShoppingListCommand);
+                if (objectToReturn.Id == null)
                 {
                     throw new Exception("Server error while creating a list");
                 }
-                return Ok(shoppingListToReturn);                
+                return Ok(objectToReturn);                
             }
             catch (Exception e)
             {

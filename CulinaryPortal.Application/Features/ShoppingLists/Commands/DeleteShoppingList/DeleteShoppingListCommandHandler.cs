@@ -21,15 +21,11 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShopp
         public async Task<Unit> Handle(DeleteShoppingListCommand request, CancellationToken cancellationToken)
         {
             var objectToDelete = await _shoppingListRepository.GetByIdAsync(request.Id);
-
             if (objectToDelete == null)
             {
-                //TODO exceptions
-                //throw new NotFoundException(nameof(Event), request.EventId);
+                throw new Exception("Server error while removing the shopping list");
             }
-
             await _shoppingListRepository.DeleteAsync(objectToDelete);
-
             return Unit.Value;
         }
     }

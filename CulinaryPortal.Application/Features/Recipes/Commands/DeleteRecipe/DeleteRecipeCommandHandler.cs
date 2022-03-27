@@ -20,16 +20,12 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe
         }
         public async Task<Unit> Handle(DeleteRecipeCommand request, CancellationToken cancellationToken)
         {
-            var recipeToDelete = await _recipeRepository.GetByIdAsync(request.Id);
-
-            //if (recipeToDelete == null)
-            //{
-            //    //todo
-            //    //throw new NotFoundException(nameof(Recipe), request.RecipeId);
-            //}
-
-            await _recipeRepository.DeleteAsync(recipeToDelete);
-
+            var objectToDelete = await _recipeRepository.GetByIdAsync(request.Id);
+            if (objectToDelete == null)
+            {
+                throw new Exception("Server error while removing the recipe");
+            }
+            await _recipeRepository.DeleteAsync(objectToDelete);
             return Unit.Value;
         }
     }

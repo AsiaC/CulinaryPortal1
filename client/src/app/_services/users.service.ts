@@ -144,8 +144,9 @@ export class UsersService {
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
-        console.log(error);  
-        return of(result as T);
+        console.log(error);
+        console.log(result);
+        return of(error);
     }
   }
 }

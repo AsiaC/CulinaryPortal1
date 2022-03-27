@@ -176,7 +176,7 @@ export class RecipeNewFormComponent implements OnInit {
 
   createNewRecipe(){
     this.submitted = true;    
-    this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => { debugger;
+    this.recipesService.addRecipe(this.addRecipeForm.value).subscribe(response => {
       if(response.status === 200 ){ 
         this.toastr.success('Success. Recipe added.');
       } else {

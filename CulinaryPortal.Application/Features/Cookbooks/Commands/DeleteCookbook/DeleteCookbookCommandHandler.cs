@@ -20,15 +20,11 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Commands.DeleteCookbook
         public async Task<Unit> Handle(DeleteCookbookCommand request, CancellationToken cancellationToken)
         {
             var objectToDelete = await _cookbookRepository.GetByIdAsync(request.Id);
-
             if (objectToDelete == null)
             {
-                //TODO exceptions
-                //throw new NotFoundException(nameof(Event), request.EventId);
+                throw new Exception("Server error while removing the cookbook");
             }
-
             await _cookbookRepository.DeleteAsync(objectToDelete);
-
             return Unit.Value;
         }
     }

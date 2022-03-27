@@ -47,7 +47,8 @@ import { ShoppingList } from '../_models/shoppingList';
       return (error: any): Observable<T> => {
           console.log(operation + ' has error.');
           console.log(error);
-          return of(result as T);
+          console.log(result);
+          return of(error);
       }
     }
   }

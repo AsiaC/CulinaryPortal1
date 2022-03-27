@@ -19,15 +19,11 @@ namespace CulinaryPortal.Application.Features.Users.Commands.DeleteUser
         public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var objectToDelete = await _userRepository.GetByIdAsync(request.Id);
-
             if (objectToDelete == null)
             {
-                //TODO exceptions
-                //throw new NotFoundException(nameof(Event), request.EventId);
+                throw new Exception("Server error while removing the user");
             }
-
             await _userRepository.DeleteAsync(objectToDelete);
-
             return Unit.Value;
         }
     }

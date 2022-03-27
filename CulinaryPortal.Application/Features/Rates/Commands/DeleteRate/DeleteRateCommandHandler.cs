@@ -20,15 +20,11 @@ namespace CulinaryPortal.Application.Features.Rates.Commands.DeleteRate
         public async Task<Unit> Handle(DeleteRateCommand request, CancellationToken cancellationToken)
         {
             var objectToDelete = await _rateRepository.GetByIdAsync(request.Id);
-
             if (objectToDelete == null)
             {
-                //TODO exceptions
-                //throw new NotFoundException(nameof(Event), request.EventId);
+                throw new Exception("Server error while removing the rate");
             }
-
             await _rateRepository.DeleteAsync(objectToDelete);
-
             return Unit.Value;
         }
     }

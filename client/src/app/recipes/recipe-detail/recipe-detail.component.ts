@@ -198,8 +198,7 @@ export class RecipeDetailComponent implements OnInit {
 
   rate(rating: number){
     this.rateModel = {recipeId: this.currentRecipe.id, userId: this.user.id, value: rating, id: null};
-    this.recipeService.addRate(this.rateModel)
-    .subscribe(response => {
+    this.recipeService.addRate(this.rateModel).subscribe(response => { debugger;
       this.loadRecipe();
       if(response.status === 200 ){         
         this.toastr.success('Recipe assessed successfully');
@@ -214,15 +213,15 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   deleteVote(){
-    this.recipeService.deleteRate(this.rateModel.id).subscribe(response => {
+    this.recipeService.deleteRate(this.rateModel.id).subscribe(response => { debugger;
       this.loadRecipe();
       if(response.status === 200 ){ 
         this.toastr.success('Vote removed successfully');        
-      } else {
+      } else { debugger;
         this.toastr.error('Error! Rate cannot be removed.');
         console.log(response);
       }          
-    }, error => {
+    }, error => { debugger;
       this.toastr.error('Error! Rate cannot be removed.');
       console.log(error);
     })

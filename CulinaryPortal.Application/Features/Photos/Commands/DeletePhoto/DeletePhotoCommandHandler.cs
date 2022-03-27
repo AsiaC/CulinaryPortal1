@@ -21,15 +21,11 @@ namespace CulinaryPortal.Application.Features.Photos.Commands.DeletePhoto
         public async Task<Unit> Handle(DeletePhotoCommand request, CancellationToken cancellationToken)
         {
             var objectToDelete = await _photoRepository.GetByIdAsync(request.Id);
-
             if (objectToDelete == null)
             {
-                //TODO exceptions
-                //throw new NotFoundException(nameof(Event), request.EventId);
+                throw new Exception("Server error while removing the photo");
             }
-
             await _photoRepository.DeleteAsync(objectToDelete);
-
             return Unit.Value;
         }
     }

@@ -47,7 +47,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var deleteCommand = new DeleteRateCommand() { Id = rateId };
+                var deleteCommand = new DeleteRateCommand() { Id = rateId };                
                 await _mediator.Send(deleteCommand);
                 return Ok();
             }

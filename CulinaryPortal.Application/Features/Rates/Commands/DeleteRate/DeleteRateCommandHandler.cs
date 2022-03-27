@@ -22,7 +22,7 @@ namespace CulinaryPortal.Application.Features.Rates.Commands.DeleteRate
             var objectToDelete = await _rateRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the rate");
+                throw new Exception("Server error while removing the rate. Object not found.");
             }
             await _rateRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

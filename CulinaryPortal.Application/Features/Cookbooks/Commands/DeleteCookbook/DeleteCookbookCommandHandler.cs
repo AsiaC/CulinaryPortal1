@@ -22,7 +22,7 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Commands.DeleteCookbook
             var objectToDelete = await _cookbookRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the cookbook");
+                throw new Exception("Server error while removing the cookbook. Object not found.");
             }
             await _cookbookRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

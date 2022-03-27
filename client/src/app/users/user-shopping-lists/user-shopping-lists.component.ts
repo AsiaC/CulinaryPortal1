@@ -7,6 +7,7 @@ import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-shopping-lists',
@@ -21,7 +22,7 @@ export class UserShoppingListsComponent implements OnInit {
   bsModalRef: BsModalRef;
   alertText: string;
 
-  constructor(private userService:UsersService, private accountService:AccountService, private toastr: ToastrService, private shoppingListService: ShoppingListService) { 
+  constructor(private userService:UsersService, private accountService:AccountService, private toastr: ToastrService, private shoppingListService: ShoppingListService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -30,19 +31,24 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   loadUserShoppingLists(){
-    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists=>{
-      this.userShoppingLists = userShoppingLists;
-    }, error =>{     
-      this.userShoppingLists = undefined; //TODO czy to potrzebne?     
-      if(error.status === 401){
-        this.alertText = "You do not have access to this content.";
-      } else if(error.status === 404){
-        this.userShoppingLists = undefined;
-        this.alertText = "You do not have any shopping lists yet."
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingListsResponse=>{ debugger;
+      if(userShoppingListsResponse?.length !== undefined){
+        this.userShoppingLists = userShoppingListsResponse;
       } else {
-        console.log('Error during loading a shopping list.'); 
-        console.log(error);
-      }    
+        this.userShoppingLists = undefined;
+        if(userShoppingListsResponse.error.status === 401){
+          this.alertText = "You do not have access to this content.";
+        } else if(userShoppingListsResponse.error.status === 404){
+          this.alertText = "You do not have any shopping lists yet."
+        } else {
+          this.router.navigateByUrl('/recipes');     
+          this.alertText = 'An error occurred, please try again.';
+        }    
+      }
+    }, error =>{
+      console.log(error);
+      this.router.navigateByUrl('/recipes');     
+      this.alertText = 'An error occurred, please try again.';
     })
   }
 
@@ -55,12 +61,12 @@ export class UserShoppingListsComponent implements OnInit {
     this.addNewListMode = true;
   }
 
-  deleteShoppingList(shoppingListId) {
+  deleteShoppingList(shoppingListId) {debugger;
     this.shoppingListService.deleteShoppingList(shoppingListId)
-      .subscribe(response => {
+      .subscribe(response => { debugger;
         if(response.status === 200 ){ 
           this.toastr.success('Shopping list removed successfully!');
-          this.loadUserShoppingLists(); 
+          this.loadUserShoppingLists()
         } else {
           this.toastr.error('Error! Shopping list cannot be removed.');
           console.log(response);

@@ -48,32 +48,41 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadRecipe(){  
-    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{    
-      this.currentRecipe = recipe; 
-      if(this.user !== undefined){
-        this.loadShoppingListsIds();  
-        this.loadCookbook();
-      }                
+    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{ 
+      if(recipe?.id !== undefined){
+        this.currentRecipe = recipe; 
+        if(this.user !== undefined){
+          this.loadShoppingListsIds();  
+          this.loadCookbook();
+
+          if(this.user !== undefined){
+            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
+              if(rate !== undefined){
+                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rate.value, id: rate.id};
+              }  
+              else{
+                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
+              }            
+            })
+          }
+
+        } 
+      } else {
+        console.log('Error while displaying a recipe');        
+        this.router.navigateByUrl('/recipes');
+        this.toastr.error('An error occurred, please try again.');
+      }              
     }, error => {
       console.log(error);
-    })
-
-    if(this.user !== undefined){
-      this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
-        if(rate !== undefined){
-          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rate.value, id: rate.id};
-        }  
-        else{
-          this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
-        }            
-      })
-    }
+      this.router.navigateByUrl('/recipes');
+      this.toastr.error('An error occurred, please try again.');      
+    })    
   }
 
   loadCookbook(){
-    this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
-      this.userCookbook = userCookbook;  
-      if(this.userCookbook !== undefined){
+    this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {      
+      if(userCookbook?.id !== undefined){
+        this.userCookbook = userCookbook;  
         if(this.userCookbook.cookbookRecipes !== undefined){
           var recipeInCookbook = this.userCookbook.cookbookRecipes.find(r=>r.recipeId === this.currentRecipe.id);
            if(recipeInCookbook !== undefined) {
@@ -81,17 +90,23 @@ export class RecipeDetailComponent implements OnInit {
            }
         }
       }
-    }, error => {
+    }, error => {      
       console.log(error);
+      this.router.navigateByUrl('/recipes');    
+      this.toastr.error('An error occurred, please try again.');       
     })
   }
 
   loadShoppingListsIds(){
     // Potrzebne do modala, user moze miec kilka list wiec trzeba wybrać 
-    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
-      this.userShoppingLists = userShoppingLists;              
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => { debugger;
+      if(userShoppingLists?.length !== undefined){
+        this.userShoppingLists = userShoppingLists; 
+      }             
     }, error => {
       console.log(error);
+      this.router.navigateByUrl('/recipes');    
+      this.toastr.error('An error occurred, please try again.');   
     })
   }
 
@@ -99,7 +114,7 @@ export class RecipeDetailComponent implements OnInit {
     this.editRecipe = true;
   }
 
-  addToCookbook(){ 
+  addToCookbook(){
     if(this.userCookbook === undefined){
         this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: 0, recipe: this.currentRecipe, isRecipeAdded: true}
         const initialState = {     
@@ -198,7 +213,7 @@ export class RecipeDetailComponent implements OnInit {
 
   rate(rating: number){
     this.rateModel = {recipeId: this.currentRecipe.id, userId: this.user.id, value: rating, id: null};
-    this.recipeService.addRate(this.rateModel).subscribe(response => { debugger;
+    this.recipeService.addRate(this.rateModel).subscribe(response => {
       this.loadRecipe();
       if(response.status === 200 ){         
         this.toastr.success('Recipe assessed successfully');
@@ -213,15 +228,15 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   deleteVote(){
-    this.recipeService.deleteRate(this.rateModel.id).subscribe(response => { debugger;
+    this.recipeService.deleteRate(this.rateModel.id).subscribe(response => {
       this.loadRecipe();
       if(response.status === 200 ){ 
         this.toastr.success('Vote removed successfully');        
-      } else { debugger;
+      } else {
         this.toastr.error('Error! Rate cannot be removed.');
         console.log(response);
       }          
-    }, error => { debugger;
+    }, error => {
       this.toastr.error('Error! Rate cannot be removed.');
       console.log(error);
     })

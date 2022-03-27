@@ -21,16 +21,12 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.UpdateShopp
             _shoppingListRepository = shoppingListRepository;
         }
         public async Task<Unit> Handle(UpdateShoppingListCommand request, CancellationToken cancellationToken)
-        {  //todoczy przy updatacvh m,usze spr czy cos istnieje i rzucac wyjatek
-            //var objectToUpdate = await _shoppingListRepository.GetByIdAsync(request.Id);
+        {  
             var objectToUpdate = await _shoppingListRepository.GetShoppingListWithDetailsAsync(request.Id);
-
-            //if (objectToUpdate == null)
-            //{
-            //TODO DODAC EXCEPTIONS?
-            //throw new NotFoundException(nameof(Event), request.EventId);
-            //}
-            //TODO co z items? validacja?
+            if (objectToUpdate == null)
+            {
+                throw new Exception("Server error while updating the shopping list. Object not found.");
+            }            
             _mapper.Map(request, objectToUpdate, typeof(UpdateShoppingListCommand), typeof(ShoppingList));
 
             await _shoppingListRepository.UpdateAsync(objectToUpdate);

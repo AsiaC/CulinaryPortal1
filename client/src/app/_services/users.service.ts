@@ -52,14 +52,14 @@ export class UsersService {
       catchError(this.handleError<Recipe[]>('getUserRecipes userId = ' + userId, [])));
   }
 
-  getUserCookbook(userId: number): Observable<Cookbook> {
-    return this.http.get<Cookbook>(this.baseUrl + 'users/' + userId + '/cookbook').pipe(
-      catchError(this.handleError<Cookbook>('getUserCookbook userId = ' + userId)));
+  getUserCookbook(userId: number): Observable<any> {
+    return this.http.get(this.baseUrl + 'users/' + userId + '/cookbook').pipe(
+      catchError(this.handleError<any>('getUserCookbook userId = ' + userId)));
   }
 
-  getUserShoppingLists(userId: number): Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(this.baseUrl + 'users/' + userId + '/shoppingLists').pipe(
-      catchError(this.handleError<ShoppingList[]>('getUserShoppingLists userId = ' + userId, [])));
+  getUserShoppingLists(userId: number): Observable<any> {
+    return this.http.get(this.baseUrl + 'users/' + userId + '/shoppingLists').pipe(
+      catchError(this.handleError<any>('getUserShoppingLists userId = ' + userId )));
   }
 
   searchUserRecipes(model: any, user: number){
@@ -145,7 +145,7 @@ export class UsersService {
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
         console.log(error);
-        console.log(result);
+        console.log('result = ' + result);
         return of(error);
     }
   }

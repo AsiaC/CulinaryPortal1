@@ -13,6 +13,7 @@ import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 import { Category } from 'src/app/_models/category';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -39,7 +40,7 @@ export class UserCookbookComponent implements OnInit {
   DifficultyLevelEnum = DifficultyLevelEnum;
   alertText: string;
 
-  constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService, private recipeService: RecipesService) { 
+  constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService, private recipeService: RecipesService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);       
@@ -51,19 +52,29 @@ export class UserCookbookComponent implements OnInit {
   }
 
   loadUserCookbook(){
-    this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {
-      this.userCookbook = userCookbook;
-      if(userCookbook?.cookbookRecipes.length > 0){
-        this.userFavouriteRecipes = userCookbook.cookbookRecipes.map(x=>x.recipe);
-      } else {        
-        this.alertText = "User does not have any favourite recipes yet. "
-      }
-    }, error => {      
-      if(error.status === 404){        
-        this.alertText = "User does not have a cookbook yet."
-      } else if(error.status === 401){        
-        this.alertText = "You do not have access to this content.";
-      }
+    this.userService.getUserCookbook(this.user.id).subscribe(userCookbookResponse => {
+      if(userCookbookResponse.cookbookRecipes !== undefined){
+        this.userCookbook = userCookbookResponse;
+        if(userCookbookResponse?.cookbookRecipes.length > 0){
+          this.userFavouriteRecipes = userCookbookResponse.cookbookRecipes.map(x=>x.recipe);
+        } else {
+          this.userFavouriteRecipes = undefined;
+          this.alertText = "User does not have any favourite recipes yet."
+        }
+      } else {  
+          if(userCookbookResponse.error.status === 404){        
+            this.alertText = "User does not have a cookbook yet."
+          } else if(userCookbookResponse.status === 401){        
+            this.alertText = "You do not have access to this content.";
+          } else {   
+            this.router.navigateByUrl('/recipes');     
+            this.alertText = 'An error occurred, please try again.';
+          }
+        }
+    }, error => {
+      console.log(error);
+      this.router.navigateByUrl('/recipes');     
+      this.alertText = 'An error occurred, please try again.';
     })
   }
 
@@ -97,6 +108,7 @@ export class UserCookbookComponent implements OnInit {
     this.cookbookService.deleteCookbook(cookbookId).subscribe(response => {
       this.loadUserCookbook(); 
       if(response.status === 200){
+        this.userCookbook = undefined;
         this.toastr.success('Cookbook removed successfully!');        
       } else {
         this.toastr.error('Error! Cookbook cannot be removed.'); 

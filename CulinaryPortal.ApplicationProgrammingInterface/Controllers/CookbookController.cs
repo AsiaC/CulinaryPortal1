@@ -32,7 +32,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                GetCookbooksListQuery getCookbooksListQuery = new GetCookbooksListQuery();
+                GetCookbooksListQuery getCookbooksListQuery = new GetCookbooksListQuery();                
                 var cookbooks = await _mediator.Send(getCookbooksListQuery);
                 return Ok(cookbooks);
             }

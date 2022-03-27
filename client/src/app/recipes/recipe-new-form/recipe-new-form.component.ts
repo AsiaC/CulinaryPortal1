@@ -11,9 +11,9 @@ import { Recipe } from 'src/app/_models/recipe';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CreateIngredientComponent } from 'src/app/modals/create-ingredient/create-ingredient.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-new-form',
@@ -39,7 +39,7 @@ export class RecipeNewFormComponent implements OnInit {
   bsModalRef: BsModalRef;
   itemIsRemoved: boolean = false;
   
-  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private modalService: BsModalService, private toastr: ToastrService) { 
+  constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private modalService: BsModalService, private toastr: ToastrService, private router: Router) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -61,35 +61,43 @@ export class RecipeNewFormComponent implements OnInit {
   loadRecipe(){
     this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
     .pipe(first())
-    .subscribe(recipe =>{      
-      this.recipe = recipe; 
-      this.addRecipeForm.patchValue({
-        id: recipe.id,
-        name: recipe.name,
-        description: recipe.description,
-        difficultyLevel: recipe.difficultyLevel,
-        preparationTime: recipe.preparationTime,
-        categoryId: recipe.categoryId,
-        userId: recipe.userId
-      });
-      var instructionsArray = [];
-      this.recipe.instructions.forEach(instruction => instructionsArray.push(this.fb.group({
-        name: instruction.name,
-        description: instruction.description,
-        id: instruction.id,
-        step: instruction.step
-      })));
-      this.addRecipeForm.setControl('instructions', this.fb.array(instructionsArray || []));
-      
-      var recipeIngredientsArray = [];
-      this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
-        quantity: recipeIngredient.quantity,
-        measureId: recipeIngredient.measure.id, 
-        ingredientId: recipeIngredient.ingredient.id,    
-      })));
-      this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
+    .subscribe(recipe =>{ 
+      if(recipe?.id !== undefined){
+        this.recipe = recipe; 
+        this.addRecipeForm.patchValue({
+          id: recipe.id,
+          name: recipe.name,
+          description: recipe.description,
+          difficultyLevel: recipe.difficultyLevel,
+          preparationTime: recipe.preparationTime,
+          categoryId: recipe.categoryId,
+          userId: recipe.userId
+        });
+        var instructionsArray = [];
+        this.recipe.instructions.forEach(instruction => instructionsArray.push(this.fb.group({
+          name: instruction.name,
+          description: instruction.description,
+          id: instruction.id,
+          step: instruction.step
+        })));
+        this.addRecipeForm.setControl('instructions', this.fb.array(instructionsArray || []));
+        
+        var recipeIngredientsArray = [];
+        this.recipe.recipeIngredients.forEach(recipeIngredient => recipeIngredientsArray.push(this.fb.group({
+          quantity: recipeIngredient.quantity,
+          measureId: recipeIngredient.measure.id, 
+          ingredientId: recipeIngredient.ingredient.id,    
+        })));
+        this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
+      } else {
+        console.log('Error while displaying a recipe');        
+        this.router.navigateByUrl('/recipes');
+        this.toastr.error('An error occurred, please try again.');
+      }   
     }, error => {
       console.log(error);
+      this.router.navigateByUrl('/recipes');
+      this.toastr.error('An error occurred, please try again.');    
     });
   }
   

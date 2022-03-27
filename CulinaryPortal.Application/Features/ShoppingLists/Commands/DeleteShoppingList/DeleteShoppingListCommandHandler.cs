@@ -23,7 +23,7 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Commands.DeleteShopp
             var objectToDelete = await _shoppingListRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the shopping list");
+                throw new Exception("Server error while removing the shopping list. Object not found.");
             }
             await _shoppingListRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

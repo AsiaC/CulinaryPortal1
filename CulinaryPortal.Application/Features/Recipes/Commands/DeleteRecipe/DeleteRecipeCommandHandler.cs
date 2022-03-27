@@ -23,7 +23,7 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe
             var objectToDelete = await _recipeRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the recipe");
+                throw new Exception("Server error while removing the recipe. Object not found.");
             }
             await _recipeRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

@@ -23,7 +23,7 @@ namespace CulinaryPortal.Application.Features.Users.Queries.GetUserCookbook
         }
         public async Task<CookbookDto> Handle(GetUserCookbookQuery request, CancellationToken cancellationToken)
         {
-            var userCookbook = await _userRepository.GetUserCookbookAsync(request.UserId);
+            var userCookbook = await _userRepository.GetUserCookbookAsync(request.UserId);            
             var cookbookDto = _mapper.Map<CookbookDto>(userCookbook);
             return cookbookDto;
         }

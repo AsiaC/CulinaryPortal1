@@ -23,13 +23,10 @@ namespace CulinaryPortal.Application.Features.Photos.Commands.UpdatePhoto
         public async Task<Unit> Handle(UpdatePhotoCommand request, CancellationToken cancellationToken)
         {
             var objectToUpdate = await _photoRepository.GetByIdAsync(request.Id);
-
-            //if (objectToUpdate == null)
-           // {
-                //TODO DODAC EXCEPTIONS
-                //throw new NotFoundException(nameof(Event), request.EventId);
-            //}
-            //TODO co z items? validacja?
+            if (objectToUpdate == null)
+            {
+                throw new Exception("Server error while updating the photo. Object not found.");
+            }            
             _mapper.Map(request,objectToUpdate,typeof(UpdatePhotoCommand),typeof(Photo));
 
             await _photoRepository.UpdateAsync(objectToUpdate);

@@ -23,21 +23,18 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Commands.UpdateCookbook
 
         public async Task<Unit> Handle(UpdateCookbookCommand request, CancellationToken cancellationToken)
         {
-            //var objectToUpdate = await _cookbookRepository.GetCookbookWithDetailsAsync(request.Id);
-            //_mapper.Map(request, objectToUpdate, typeof(UpdateCookbookCommand), typeof(Cookbook));
-
-            //await _cookbookRepository.UpdateAsync(objectToUpdate);
-
-
-
             var cookbookRecipe = _mapper.Map<CookbookRecipe>(request);
-            //var cookbook = await _cookbookRepository.GetByIdAsync(cookbookRecipe.CookbookId);
             var cookbook = await _cookbookRepository.GetCookbookWithDetailsAsync(cookbookRecipe.CookbookId);
-            if (request.IsRecipeAdded) //add recipe to the cookbook
+            if (cookbook == null)
+            {
+                throw new Exception("Server error while updating the cookbook. Object not found.");
+            }
+
+            if (request.IsRecipeAdded) // Add recipe to the cookbook
             {                
                 await _cookbookRepository.AddRecipeToCookbookAsync(cookbookRecipe, cookbook);
             }
-            else //remove recipe from cookbook
+            else // Remove recipe from cookbook
             {
                 await _cookbookRepository.RemoveRecipeFromCookbookAsync(cookbookRecipe, cookbook);
             }

@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     return this.accountService.currentUser$.pipe(
       map(user=>{
         if(user) return true;
-        console.log("You cannot open this link")
+        console.log("You do not have access to this content.")
       })
     )
   }

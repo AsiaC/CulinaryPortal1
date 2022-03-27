@@ -45,7 +45,7 @@ export class RecipePhotoComponent implements OnInit {
     const uploadData = new FormData();
     uploadData.append('upload', this.file);
     this.recipeService.addPhoto(this.recipeId, uploadData)
-    .subscribe(response => { debugger;
+    .subscribe(response => {
       if(response.status === 200 ){ 
         this.toastr.success('Photo added successfully!');
         this.loadRecipePhotos();

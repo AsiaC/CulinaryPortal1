@@ -24,13 +24,10 @@ namespace CulinaryPortal.Application.Features.Users.Commands.UpdateUser
         public async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var objectToUpdate = await _userRepository.GetByIdAsync(request.Id);
-
-            //if (objectToUpdate == null)
-            //{
-                //TODO DODAC EXCEPTIONS
-                //throw new NotFoundException(nameof(Event), request.EventId);
-            //}
-            //TODO co z items? validacja?
+            if (objectToUpdate == null)
+            {
+                throw new Exception("Server error while updating the user. Object not found.");
+            }            
             _mapper.Map(request, objectToUpdate, typeof(UpdateUserCommand), typeof(User));
 
             await _userRepository.UpdateAsync(objectToUpdate);

@@ -24,13 +24,10 @@ namespace CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe
         public async Task<Unit> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
         {
             var objectToUpdate = await _recipeRepository.GetRecipeWithDetailsAsync(request.Id);
-
-            //if (objectToUpdate == null)
-            //{
-            //    //TODO DODAC EXCEPTIONS
-            //    //throw new NotFoundException(nameof(Event), request.EventId);
-            //}
-            ////todo validacja?
+            if (objectToUpdate == null)
+            {
+                throw new Exception("Server error while updating the recipe. Object not found.");
+            }           
             _mapper.Map(request, objectToUpdate, typeof(UpdateRecipeCommand), typeof(Recipe));
 
             await _recipeRepository.UpdateAsync(objectToUpdate);

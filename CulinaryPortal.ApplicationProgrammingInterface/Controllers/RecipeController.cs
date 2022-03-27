@@ -50,13 +50,13 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpGet("{recipeId}", Name = "GetRecipe")]
-        public async Task<ActionResult<RecipeDto>> GetRecipe(int recipeId)
+        public async Task<ActionResult<RecipeDto>> GetRecipe([FromRoute] int recipeId)
         {
             try
             {
                 var getRecipeDetailQuery = new GetRecipeDetailQuery() { Id = recipeId };
                 var recipe = await _mediator.Send(getRecipeDetailQuery);
-                if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+                if (recipe == null)
                 {
                     return NotFound();
                 }

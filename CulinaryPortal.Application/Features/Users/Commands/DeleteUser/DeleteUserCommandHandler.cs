@@ -21,7 +21,7 @@ namespace CulinaryPortal.Application.Features.Users.Commands.DeleteUser
             var objectToDelete = await _userRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the user");
+                throw new Exception("Server error while removing the user. Object not found.");
             }
             await _userRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

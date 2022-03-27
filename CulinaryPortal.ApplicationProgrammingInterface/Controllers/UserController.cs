@@ -48,13 +48,13 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         [HttpGet("{userId}", Name = "GetUser")]
-        public async Task<ActionResult<UserDto>> GetUser(int userId)
+        public async Task<ActionResult<UserDto>> GetUser([FromRoute] int userId)
         {
             try
             {
                 var getUserDetailQuery = new GetUserDetailQuery() { Id = userId };
                 var recipe = await _mediator.Send(getUserDetailQuery);
-                if (recipe == null) //todo nie jestem pewna czy null, czy coś innego bo w base repo jest Find a nie FirstOrDetail
+                if (recipe == null)
                 {
                     return NotFound();
                 }
@@ -104,7 +104,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             {
                 var getUserCookbookQuery = new GetUserCookbookQuery() { UserId = userId };
                 var cookbook = await _mediator.Send(getUserCookbookQuery);
-                if (cookbook == null) //todo spr
+                if (cookbook == null)
                 {
                     return NotFound();
                 }

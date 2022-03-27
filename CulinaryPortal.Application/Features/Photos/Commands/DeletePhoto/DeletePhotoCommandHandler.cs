@@ -23,7 +23,7 @@ namespace CulinaryPortal.Application.Features.Photos.Commands.DeletePhoto
             var objectToDelete = await _photoRepository.GetByIdAsync(request.Id);
             if (objectToDelete == null)
             {
-                throw new Exception("Server error while removing the photo");
+                throw new Exception("Server error while removing the photo. Object not found.");
             }
             await _photoRepository.DeleteAsync(objectToDelete);
             return Unit.Value;

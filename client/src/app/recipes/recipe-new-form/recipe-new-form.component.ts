@@ -90,7 +90,7 @@ export class RecipeNewFormComponent implements OnInit {
         })));
         this.addRecipeForm.setControl('recipeIngredients', this.fb.array(recipeIngredientsArray || []));
       } else {
-        console.log('Error while displaying a recipe');        
+        console.log('Error while displaying the recipe');        
         this.router.navigateByUrl('/recipes');
         this.toastr.error('An error occurred, please try again.');
       }   
@@ -159,26 +159,59 @@ export class RecipeNewFormComponent implements OnInit {
   }
 
   getAllCategories(){
-    this.recipesService.getCategories().subscribe(allCategories => {
-      this.allCategories = allCategories;
+    this.recipesService.getCategories().subscribe(allCategoriesResponse => {
+      if(allCategoriesResponse?.length !== undefined){
+        this.allCategories = allCategoriesResponse;
+      } else {        
+        if(allCategoriesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allCategoriesResponse.error.status === 404){
+          this.toastr.error('No categories found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
     }, error =>{
       console.log(error);
+      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
   getAllIngredients(){
-    this.recipesService.getIngredients().subscribe(allIngredients => {
-      this.allIngredients = allIngredients;
+    this.recipesService.getIngredients().subscribe(allIngredientsResponse => {
+      if(allIngredientsResponse?.length !== undefined){
+        this.allIngredients = allIngredientsResponse;
+      } else {        
+        if(allIngredientsResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allIngredientsResponse.error.status === 404){
+          this.toastr.error('No ingredients found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }      
     }, error =>{
       console.log(error);
+      this.toastr.error('An error occurred, please try again.');  
     })
   }  
 
   getAllMeasures(){
-    this.recipesService.getMeasures().subscribe(allMeasures => {
-      this.allMeasures = allMeasures;
+    this.recipesService.getMeasures().subscribe(allMeasuresResponse => {
+      if(allMeasuresResponse?.length !== undefined){
+        this.allMeasures = allMeasuresResponse;
+      } else {        
+        if(allMeasuresResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allMeasuresResponse.error.status === 404){
+          this.toastr.error('No measures found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }        
     }, error =>{
       console.log(error);
+      this.toastr.error('An error occurred, please try again.'); 
     })
   }
 

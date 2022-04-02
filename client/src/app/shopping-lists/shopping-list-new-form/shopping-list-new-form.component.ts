@@ -6,6 +6,7 @@ import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-list-new-form',
@@ -22,7 +23,7 @@ export class ShoppingListNewFormComponent implements OnInit {
   itemIsRemoved: boolean = false;
   @Input()selectedListId: number;
   
-  constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private toastr: ToastrService,) { 
+  constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private toastr: ToastrService,private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
@@ -42,20 +43,27 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.shoppingListService.getShoppingList(this.selectedListId)
     .pipe(first())
     .subscribe(shoppingList => {
-      this.shoppingList = shoppingList;
-      this.addShoppingListForm.patchValue({
-        id: shoppingList.id,
-        name: shoppingList.name,
-      });
-      var listItemsArray = [];
-      this.shoppingList.items.forEach(listItem => listItemsArray.push(this.fb.group({
-        itemName: listItem.itemName,
-        id: listItem.id
-      })));
-      this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));      
+      if(shoppingList.id !== undefined){      
+        this.shoppingList = shoppingList;
+        this.addShoppingListForm.patchValue({
+          id: shoppingList.id,
+          name: shoppingList.name,
+        });
+        var listItemsArray = [];
+        this.shoppingList.items.forEach(listItem => listItemsArray.push(this.fb.group({
+          itemName: listItem.itemName,
+          id: listItem.id
+        })));
+        this.addShoppingListForm.setControl('items', this.fb.array(listItemsArray || []));      
+      } else {
+        console.log('Error while displaying the shopping list');        
+        this.router.navigateByUrl('/recipes');
+        this.toastr.error('An error occurred, please try again.');
+      }
     }, error => {
-      console.log('Error during list loading.');
       console.log(error);
+      this.router.navigateByUrl('/recipes');
+      this.toastr.error('An error occurred, please try again.'); 
     });
   }
 

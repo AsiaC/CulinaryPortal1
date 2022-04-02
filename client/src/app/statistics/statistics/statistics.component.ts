@@ -4,6 +4,7 @@ import { RecipesService } from 'src/app/_services/recipes.service';
 import { User } from 'src/app/_models/user';
 import { UsersService } from 'src/app/_services/users.service';
 import { Category } from 'src/app/_models/category';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-statistics',
@@ -16,7 +17,7 @@ export class StatisticsComponent implements OnInit {
   allCategories: Category[];
   users: User[];
 
-  constructor(private recipeService: RecipesService, private userService: UsersService) { }
+  constructor(private recipeService: RecipesService, private userService: UsersService, private toastr: ToastrService) { }
 
   ngOnInit(): void {    
     this.searchRecipes();
@@ -24,30 +25,53 @@ export class StatisticsComponent implements OnInit {
     this.getUsers();
   }  
   
-  searchRecipes(){
-    var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
-    this.recipeService.searchRecipes(searchModel)
-    .subscribe(response => {
-      this.top6Recipes = response;
-      }, error => {
-        console.log(error);               
+  searchRecipes(){    
+    var dict = { top: 6 };    
+
+    this.recipeService.searchRecipes(dict).subscribe(recipesResponse => {
+      if(recipesResponse?.length !== undefined){
+        this.top6Recipes = recipesResponse;
+      } else {                      
+        this.toastr.error('An error occurred, please try again.');  
+        console.log(recipesResponse);
+      }
+    }, error => {
+      this.toastr.error('An error occurred, please try again.');
+      console.log(error);               
     })
   }
 
   getCategories(){
-    this.recipeService.getCategories().subscribe(allCategories => {
-      this.allCategories = allCategories;
+    this.recipeService.getCategories().subscribe(allCategoriesResponse => {
+      if(allCategoriesResponse?.length !== undefined){
+        this.allCategories = allCategoriesResponse;
+      } else {        
+        if(allCategoriesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allCategoriesResponse.error.status === 404){
+          this.toastr.error('No categories found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
     }, error =>{
       console.log(error);
+      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
   getUsers(){
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
-      this.numberOfRegisteredUsers = users.length;
+    this.userService.getUsers().subscribe(usersResponse => {
+      if(usersResponse?.length !== undefined){
+        this.users = usersResponse;
+        this.numberOfRegisteredUsers = this.users.length;
+      } else { 
+        this.toastr.error('An error occurred while loading users, please try again.');     
+        console.log(usersResponse.error.status);      
+      }
     }, error => {
       console.log(error);
+      this.toastr.error('An error occurred while loading users, please try again.');   
     })
   }
 }

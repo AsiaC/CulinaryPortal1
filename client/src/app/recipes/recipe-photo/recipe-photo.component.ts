@@ -25,14 +25,22 @@ export class RecipePhotoComponent implements OnInit {
 
   loadRecipePhotos(){
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
-    this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotos=>{
-      this.recipePhotos = recipePhotos;
+    this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotosResponse=>{
+      if(recipePhotosResponse?.length !== undefined){
+        this.recipePhotos = recipePhotosResponse;
+      } else {        
+        if(recipePhotosResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(recipePhotosResponse.error.status === 404){
+          this.toastr.error('No photos found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }        
     }, error =>{   
-      if(error.status === 404){
-        this.recipePhotos = undefined;
-        this.alertText = "No photos yet."
-      }
-    })
+      console.log(error);
+      this.toastr.error('An error occurred, please try again.'); 
+    })  
   }
 
   // On file Select

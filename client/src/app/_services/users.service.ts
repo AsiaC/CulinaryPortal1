@@ -6,8 +6,6 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { AccountService } from './account.service';
 import { Recipe } from '../_models/recipe';
-import { Cookbook } from '../_models/cookbook';
-import { ShoppingList } from '../_models/shoppingList';
 import { Rate } from '../_models/rate';
 
 @Injectable({
@@ -27,9 +25,9 @@ export class UsersService {
     })
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + 'users').pipe(
-      catchError(this.handleError<User[]>('getUsers', [])));
+  getUsers(): Observable<any> {
+    return this.http.get(this.baseUrl + 'users').pipe(
+      catchError(this.handleError<any>('getUsers')));
   }
 
   getUser(userId: number): Observable<User> { 
@@ -47,9 +45,9 @@ export class UsersService {
       catchError(this.handleError<any>('deleteUser')));
   }
 
-  getUserRecipes(userId: number): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.baseUrl + 'users/' + userId + '/recipes').pipe(
-      catchError(this.handleError<Recipe[]>('getUserRecipes userId = ' + userId, [])));
+  getUserRecipes(userId: number): Observable<any> {
+    return this.http.get(this.baseUrl + 'users/' + userId + '/recipes').pipe(
+      catchError(this.handleError<any>('getUserRecipes userId = ' + userId)));
   }
 
   getUserCookbook(userId: number): Observable<any> {
@@ -62,76 +60,30 @@ export class UsersService {
       catchError(this.handleError<any>('getUserShoppingLists userId = ' + userId )));
   }
 
-  searchUserRecipes(model: any, user: number){
-    var httpSearchUrl = '/recipes/search';
-    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
-      httpSearchUrl = httpSearchUrl + '?';
-   
-      if(model.name !== null){
-        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
-      }
-      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
-        if(!httpSearchUrl.endsWith('?')){
+  searchUserRecipes(dict: any, user: number){
+    var httpSearchUrl = '/recipes/search?';
+
+    for (const key of Object.keys(dict)) {
+      if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
       }
-      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
-      }
-      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
-      }
-      if(model.userId !== null){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
-      }
-    }
+      httpSearchUrl += key +"="+dict[key]        
+    }   
+    
     return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl).pipe(
       catchError(this.handleError<Recipe[]>('searchUserRecipes', [])));
   }
 
-  searchUserCookbookRecipes(model: any, user:number){
-    var httpSearchUrl = '/cookbook/search';
-    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null){
-      httpSearchUrl = httpSearchUrl + '?';
-   
-      if(model.name !== null){
-        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
-      }
-      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
-        if(!httpSearchUrl.endsWith('?')){
+  searchUserCookbookRecipes(dict: any, user:number){
+    var httpSearchUrl = '/cookbook/search?';
+
+    for (const key of Object.keys(dict)) {
+      if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
       }
-      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
-      }
-      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
-      }
-      if(model.userId !== null){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
-      }      
-    }
+      httpSearchUrl += key +"="+dict[key]        
+    }     
+    
     return this.http.get<Recipe[]>(this.baseUrl  + 'users/' + user + httpSearchUrl).pipe(
       catchError(this.handleError<Recipe[]>('searchUserCookbookRecipes', [])));
   }

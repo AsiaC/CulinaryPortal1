@@ -32,8 +32,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         public async Task<ActionResult<List<ShoppingListDto>>> GetShoppingLists()
         {
             try
-            {
-                var dtos = await _mediator.Send(new GetShoppingListsListQuery());
+            {                
+                var dtos = await _mediator.Send(new GetShoppingListsListQuery());               
                 return Ok(dtos);
             }
             catch (Exception e)

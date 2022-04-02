@@ -9,6 +9,7 @@ import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
 import { SearchRecipe } from 'src/app/_models/searchRecipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-recipes',
@@ -31,7 +32,7 @@ export class UserRecipesComponent implements OnInit {
   selectedDifficultyLevel: any;
   selectedPreparationTime: any;
 
-  constructor(private userService:UsersService, private accountService:AccountService, private toastr: ToastrService, private recipeService: RecipesService) { 
+  constructor(private userService:UsersService, private accountService:AccountService, private toastr: ToastrService, private recipeService: RecipesService, private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);       
@@ -40,25 +41,45 @@ export class UserRecipesComponent implements OnInit {
   ngOnInit(): void {
     this.loadUserRecipes();
     this.getAllCategories();
-    //console.log(this.userRecipes);
   }
 
   loadUserRecipes(){
-    //console.log(this.user);
-    this.userService.getUserRecipes(this.user.id).subscribe(userRecipes=>{
-      this.userRecipes = userRecipes;  
-      //console.log(this.userRecipes);
-    }, error =>{ 
-      if(error.status === 404){
-        this.userRecipes = undefined;
-      } 
-    })
-  }
-  getAllCategories(){
-    this.recipeService.getCategories().subscribe(allCategories => {
-      this.allCategories = allCategories;
+    this.userService.getUserRecipes(this.user.id).subscribe(userRecipesResponse=>{
+      if(userRecipesResponse?.length !== undefined){
+        this.userRecipes = userRecipesResponse;  
+      } else {        
+        if(userRecipesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(userRecipesResponse.error.status === 404){
+          this.toastr.error('You do not have any recipes yet.');          
+        } else {
+          this.router.navigateByUrl('/recipes');     
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
     }, error =>{
       console.log(error);
+      this.router.navigateByUrl('/recipes');     
+      this.toastr.error('An error occurred, please try again.');  
+    })
+  }
+
+  getAllCategories(){
+    this.recipeService.getCategories().subscribe(allCategoriesResponse => {
+      if(allCategoriesResponse?.length !== undefined){
+        this.allCategories = allCategoriesResponse;
+      } else {        
+        if(allCategoriesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allCategoriesResponse.error.status === 404){
+          this.toastr.error('No categories found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
+    }, error =>{
+      console.log(error);
+      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -66,17 +87,41 @@ export class UserRecipesComponent implements OnInit {
     this.addNewMode = !this.addNewMode;
   }
 
-  searchRecipes(){  
-    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: this.user.id, top: null}
+  searchRecipes(){      
+    var dict = {};
+    if(this.searchByName !== null){
+      dict["name"] = this.searchByName;
+    }
+    if(this.selectOptionVal !== null && this.selectOptionVal !== undefined){
+      dict["categoryId"] = Number(this.selectOptionVal);
+    }
+    if(this.selectedDifficultyLevel !== null && this.selectedDifficultyLevel !== undefined){
+      dict["difficultyLevelId"] = Number(this.selectedDifficultyLevel);
+    }
+    if(this.selectedPreparationTime !== null && this.selectedPreparationTime !== undefined){
+      dict["preparationTimeId"] = Number(this.selectedPreparationTime);
+    }
+    if(this.user.id !== null || this.user.id !== undefined){
+      dict["userId"] = this.user.id;
+    }
 
-    this.userService.searchUserRecipes(this.searchModel, this.user.id)
-    .subscribe(response => {
-      this.isNoResults = false; 
-      this.userRecipes = response;
-      this.toastr.success('Recipes filtered.');  
-      }, error => {
+    this.userService.searchUserRecipes(dict, this.user.id).subscribe(recipesResponse => {
+      if(recipesResponse?.length !== undefined){
+        this.userRecipes = recipesResponse;
+        this.toastr.success('Recipes filtered.');  
+        if(recipesResponse?.length >0){
+          this.isNoResults = false; 
+        } else {
+          this.isNoResults = true;
+        }
+      } else {                      
+        this.toastr.error('An error occurred, please try again.');  
+        console.log(recipesResponse);
+      }
+    }, error => {
         console.log(error);   
-        this.isNoResults = true;                   
+        this.isNoResults = true;   
+        this.toastr.error('An error occurred, please try again.');                  
     })
   }
   clearSearch(){

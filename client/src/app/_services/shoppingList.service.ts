@@ -18,8 +18,8 @@ import { ShoppingList } from '../_models/shoppingList';
     
     constructor(private http: HttpClient) { }
   
-    getShoppingLists(): Observable<ShoppingList[]> {
-        return this.http.get<ShoppingList[]>(this.baseUrl + 'shoppingLists').pipe(
+    getShoppingLists(): Observable<any> {
+        return this.http.get(this.baseUrl + 'shoppingLists').pipe(
           catchError(this.handleError<any>('getShoppingLists')));
     }
 

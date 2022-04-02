@@ -5,6 +5,7 @@ import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { UsersService } from 'src/app/_services/users.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-edit',
@@ -15,7 +16,7 @@ export class UserEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   user: User;
 
-  constructor(private accountService:AccountService, private userService:UsersService, private toastr: ToastrService) {    
+  constructor(private accountService:AccountService, private userService:UsersService, private toastr: ToastrService, private router: Router) {    
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
@@ -25,7 +26,17 @@ export class UserEditComponent implements OnInit {
 
   loadUser(){
     this.userService.getUser(this.user.id).subscribe(user=>{
-      this.user = user;
+      if(user.id !== undefined) {
+        this.user = user;
+      } else {
+        console.log('Error while loading the user data');        
+        this.router.navigateByUrl('/recipes');
+        this.toastr.error('An error occurred, please try again.');
+      }
+    }, error => {
+      console.log(error);
+      this.router.navigateByUrl('/recipes');
+      this.toastr.error('An error occurred, please try again.'); 
     })
   }
   

@@ -1,4 +1,3 @@
-<!-- <div *ngIf="userCookbook && userCookbook.recipes"> -->
 <div *ngIf="userCookbook && userCookbook.cookbookRecipes">    
     <h4 *ngIf="userCookbook.name">{{userCookbook.name}}</h4>
     <button class="btn btn-danger mr-2" (click)="deleteCookbook(userCookbook.id)">Delete Cookbook</button>
@@ -14,61 +13,6 @@ tu korzystam z:
 https://ng-bootstrap.github.io/#/components/table/overview
 https://ng-bootstrap.github.io/#/components/table/examples <- tu mogłabym dodać sortable, filtering, search
 -->
-
-
-
-<!-- <div >
-<table class="table table-stripped">
-    <thead>
-        <tr>
-            <th scope="col">Foto</th>
-            <th scope="col" sortable="name" (sort)="onSort($event)">Title</th>             
-            <th scope="col">CategoryId</th>            
-            <th scope="col">#</th>
-        </tr>
-    </thead>
-    <tbody>   
-        <tr *ngFor="let cookbookRecipe of userCookbook.cookbookRecipes">
-            <td>
-                <ng-container *ngFor="let photo of cookbookRecipe.recipe.photos">
-                    <ng-container *ngIf="photo.isMain === true">                        
-                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
-                    </ng-container>
-                </ng-container>    
-            </td>
-            <td>{{cookbookRecipe.recipe.name}}</td>
-            <td>{{cookbookRecipe.recipe.categoryId}}</td>           
-            <td>
-                <ng-container> 
-                    <button class="btn btn-success mr-2" routerLink='/recipes/{{cookbookRecipe.recipeId}}'>Go To Recipe</button><br><br>
-                    <button class="btn btn-danger mr-2" (click)="removeFromCookbook(cookbookRecipe.recipeId)">Remove from cookbook</button>
-                </ng-container>
-            </td>
-        </tr>
-
-        <tr *ngFor="let recipe of userCookbook.recipes">
-            <td>
-                <ng-container *ngFor="let photo of recipe.photos">
-                    <ng-container *ngIf="photo.isMain === true">                        
-                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="mr-2" width="150" height="100"/>                    
-                    </ng-container>
-                </ng-container>                     
-            </td>
-            <td>{{recipe.name}}</td>
-            <td>{{recipe.categoryId}}</td>
-            <td>{{recipe.difficultyLevel}}</td>
-            <td>{{recipe.preparationTime}}</td>
-            <td>
-                <ng-container> 
-                    <button class="btn btn-success mr-2" routerLink='/recipes/{{recipe.id}}'>Go To Recipe</button><br><br>
-                    <button class="btn btn-danger mr-2" (click)="removeFromCookbook(recipe.id)">Remove from cookbook</button>
-                </ng-container>
-            </td>
-        </tr> 
-
-    </tbody>
-</table>
-</div> -->
 <hr>
     <div *ngIf="userFavouriteRecipes">
         <div>
@@ -114,7 +58,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogłabym doda�
         <div *ngIf="isNoResults === true">     
             <br/> 
             <div class="alert alert-danger" role="alert">
-                No results! Below your prevoius search results.
+                No search results!
             </div>  
         </div>
 

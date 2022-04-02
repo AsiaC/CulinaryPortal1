@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingList } from 'src/app/_models/shoppingList';
 import { ShoppingListService } from 'src/app/_services/shoppingList.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shoping-list-list',
@@ -12,21 +13,29 @@ export class ShopingListListComponent implements OnInit {
   shoppingLists: ShoppingList[];
   alertText: string;
 
-  constructor(private shoppingListService: ShoppingListService, private toastr: ToastrService,) { }
+  constructor(private shoppingListService: ShoppingListService, private toastr: ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadShoppingLists();
   }
 
   loadShoppingLists(){
-    this.shoppingListService.getShoppingLists().subscribe(shoppingLists=>{
-      this.shoppingLists = shoppingLists;
+    this.shoppingListService.getShoppingLists().subscribe(userShoppingListsResponse=>{
+      if(userShoppingListsResponse?.length !== undefined){
+        this.shoppingLists = userShoppingListsResponse;
+      } else {
+        this.shoppingLists = [];
+        this.router.navigateByUrl('/recipes');   
+        if(userShoppingListsResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');
+        } else {
+          this.toastr.error('An error occurred, please try again.');
+        }    
+      }      
     }, error => {
-      if(error.status === 401){
-        this.alertText = "You do not have access to this content.";
-      } else if(error.status === 404){
-        this.alertText = "Users do not have any shopping lists yet."
-      }
+      console.log(error);
+      this.router.navigateByUrl('/recipes');     
+      this.toastr.error('An error occurred, please try again.');
     })
   }
 

@@ -31,7 +31,7 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   loadUserShoppingLists(){
-    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingListsResponse=>{ debugger;
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingListsResponse=>{
       if(userShoppingListsResponse?.length !== undefined){
         this.userShoppingLists = userShoppingListsResponse;
       } else {
@@ -61,9 +61,9 @@ export class UserShoppingListsComponent implements OnInit {
     this.addNewListMode = true;
   }
 
-  deleteShoppingList(shoppingListId) {debugger;
+  deleteShoppingList(shoppingListId) {
     this.shoppingListService.deleteShoppingList(shoppingListId)
-      .subscribe(response => { debugger;
+      .subscribe(response => {
         if(response.status === 200 ){ 
           this.toastr.success('Shopping list removed successfully!');
           this.loadUserShoppingLists()

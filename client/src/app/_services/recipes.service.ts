@@ -24,9 +24,9 @@ export class RecipesService {
   constructor(private http: HttpClient) { }
 
 //#region Recipe
-  getRecipes() : Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.baseUrl + 'recipes').pipe(
-      catchError(this.handleError<Recipe[]>('getRecipes', [])));
+  getRecipes() : Observable<any> {
+    return this.http.get(this.baseUrl + 'recipes').pipe(
+      catchError(this.handleError<any>('getRecipes')));
   }
 
   getRecipe(recipeId: number): Observable<Recipe> {
@@ -49,61 +49,32 @@ export class RecipesService {
       catchError(this.handleError<any>('deleteRecipe')));
   }
 
-  searchRecipes(model: any){
-    var httpSearchUrl = 'recipes/search';
-    if(model.name !== null || (model.categoryId !== null && !Number.isNaN(model.categoryId)) || (model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)) || (model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)) || model.userId !== null || model.top !== null){
-      httpSearchUrl = httpSearchUrl + '?';
-   
-      if(model.name !== null){
-        httpSearchUrl = httpSearchUrl + 'name=' + model.name;
-      }
-      if(model.categoryId !== null && !Number.isNaN(model.categoryId)){
-        if(!httpSearchUrl.endsWith('?')){
+  searchRecipes(dict: any){
+    var httpSearchUrl = 'recipes/search?';
+
+    for (const key of Object.keys(dict)) {
+      if(!httpSearchUrl.endsWith('?')){
           httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'categoryId=' + model.categoryId;
       }
-      if(model.difficultyLevelId !== null && !Number.isNaN(model.difficultyLevelId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'difficultyLevelId=' + model.difficultyLevelId;
-      }
-      if(model.preparationTimeId !== null && !Number.isNaN(model.preparationTimeId)){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'preparationTimeId=' + model.preparationTimeId;
-      }
-      if(model.userId !== null){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'userId=' + model.userId;
-      }
-      if(model.top !== null){
-        if(!httpSearchUrl.endsWith('?')){
-          httpSearchUrl = httpSearchUrl + '&';
-        }
-        httpSearchUrl = httpSearchUrl + 'top=' + model.top;
-      }
-    }
+      httpSearchUrl += key +"="+dict[key]        
+    }     
+
     return this.http.get<Recipe[]>(this.baseUrl + httpSearchUrl).pipe(
-      catchError(this.handleError<any>('searchRecipes', [])));
+      catchError(this.handleError<Recipe[]>('searchRecipes', [])));
   }
 //#endregion
 
 //#region Category
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.baseUrl + 'categories').pipe(
-      catchError(this.handleError<Category[]>('getCategories', [])));
+  getCategories(): Observable<any> {
+    return this.http.get(this.baseUrl + 'categories').pipe(
+      catchError(this.handleError<any>('getCategories')));
   }
 //#endregion
 
 //#region Ingredient
-  getIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(this.baseUrl + 'ingredients').pipe(
-      catchError(this.handleError<Ingredient[]>('getIngredients', [])));
+  getIngredients(): Observable<any> {
+    return this.http.get(this.baseUrl + 'ingredients').pipe(
+      catchError(this.handleError<any>('getIngredients')));
   }
 
   addIngredient(ingredient: Ingredient): Observable<Ingredient>{
@@ -113,9 +84,9 @@ export class RecipesService {
 //#endregion
 
 //#region Measure
-  getMeasures(): Observable<Measure[]> {
-    return this.http.get<Measure[]>(this.baseUrl + 'measures').pipe(
-      catchError(this.handleError<Measure[]>('getMeasures', [])));
+  getMeasures(): Observable<any> {
+    return this.http.get(this.baseUrl + 'measures').pipe(
+      catchError(this.handleError<any>('getMeasures')));
   }
 //#endregion
 
@@ -125,9 +96,9 @@ export class RecipesService {
       catchError(this.handleError<any>('addPhoto')));
   }
 
-  getRecipePhotos(recipeId: number): Observable<Photo[]>{
-    return this.http.get<Photo[]>(this.baseUrl + 'recipes/' + recipeId + '/photos').pipe(
-      catchError(this.handleError<Photo[]>('getRecipePhotos', [])));
+  getRecipePhotos(recipeId: number): Observable<any>{
+    return this.http.get(this.baseUrl + 'recipes/' + recipeId + '/photos').pipe(
+      catchError(this.handleError<any>('getRecipePhotos')));
   }
 
   deletePhoto(photoId: number, recipeId: number): Observable<Response> {

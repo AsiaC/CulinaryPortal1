@@ -23,10 +23,16 @@ export class UserListComponent implements OnInit {
   }
 
   loadUsers(){
-    this.userService.getUsers().subscribe(users => {
-      this.users = users;
+    this.userService.getUsers().subscribe(usersResponse => {
+      if(usersResponse?.length !== undefined){
+        this.users = usersResponse;        
+      } else { 
+        this.toastr.error('An error occurred while loading users, please try again.');     
+        console.log(usersResponse.error.status);      
+      }
     }, error => {
       console.log(error);
+      this.toastr.error('An error occurred while loading users, please try again.');   
     })
   }
 

@@ -40,40 +40,80 @@ export class RecipeListComponent implements OnInit {
   }
 
   loadRecipes(){
-    this.recipeService.getRecipes().subscribe(recipes => {
-      this.recipes = recipes;
-      this.title = "All recipes";
-    }, error => {
-      console.log(error);
+    this.recipeService.getRecipes().subscribe(recipesResponse => {
+      if(recipesResponse?.length !== undefined){
+        this.recipes = recipesResponse;  
+        this.title = "All recipes";
+      } else {        
+        if(recipesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(recipesResponse.error.status === 404){
+          this.toastr.error('No recipes yet.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
+    }, error =>{
+      console.log(error);       
+      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
   getAllCategories(){
-    this.recipeService.getCategories().subscribe(allCategories => {
-      this.allCategories = allCategories;
+    this.recipeService.getCategories().subscribe(allCategoriesResponse => {
+      if(allCategoriesResponse?.length !== undefined){
+        this.allCategories = allCategoriesResponse;
+      } else {        
+        if(allCategoriesResponse.error.status === 401){
+          this.toastr.error('You do not have access to this content.');  
+        } else if(allCategoriesResponse.error.status === 404){
+          this.toastr.error('No categories found.');          
+        } else {               
+          this.toastr.error('An error occurred, please try again.');  
+        }
+      }
     }, error =>{
       console.log(error);
+      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
-  searchRecipes(){ 
-    //console.log(this.searchByName);
-    //console.log(this.selectOptionVal);
-    //console.log(this.selectedDifficultyLevel);
-    //console.log(this.selectedPreparationTime);
-    this.searchModel = {name: this.searchByName, categoryId: Number(this.selectOptionVal), difficultyLevelId: Number(this.selectedDifficultyLevel), preparationTimeId: Number(this.selectedPreparationTime), userId: null, top: null}
-
-    this.recipeService.searchRecipes(this.searchModel)
-    .subscribe(response => {
-      this.isNoResults = false; 
-      this.title = "Filtered recipes";
-      this.recipes = response;
-      this.toastr.success('Recipes filtered.');  
-      }, error => {
+  searchRecipes(){  
+    var dict = {};
+    if(this.searchByName !== null){
+      dict["name"] = this.searchByName;
+    }
+    if(this.selectOptionVal !== null && this.selectOptionVal !== undefined){
+      dict["categoryId"] = Number(this.selectOptionVal);
+    }
+    if(this.selectedDifficultyLevel !== null && this.selectedDifficultyLevel !== undefined){
+      dict["difficultyLevelId"] = Number(this.selectedDifficultyLevel);
+    }
+    if(this.selectedPreparationTime !== null && this.selectedPreparationTime !== undefined){
+      dict["preparationTimeId"] = Number(this.selectedPreparationTime);
+    }    
+    
+    this.recipeService.searchRecipes(dict).subscribe(recipesResponse => {
+      if(recipesResponse?.length !== undefined){
+        this.title = "Filtered recipes";
+        this.recipes = recipesResponse;
+        this.toastr.success('Recipes filtered.');  
+        if(recipesResponse?.length >0){
+          this.isNoResults = false; 
+        } else {
+          this.isNoResults = true;
+        }        
+      } else {                      
+        this.toastr.error('An error occurred, please try again.');  
+        console.log(recipesResponse);
+      }
+    }, error => {
         console.log(error);   
-        this.isNoResults = true;                   
+        this.isNoResults = true;    
+        this.toastr.error('An error occurred, please try again.');               
     })
   }
+  
   clearSearch(){
     this.loadRecipes();
     this.isNoResults = false;        

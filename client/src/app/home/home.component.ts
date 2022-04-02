@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -13,37 +13,32 @@ export class HomeComponent implements OnInit {
   users: any;
   recipes: Recipe[];
 
-  constructor(private http: HttpClient, private recipeService: RecipesService) { }
+  constructor(private recipeService: RecipesService, private toastr: ToastrService) { }
 
-  ngOnInit(): void {    
-    //this.getUsers();//usun bo nie potrzebuje tego
+  ngOnInit(): void {
     this.searchRecipes();
   }
 
   registerToggle(){
     this.registerMode = !this.registerMode;
-    // console.log(this.registerMode);
-    // this.registerMode = true;
-    // console.log(this.registerMode);
-  }
-  // getUsers(){ //TODO usun bo nie potrzebuje tego
-  //   this.http.get('http://localhost:50725/api/users').subscribe( users => {
-  //     this.users = users;
-  //   }, error => {
-  //     console.log(error);
-  //   })
-  // }
+  }  
 
   cancelRegisterMode(event: boolean){
     this.registerMode = event;
   }
 
-  searchRecipes(){    
-    var searchModel = {name: null, categoryId: null, difficultyLevelId: null, preparationTimeId: null, userId: null, top: 6}
-    this.recipeService.searchRecipes(searchModel)
-    .subscribe(response => {
-      this.recipes = response;
-      }, error => {
+  searchRecipes(){        
+    var dict = { top: 6 };
+    
+    this.recipeService.searchRecipes(dict).subscribe(recipesResponse => {
+      if(recipesResponse?.length !== undefined){
+        this.recipes = recipesResponse;
+      } else {    
+        this.toastr.error('An error occurred, please try again.');  
+        console.log(recipesResponse);
+      }
+    }, error => {
+        this.toastr.error('An error occurred, please try again.');
         console.log(error);               
     })
   }

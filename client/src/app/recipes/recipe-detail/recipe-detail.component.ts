@@ -57,10 +57,9 @@ export class RecipeDetailComponent implements OnInit {
 
           if(this.user !== undefined){
             this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
-              if(rate !== undefined){
+              if(rate?.id !== undefined){
                 this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rate.value, id: rate.id};
-              }  
-              else{
+              } else {
                 this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
               }            
             })
@@ -99,7 +98,7 @@ export class RecipeDetailComponent implements OnInit {
 
   loadShoppingListsIds(){
     // Potrzebne do modala, user moze miec kilka list wiec trzeba wybrać 
-    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => { debugger;
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
       if(userShoppingLists?.length !== undefined){
         this.userShoppingLists = userShoppingLists; 
       }             

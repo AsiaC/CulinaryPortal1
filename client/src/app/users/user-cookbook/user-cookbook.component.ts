@@ -9,7 +9,6 @@ import { CookbookService } from 'src/app/_services/cookbook.service';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
-import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 import { Category } from 'src/app/_models/category';
@@ -32,7 +31,6 @@ export class UserCookbookComponent implements OnInit {
   difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
-  searchModel : SearchRecipe = null;
   isNoResults: boolean = false;
   selectedDifficultyLevel: any;
   selectedPreparationTime: any;

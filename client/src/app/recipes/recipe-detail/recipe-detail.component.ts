@@ -56,15 +56,18 @@ export class RecipeDetailComponent implements OnInit {
           this.loadCookbook();
 
           if(this.user !== undefined){
-            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rate=>{
-              if(rate?.id !== undefined){
-                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rate.value, id: rate.id};
-              } else {
+            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rateResponse=>{
+              if(rateResponse?.id !== undefined){
+                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rateResponse.value, id: rateResponse.id};
+              } else if(rateResponse !== undefined) {
                 this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
+              } else {
+                this.toastr.error('An error occurred, please refresh the page.');  
+                console.log(rateResponse);
               }            
             })
           }
-
+          
         } 
       } else {
         console.log('Error while displaying a recipe');        

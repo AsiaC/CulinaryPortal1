@@ -8,7 +8,6 @@ import { take } from 'rxjs/operators';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
-import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,8 +25,7 @@ export class UserRecipesComponent implements OnInit {
   difficultyLevel = DifficultyLevelEnum;
   difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
-  preparationTimeKeys = [];
-  searchModel : SearchRecipe = null;
+  preparationTimeKeys = [];  
   isNoResults: boolean = false;
   selectedDifficultyLevel: any;
   selectedPreparationTime: any;

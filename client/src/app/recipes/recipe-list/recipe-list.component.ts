@@ -4,7 +4,6 @@ import { RecipesService } from 'src/app/_services/recipes.service';
 import { DifficultyLevelEnum } from 'src/app/_models/difficultyLevelEnum';
 import { PreparationTimeEnum } from 'src/app/_models/preparationTimeEnum';
 import { ToastrService } from 'ngx-toastr';
-import { SearchRecipe } from 'src/app/_models/searchRecipe';
 import { Category } from 'src/app/_models/category';
 
 @Component({
@@ -22,7 +21,6 @@ export class RecipeListComponent implements OnInit {
   difficultyLevelKeys = [];
   preparationTime = PreparationTimeEnum;
   preparationTimeKeys = [];
-  searchModel : SearchRecipe = null;
   isNoResults: boolean = false;
   selectedDifficultyLevel: any;
   selectedPreparationTime: any;

@@ -122,9 +122,15 @@ export class UserRecipesComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');                  
     })
   }
+  
   clearSearch(){
     this.loadUserRecipes();
-    this.isNoResults = false;        
+    this.isNoResults = false;
+    this.selectOptionVal = null;
+    this.selectedDifficultyLevel = null;
+    this.selectedPreparationTime = null;
+    this.searchByName = null;
+    this.toastr.success('Filter removed.');  
   }
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;

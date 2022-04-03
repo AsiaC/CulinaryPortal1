@@ -39,7 +39,7 @@ export class RecipesService {
       catchError(this.handleError<any>('addRecipe')));
   }
 
-  updateRecipe(recipeId: number, recipe: Recipe): Observable<Response> { //todo id mi nie jest potrzebne bo w modelu je mogę miec 
+  updateRecipe(recipeId: number, recipe: Recipe): Observable<Response> { 
     return this.http.put(this.baseUrl + 'recipes/' + recipeId, recipe, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateRecipe')));
   }

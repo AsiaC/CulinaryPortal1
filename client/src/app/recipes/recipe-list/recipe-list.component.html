@@ -2,8 +2,7 @@
     <h5>Search options</h5>
     <div class="row">
         <div class="col">
-        <!-- <label for="selectedCategory" class="col-sm-2 col-form-label">Category</label> -->
-        <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
+        <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)" [value]="selectOptionVal">        
             <option [value]="null" selected>All categories</option>
             <option *ngFor="let prf of allCategories" [value]="prf.id">
                 {{prf.name }}
@@ -11,7 +10,7 @@
         </select> 
     </div>
     <div class="col">
-        <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)">
+        <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)" [value]="selectedDifficultyLevel">
             <option [value]="null" selected>All difficulty levels</option>
             <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
                 {{difficultyLevel[diffName]}}       
@@ -20,7 +19,7 @@
         </div>
 
         <div class="col">
-        <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)">
+        <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)" [value]="selectedPreparationTime" >
             <option [value]="null" selected>All preparation times</option>
             <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
                 {{preparationTime[prepName]}}       
@@ -28,7 +27,7 @@
         </select>
         </div>
         <div class="col">
-        <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="No speciefied name">
+        <input type="text" class="form-control" id="searchByName" (input)="searchByName=getValue($event)" [value]="searchByName" placeholder="No speciefied name">
         </div>
     </div>
     <br/>
@@ -54,41 +53,3 @@
         <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
     </div>
 </div>
-
-
-
-
-
-
-<!-- <div class="row">
-    <div class="col-2">
-        <p *ngFor="let recipe of recipes">
-            <app-recipe-card [recipeFromList] = "recipe"></app-recipe-card>    
-        </p>
-    </div>
-</div> -->
-
-
-<!-- <div>
-    <ol>
-        <li *ngFor="let recipe of recipes">
-            {{recipe.name}}          
-            <div *ngFor="let photo of recipe.photos">
-                <ng-container *ngIf="photo.isMain === true">
-                <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" />
-            </ng-container>
-            </div>
-
-        </li>
-    </ol>
-
-</div>
-
-<div class="row">
-    <div class="col-2">
-        <p *ngFor="let recipe of recipes">
-            {{recipe.name}}
-        </p>
-    </div>
-</div> -->
-

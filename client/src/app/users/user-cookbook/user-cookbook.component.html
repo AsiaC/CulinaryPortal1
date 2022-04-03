@@ -19,8 +19,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
             <h5>Search options</h5>
             <div class="row">
                 <div class="col">
-                <!-- <label for="selectedCategory" class="col-sm-2 col-form-label">Category</label> -->
-                <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)">        
+                <select class="form-control" id="selectedCategory" (change)="selectOptionVal=onChange($event.target.value)" [value]="selectOptionVal">        
                     <option [value]="null" selected>All categories</option>
                     <option *ngFor="let prf of allCategories" [value]="prf.id">
                         {{prf.name }}
@@ -28,7 +27,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
                 </select> 
             </div>
             <div class="col">
-                <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)">
+                <select class="form-control" id="difficultyLevel" (change)="selectedDifficultyLevel=onChange($event.target.value)" [value]="selectedDifficultyLevel">
                     <option [value]="null" selected>All difficulty levels</option>
                     <option *ngFor="let diffName of difficultyLevelKeys" [value]="diffName">
                         {{difficultyLevel[diffName]}}       
@@ -37,7 +36,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
                 </div>
 
                 <div class="col">
-                <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)">
+                <select class="form-control" id="preparationTime" (change)="selectedPreparationTime=onChange($event.target.value)" [value]="selectedPreparationTime">
                     <option [value]="null" selected>All preparation times</option>
                     <option *ngFor="let prepName of preparationTimeKeys" [value]="prepName">
                         {{preparationTime[prepName]}}       
@@ -45,7 +44,7 @@ https://ng-bootstrap.github.io/#/components/table/examples <- tu mogÅ‚abym dodaÄ
                 </select>
                 </div>
                 <div class="col">
-                <input type="text" class="form-control" id="searchByName" [value]="searchByName"  (input)="searchByName=getValue($event)" placeholder="No speciefied name">
+                <input type="text" class="form-control" id="searchByName" (input)="searchByName=getValue($event)" [value]="searchByName" placeholder="No speciefied name">
                 </div>
             </div>
             <br/>

@@ -26,6 +26,8 @@ export class RecipeListComponent implements OnInit {
   selectedPreparationTime: any;
   title: string = "All recipes";
 
+  selectedCategory = null;
+
   constructor(private recipeService: RecipesService, private toastr: ToastrService) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
@@ -114,7 +116,12 @@ export class RecipeListComponent implements OnInit {
   
   clearSearch(){
     this.loadRecipes();
-    this.isNoResults = false;        
+    this.isNoResults = false;
+    this.selectOptionVal = null;
+    this.selectedDifficultyLevel = null;
+    this.selectedPreparationTime = null;
+    this.searchByName = null;
+    this.toastr.success('Filter removed.');  
   }
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;

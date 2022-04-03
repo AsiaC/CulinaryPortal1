@@ -38,6 +38,8 @@ export class RecipeNewFormComponent implements OnInit {
 
   bsModalRef: BsModalRef;
   itemIsRemoved: boolean = false;
+
+  instrucionStep: number = 0;
   
   constructor(private recipesService: RecipesService, private fb:FormBuilder, private accountService:AccountService, private route: ActivatedRoute, private modalService: BsModalService, private toastr: ToastrService, private router: Router) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
@@ -127,7 +129,7 @@ export class RecipeNewFormComponent implements OnInit {
     return this.addRecipeForm.get("recipeIngredients") as FormArray
   }
 
-  addIngredients() {
+  addIngredients() {    
     let fg = this.createIngrFormGroup();
     this.recipeIngredients.push(fg);
   } 
@@ -138,7 +140,7 @@ export class RecipeNewFormComponent implements OnInit {
 
   createInstrFormGroup(){
     return this.fb.group({
-      //step: '', todo spr i usun
+      step: this.instrucionStep,
       name: '',
       description: ['', [Validators.required]]      
     })
@@ -149,6 +151,7 @@ export class RecipeNewFormComponent implements OnInit {
   } 
 
   addInstructions() {
+    this.instrucionStep += 1;
     let fb = this.createInstrFormGroup();
     this.instructions.push(fb);
   }
@@ -286,7 +289,7 @@ export class RecipeNewFormComponent implements OnInit {
         var newIngredientName = value;
         if(newIngredientName !== null){
           var newIngredientToAdd: Ingredient = {id: null, name: newIngredientName};
-          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {   
+          this.recipesService.addIngredient(newIngredientToAdd).subscribe(response => {
             if(response.id !== null){
               this.allIngredients.push(response);
                         

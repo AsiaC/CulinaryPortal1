@@ -171,10 +171,15 @@ export class UserCookbookComponent implements OnInit {
         this.isNoResults = true;    
         this.toastr.error('An error occurred, please try again.');               
     })
-  }
+  }   
 
   clearSearch(){
     this.loadUserCookbook();
-    this.isNoResults = false;        
-  }  
+    this.isNoResults = false;
+    this.selectOptionVal = null;
+    this.selectedDifficultyLevel = null;
+    this.selectedPreparationTime = null;
+    this.searchByName = null;
+    this.toastr.success('Filter removed.');  
+  }
 }

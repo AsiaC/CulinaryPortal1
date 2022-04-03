@@ -36,7 +36,7 @@ export class UserListComponent implements OnInit {
     })
   }
 
-  deleteUser(userId: number){//TODO delete user sprawd czy usuwajá sie jego shopp list, cookbook a zostajá recipe i co sie dzieje z nazwa autowa dla recipe
+  deleteUser(userId: number){ 
     this.userService.deleteUser(userId).subscribe(response => {
       this.loadUsers(); 
       if(response.status === 200 ){ 

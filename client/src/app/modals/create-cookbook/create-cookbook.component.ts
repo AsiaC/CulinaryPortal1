@@ -26,7 +26,7 @@ export class CreateCookbookComponent implements OnInit {
   }
 
   confirmAddingIngredients(){
-    // Create cookbook and do relations    
+    // Create cookbook and create the relationship    
     var recipes = [];
     recipes.push(this.currentRecipe);    
     var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};

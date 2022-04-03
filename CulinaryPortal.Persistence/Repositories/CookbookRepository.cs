@@ -15,7 +15,7 @@ namespace CulinaryPortal.Persistence.Repositories
         {
 
         }
-        public async Task<List<Cookbook>> GetCookbooksWithRecipesAsync() //GetCookbooksAsync
+        public async Task<List<Cookbook>> GetCookbooksWithRecipesAsync()
         {
             var cookbooks = await _dbContext.Cookbooks
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
@@ -25,7 +25,7 @@ namespace CulinaryPortal.Persistence.Repositories
             return cookbooks;
         }
 
-        public async Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId)//GetCookbookAsync
+        public async Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId)
         {
             var cookbook = await _dbContext.Cookbooks
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)

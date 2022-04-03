@@ -25,8 +25,9 @@ export class CreateIngredientComponent implements OnInit {
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
-  //dodaj jak cancel to ustaw na Choose.....
-  cancelAddingNewIngredient(){
+
+  //todo dodaj jak cancel to ustaw na Choose.....
+  cancelAddingNewIngredient(){ debugger;
     this.bsModalRef.hide();
   }
 }

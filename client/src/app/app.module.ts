@@ -23,7 +23,7 @@ import { RecipeNewFormComponent } from './recipes/recipe-new-form/recipe-new-for
 import { UserShoppingListsComponent } from './users/user-shopping-lists/user-shopping-lists.component';
 import { ShoppingListNewFormComponent } from './shopping-lists/shopping-list-new-form/shopping-list-new-form.component';
 import { SelectShoppingListComponent } from './modals/select-shopping-list/select-shopping-list.component';
-import { ConfirmComponent } from './modals/confirm/confirm.component';
+import { DeleteRecipeComponent } from './modals/delete-recipe/delete-recipe.component';
 import { ShopingListListComponent } from './shopping-lists/shoping-list-list/shoping-list-list.component';
 import { InformComponent } from './modals/inform/inform.component';
 import { CreateCookbookComponent } from './modals/create-cookbook/create-cookbook.component';
@@ -51,7 +51,7 @@ import { CreateIngredientComponent } from './modals/create-ingredient/create-ing
     UserShoppingListsComponent,
     ShoppingListNewFormComponent,
     SelectShoppingListComponent,
-    ConfirmComponent,
+    DeleteRecipeComponent,
     ShopingListListComponent,
     InformComponent,
     CreateCookbookComponent,

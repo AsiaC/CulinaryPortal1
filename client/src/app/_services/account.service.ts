@@ -17,32 +17,63 @@ export class AccountService {
 
   constructor(private http:HttpClient) { }
 
-  login(model: any){ 
+//   login(model: any) : Observable<User> { 
+//     var res = this.http.post<User>(this.baseUrl + 'account/login', model)
+//     //.pipe(map((user: User) => {}))
+//     .pipe(catchError(this.handleError<User>('addShoppingList')));
+// debugger;
+//     var user = res.pipe(map((user: User) => {  
+//       if (user){
+//         this.setCurrentUser(user);                   
+//       }
+//     }));  
+
+// debugger;
+//      return res;   
+//   }
+
+
+  login(model: any) : Observable<any> {    
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      map((user: User) => {  
+      
+      map((user: User) => {  debugger;
         if (user){
-          this.setCurrentUser(user);                   
+          this.setCurrentUser(user);     
+          return true;              
+        } else {
+          debugger;
+          return false;
         }
       })
-    ).pipe(catchError(this.handleError<User>('login')));
+      
+    ).pipe(catchError(this.handleError<any>('login')));
   }
+
+
 
   register(model: any){
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
-      map((user: User) => {
-        if(user){
-          this.setCurrentUser(user);          
+      map((user: User) => { debugger;
+        if(user !== undefined){ debugger;
+          this.setCurrentUser(user);    
+          return true;      
+        } else {
+          debugger;
+
         }
       })
     ).pipe(catchError(this.handleError<User>('register')));
   }
 
-  setCurrentUser(user: User){   
+  setCurrentUser(user: User){
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;    
-    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles); //change role to the array of roles, even if user has only 1 role
+
+    // Change the role to the array of roles, even if user has only 1 role
+    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    
     localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSource.next(user);    
+    this.currentUserSource.next(user);  
   }
 
   logout(){ 
@@ -56,9 +87,14 @@ export class AccountService {
 
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
+        // console.log(operation + ' has error.');
+        // console.log(error);
+        // return of(result as T);
+debugger;
         console.log(operation + ' has error.');
-        console.log(error);
-        return of(result as T);
+            console.log(error);
+            console.log('result = ' + result);
+            return of(error);
     }
   }
 }

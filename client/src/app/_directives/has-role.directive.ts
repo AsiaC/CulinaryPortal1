@@ -4,7 +4,7 @@ import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 
 @Directive({
-  selector: '[appHasRole]' //appHasRole='["Admin"]'
+  selector: '[appHasRole]' // appHasRole='["Admin"]'
 })
 export class HasRoleDirective implements OnInit{
   @Input() appHasRole: string[];
@@ -17,7 +17,8 @@ export class HasRoleDirective implements OnInit{
 
    ngOnInit(): void { 
     if (!this.user?.roles || this.user === null) {
-      this.viewContainerRef.clear(); // clear view if no roles
+      // Clear the view if no roles
+      this.viewContainerRef.clear(); 
       return;
     }
     if (this.user?.roles.some(r => this.appHasRole.includes(r))) {

@@ -5,10 +5,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-confirm',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.css']
+  templateUrl: './delete-recipe.component.html',
+  styleUrls: ['./delete-recipe.component.css']
 })
-export class ConfirmComponent implements OnInit {
+export class DeleteRecipeComponent implements OnInit {
   title: string;
   closeBtnName: string;
   submitBtnName: string;

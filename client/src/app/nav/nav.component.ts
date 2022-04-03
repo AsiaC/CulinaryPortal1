@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -12,7 +10,6 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent implements OnInit {
   model: any = {}
-  //loggedIn: boolean; //jesli nie przypiszemy to jest zawsze false
   loginPane: boolean = false;
   registerPane: boolean = false;
 
@@ -22,9 +19,14 @@ export class NavComponent implements OnInit {
   }
   
   login(){
-    //console.log(this.model);
-    this.accountService.login(this.model).subscribe(response => {    
+    this.accountService.login(this.model).subscribe(response => {
       this.router.navigateByUrl('/recipes');
+      if(response === true) {
+        this.toastr.success('Success. You have logged in correctly.');
+      } else {
+        this.toastr.error('Error! You are not logged in, try again.');
+        console.log(response);
+      }
     }, error => {
       if(error.status === 401){        
         this.toastr.error(error.error);
@@ -42,9 +44,6 @@ export class NavComponent implements OnInit {
   }
 
   showRegisterPane(){
-
     this.registerPane = true;
-    //this.registerPane = !this.registerPane;
   }
-
 }

@@ -12,7 +12,6 @@ import { Category } from 'src/app/_models/category';
   styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit {
-  //property to store recipes
   recipes: Recipe[];
   searchByName: string = null; 
   selectOptionVal: any;
@@ -129,5 +128,4 @@ export class RecipeListComponent implements OnInit {
   onChange(event): number {
     return event;
   }
-
 }

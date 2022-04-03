@@ -13,7 +13,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 export class RecipePhotoComponent implements OnInit {
   recipePhotos: Photo[];
   recipeId: number;
-  file: File = null; // Variable to store file
+  file: File = null; // Variable to store the file
   bsModalRef: BsModalRef;
   alertText: string;
 

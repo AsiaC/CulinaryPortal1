@@ -43,7 +43,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 return Ok(await _authenticationService.AuthenticateAsync(request));
             }
             catch (Exception e)
-            {
+            {                
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }

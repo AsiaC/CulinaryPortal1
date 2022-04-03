@@ -7,14 +7,11 @@ import { Recipe } from 'src/app/_models/recipe';
   styleUrls: ['./recipe-card.component.css']
 })
 export class RecipeCardComponent implements OnInit {
-  //otrzymam element(przepis) od rodzica -recipe-list
+  // Recipe received from the parent comnponent (recipe-list component)
   @Input() recipeFromList: Recipe;
 
   constructor() { }
 
   ngOnInit(): void {
-    //console.log('recipeFromList');
-    //console.log(this.recipeFromList);
   }
-
 }

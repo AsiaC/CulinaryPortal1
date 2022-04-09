@@ -61,7 +61,7 @@ namespace CulinaryPortal.Persistence.Services
 
             if (existingUser != null)
             {
-                throw new Exception($"Username '{request.Username}' already exists.");
+                throw new Exception("400", new Exception($"Username '{request.Username}' already exists."));
             }
 
             var user = new User
@@ -71,7 +71,6 @@ namespace CulinaryPortal.Persistence.Services
                 LastName = request.LastName,
                 Email = request.Email
             };
-
 
             var existingEmail = await _userManager.FindByEmailAsync(request.Email);
 
@@ -106,7 +105,7 @@ namespace CulinaryPortal.Persistence.Services
             }
             else
             {
-                throw new Exception($"Email {request.Email } already exists.");
+                throw new Exception("400", new Exception($"Email {request.Email } already exists."));
             }
         }
 

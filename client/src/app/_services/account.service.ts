@@ -17,10 +17,10 @@ export class AccountService {
 
   constructor(private http:HttpClient) { }
 
-  login(model: any) : Observable<any> {    
+  login(model: any): Observable<any> {    
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((user: User) => {
-        if (user){
+        if (user !== undefined){
           this.setCurrentUser(user);     
           return true;              
         }
@@ -28,18 +28,15 @@ export class AccountService {
     ).pipe(catchError(this.handleError<any>('login')));
   }
 
-  register(model: any){
+  register(model: any):Observable<any> {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
-      map((user: User) => { debugger;
-        if(user !== undefined){ debugger;
+      map((user: User) => {
+        if(user !== undefined){
           this.setCurrentUser(user);    
           return true;      
-        } else {
-          debugger;
-
         }
       })
-    ).pipe(catchError(this.handleError<User>('register')));
+    ).pipe(catchError(this.handleError<any>('register')));
   }
 
   setCurrentUser(user: User){
@@ -65,9 +62,9 @@ export class AccountService {
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
         console.log(operation + ' has error.');
-            console.log(error);
-            console.log('result = ' + result);
-            return of(error);
+        console.log(error);
+        console.log('result = ' + result);
+        return of(error);
     }
   }
 }

@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { error } from 'protractor';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -18,17 +17,21 @@ export class RegisterComponent implements OnInit {
   }
   
   register(){
-    this.accountService.register(this.model).subscribe(response=>{ debugger;
-      //todo dodaj co jesli sie nie powiedzie
+    this.accountService.register(this.model).subscribe(response=>{
       this.cancel();  
-    }, error=>{
-      console.log(error);
-      this.toastr.error(error.error);
+      if(response === true) {
+        this.toastr.success('Success. You have registered correctly.');
+      } else if(response.status === 400){
+        this.toastr.error('Error! ' + response.error);
+        console.log(response);
+      } else {
+        this.toastr.error('Error! You are not registered, try again.');
+        console.log(response);
+      }
     })
   }
 
   cancel(){
     this.cancelRegister.emit(false);
   }
-
 }

@@ -31,7 +31,10 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                if (e.Message == "400")
+                    return StatusCode(StatusCodes.Status400BadRequest, e.InnerException.Message);
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, e);
             }
         }
 

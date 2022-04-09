@@ -23,14 +23,13 @@ export class NavComponent implements OnInit {
       this.router.navigateByUrl('/recipes');
       if(response === true) {
         this.toastr.success('Success. You have logged in correctly.');
+      } else if(response.status === 401){
+        this.toastr.error(response.error);
+        console.log(response);
       } else {
         this.toastr.error('Error! You are not logged in, try again.');
         console.log(response);
       }
-    }, error => {
-      if(error.status === 401){        
-        this.toastr.error(error.error);
-      }// todo what if else
     })
   }
 

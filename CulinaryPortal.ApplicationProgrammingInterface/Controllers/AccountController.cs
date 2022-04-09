@@ -44,7 +44,10 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
             catch (Exception e)
             {                
-                return StatusCode(StatusCodes.Status500InternalServerError, e);
+                if(e.Message == "401")
+                    return StatusCode(StatusCodes.Status401Unauthorized, e.InnerException.Message);
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, e);                 
             }
         }
     }

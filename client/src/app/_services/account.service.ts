@@ -17,39 +17,16 @@ export class AccountService {
 
   constructor(private http:HttpClient) { }
 
-//   login(model: any) : Observable<User> { 
-//     var res = this.http.post<User>(this.baseUrl + 'account/login', model)
-//     //.pipe(map((user: User) => {}))
-//     .pipe(catchError(this.handleError<User>('addShoppingList')));
-// debugger;
-//     var user = res.pipe(map((user: User) => {  
-//       if (user){
-//         this.setCurrentUser(user);                   
-//       }
-//     }));  
-
-// debugger;
-//      return res;   
-//   }
-
-
   login(model: any) : Observable<any> {    
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
-      
-      map((user: User) => {  debugger;
+      map((user: User) => {
         if (user){
           this.setCurrentUser(user);     
           return true;              
-        } else {
-          debugger;
-          return false;
         }
       })
-      
     ).pipe(catchError(this.handleError<any>('login')));
   }
-
-
 
   register(model: any){
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
@@ -87,10 +64,6 @@ export class AccountService {
 
   private handleError<T> (operation = 'operation',result?:T){
     return (error: any): Observable<T> => {
-        // console.log(operation + ' has error.');
-        // console.log(error);
-        // return of(result as T);
-debugger;
         console.log(operation + ' has error.');
             console.log(error);
             console.log('result = ' + result);

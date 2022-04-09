@@ -28,10 +28,6 @@ export class CookbookListComponent implements OnInit {
         console.log(cookbooks);        
         this.toastr.error('An error occurred, please try again.');
       }
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');     
-      this.toastr.error('An error occurred, please try again.');
     })
   }
 
@@ -43,10 +39,6 @@ export class CookbookListComponent implements OnInit {
       } else {
         this.toastr.error('Error! Cookbook cannot be removed.'); 
       }
-    }, error => {
-      this.toastr.error('Error! Cookbook cannot be removed.'); 
-      console.log(error);                      
     })
   }
-
 }

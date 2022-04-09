@@ -35,9 +35,6 @@ export class StatisticsComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');  
         console.log(recipesResponse);
       }
-    }, error => {
-      this.toastr.error('An error occurred, please try again.');
-      console.log(error);               
     })
   }
 
@@ -54,9 +51,6 @@ export class StatisticsComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -69,9 +63,6 @@ export class StatisticsComponent implements OnInit {
         this.toastr.error('An error occurred while loading users, please try again.');     
         console.log(usersResponse.error.status);      
       }
-    }, error => {
-      console.log(error);
-      this.toastr.error('An error occurred while loading users, please try again.');   
     })
   }
 }

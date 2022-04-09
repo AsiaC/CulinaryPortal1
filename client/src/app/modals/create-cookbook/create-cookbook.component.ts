@@ -47,9 +47,6 @@ export class CreateCookbookComponent implements OnInit {
         this.toastr.error('Error! Cookbook cannot be added.');
         console.log('Error! Cookbook cannot be added.');
       }
-    }, error => {      
-      this.toastr.error('Error! Cookbook cannot be added.');
-      console.log(error);
     })
     this.bsModalRef.hide();
   }

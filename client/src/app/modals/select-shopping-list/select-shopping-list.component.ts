@@ -49,9 +49,6 @@ export class SelectShoppingListComponent implements OnInit {
             this.toastr.error('Error! Ingredients cannot be added.');
             console.log(response);
           }  
-        }, error => {
-            this.toastr.error('Error! Ingredients cannot be added.');
-            console.log(error);                      
         })
       } else {         
         this.toastr.error('Failed to add ingredients to the shopping list. No list was selected.');    
@@ -70,9 +67,6 @@ export class SelectShoppingListComponent implements OnInit {
             this.toastr.error('Error! Ingredients cannot be added.');
             console.log(response);
           }
-        }, error => {
-          this.toastr.error('Error! Ingredients cannot be added.');
-          console.log(error);
         })        
       } else {      
         this.toastr.error('Failed to add ingredients to the shopping list. The name of the new list has not been provided.'); 

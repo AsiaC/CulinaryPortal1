@@ -49,9 +49,6 @@ export class UserEditComponent implements OnInit {
         console.log('Error during updating the user.');  
         this.editForm.reset(this.user);
       }
-    }, error => {
-      console.log('Error during updating the user.'); 
-      console.log(error);
     });    
   }
 }

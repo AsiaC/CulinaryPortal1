@@ -37,9 +37,6 @@ export class HomeComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');  
         console.log(recipesResponse);
       }
-    }, error => {
-        this.toastr.error('An error occurred, please try again.');
-        console.log(error);               
     })
   }
 }

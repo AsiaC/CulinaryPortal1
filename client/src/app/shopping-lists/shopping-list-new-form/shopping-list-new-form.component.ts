@@ -40,9 +40,7 @@ export class ShoppingListNewFormComponent implements OnInit {
   }
 
   loadShoppingList() {
-    this.shoppingListService.getShoppingList(this.selectedListId)
-    .pipe(first())
-    .subscribe(shoppingList => {
+    this.shoppingListService.getShoppingList(this.selectedListId).pipe(first()).subscribe(shoppingList => {
       if(shoppingList.id !== undefined){      
         this.shoppingList = shoppingList;
         this.addShoppingListForm.patchValue({
@@ -60,10 +58,6 @@ export class ShoppingListNewFormComponent implements OnInit {
         this.router.navigateByUrl('/recipes');
         this.toastr.error('An error occurred, please try again.');
       }
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');
-      this.toastr.error('An error occurred, please try again.'); 
     });
   }
 
@@ -119,34 +113,27 @@ export class ShoppingListNewFormComponent implements OnInit {
         this.toastr.error('Error! The new list has not been created.');
         console.log(response);
       }   
-    }, error => {     
-      console.log('Error during creating a list.'); 
-      console.log(error);
     })
   }
 
   updateShoppingList(){
-    this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value)
-      .subscribe(response => {
-        if(response.status === 200 ){ 
-          this.shoppingList = this.addShoppingListForm.value;
-          this.isAddMode = false;
-          this.addShoppingListForm.reset(this.shoppingList);
-          // It is necessary to reload the window
-          window.location.reload();
-          this.toastr.success('Success. The list has been updated.');
-        } else {  
-          this.isAddMode = false;
-          this.addShoppingListForm.reset(this.shoppingList);
-          // It is necessary to reload the window
-          window.location.reload();
-          console.log('Error during updating the list.');         
-          console.log(response);
-        }
-      }, error => {
-        console.log('Error during updating the list.'); 
-        console.log(error);                    
-      })
+    this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value).subscribe(response => {
+      if(response.status === 200 ){ 
+        this.shoppingList = this.addShoppingListForm.value;
+        this.isAddMode = false;
+        this.addShoppingListForm.reset(this.shoppingList);
+        // It is necessary to reload the window
+        window.location.reload();
+        this.toastr.success('Success. The list has been updated.');
+      } else {  
+        this.isAddMode = false;
+        this.addShoppingListForm.reset(this.shoppingList);
+        // It is necessary to reload the window
+        window.location.reload();
+        console.log('Error during updating the list.');         
+        console.log(response);
+      }
+    })
   }
 
   cancel(){    

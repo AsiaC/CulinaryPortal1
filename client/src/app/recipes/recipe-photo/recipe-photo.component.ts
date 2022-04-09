@@ -25,7 +25,7 @@ export class RecipePhotoComponent implements OnInit {
 
   loadRecipePhotos(){
     this.recipeId = Number(this.route.snapshot.paramMap.get('id'))
-    this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotosResponse=>{
+    this.recipeService.getRecipePhotos(this.recipeId).subscribe(recipePhotosResponse => {
       if(recipePhotosResponse?.length !== undefined){
         this.recipePhotos = recipePhotosResponse;
       } else {        
@@ -37,9 +37,6 @@ export class RecipePhotoComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }        
-    }, error =>{   
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.'); 
     })  
   }
 
@@ -52,8 +49,7 @@ export class RecipePhotoComponent implements OnInit {
   onUpload() {
     const uploadData = new FormData();
     uploadData.append('upload', this.file);
-    this.recipeService.addPhoto(this.recipeId, uploadData)
-    .subscribe(response => {
+    this.recipeService.addPhoto(this.recipeId, uploadData).subscribe(response => {
       if(response.status === 200 ){ 
         this.toastr.success('Photo added successfully!');
         this.loadRecipePhotos();
@@ -61,42 +57,31 @@ export class RecipePhotoComponent implements OnInit {
         this.toastr.error('Error! Photo cannot be added.');
         console.log(response);
       }   
-    }, error => {
-      this.toastr.error('Error! Photo cannot be added.');
-      console.log(error);
     })
   }  
   
   setAsMainPhoto(photoId: number){
-    this.recipeService.updateMainRecipePhoto(photoId, this.recipeId)
-      .subscribe(response => {
-        if(response.status === 200 ){ 
-          this.toastr.success('Main photo changed successfully!');
-          this.loadRecipePhotos();
-        } else {
-          this.toastr.error('Error! Main photo cannot be changed.');
-          console.log(response);
-        }   
-      }, error => {
+    this.recipeService.updateMainRecipePhoto(photoId, this.recipeId).subscribe(response => {
+      if(response.status === 200 ){ 
+        this.toastr.success('Main photo changed successfully!');
+        this.loadRecipePhotos();
+      } else {
         this.toastr.error('Error! Main photo cannot be changed.');
-        console.log(error);                      
-      })
+        console.log(response);
+      }   
+    })
   }
 
   deletePhoto(photoId: number){
-    this.recipeService.deletePhoto(photoId, this.recipeId)
-      .subscribe(response => {
-        if(response.status === 200 ){ 
-          this.toastr.success('Photo removed successfully!');
-          this.loadRecipePhotos();
-        } else {
-          this.toastr.error('Error! Photo cannot be removed.');
-          console.log(response);
-        }               
-      }, error => {
+    this.recipeService.deletePhoto(photoId, this.recipeId).subscribe(response => {
+      if(response.status === 200 ){ 
+        this.toastr.success('Photo removed successfully!');
+        this.loadRecipePhotos();
+      } else {
         this.toastr.error('Error! Photo cannot be removed.');
-        console.log(error);                      
-      })
+        console.log(response);
+      }               
+    })
   }
 
   back(){

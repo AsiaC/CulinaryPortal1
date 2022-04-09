@@ -46,9 +46,6 @@ export class DeleteRecipeComponent implements OnInit {
           console.log(response);          
         }    
         this.bsModalRef = this.modalService.show(InformComponent, {initialState});
-      }, error => {
-        console.log("Error during deleting the recipe.");
-        console.log(error);
       })
     }    
     this.bsModalRef.hide();    

@@ -47,7 +47,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   loadRecipe(){  
-    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe =>{ 
+    this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe => { 
       if(recipe?.id !== undefined){
         this.currentRecipe = recipe; 
         if(this.user !== undefined){
@@ -56,7 +56,7 @@ export class RecipeDetailComponent implements OnInit {
           this.loadShoppingListsIds();
 
           if(this.user !== undefined){
-            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rateResponse=>{
+            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rateResponse => {
               if(rateResponse?.id !== undefined){
                 this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rateResponse.value, id: rateResponse.id};
               } else if(rateResponse !== undefined) {
@@ -66,18 +66,13 @@ export class RecipeDetailComponent implements OnInit {
                 console.log(rateResponse);
               }            
             })
-          }
-          
+          }          
         } 
       } else {
         console.log('Error while displaying a recipe');        
         this.router.navigateByUrl('/recipes');
         this.toastr.error('An error occurred, please try again.');
       }              
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');
-      this.toastr.error('An error occurred, please try again.');      
     })    
   }
 
@@ -92,10 +87,6 @@ export class RecipeDetailComponent implements OnInit {
            }
         }
       }
-    }, error => {      
-      console.log(error);
-      this.router.navigateByUrl('/recipes');    
-      this.toastr.error('An error occurred, please try again.');       
     })
   }
 
@@ -105,10 +96,6 @@ export class RecipeDetailComponent implements OnInit {
       if(userShoppingLists?.length !== undefined){
         this.userShoppingLists = userShoppingLists; 
       }             
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');    
-      this.toastr.error('An error occurred, please try again.');   
     })
   }
 
@@ -128,11 +115,10 @@ export class RecipeDetailComponent implements OnInit {
         this.bsModalRef.content.closeBtnName = 'Cancel';
         this.bsModalRef.content.submitBtnName = 'Confirm';
         this.canAddToCookbook = false;
-    }else{      
+    } else {      
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: true}
     this.userCookbook.cookbookRecipes.push(this.cookbookRecipe);
-    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-      .subscribe(response =>{
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe).subscribe(response => {
         if(response.status === 200 ){ 
           this.toastr.success('Recipe added successfully!');          
         } else {
@@ -140,9 +126,6 @@ export class RecipeDetailComponent implements OnInit {
           console.log(response);
         }   
         this.canAddToCookbook = false;
-      }, error => {
-        this.toastr.error('Error! Recipe cannot be added.');
-        console.log(error);
       })
     }
   }
@@ -150,8 +133,7 @@ export class RecipeDetailComponent implements OnInit {
   removeFromCookbook(){
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: false}
     
-    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    .subscribe(response => {
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe).subscribe(response => {
       if(response.status === 200 ){ 
         this.toastr.success('Recipe removed successfully!');          
       } else {
@@ -159,9 +141,6 @@ export class RecipeDetailComponent implements OnInit {
         console.log(response);
       }        
       this.canAddToCookbook = true;
-    }, error => {
-      this.toastr.error('Error! Recipe cannot be removed.');
-      console.log(error);
     })
   }
 
@@ -202,9 +181,6 @@ export class RecipeDetailComponent implements OnInit {
         this.toastr.error('Error! Rate cannot be added.');
         console.log(response);
       }  
-    }, error => {
-      this.toastr.error('Error! Rate cannot be added.');
-      console.log(error);
     })
   }
 
@@ -217,9 +193,6 @@ export class RecipeDetailComponent implements OnInit {
         this.toastr.error('Error! Rate cannot be removed.');
         console.log(response);
       }          
-    }, error => {
-      this.toastr.error('Error! Rate cannot be removed.');
-      console.log(error);
     })
   }
 }

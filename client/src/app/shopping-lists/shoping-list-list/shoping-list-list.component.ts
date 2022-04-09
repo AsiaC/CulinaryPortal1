@@ -20,7 +20,7 @@ export class ShopingListListComponent implements OnInit {
   }
 
   loadShoppingLists(){
-    this.shoppingListService.getShoppingLists().subscribe(userShoppingListsResponse=>{
+    this.shoppingListService.getShoppingLists().subscribe(userShoppingListsResponse => {
       if(userShoppingListsResponse?.length !== undefined){
         this.shoppingLists = userShoppingListsResponse;
       } else {
@@ -32,10 +32,6 @@ export class ShopingListListComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');
         }    
       }      
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');     
-      this.toastr.error('An error occurred, please try again.');
     })
   }
 
@@ -47,9 +43,6 @@ export class ShopingListListComponent implements OnInit {
       } else {
         this.toastr.error('Error! The shopping list has not been removed.');  
       }
-    }, error => {
-      this.toastr.error('Error during deleting the shopping list.'); 
-      console.log(error);                      
     })
   }
 }

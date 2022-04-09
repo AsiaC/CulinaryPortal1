@@ -31,7 +31,7 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   loadUserShoppingLists(){
-    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingListsResponse=>{
+    this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingListsResponse => {
       if(userShoppingListsResponse?.length !== undefined){
         this.userShoppingLists = userShoppingListsResponse;
       } else {
@@ -45,10 +45,6 @@ export class UserShoppingListsComponent implements OnInit {
           this.alertText = 'An error occurred, please try again.';
         }    
       }
-    }, error =>{
-      console.log(error);
-      this.router.navigateByUrl('/recipes');     
-      this.alertText = 'An error occurred, please try again.';
     })
   }
 
@@ -62,18 +58,14 @@ export class UserShoppingListsComponent implements OnInit {
   }
 
   deleteShoppingList(shoppingListId) {
-    this.shoppingListService.deleteShoppingList(shoppingListId)
-      .subscribe(response => {
-        if(response.status === 200 ){ 
-          this.toastr.success('Shopping list removed successfully!');
-          this.loadUserShoppingLists()
-        } else {
-          this.toastr.error('Error! Shopping list cannot be removed.');
-          console.log(response);
-        }        
-      }, error => {
-          this.toastr.error('Error! Shopping list cannot be removed.');
-          console.log(error);                      
-      })
+    this.shoppingListService.deleteShoppingList(shoppingListId).subscribe(response => {
+      if(response.status === 200 ){ 
+        this.toastr.success('Shopping list removed successfully!');
+        this.loadUserShoppingLists()
+      } else {
+        this.toastr.error('Error! Shopping list cannot be removed.');
+        console.log(response);
+      }        
+    })
   }
 }

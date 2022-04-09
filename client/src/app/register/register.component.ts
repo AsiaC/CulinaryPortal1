@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   }
   
   register(){
-    this.accountService.register(this.model).subscribe(response=>{
+    this.accountService.register(this.model).subscribe(response => {
       this.cancel();  
       if(response === true) {
         this.toastr.success('Success. You have registered correctly.');

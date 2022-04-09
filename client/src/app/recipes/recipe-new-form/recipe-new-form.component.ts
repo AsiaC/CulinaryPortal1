@@ -61,9 +61,7 @@ export class RecipeNewFormComponent implements OnInit {
     }    
   }
   loadRecipe(){
-    this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id')))
-    .pipe(first())
-    .subscribe(recipe =>{ 
+    this.recipesService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).pipe(first()).subscribe(recipe => { 
       if(recipe?.id !== undefined){
         this.recipe = recipe; 
         this.addRecipeForm.patchValue({
@@ -96,10 +94,6 @@ export class RecipeNewFormComponent implements OnInit {
         this.router.navigateByUrl('/recipes');
         this.toastr.error('An error occurred, please try again.');
       }   
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');
-      this.toastr.error('An error occurred, please try again.');    
     });
   }
   
@@ -174,9 +168,6 @@ export class RecipeNewFormComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -193,9 +184,6 @@ export class RecipeNewFormComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }      
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }  
 
@@ -212,9 +200,6 @@ export class RecipeNewFormComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }        
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.'); 
     })
   }
 
@@ -229,9 +214,6 @@ export class RecipeNewFormComponent implements OnInit {
       }
       this.isAddMode = false;
       window.location.reload();
-    }, error => {
-      this.toastr.error('Error! Recipe cannot be added.');
-      console.log(error);
     })
   }
 
@@ -266,9 +248,6 @@ export class RecipeNewFormComponent implements OnInit {
         this.toastr.error('Error! Recipe cannot be added.');
         console.log(response);
       }      
-    }, error => {
-      console.log('Error during updating the recipe.'); 
-      console.log(error);                      
     })    
   }
 

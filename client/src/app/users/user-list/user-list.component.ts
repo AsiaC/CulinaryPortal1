@@ -30,9 +30,6 @@ export class UserListComponent implements OnInit {
         this.toastr.error('An error occurred while loading users, please try again.');     
         console.log(usersResponse.error.status);      
       }
-    }, error => {
-      console.log(error);
-      this.toastr.error('An error occurred while loading users, please try again.');   
     })
   }
 
@@ -44,10 +41,6 @@ export class UserListComponent implements OnInit {
       } else {
         this.toastr.error('Error! The user has not been removed.');  
       }
-    }, error => {
-      this.toastr.error('Error during deleting the user.'); 
-      console.log(error);                      
     })
   }
-
 }

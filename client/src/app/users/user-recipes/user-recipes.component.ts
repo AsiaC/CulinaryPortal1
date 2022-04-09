@@ -42,7 +42,7 @@ export class UserRecipesComponent implements OnInit {
   }
 
   loadUserRecipes(){
-    this.userService.getUserRecipes(this.user.id).subscribe(userRecipesResponse=>{
+    this.userService.getUserRecipes(this.user.id).subscribe(userRecipesResponse => {
       if(userRecipesResponse?.length !== undefined){
         this.userRecipes = userRecipesResponse;  
       } else {        
@@ -55,10 +55,6 @@ export class UserRecipesComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.router.navigateByUrl('/recipes');     
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -75,9 +71,6 @@ export class UserRecipesComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -116,10 +109,6 @@ export class UserRecipesComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');  
         console.log(recipesResponse);
       }
-    }, error => {
-        console.log(error);   
-        this.isNoResults = true;   
-        this.toastr.error('An error occurred, please try again.');                  
     })
   }
   
@@ -138,5 +127,4 @@ export class UserRecipesComponent implements OnInit {
   onChange(event): number {
     return event;
   }
-
 }

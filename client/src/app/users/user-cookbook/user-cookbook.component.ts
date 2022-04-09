@@ -69,10 +69,6 @@ export class UserCookbookComponent implements OnInit {
             this.alertText = 'An error occurred, please try again.';
           }
         }
-    }, error => {
-      console.log(error);
-      this.router.navigateByUrl('/recipes');     
-      this.alertText = 'An error occurred, please try again.';
     })
   }
 
@@ -89,17 +85,13 @@ export class UserCookbookComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
   removeFromCookbook(recipeId){
     this.cookbookRecipe = {recipeId: recipeId, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: null, isRecipeAdded: false}
     
-    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe)
-    .subscribe(response => {
+    this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe).subscribe(response => {
       if(response.status === 200 ){ 
         this.toastr.success('Recipe removed successfully!');          
       } else {
@@ -107,9 +99,6 @@ export class UserCookbookComponent implements OnInit {
         console.log(response);
       }      
       this.loadUserCookbook();
-    }, error => {
-      this.toastr.error('Error! Recipe cannot be removed.');
-      console.log(error);
     })
   }
 
@@ -122,9 +111,6 @@ export class UserCookbookComponent implements OnInit {
       } else {
         this.toastr.error('Error! Cookbook cannot be removed.'); 
       }
-    }, error => {
-      this.toastr.error('Error! Cookbook cannot be removed.'); 
-      console.log(error);                      
     })
   }
 
@@ -166,10 +152,6 @@ export class UserCookbookComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');  
         console.log(recipesResponse);
       }
-    }, error => {
-        console.log(error);   
-        this.isNoResults = true;    
-        this.toastr.error('An error occurred, please try again.');               
     })
   }   
 

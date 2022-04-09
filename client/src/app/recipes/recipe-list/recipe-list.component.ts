@@ -29,8 +29,7 @@ export class RecipeListComponent implements OnInit {
 
   constructor(private recipeService: RecipesService, private toastr: ToastrService) { 
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
-    this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);   
-    
+    this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);       
   }
 
   ngOnInit(): void {
@@ -52,9 +51,6 @@ export class RecipeListComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);       
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -71,9 +67,6 @@ export class RecipeListComponent implements OnInit {
           this.toastr.error('An error occurred, please try again.');  
         }
       }
-    }, error =>{
-      console.log(error);
-      this.toastr.error('An error occurred, please try again.');  
     })
   }
 
@@ -106,10 +99,6 @@ export class RecipeListComponent implements OnInit {
         this.toastr.error('An error occurred, please try again.');  
         console.log(recipesResponse);
       }
-    }, error => {
-        console.log(error);   
-        this.isNoResults = true;    
-        this.toastr.error('An error occurred, please try again.');               
     })
   }
   

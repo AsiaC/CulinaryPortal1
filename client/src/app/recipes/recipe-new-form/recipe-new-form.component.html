@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group col-sm-2"> 
                             <br/>
-                            <button class="btn btn-default mt-2 btn-sm" type="button" (click)="removeIngredient(i)">Remove</button>
+                            <button class="btn btn-default mt-2 btn-sm" type="button" (click)="removeIngredient(i)" [disabled]="recipeIngredients.controls.length == 1">Remove</button>
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                             <input type="text" class="form-control" formControlName='name' placeholder="Instruction Name">
                         </div>  
                         <div class="col-sm-2">
-                            <button class="btn btn-default btn-sm" type="button" (click)="removeInstruction(i)">Remove instruction</button>
+                            <button class="btn btn-default btn-sm" type="button" (click)="removeInstruction(i)" [disabled]="instructions.controls.length == 1">Remove instruction</button>
                         </div>
 
                         <label class="col-sm-2 col-form-label">Description</label>
@@ -138,7 +138,7 @@
             </div>
 
             <div class="form-group text-center">
-                <button  [disabled]="!(addRecipeForm.dirty && addRecipeForm.valid) && !itemIsRemoved" class="btn btn-success mr-2" type="submit">Save</button>   
+                <button [disabled]="!(addRecipeForm.dirty && addRecipeForm.valid) && !itemIsRemoved" class="btn btn-success mr-2" type="submit">Save</button>   
                 <button class="btn btn-default mr-2" type="button" (click)="cancel()">Cancel</button>
             </div>
         </form>

@@ -22,7 +22,6 @@ export class ShoppingListNewFormComponent implements OnInit {
   id: string;
   itemIsRemoved: boolean = false;
   @Input()selectedListId: number;
-  //isValidFormSubmitted:boolean | null = null; 
   
   constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private toastr: ToastrService,private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
@@ -66,7 +65,6 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.addShoppingListForm = this.fb.group({
       id: [],
       name: ['', [Validators.required]],
-      //items: this.fb.array([this.createItemFormGroup()], [Validators.required]),
       items: this.fb.array([this.createItemFormGroup()], [Validators.required]),
       userId: [this.user.id]
     })
@@ -83,10 +81,6 @@ export class ShoppingListNewFormComponent implements OnInit {
     return a;
   }
 
-  // getValidity(i) { debugger;
-  //   return (<FormArray>this.addShoppingListForm.get('items')).controls[i].invalid;
-  // }
-
   addItem() { debugger;
     let fg = this.createItemFormGroup();
     this.items.push(fg);
@@ -97,16 +91,15 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.itemIsRemoved = true;
   }
 
-  onSubmit() { debugger;
+  onSubmit() {
     if(this.isAddMode){
       this.createNewShoppingList();
     } else{
       this.updateShoppingList();
     }
-    //this.isValidFormSubmitted = true;
   }
 
-  createNewShoppingList(){ debugger;
+  createNewShoppingList(){
     this.submitted = true;
     this.shoppingListService.addShoppingList(this.addShoppingListForm.value).subscribe(response => {
       if(response.status === 200 ){ 
@@ -124,7 +117,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     })
   }
 
-  updateShoppingList(){ debugger;
+  updateShoppingList(){
     this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value).subscribe(response => {
       if(response.status === 200 ){ 
         this.shoppingList = this.addShoppingListForm.value;

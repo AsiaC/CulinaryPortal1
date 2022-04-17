@@ -35,14 +35,6 @@
                         <div class="error-info" *ngIf="!(addShoppingListForm.get('items')['controls'][i].valid) && addShoppingListForm.get('items')['controls'][i].touched">
                             The name of shopping list item is required!
                         </div>
-
-                        <!-- <label
-                            *ngIf="items.controls[i].get('itemName')?.errors?.required && isValidFormSubmitted != null && !isValidFormSubmitted"
-                            class="error">
-                            Item name required.
-                        </label>
-                        IS Invalid - {{ getValidity(i) }} -->
-
                     </div> 
                 </div>
             </div>
@@ -57,8 +49,4 @@
             </div>      
         </form>
     </div>
-
-    <!-- <div>
-        Form Status: {{ addShoppingListForm.status }}
-    </div> -->
 </div>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms'
+import { FormGroup, FormArray, FormBuilder, Validators, ValidationErrors, FormControl } from '@angular/forms'
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { first, take } from 'rxjs/operators';
@@ -22,12 +22,13 @@ export class ShoppingListNewFormComponent implements OnInit {
   id: string;
   itemIsRemoved: boolean = false;
   @Input()selectedListId: number;
+  //isValidFormSubmitted:boolean | null = null; 
   
   constructor(private shoppingListService: ShoppingListService, private fb:FormBuilder, private accountService:AccountService, private toastr: ToastrService,private router: Router) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
-  ngOnInit(): void {
+  ngOnInit(): void { debugger;
     if(this.selectedListId !== undefined){
       this.id = this.selectedListId.toString();
     } 
@@ -61,26 +62,32 @@ export class ShoppingListNewFormComponent implements OnInit {
     });
   }
 
-  initializeListForm() {
+  initializeListForm() { debugger;
     this.addShoppingListForm = this.fb.group({
       id: [],
       name: ['', [Validators.required]],
+      //items: this.fb.array([this.createItemFormGroup()], [Validators.required]),
       items: this.fb.array([this.createItemFormGroup()], [Validators.required]),
       userId: [this.user.id]
     })
   }
 
-  createItemFormGroup(){
+  createItemFormGroup(){ debugger;
     return this.fb.group({
-      itemName:  ['', [Validators.required]]
+      itemName: ['', [Validators.required]]
     })
   }
 
   get items() : FormArray {
-    return (this.addShoppingListForm.get("items") as FormArray)
+    var a = (this.addShoppingListForm.get("items") as FormArray); 
+    return a;
   }
 
-  addItem() {
+  // getValidity(i) { debugger;
+  //   return (<FormArray>this.addShoppingListForm.get('items')).controls[i].invalid;
+  // }
+
+  addItem() { debugger;
     let fg = this.createItemFormGroup();
     this.items.push(fg);
   }  
@@ -90,15 +97,16 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.itemIsRemoved = true;
   }
 
-  onSubmit() {
+  onSubmit() { debugger;
     if(this.isAddMode){
       this.createNewShoppingList();
     } else{
       this.updateShoppingList();
     }
+    //this.isValidFormSubmitted = true;
   }
 
-  createNewShoppingList(){
+  createNewShoppingList(){ debugger;
     this.submitted = true;
     this.shoppingListService.addShoppingList(this.addShoppingListForm.value).subscribe(response => {
       if(response.status === 200 ){ 
@@ -116,7 +124,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     })
   }
 
-  updateShoppingList(){
+  updateShoppingList(){ debugger;
     this.shoppingListService.updateShoppingList(this.id, this.addShoppingListForm.value).subscribe(response => {
       if(response.status === 200 ){ 
         this.shoppingList = this.addShoppingListForm.value;

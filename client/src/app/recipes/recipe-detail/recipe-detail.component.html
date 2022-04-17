@@ -4,8 +4,8 @@
         <div class="col">
             <p *ngIf="currentRecipe.author !== null">Author: {{currentRecipe.author}}</p>
         </div>
-        <div class="col" *ngIf="user !== undefined">    
-            <div *ngIf="currentRecipe?.userId === user.id || user.roles.includes('Admin')" >
+        <div class="col" *ngIf="user?.id !== undefined">    
+            <div *ngIf="currentRecipe?.userId === user?.id || user?.roles.includes('Admin')" >
                 <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
                 <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
                 <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>

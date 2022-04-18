@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../_models/recipe';
 import { RecipesService } from 'src/app/_services/recipes.service';
 import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
   users: any;
   recipes: Recipe[];
 
-  constructor(private recipeService: RecipesService, private toastr: ToastrService) { }
+  constructor(private recipeService: RecipesService, private toastr: ToastrService, public accountService: AccountService,) { }
 
   ngOnInit(): void {
     this.searchRecipes();

@@ -17,8 +17,7 @@
                 <li>Create your cookbook with favourites recipes</li>
                 <li>Create your shopping lists</li>
             </ul>
-            <!-- <p>Zarejestruj sie a będziesz mógł dodawać nowe przepisy, stworzyć swoą książkę z ulibionymi przepisami, tworzyć listy zakupow, oceniać przepisy</p> -->
-            <button class="btn btn-success btn-lg mr-2" (click)="registerToggle()" >Register</button>
+            <button class="btn btn-success btn-lg mr-2" (click)="registerToggle()" [disabled]="!((accountService.currentUser$ | async) === null)">Register</button>
         </div>
         </div>
         <div class="col-3" *ngFor="let recipe of recipes">

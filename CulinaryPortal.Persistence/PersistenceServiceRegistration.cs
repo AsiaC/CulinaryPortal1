@@ -36,7 +36,15 @@ namespace CulinaryPortal.Persistence
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddIdentityCore<User>()        
+            services.AddIdentityCore<User>(opt => 
+                { 
+                    opt.Password.RequiredLength = 6;
+                    opt.Password.RequireLowercase = false;
+                    opt.Password.RequireUppercase = false;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequiredUniqueChars = 0;
+                })
                 .AddRoles<AppRole>()
                 .AddRoleManager<RoleManager<AppRole>>()
                 .AddSignInManager<SignInManager<User>>()

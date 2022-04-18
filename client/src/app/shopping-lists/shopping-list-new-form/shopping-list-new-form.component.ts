@@ -27,7 +27,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
    }
 
-  ngOnInit(): void { debugger;
+  ngOnInit(): void { 
     if(this.selectedListId !== undefined){
       this.id = this.selectedListId.toString();
     } 
@@ -61,7 +61,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     });
   }
 
-  initializeListForm() { debugger;
+  initializeListForm() { 
     this.addShoppingListForm = this.fb.group({
       id: [],
       name: ['', [Validators.required]],
@@ -70,7 +70,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     })
   }
 
-  createItemFormGroup(){ debugger;
+  createItemFormGroup(){ 
     return this.fb.group({
       itemName: ['', [Validators.required]]
     })
@@ -81,7 +81,7 @@ export class ShoppingListNewFormComponent implements OnInit {
     return a;
   }
 
-  addItem() { debugger;
+  addItem() { 
     let fg = this.createItemFormGroup();
     this.items.push(fg);
   }  

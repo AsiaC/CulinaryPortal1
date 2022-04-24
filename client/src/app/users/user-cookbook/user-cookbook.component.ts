@@ -13,6 +13,8 @@ import { RecipesService } from 'src/app/_services/recipes.service';
 import { CookbookRecipe } from 'src/app/_models/cookbookRecipe';
 import { Category } from 'src/app/_models/category';
 import { Router } from '@angular/router';
+import { CreateCookbookComponent } from 'src/app/modals/create-cookbook/create-cookbook.component';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-user-cookbook',
@@ -37,8 +39,9 @@ export class UserCookbookComponent implements OnInit {
   PreparationTimeEnum = PreparationTimeEnum;
   DifficultyLevelEnum = DifficultyLevelEnum;
   alertText: string;
+  bsModalRef: BsModalRef;
 
-  constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService, private recipeService: RecipesService, private router: Router) { 
+  constructor(private userService:UsersService, private accountService:AccountService,  private cookbookService:CookbookService, private toastr: ToastrService, private recipeService: RecipesService, private router: Router, private modalService: BsModalService,) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
     this.difficultyLevelKeys = Object.keys(this.difficultyLevel).filter(k => !isNaN(Number(k))).map(Number);
     this.preparationTimeKeys = Object.keys(this.preparationTime).filter(k => !isNaN(Number(k))).map(Number);       
@@ -48,6 +51,17 @@ export class UserCookbookComponent implements OnInit {
     this.loadUserCookbook();
     this.getAllCategories();
   }
+
+  addCookbook(){         
+    const initialState = {     
+      title: 'Create cookbook', 
+      userId: this.user.id,
+      currentRecipe: null,
+    };
+    this.bsModalRef = this.modalService.show(CreateCookbookComponent, {initialState});
+    this.bsModalRef.content.closeBtnName = 'Cancel';
+    this.bsModalRef.content.submitBtnName = 'Confirm';
+  } 
 
   loadUserCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbookResponse => {

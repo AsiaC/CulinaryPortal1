@@ -25,24 +25,30 @@ export class CreateCookbookComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  confirmAddingIngredients(){
+  confirmCreatingCookbook(){
     // Create cookbook and create the relationship    
     var recipes = [];
-    recipes.push(this.currentRecipe);    
+    if(this.currentRecipe != null){
+      recipes.push(this.currentRecipe);  
+    }
     var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};
     
-    this.cookbookService.addCookbook(cookbookToCreate)
-    .subscribe(userCookbook => {
+    this.cookbookService.addCookbook(cookbookToCreate).subscribe(userCookbook => {
       this.userCookbook = userCookbook;          
       if(userCookbook !== undefined){
-        this.currentRecipe.cookbookId = userCookbook.id;           
-        this.cookbookService.updateCookbook(userCookbook.id, this.currentRecipe).subscribe(response => {
-          if(response.status === 200 ){ 
-            this.toastr.success('Cookbook created and recipe added successfully!');          
-          } else {
-            this.toastr.error('Error! Cookbook and recipe cannot be added.');
-            console.log(response);
-          }})
+        if(this.currentRecipe != null){
+          this.currentRecipe.cookbookId = userCookbook.id;         
+          this.cookbookService.updateCookbook(userCookbook.id, this.currentRecipe).subscribe(response => {
+            if(response.status === 200 ){
+              this.toastr.success('Cookbook created and recipe added successfully!');          
+            } else {
+              this.toastr.error('Error! Cookbook and recipe cannot be added.');
+              console.log(response);
+            }})
+        } else {
+          this.toastr.success('Cookbook created successfully!'); 
+          window.location.reload();
+        }
       } else {
         this.toastr.error('Error! Cookbook cannot be added.');
         console.log('Error! Cookbook cannot be added.');

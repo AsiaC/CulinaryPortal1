@@ -20,7 +20,7 @@ export class SelectShoppingListComponent implements OnInit {
   newShoppingListName: string = null; 
   selectOptionVal: any;// = {name: "--select--", id:0};
 
-  readioSelected: any;  
+  radioSelected: any;  
   shoppingListDto: ShoppingList;
 
   constructor(public bsModalRef: BsModalRef, private toastr: ToastrService, private shoppingListService: ShoppingListService) {}
@@ -35,7 +35,7 @@ export class SelectShoppingListComponent implements OnInit {
       newIngredients.push({id: null, itemName: newName});
     });
 
-    if(this.readioSelected === 'radio1'){
+    if(this.radioSelected === 'radio1'){
       if(this.selectOptionVal !== undefined){
         // Adding ingredients to an existing and selected shopping list         
         this.shoppingListDto = this.list.find(x=>x.id === parseInt(this.selectOptionVal));
@@ -55,7 +55,7 @@ export class SelectShoppingListComponent implements OnInit {
         console.log('Failed to add ingredients to the shopping list. No list was selected.');
       }
     }
-    else if (this.readioSelected === 'radio2'){
+    else if (this.radioSelected === 'radio2'){
       if(this.newShoppingListName !== null){        
         // Adding ingredients to a new shopping list
         var shoppingListDto2: ShoppingList = {id: null, name: this.newShoppingListName, items: newIngredients, userId: this.userId, userName: ''};

@@ -57,6 +57,12 @@ export class CreateCookbookComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
+  cancelCreatingCookbook(){debugger;
+    window.location.reload();
+    this.bsModalRef.hide()
+  }
+ 
+
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }

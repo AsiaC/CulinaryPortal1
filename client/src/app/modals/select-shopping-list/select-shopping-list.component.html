@@ -6,9 +6,9 @@
 </div>
 <div class="modal-body">    
     <div *ngIf="list !== undefined">
-        <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="readioSelected" disabled="{{list.length === 0}}">
+        <input type="radio" value="radio1" name="customRadio" class="radioButton" [(ngModel)]="radioSelected" disabled="{{list.length === 0}}">
         <label for="customRadio1">Select from existing shopping lists</label>
-        <div *ngIf="readioSelected=='radio1'">
+        <div *ngIf="radioSelected=='radio1'">
             <select class="form-control" id="selectedShoppingList" (change)="selectOptionVal=onChange($event.target.value)">        
                 <option [value]="null" selected disabled>Choose shopping list</option>
                 <option *ngFor="let prf of list" [value]="prf.id">
@@ -19,16 +19,20 @@
     </div>
 
     <div>
-        <input type="radio"  value="radio2" name="customRadio" class="radioButton" [(ngModel)]="readioSelected">
+        <input type="radio"  value="radio2" name="customRadio" class="radioButton" [(ngModel)]="radioSelected">
         <label for="customRadio2">Create a new shopping list</label> 
-        <div *ngIf="readioSelected=='radio2'">
-            <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)">
+        <div *ngIf="radioSelected=='radio2'">
+            <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify list name" [value]="newShoppingListName" (input)="newShoppingListName=getValue($event)" required>
+            <div class="error-info" *ngIf="newShoppingListName?.length === 0">
+                Shopping list name is required!
+            </div>
         </div>
     </div>
 </div>
 <div class="modal-footer">    
-    <div *ngIf="readioSelected !== undefined">
-        <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()">{{submitBtnName}}</button>
+    <p>{{selectOptionVal}}</p>
+    <div *ngIf="radioSelected !== undefined">
+        <button type="button" class="btn btn-success" (click)="confirmAddingIngredients()" [disabled]="((newShoppingListName === null || newShoppingListName?.length === 0) && radioSelected=='radio2') || (radioSelected=='radio1' && selectOptionVal == null)">{{submitBtnName}}</button>
     </div>
     <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
 </div>

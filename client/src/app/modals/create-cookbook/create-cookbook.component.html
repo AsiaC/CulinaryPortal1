@@ -6,11 +6,14 @@
 </div>
 <div class="modal-body">  
     <div>       
-        <input type="text" class="form-control" id="newShoppingListName" placeholder="Specify new cookbook name" [value]="newCookbookName" (input)="newCookbookName=getValue($event)">
+        <input type="text" class="form-control" id="newCookbookName" placeholder="Specify new cookbook name" [value]="newCookbookName" (input)="newCookbookName=getValue($event)" required>        
+        <div class="error-info" *ngIf="newCookbookName?.length === 0">
+            Cookbook name is required!
+        </div>
     </div>
 </div>
 <div class="modal-footer">       
-    <button type="button" class="btn btn-success" (click)="confirmCreatingCookbook()">{{submitBtnName}}</button>
-    <button type="button" class="btn btn-danger" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+    <button type="button" class="btn btn-success" (click)="confirmCreatingCookbook()" [disabled]="(newCookbookName === null || newCookbookName?.length === 0)">{{submitBtnName}}</button>
+    <button type="button" class="btn btn-danger" (click)="cancelCreatingCookbook()">{{closeBtnName}}</button>
 </div>
 

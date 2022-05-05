@@ -76,7 +76,8 @@
     <h2>Instructions</h2>
     <ol>
         <li class="mt-2" *ngFor="let instruction of currentRecipe.instructions">
-            {{instruction.description}}
+            <p *ngIf="instruction.name != ''">{{instruction.name}}: </p>
+            <p>{{instruction.description}} </p>
         </li>
     </ol>
     

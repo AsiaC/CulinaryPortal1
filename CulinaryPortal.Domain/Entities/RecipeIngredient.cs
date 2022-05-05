@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,9 @@ namespace CulinaryPortal.Domain.Entities
 
         public int MeasureId { get; set; }
         public Measure Measure { get; set; }
-        [Column(TypeName = "decimal(7,2)")]
+
+        [Required]
+        [Column(TypeName = "decimal(8,2)")]
         public decimal Quantity { get; set; }
     }
 }

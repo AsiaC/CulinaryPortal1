@@ -26,8 +26,11 @@ namespace CulinaryPortal.Domain.Entities
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public DifficultyLevel DifficultyLevel { get; set; }
+
+        [Required]
         [JsonConverter(typeof(StringEnumConverter))]
         public PreparationTime PreparationTime { get; set; }
 

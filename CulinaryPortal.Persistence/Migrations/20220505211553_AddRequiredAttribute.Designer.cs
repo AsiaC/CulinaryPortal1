@@ -4,14 +4,16 @@ using CulinaryPortal.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CulinaryPortal.Persistence.Migrations
 {
     [DbContext(typeof(CulinaryPortalDbContext))]
-    partial class CulinaryPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220505211553_AddRequiredAttribute")]
+    partial class AddRequiredAttribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.AccountController" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAABAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.CategoryController" Collapsed="true">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CategoryController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.CookbookController" Collapsed="true">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAABAAAAAAAAAAACAAAAAIAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CookbookController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.IngredientController" Collapsed="true">
+    <Position X="13.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\IngredientController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.MeasureController" Collapsed="true">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\MeasureController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.RateController" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\RateController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.RecipeController" Collapsed="true">
+    <Position X="13.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAEBACAAAgAAAAAAAABgEAAAAAAAAEAAAgAAAAEA=</HashCode>
+      <FileName>Controllers\RecipeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.ShoppingListController" Collapsed="true">
+    <Position X="8.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBAAABAAAEgAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ShoppingListController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Controllers.UserController" Collapsed="true">
+    <Position X="11.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABIAAAAAAAAAAkBAAAEAAAAQAACAQAEAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\UserController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Program" Collapsed="true">
+    <Position X="10" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.ApplicationProgrammingInterface.Startup" Collapsed="true">
+    <Position X="10" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

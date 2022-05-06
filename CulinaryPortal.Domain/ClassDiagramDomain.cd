@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CulinaryPortal.Domain.Entities.AppRole" Collapsed="true">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\AppRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.AppUserRole" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\AppUserRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Category" Collapsed="true">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAIAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Category.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Cookbook" Collapsed="true">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAAAAAAAAAAAAwAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Cookbook.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.CookbookRecipe" Collapsed="true">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Entities\CookbookRecipe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Ingredient" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Ingredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Instruction" Collapsed="true">
+    <Position X="8" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAgAAAAAAAAAAQAAAAAAAAAIAAACAAAAAA=</HashCode>
+      <FileName>Entities\Instruction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.ListItem" Collapsed="true">
+    <Position X="9.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAgAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Entities\ListItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Measure" Collapsed="true">
+    <Position X="4.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Measure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Photo" Collapsed="true">
+    <Position X="6.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAABAAAAAAAAAAAAAAAAAAAAAAQAAAAAACAEAAAA=</HashCode>
+      <FileName>Entities\Photo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Rate" Collapsed="true">
+    <Position X="8" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAABAAAAAAAAAAAAAAAgAAAAAAAAAAAAgCAAAAAA=</HashCode>
+      <FileName>Entities\Rate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.Recipe" Collapsed="true">
+    <Position X="9.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAgAiAAAAAAAgwAAAgIAAEAgAAAAAAACAA=</HashCode>
+      <FileName>Entities\Recipe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.RecipeIngredient" Collapsed="true">
+    <Position X="4.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAABABgAAAAAEAAAAAAAAAAAAAAAAAAAAAAiAAAAAA=</HashCode>
+      <FileName>Entities\RecipeIngredient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.ShoppingList" Collapsed="true">
+    <Position X="6.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAADAAAAAAAACAAAAAAAAAwAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\ShoppingList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CulinaryPortal.Domain.Entities.User" Collapsed="true">
+    <Position X="8" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAIAAAAAgAAAgAAoAAAAAAAAg=</HashCode>
+      <FileName>Entities\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="CulinaryPortal.Domain.Enums.DifficultyLevel" Collapsed="true">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAQACAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums\DifficultyLevel.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="CulinaryPortal.Domain.Enums.PreparationTime" Collapsed="true">
+    <Position X="6.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums\PreparationTime.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

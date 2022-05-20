@@ -26,7 +26,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Policy = "OnlyAdminRole")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<CookbookDto>>> GetCookbooks()
         {
@@ -42,6 +42,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
+        [Authorize(Roles = "Member")]
         [HttpPost]
         public async Task<ActionResult<CookbookDto>> CreateCookbook([FromBody] CreateCookbookCommand createCookbookCommand)
         {
@@ -76,6 +77,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // PUT: api/cookbooks/5
+        [Authorize(Roles = "Member")]
         [HttpPut("{cookbookId}")]
         public async Task<ActionResult> UpdateCookbook([FromRoute] int cookbookId, [FromBody] UpdateCookbookCommand updateCookbookCommand)
         {

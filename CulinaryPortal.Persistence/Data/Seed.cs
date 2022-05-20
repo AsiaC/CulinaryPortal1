@@ -69,6 +69,18 @@ namespace CulinaryPortal.Persistence.Data
                         await userManager.CreateAsync(admin, "Aa1234!");
                         await userManager.AddToRoleAsync(admin, "Admin");
                     }
+
+                    var adminAndMemberUsers = new List<User>
+                    {
+                        new User{FirstName = "Anna", LastName = "Buk", Email = "abuk@wp.pl", UserName = "abuk", SecurityStamp = Guid.NewGuid().ToString()},
+                    };
+                    foreach (var adminAndMember in adminAndMemberUsers)
+                    {
+                        adminAndMember.UserName = adminAndMember.UserName.ToLower();
+                        await userManager.CreateAsync(adminAndMember, "Aa1234!");
+                        await userManager.AddToRoleAsync(adminAndMember, "Admin");
+                        await userManager.AddToRoleAsync(adminAndMember, "Member");
+                    }
                 }
                 #endregion
 

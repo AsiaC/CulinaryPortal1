@@ -60,6 +60,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 {
                     return NotFound();
                 }
+
                 return Ok(recipe);
             }
             catch (Exception e)
@@ -68,7 +69,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [HttpPost]
         public async Task<ActionResult<Recipe>> CreateRecipe([FromBody] CreateRecipeCommand createRecipeCommand)
         {
@@ -103,7 +104,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [HttpPut("{recipeId}")]
         public async Task<ActionResult> UpdateRecipe([FromRoute] int recipeId, [FromBody] UpdateRecipeCommand updateRecipeCommand)
         {
@@ -134,6 +135,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/recipes/3/photos
+        [Authorize(Roles = "Member")]
         [HttpGet("{recipeId}/photos", Name = "GetRecipePhotos")]
         public async Task<ActionResult<List<PhotoDto>>> GetRecipePhotosAsync([FromRoute] int recipeId)
         {
@@ -155,7 +157,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
 
 
         // POST: api/recipes/3/photos
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [HttpPost("{recipeId}/photos")]
         public async Task<ActionResult> UploadImage([FromRoute] int recipeId, IFormFile upload)
         {//https://docs.microsoft.com/pl-pl/aspnet/core/mvc/models/file-uploads?view=aspnetcore-5.0
@@ -202,7 +204,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         [HttpPut("{recipeId}/photos")]
         public async Task<ActionResult> UpdateMainPhoto([FromRoute] int recipeId, [FromBody] int photoId)
         {
@@ -249,7 +251,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         // DELETE: api/recipes/3/photos/1
         [HttpDelete("{recipeId}/photos/{photoId}")]
         public async Task<ActionResult> DeletePhoto([FromRoute] int photoId)

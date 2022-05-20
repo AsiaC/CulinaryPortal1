@@ -5,7 +5,7 @@
             <p *ngIf="currentRecipe.author !== null">Author: {{currentRecipe.author}}</p>
         </div>
         <div class="col" *ngIf="user?.id !== undefined">    
-            <div *ngIf="currentRecipe?.userId === user?.id || user?.roles.includes('Admin')" >
+            <div *ngIf="currentRecipe?.userId === user?.id" >
                 <button class="btn btn-default mr-2" (click)="editThisRecipe()">Update Recipe</button>
                 <button class="btn btn-default mr-2" (click)="editPhotos()">Update Photos</button>
                 <button class="btn btn-danger mr-2" (click)="deleteRecipe()" [disabled]="currentRecipe.countCookbooks > 0">Delete Recipe</button>
@@ -19,41 +19,42 @@
             <p><i class="fa fa-cutlery" aria-hidden="true"></i> Category: {{currentRecipe.category}}</p>
             <p><i class="fa fa-signal" aria-hidden="true"></i> Difficulty level: {{DifficultyLevelEnum[currentRecipe.difficultyLevel]}}</p>    
             <p><i class="fa fa-clock-o" aria-hidden="true"></i> Preparation time: {{PreparationTimeEnum[currentRecipe.preparationTime]}}</p>
-        </div>
+        </div> 
+        
         <div class="col" *ngIf="user !== undefined">            
             <div class="rating mt-3">
-                <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0">
+                <button class="btn btn-light" (click)="rate(1)" title="Rate the recipe 1" [disabled]="rateModel.value > 0 || user?.roles == 'Admin'">
                     <span *ngIf="currentRecipe.totalScore >= 1"><i class="fa fa-star"></i></span>
                     <span *ngIf="currentRecipe.totalScore > 0 && currentRecipe.totalScore < 1"><i class="fa fa-star-half-o"></i></span>
                     <span *ngIf="currentRecipe.totalScore === 0"><i class="fa fa-star-o"></i></span>        
                 </button>
-                <button class="btn btn-light" (click)="rate(2)" title="Rate the recipe 2" [disabled]="rateModel.value > 0">
+                <button class="btn btn-light" (click)="rate(2)" title="Rate the recipe 2" [disabled]="rateModel.value > 0 || user?.roles == 'Admin'">
                     <span *ngIf="currentRecipe.totalScore >= 2"><i class="fa fa-star"></i></span>
                     <span *ngIf="currentRecipe.totalScore > 1 && currentRecipe.totalScore < 2"><i class="fa fa-star-half-o"></i></span>
                     <span *ngIf="currentRecipe.totalScore <= 1"><i class="fa fa-star-o"></i></span>        
                 </button>
-                <button class="btn btn-light" (click)="rate(3)" title="Rate the recipe 3" [disabled]="rateModel.value > 0">
+                <button class="btn btn-light" (click)="rate(3)" title="Rate the recipe 3" [disabled]="rateModel.value > 0 || user?.roles == 'Admin'">
                     <span *ngIf="currentRecipe.totalScore >= 3"><i class="fa fa-star"></i></span>
                     <span *ngIf="currentRecipe.totalScore > 2 && currentRecipe.totalScore < 3"><i class="fa fa-star-half-o"></i></span>
                     <span *ngIf="currentRecipe.totalScore <= 2"><i class="fa fa-star-o"></i></span>        
                 </button>
-                <button class="btn btn-light" (click)="rate(4)" title="Rate the recipe 4" [disabled]="rateModel.value > 0">
+                <button class="btn btn-light" (click)="rate(4)" title="Rate the recipe 4" [disabled]="rateModel.value > 0 || user?.roles == 'Admin'">
                     <span *ngIf="currentRecipe.totalScore >= 4"><i class="fa fa-star"></i></span>
                     <span *ngIf="currentRecipe.totalScore > 3 && currentRecipe.totalScore < 4"><i class="fa fa-star-half-o"></i></span>
                     <span *ngIf="currentRecipe.totalScore <= 3"><i class="fa fa-star-o"></i></span>        
                 </button>
-                <button class="btn btn-light" (click)="rate(5)" title="Rate the recipe 5" [disabled]="rateModel.value > 0">
+                <button class="btn btn-light" (click)="rate(5)" title="Rate the recipe 5" [disabled]="rateModel.value > 0 || user?.roles == 'Admin'">
                     <span *ngIf="currentRecipe.totalScore === 5"><i class="fa fa-star"></i></span>
                     <span *ngIf="currentRecipe.totalScore > 4 && currentRecipe.totalScore < 5"><i class="fa fa-star-half-o"></i></span>
                     <span *ngIf="currentRecipe.totalScore <= 4"><i class="fa fa-star-o"></i></span>        
                 </button>
             </div>
             <p>Total Score: {{currentRecipe.totalScore}} ({{currentRecipe.countRates}} votes) </p>
-            <p>My Rating: {{rateModel.value}} &nbsp; <button class="btn btn-danger btn-sm" (click)="deleteVote()" [disabled]="rateModel.value === 0">Remove my vote</button></p>        
+            <p *ngIf="user?.roles.includes('Member')">My Rating: {{rateModel.value}} &nbsp; <button class="btn btn-danger btn-sm" (click)="deleteVote()" [disabled]="rateModel.value === 0">Remove my vote</button></p>        
         </div>
     </div>
     
-    <div class="mb-3" *ngIf="user !== undefined">
+    <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
         <div *ngIf="canAddToCookbook === true">
             <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Cookbook</button>
         </div>
@@ -69,7 +70,7 @@
         </li>
     </ul>
 
-    <div class="mb-3" *ngIf="user !== undefined">
+    <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
         <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
     </div>
     

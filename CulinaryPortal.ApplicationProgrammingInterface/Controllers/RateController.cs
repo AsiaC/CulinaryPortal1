@@ -21,8 +21,9 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         public RateController(IMediator mediator)
         {
             _mediator = mediator;
-        }           
+        }
 
+        [Authorize(Roles = "Member")]
         [HttpPost]
         public async Task<ActionResult<RateDto>> CreateRate([FromBody] CreateRateCommand createRateCommand)
         {
@@ -40,8 +41,8 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e);
             }            
         }
-       
 
+        [Authorize(Roles = "Member")]
         [HttpDelete("{rateId}")]
         public async Task<ActionResult> DeleteRate([FromRoute] int rateId)
         {

@@ -3,16 +3,16 @@
         <a class="navbar-brand" routerLink='/' routerLinkActive='active'>CulinaryPortal</a>
         
         <ul *ngIf="accountService.currentUser$ | async" class="navbar-nav mr-auto">
-          <li class="nav-item ">
+          <li class="nav-item">
             <a class="nav-link" routerLink = '/recipes' routerLinkActive='active'>All Recipes</a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item" *appHasRole='["Member"]'>
             <a class="nav-link" routerLink = '/user/recipes' routerLinkActive='active'>My Recipes</a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item" *appHasRole='["Member"]'>
             <a class="nav-link" routerLink = '/user/cookbook' routerLinkActive='active'>My Cookbook</a>
           </li>           
-          <li class="nav-item ">
+          <li class="nav-item" *appHasRole='["Member"]'>
             <a class="nav-link" routerLink = '/user/shoppingLists' routerLinkActive='active'>My Shopping Lists</a>
           </li>       
         </ul>

@@ -27,7 +27,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/shoppingLists
-        [Authorize(Policy = "OnlyAdminRole")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<ShoppingListDto>>> GetShoppingLists()
         {
@@ -43,6 +43,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/shoppingLists/5
+        [Authorize(Roles = "Member")]
         [HttpGet("{shoppingListId}", Name = "GetShoppingList")]
         public async Task<ActionResult<ShoppingListDto>> GetShoppingList([FromRoute] int shoppingListId)
         {
@@ -62,6 +63,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }
         }
 
+        [Authorize(Roles = "Member")]
         [HttpPost]
         public async Task<ActionResult<ShoppingListDto>> CreateShoppingList([FromBody] CreateShoppingListCommand createShoppingListCommand)
         {
@@ -80,6 +82,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
+        [Authorize(Roles = "Member")]
         [HttpPut("{shoppingListId}")]        
         public async Task<ActionResult> UpdateShoppingList([FromRoute] int shoppingListId, [FromBody] UpdateShoppingListCommand updateShoppingListCommand)
         {

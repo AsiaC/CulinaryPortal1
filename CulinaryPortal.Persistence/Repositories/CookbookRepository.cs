@@ -54,5 +54,9 @@ namespace CulinaryPortal.Persistence.Repositories
                 .FirstOrDefaultAsync(u => u.Id == cookbookId);
             return cookbook;
         }
+        public async Task<int> CountAssociatedCookbooksAsync(int recipeId)
+        {
+            return await _dbContext.Cookbooks.SelectMany(x => x.CookbookRecipes.Where(a => a.RecipeId == recipeId)).CountAsync();            
+        }
     }
 }

@@ -65,11 +65,8 @@ namespace CulinaryPortal.Persistence
                     };
                 });
 
-            services.AddAuthorization(opt =>
-            {
-                opt.AddPolicy("OnlyAdminRole", policy => policy.RequireRole("Admin"));
-            });
-
+            
+            services.AddAuthorization();
             return services;
         }
     }

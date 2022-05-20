@@ -50,23 +50,11 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe => { 
       if(recipe?.id !== undefined){
         this.currentRecipe = recipe; 
-        if(this.user !== undefined){
-            
-          this.loadCookbook();
-          this.loadShoppingListsIds();
-
-          if(this.user !== undefined){
-            this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rateResponse => {
-              if(rateResponse?.id !== undefined){
-                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rateResponse.value, id: rateResponse.id};
-              } else if(rateResponse !== undefined) {
-                this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
-              } else {
-                this.toastr.error('An error occurred, please refresh the page.');  
-                console.log(rateResponse);
-              }            
-            })
-          }          
+        debugger;
+        if(this.user !== undefined && this.user?.roles.includes('Member')){            
+          this.loadUserCookbook();
+          this.loadUserShoppingListsIds();   
+          this.loadUserRate();   
         } 
       } else {
         console.log('Error while displaying a recipe');        
@@ -76,7 +64,7 @@ export class RecipeDetailComponent implements OnInit {
     })    
   }
 
-  loadCookbook(){
+  loadUserCookbook(){
     this.userService.getUserCookbook(this.user.id).subscribe(userCookbook => {      
       if(userCookbook?.id !== undefined){
         this.userCookbook = userCookbook;  
@@ -90,13 +78,26 @@ export class RecipeDetailComponent implements OnInit {
     })
   }
 
-  loadShoppingListsIds(){
+  loadUserShoppingListsIds(){
     // Needed for modal, user can have several lists so the user has to choose the correct if he would like to add ingredients to the existing one
     this.userService.getUserShoppingLists(this.user.id).subscribe(userShoppingLists => {
       if(userShoppingLists?.length !== undefined){
         this.userShoppingLists = userShoppingLists; 
       }             
     })
+  }
+
+  loadUserRate(){
+    this.userService.getUserRecipeRate(this.user.id, Number(this.route.snapshot.paramMap.get('id'))).subscribe(rateResponse => {
+      if(rateResponse?.id !== undefined){
+        this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: rateResponse.value, id: rateResponse.id};
+      } else if(rateResponse !== undefined) {
+        this.rateModel = {recipeId: Number(this.route.snapshot.paramMap.get('id')), userId: this.user.id, value: 0, id: 0};
+      } else {
+        this.toastr.error('An error occurred, please refresh the page.');  
+        console.log(rateResponse);
+      }            
+    })  
   }
 
   editThisRecipe()  {

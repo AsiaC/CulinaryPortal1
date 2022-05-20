@@ -1,5 +1,5 @@
-<div class="card mb-4"  style="width: 15rem; height: 15rem;" routerLink='/recipes/{{recipeFromList.id}}'>  
-    <div class="card-img-wrapper">  
+<div class="card mb-4" style="width: 15rem; height: 15rem;">  
+    <div class="card-img-wrapper" routerLink='/recipes/{{recipeFromList.id}}'>  
         <ng-container *ngFor="let photo of recipeFromList.photos">
             <ng-container *ngIf="photo.isMain === true">                
                 <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto" class="card-img-top"/>            
@@ -10,11 +10,13 @@
         </ng-container>      
     </div>
     <div class="card-body p-1">
-        <h6 class="card-title text-center mb-1">
+        <h6 class="card-title text-center mb-1" routerLink='/recipes/{{recipeFromList.id}}'>
             {{recipeFromList.name}}
-        </h6>                
+            <!-- <button *appHasRole='["Admin"]'><i class="fa fa-trash" aria-hidden="true"></i></button>  -->
+        </h6>  
+        <div *appHasRole='["Admin"]'><button class="btn btn-danger" id="removeRecipe" (click)="deleteRecipe(recipeFromList.id)">Remove recipe</button></div>          
     </div>
-    <div class="card-footer text-center">
-        <p class="card-text text-muted text-center">{{recipeFromList.category}}</p>         
+    <div class="card-footer text-center" routerLink='/recipes/{{recipeFromList.id}}'>
+        <p class="card-text text-muted text-center">{{recipeFromList.category}}</p>  
     </div>
 </div>

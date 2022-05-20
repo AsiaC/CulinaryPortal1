@@ -32,7 +32,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Policy = "OnlyAdminRole")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
@@ -66,7 +66,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
             }            
         }
 
-        [Authorize(Policy = "OnlyAdminRole")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{userId}", Name = "DeleteUser")]
         public async Task<ActionResult> DeleteUser([FromRoute] int userId)
         {
@@ -97,6 +97,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/cookbook
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/cookbook", Name = "GetUserCookbook")]
         public async Task<ActionResult<CookbookDto>> GetUserCookbookAsync([FromRoute] int userId)
         {
@@ -117,6 +118,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/recipes
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/recipes", Name = "GetUserRecipes")]
         public async Task<ActionResult<List<RecipeDto>>> GetUserRecipesAsync([FromRoute] int userId)
         {
@@ -137,6 +139,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/shoppingLists
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/shoppingLists", Name = "GetUserShoppingLists")]
         public async Task<ActionResult<List<ShoppingListDto>>> GetUserShoppingListsAsync([FromRoute] int userId)
         {
@@ -157,6 +160,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/recipes/1
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/recipes/{recipeId}", Name = "GetUserRecipeRate")]
         public async Task<ActionResult<RateDto>> GetUserRecipeRate([FromRoute] int userId, [FromRoute] int recipeId)
         {
@@ -177,6 +181,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/recipes/search
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/recipes/search", Name = "SearchUserRecipes")]
         public async Task<ActionResult<List<RecipeDto>>> SearchUserRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {
@@ -193,6 +198,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         }
 
         // GET: api/users/3/cookbook/search
+        [Authorize(Roles = "Member")]
         [HttpGet("{userId}/cookbook/search", Name = "SearchUserCookbookRecipes")]
         public async Task<ActionResult<IEnumerable<RecipeDto>>> SearchUserCookbookRecipes(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {

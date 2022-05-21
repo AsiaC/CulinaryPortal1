@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CulinaryPortal.API", "CulinaryPortal.API\CulinaryPortal.API.csproj", "{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1283C312-87AC-4503-BE22-1421EB1F4442}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{391CA182-B7D7-4D7D-81D2-4B5A03018B31}"
@@ -15,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CulinaryPortal.Domain", "Cu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CulinaryPortal.Application", "CulinaryPortal.Application\CulinaryPortal.Application.csproj", "{1DDD0169-104E-4E53-A703-4273DFA81713}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulinaryPortal.Persistence", "CulinaryPortal.Persistence\CulinaryPortal.Persistence.csproj", "{08A6333F-0AAD-45EA-B50D-B38750A4B049}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CulinaryPortal.Persistence", "CulinaryPortal.Persistence\CulinaryPortal.Persistence.csproj", "{08A6333F-0AAD-45EA-B50D-B38750A4B049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulinaryPortal.ApplicationProgrammingInterface", "CulinaryPortal.ApplicationProgrammingInterface\CulinaryPortal.ApplicationProgrammingInterface.csproj", "{2DFC8101-E0D4-401B-A318-94F050BFE366}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CulinaryPortal.ApplicationProgrammingInterface", "CulinaryPortal.ApplicationProgrammingInterface\CulinaryPortal.ApplicationProgrammingInterface.csproj", "{2DFC8101-E0D4-401B-A318-94F050BFE366}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B424E631-C80F-4F90-A29D-CDC5E79CA0C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B424E631-C80F-4F90-A29D-CDC5E79CA0C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B424E631-C80F-4F90-A29D-CDC5E79CA0C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,7 +44,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{65EB86B4-8D0C-40F0-AC89-3168F2C6D9E3} = {391CA182-B7D7-4D7D-81D2-4B5A03018B31}
 		{B424E631-C80F-4F90-A29D-CDC5E79CA0C2} = {1283C312-87AC-4503-BE22-1421EB1F4442}
 		{1DDD0169-104E-4E53-A703-4273DFA81713} = {1283C312-87AC-4503-BE22-1421EB1F4442}
 		{08A6333F-0AAD-45EA-B50D-B38750A4B049} = {274BDC95-46E7-4F12-AA4C-8404E3A02226}

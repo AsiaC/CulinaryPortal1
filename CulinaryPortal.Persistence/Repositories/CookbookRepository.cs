@@ -24,12 +24,12 @@ namespace CulinaryPortal.Persistence.Repositories
 
             return cookbooks;
         }
-
-        public async Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId)
+        public async Task<Cookbook> GetUserCookbookAsync(int userId)
         {
             var cookbook = await _dbContext.Cookbooks
+                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c => c.Category)
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
-                .FirstOrDefaultAsync(u => u.Id == cookbookId);
+                .FirstOrDefaultAsync(u => u.UserId == userId);
             return cookbook;
         }
         public async Task AddRecipeToCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook)

@@ -10,6 +10,6 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetai
 {
     public class GetCookbookDetailQuery : IRequest<CookbookDto>
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
     }
 }

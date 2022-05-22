@@ -10,7 +10,7 @@ namespace CulinaryPortal.Application.Persistence
     public interface ICookbookRepository : IAsyncRepository<Cookbook>
     {
         Task<List<Cookbook>> GetCookbooksWithRecipesAsync();
-        Task<Cookbook> GetCookbookWithRecipesAsync(int cookbookId);
+        Task<Cookbook> GetUserCookbookAsync(int userId);
         Task AddRecipeToCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
         Task RemoveRecipeFromCookbookAsync(CookbookRecipe cookbookRecipe, Cookbook cookbook);
         Task<Cookbook> GetCookbookWithDetailsAsync(int cookbookId);

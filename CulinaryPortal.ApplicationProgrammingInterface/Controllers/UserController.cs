@@ -1,9 +1,9 @@
-﻿using CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail;
+﻿using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetail;
+using CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
 using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListsList;
 using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
 using CulinaryPortal.Application.Features.Users.Commands.UpdateUser;
-using CulinaryPortal.Application.Features.Users.Queries.GetUserCookbook;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserDetail;
 using CulinaryPortal.Application.Features.Users.Queries.GetUsersList;
 using CulinaryPortal.Application.Features.Users.Queries.SearchUserCookbookRecipes;
@@ -102,7 +102,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getUserCookbookQuery = new GetUserCookbookQuery() { UserId = userId };
+                var getUserCookbookQuery = new GetCookbookDetailQuery() { UserId = userId };
                 var cookbook = await _mediator.Send(getUserCookbookQuery);
                 if (cookbook == null)
                 {

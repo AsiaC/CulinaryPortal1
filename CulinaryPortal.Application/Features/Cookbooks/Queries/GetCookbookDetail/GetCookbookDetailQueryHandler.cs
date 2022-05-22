@@ -24,7 +24,7 @@ namespace CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetai
 
         public async Task<CookbookDto> Handle(GetCookbookDetailQuery request, CancellationToken cancellationToken)
         {
-            var cookbook = await _cookbookRepository.GetCookbookWithRecipesAsync(request.Id);
+            var cookbook = await _cookbookRepository.GetUserCookbookAsync(request.UserId);
             var cookbookDetailDto = _mapper.Map<CookbookDto>(cookbook);
             return cookbookDetailDto;
         }

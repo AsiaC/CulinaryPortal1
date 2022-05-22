@@ -32,16 +32,7 @@ namespace CulinaryPortal.Persistence.Repositories
             }
             return users;
         }
-
-        public async Task<Cookbook> GetUserCookbookAsync(int userId)
-        {
-            var cookbook = await _dbContext.Cookbooks
-                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c => c.Category)
-                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
-                .FirstOrDefaultAsync(u => u.UserId == userId);
-            return cookbook;
-        }               
-
+            
         public async Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {
             var cookbook = await _dbContext.Cookbooks

@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <EmbeddedResource Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <None Remove="Features\Recipes\Queries\SearchRecipes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
@@ -12,10 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CulinaryPortal.Domain\CulinaryPortal.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Recipes\Queries\SearchRecipes\" />
   </ItemGroup>
 
 </Project>

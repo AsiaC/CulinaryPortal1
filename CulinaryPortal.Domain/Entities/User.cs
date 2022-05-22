@@ -19,6 +19,6 @@ namespace CulinaryPortal.Domain.Entities
         public IList<Recipe> Recipes { get; set; }        
         public IList<Rate> Rates { get; set; }
         public IList<ShoppingList> ShoppingLists { get; set; }
-        public ICollection<AppUserRole> UserRoles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace CulinaryPortal.Persistence.Data
 {
     public class Seed
     {
-        public static async Task SeedInitialDataAsync(UserManager<User> userManager, RoleManager<AppRole> roleManager, CulinaryPortalDbContext culinaryPortalContext)
+        public static async Task SeedInitialDataAsync(UserManager<User> userManager, RoleManager<Role> roleManager, CulinaryPortalDbContext culinaryPortalContext)
         {
             //var applicationUser = new ApplicationUser
             //{
@@ -32,10 +32,10 @@ namespace CulinaryPortal.Persistence.Data
                 if (await userManager.Users.AnyAsync()) return;
 
                 #region Users
-                var roles = new List<AppRole>
+                var roles = new List<Role>
                 {
-                    new AppRole{Name = "Admin"},
-                    new AppRole{Name = "Member"}
+                    new Role{Name = "Admin"},
+                    new Role{Name = "Member"}
                 };
                 foreach (var role in roles)
                 {

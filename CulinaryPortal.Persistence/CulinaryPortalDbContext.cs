@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Persistence
 {
-    public class CulinaryPortalDbContext : IdentityDbContext<User, AppRole, int, IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>    //: DbContext
+    public class CulinaryPortalDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>    //: DbContext
     {
         public CulinaryPortalDbContext(DbContextOptions<CulinaryPortalDbContext>options)
             : base(options)
@@ -33,13 +33,13 @@ namespace CulinaryPortal.Persistence
                 .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
 
-            modelBuilder.Entity<AppRole>()
+            modelBuilder.Entity<Role>()
                .HasMany(ur => ur.UserRoles)
                .WithOne(u => u.Role)
                .HasForeignKey(ur => ur.RoleId)
                .IsRequired();
 
-            modelBuilder.Entity<AppUserRole>()
+            modelBuilder.Entity<UserRole>()
                 .HasKey(aur => new { aur.RoleId, aur.UserId });
         }
         

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace CulinaryPortal.Domain.Entities
 {
-    public class AppRole : IdentityRole<int>
+    public class UserRole : IdentityUserRole<int>
     {
-        public ICollection<AppUserRole> UserRoles { get; set; }
+        public User User { get; set; }
+        public Role Role { get; set; }
     }
 }

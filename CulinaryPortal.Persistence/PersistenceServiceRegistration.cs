@@ -45,10 +45,10 @@ namespace CulinaryPortal.Persistence
                     opt.Password.RequireDigit = false;
                     opt.Password.RequiredUniqueChars = 0;
                 })
-                .AddRoles<AppRole>()
-                .AddRoleManager<RoleManager<AppRole>>()
+                .AddRoles<Role>()
+                .AddRoleManager<RoleManager<Role>>()
                 .AddSignInManager<SignInManager<User>>()
-                .AddRoleValidator<RoleValidator<AppRole>>()
+                .AddRoleValidator<RoleValidator<Role>>()
                 .AddEntityFrameworkStores<CulinaryPortalDbContext>();
 
             services.AddTransient<IAuthenticationService, AuthenticationService>();

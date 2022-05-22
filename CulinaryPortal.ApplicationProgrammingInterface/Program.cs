@@ -27,7 +27,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface
                 {
                     var services = scope.ServiceProvider;
                     var context = services.GetService<CulinaryPortalDbContext>();
-                    var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+                    var roleManager = services.GetRequiredService<RoleManager<Role>>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     //// for demo purposes, delete the database & migrate on startup so we can start with a clean state
                     //await context.Database.EnsureDeletedAsync(); // Drop the database if it exists

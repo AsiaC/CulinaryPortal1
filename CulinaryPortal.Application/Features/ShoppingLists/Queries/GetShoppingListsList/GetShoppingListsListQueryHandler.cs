@@ -24,7 +24,7 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingL
         }
         public async Task<List<ShoppingListDto>> Handle(GetShoppingListsListQuery request, CancellationToken cancellationToken)
         {
-            var allShoppingLists = (await _shoppingListRepository.GetShoppingListsWithDetailsAsync()).OrderBy(x => x.Id);
+            var allShoppingLists = (await _shoppingListRepository.GetShoppingListsWithDetailsAsync(request.UserId)).OrderBy(x => x.Id);
             return _mapper.Map<List<ShoppingListDto>>(allShoppingLists);
         }
     }

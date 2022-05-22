@@ -1,13 +1,12 @@
-﻿using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
+﻿using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
+using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListsList;
+using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
 using CulinaryPortal.Application.Features.Users.Commands.UpdateUser;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserCookbook;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserDetail;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserRate;
-using CulinaryPortal.Application.Features.Users.Queries.GetUserRecipes;
-using CulinaryPortal.Application.Features.Users.Queries.GetUserShoppingLists;
 using CulinaryPortal.Application.Features.Users.Queries.GetUsersList;
 using CulinaryPortal.Application.Features.Users.Queries.SearchUserCookbookRecipes;
-using CulinaryPortal.Application.Features.Users.Queries.SearchUserRecipes;
 using CulinaryPortal.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -124,7 +123,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getUserRecipesQuery = new GetUserRecipesQuery() { UserId = userId };
+                var getUserRecipesQuery = new GetRecipesListQuery() { UserId = userId };
                 var recipes = await _mediator.Send(getUserRecipesQuery);
                 if (recipes.Any())
                 {
@@ -145,7 +144,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getUserShoppingListsQuery = new GetUserShoppingListsQuery() { UserId = userId };
+                var getUserShoppingListsQuery = new GetShoppingListsListQuery() { UserId = userId };
                 var userShoppingLists = await _mediator.Send(getUserShoppingListsQuery);
                 if (userShoppingLists.Any())
                 {
@@ -187,7 +186,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var searchUserRecipesQuery = new SearchUserRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
+                var searchUserRecipesQuery = new GetRecipesListQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
                 var dtos = await _mediator.Send(searchUserRecipesQuery);
                 return Ok(dtos);
             }

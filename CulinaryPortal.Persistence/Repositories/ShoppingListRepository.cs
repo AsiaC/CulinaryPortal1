@@ -15,13 +15,19 @@ namespace CulinaryPortal.Persistence.Repositories
         {
 
         }
-        public async Task<List<ShoppingList>> GetShoppingListsWithDetailsAsync()
+        public async Task<List<ShoppingList>> GetShoppingListsWithDetailsAsync(int? userId)
         {
-            var shoppingLists = await _dbContext.ShoppingLists
+            IEnumerable<ShoppingList> shoppingLists = await _dbContext.ShoppingLists
                 .Include(l => l.Items)
                 .Include(u => u.User)
                 .ToListAsync();
-            return shoppingLists;
+
+            if (userId != null)
+            {
+                shoppingLists = shoppingLists.Where(r => r.UserId == userId);
+            }
+
+            return shoppingLists.ToList();           
         }
 
         public async Task<ShoppingList> GetShoppingListWithDetailsAsync(int shoppingListId)

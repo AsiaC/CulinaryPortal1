@@ -10,5 +10,6 @@ namespace CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingL
 {
     public class GetShoppingListsListQuery : IRequest<List<ShoppingListDto>>
     {
+        public int UserId { get; set; }
     }
 }

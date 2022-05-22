@@ -31,11 +31,7 @@ namespace CulinaryPortal.Application.Profiles
                 dest => dest.UserName,
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
             CreateMap<CookbookDto, Cookbook>();
-            CreateMap<CreateCookbookCommand, Cookbook>().ReverseMap();
-            //CreateMap<UpdateCookbookCommand, Cookbook>()
-            //    .ForMember(
-            //    dest => dest.CookbookRecipes,
-            //    opt => opt.MapFrom(src => src.CookbookRecipes));
+            CreateMap<CreateCookbookCommand, Cookbook>().ReverseMap();            
 
             CreateMap<CookbookRecipeDto, CookbookRecipe>()
                 .ForMember(
@@ -101,10 +97,7 @@ namespace CulinaryPortal.Application.Profiles
                 dest => dest.UserName,
                 opt => opt.MapFrom(src => $"{src.User.FirstName} {src.User.LastName}"));
 
-            CreateMap<CreateShoppingListCommand, ShoppingList>().ReverseMap();//TODO CZY POTRZEBUJE?
-            //.ForMember(
-            //dest => dest.Items,
-            //opt => opt.MapFrom(src => src.Items));
+            CreateMap<CreateShoppingListCommand, ShoppingList>().ReverseMap();
             CreateMap<UpdateShoppingListCommand, ShoppingList>().ReverseMap();
 
             CreateMap<User, UserDto>().ReverseMap();

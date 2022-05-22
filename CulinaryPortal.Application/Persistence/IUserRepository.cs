@@ -10,8 +10,7 @@ namespace CulinaryPortal.Application.Persistence
     public interface IUserRepository : IAsyncRepository<User>
     {
         Task<List<User>> GetUsersWithDetailsAsync();
-        Task<Cookbook> GetUserCookbookAsync(int userId);
-        Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId);
+        Task<Cookbook> GetUserCookbookAsync(int userId);        
         Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId);
     }
 }

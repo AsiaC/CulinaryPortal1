@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CulinaryPortal.Application.Features.Users.Queries.GetUserRate
+namespace CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail
 {
-    public class GetUserRateQuery : IRequest<RateDto>
+    public class GetRateDetailQuery : IRequest<RateDto>
     {
         public int UserId { get; set; }
         public int RecipeId { get; set; }

@@ -7,16 +7,19 @@
   <ItemGroup>
     <Compile Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <Compile Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <Compile Remove="Features\Users\Queries\GetUserRate\**" />
     <Compile Remove="Features\Users\Queries\GetUserRecipes\**" />
     <Compile Remove="Features\Users\Queries\GetUserShoppingLists\**" />
     <Compile Remove="Features\Users\Queries\SearchUserRecipes\**" />
     <EmbeddedResource Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <EmbeddedResource Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <EmbeddedResource Remove="Features\Users\Queries\GetUserRate\**" />
     <EmbeddedResource Remove="Features\Users\Queries\GetUserRecipes\**" />
     <EmbeddedResource Remove="Features\Users\Queries\GetUserShoppingLists\**" />
     <EmbeddedResource Remove="Features\Users\Queries\SearchUserRecipes\**" />
     <None Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <None Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <None Remove="Features\Users\Queries\GetUserRate\**" />
     <None Remove="Features\Users\Queries\GetUserRecipes\**" />
     <None Remove="Features\Users\Queries\GetUserShoppingLists\**" />
     <None Remove="Features\Users\Queries\SearchUserRecipes\**" />

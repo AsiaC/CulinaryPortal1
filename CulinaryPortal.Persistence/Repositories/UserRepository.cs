@@ -40,12 +40,7 @@ namespace CulinaryPortal.Persistence.Repositories
                 .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
             return cookbook;
-        } 
-
-        public async Task<Rate> GetUserRecipeRateAsync(int userId, int recipeId)
-        {
-            return await _dbContext.Rates.FirstOrDefaultAsync(r => r.RecipeId == recipeId && r.UserId == userId);
-        }        
+        }               
 
         public async Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
         {

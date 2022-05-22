@@ -32,6 +32,7 @@ namespace CulinaryPortal.Persistence
             services.AddScoped<IRecipeRepository, RecipeRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRateRepository, RateRepository>();
 
             services.AddIdentityCore<User>(opt => 
                 { 

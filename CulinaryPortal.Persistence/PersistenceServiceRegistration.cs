@@ -28,10 +28,7 @@ namespace CulinaryPortal.Persistence
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICookbookRepository, CookbookRepository>();
-            services.AddScoped<IIngredientRepository, IngredientRepository>();
-            services.AddScoped<IMeasureRepository, MeasureRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
-            services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IRecipeRepository, RecipeRepository>();
             services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

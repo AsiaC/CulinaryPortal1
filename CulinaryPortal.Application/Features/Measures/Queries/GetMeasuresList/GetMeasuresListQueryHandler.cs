@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Application.Persistence;
+using CulinaryPortal.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace CulinaryPortal.Application.Features.Measures.Queries.GetMeasuresList
 {
     public class GetMeasuresListQueryHandler : IRequestHandler<GetMeasuresListQuery, List<MeasureDto>>
     {
-        private readonly IMeasureRepository _measureRepository;
+        private readonly IAsyncRepository<Measure> _measureRepository;
         private readonly IMapper _mapper;
-        public GetMeasuresListQueryHandler(IMapper mapper, IMeasureRepository measureRepository)
+        public GetMeasuresListQueryHandler(IMapper mapper, IAsyncRepository<Measure> measureRepository)
         {
             _mapper = mapper;
             _measureRepository = measureRepository;

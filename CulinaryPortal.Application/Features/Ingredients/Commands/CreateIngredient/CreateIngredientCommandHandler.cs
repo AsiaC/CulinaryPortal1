@@ -14,10 +14,10 @@ namespace CulinaryPortal.Application.Features.Ingredients.Commands.CreateIngredi
 {
     public class CreateIngredientCommandHandler : IRequestHandler<CreateIngredientCommand, IngredientDto>
     {
-        private readonly IIngredientRepository _ingredientRepository;
+        private readonly IAsyncRepository<Ingredient> _ingredientRepository;
         private readonly IMapper _mapper;
 
-        public CreateIngredientCommandHandler(IMapper mapper, IIngredientRepository ingredientRepository)
+        public CreateIngredientCommandHandler(IMapper mapper, IAsyncRepository<Ingredient> ingredientRepository)
         {
             _mapper = mapper;
             _ingredientRepository = ingredientRepository;

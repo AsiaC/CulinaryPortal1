@@ -1,4 +1,5 @@
 ﻿using CulinaryPortal.Application.Persistence;
+using CulinaryPortal.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace CulinaryPortal.Application.Features.Rates.Commands.DeleteRate
 {
     public class DeleteRateCommandHandler : IRequestHandler<DeleteRateCommand>
     {
-        private readonly IRateRepository _rateRepository;
+        private readonly IAsyncRepository<Rate> _rateRepository;
 
-        public DeleteRateCommandHandler(IRateRepository rateRepository)
-        {            
+        public DeleteRateCommandHandler(IAsyncRepository<Rate> rateRepository)
+        {
             _rateRepository = rateRepository;
         }
         public async Task<Unit> Handle(DeleteRateCommand request, CancellationToken cancellationToken)

@@ -16,10 +16,10 @@ namespace CulinaryPortal.Application.Features.Rates.Commands.CreateRate
 {
     public class CreateRateCommandHandler : IRequestHandler<CreateRateCommand, RateDto>
     {
-        private readonly IRateRepository _rateRepository;
+        private readonly IAsyncRepository<Rate> _rateRepository;
         private readonly IMapper _mapper;
 
-        public CreateRateCommandHandler(IMapper mapper, IRateRepository rateRepository)
+        public CreateRateCommandHandler(IMapper mapper, IAsyncRepository<Rate> rateRepository)
         {
             _mapper = mapper;
             _rateRepository = rateRepository;

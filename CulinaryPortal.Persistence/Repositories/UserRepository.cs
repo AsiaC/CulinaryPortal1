@@ -31,37 +31,7 @@ namespace CulinaryPortal.Persistence.Repositories
                 }
             }
             return users;
-        }
-            
-        public async Task<List<Recipe>> SearchCookbookUserRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId)
-        {
-            var cookbook = await _dbContext.Cookbooks
-                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(c => c.Category)
-                .Include(c => c.CookbookRecipes).ThenInclude(r => r.Recipe).ThenInclude(p => p.Photos)
-                .FirstOrDefaultAsync(u => u.UserId == userId);
-
-            IEnumerable<Recipe> query = cookbook.CookbookRecipes.Select(r => r.Recipe);
-
-            if (categoryId != null)
-            {
-                query = query.Where(r => r.CategoryId == categoryId);
-            }
-
-            if (preparationTimeId != null)
-            {
-                query = query.Where(r => (int)r.PreparationTime <= preparationTimeId);
-            }
-
-            if (difficultyLevelId != null)
-            {
-                query = query.Where(r => (int)r.DifficultyLevel == difficultyLevelId);
-            }
-
-            if (!String.IsNullOrWhiteSpace(name))
-            {
-                query = query.Where(r => r.Name.ToLower() == name.ToLower());
-            }
-            return query.ToList();
-        }
+        }            
+        
     }
 }

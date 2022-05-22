@@ -1,4 +1,5 @@
 ﻿using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookDetail;
+using CulinaryPortal.Application.Features.Cookbooks.Queries.GetCookbookRecipes;
 using CulinaryPortal.Application.Features.Rates.Queries.GetRateDetail;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
 using CulinaryPortal.Application.Features.ShoppingLists.Queries.GetShoppingListsList;
@@ -6,7 +7,6 @@ using CulinaryPortal.Application.Features.Users.Commands.DeleteUser;
 using CulinaryPortal.Application.Features.Users.Commands.UpdateUser;
 using CulinaryPortal.Application.Features.Users.Queries.GetUserDetail;
 using CulinaryPortal.Application.Features.Users.Queries.GetUsersList;
-using CulinaryPortal.Application.Features.Users.Queries.SearchUserCookbookRecipes;
 using CulinaryPortal.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -203,7 +203,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var searchUserCookbookRecipesQuery = new SearchUserCookbookRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
+                var searchUserCookbookRecipesQuery = new GetCookbookRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId};
                 var dtos = await _mediator.Send(searchUserCookbookRecipesQuery);
                 return Ok(dtos);
             }

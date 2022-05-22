@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipePhotos
+namespace CulinaryPortal.Application.Features.Photos.Queries.GetPhotosList
 {
-    public class GetRecipePhotosQuery : IRequest<List<PhotoDto>>
+    public class GetPhotosListQuery : IRequest<List<PhotoDto>>
     {
         public int RecipeId { get; set; }
     }

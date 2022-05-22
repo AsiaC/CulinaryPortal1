@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <Compile Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <EmbeddedResource Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <EmbeddedResource Remove="Features\Recipes\Queries\SearchRecipes\**" />
+    <None Remove="Features\Recipes\Queries\GetRecipePhotos\**" />
     <None Remove="Features\Recipes\Queries\SearchRecipes\**" />
   </ItemGroup>
 

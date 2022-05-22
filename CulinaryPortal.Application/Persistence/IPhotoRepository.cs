@@ -9,5 +9,7 @@ namespace CulinaryPortal.Application.Persistence
 {
     public interface IPhotoRepository : IAsyncRepository<Photo>
     {
+        Task<List<Photo>> GetRecipePhotosAsync(int recipeId);
+        Task AddPhotoAsync(Photo photo);
     }
 }

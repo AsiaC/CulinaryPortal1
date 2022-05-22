@@ -10,8 +10,6 @@ namespace CulinaryPortal.Application.Persistence
     public interface IRecipeRepository : IAsyncRepository<Recipe>
     {
         Task<Recipe> GetRecipeWithDetailsAsync(int recipeId);
-        Task<List<Photo>> GetRecipePhotosAsync(int recipeId);
-        Task AddPhotoAsync(Photo photo);
         Task<List<Recipe>> GetRecipesWithDetailsAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top);
     }
 }

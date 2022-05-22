@@ -13,8 +13,7 @@ namespace CulinaryPortal.Persistence.Repositories
     {
         public RecipeRepository(CulinaryPortalDbContext dbContext) : base(dbContext)
         { 
-        }
-        
+        }        
 
         public async Task<Recipe> GetRecipeWithDetailsAsync(int recipeId)
         {
@@ -30,22 +29,6 @@ namespace CulinaryPortal.Persistence.Repositories
                 .FirstOrDefaultAsync(u => u.Id == recipeId);
 
             return recipe;
-        }
-
-        public async Task<List<Photo>> GetRecipePhotosAsync(int recipeId)
-        {
-            return await _dbContext.Photos.Where(p => p.RecipeId == recipeId).ToListAsync();
-        }
-
-        public async Task AddPhotoAsync(Photo photo)
-        {
-            if (photo == null)
-            {
-                throw new ArgumentNullException(nameof(photo));
-            }
-
-            await _dbContext.Photos.AddAsync(photo);
-            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<Recipe>> GetRecipesWithDetailsAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)

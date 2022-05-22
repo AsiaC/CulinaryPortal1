@@ -2,13 +2,12 @@
 using CulinaryPortal.Application.Features.Photos.Commands.DeletePhoto;
 using CulinaryPortal.Application.Features.Photos.Commands.UpdatePhoto;
 using CulinaryPortal.Application.Features.Photos.Queries.GetPhotoDetail;
+using CulinaryPortal.Application.Features.Photos.Queries.GetPhotosList;
 using CulinaryPortal.Application.Features.Recipes.Commands.CreateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Commands.DeleteRecipe;
 using CulinaryPortal.Application.Features.Recipes.Commands.UpdateRecipe;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipeDetail;
-using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipePhotos;
 using CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList;
-using CulinaryPortal.Application.Features.Recipes.Queries.SearchRecipes;
 using CulinaryPortal.Application.Models;
 using CulinaryPortal.Domain.Entities;
 using MediatR;
@@ -141,7 +140,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                var getRecipePhotosQuery = new GetPhotosListQuery() { RecipeId = recipeId };
                 var photos = await _mediator.Send(getRecipePhotosQuery);
                 if (photos.Any())
                 {
@@ -168,7 +167,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
                     //Check if photo should be the main or not
                     bool isMainPhoto = true;
 
-                    var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                    var getRecipePhotosQuery = new GetPhotosListQuery() { RecipeId = recipeId };
                     var allRecipePhotos = await _mediator.Send(getRecipePhotosQuery);                    
                     if (allRecipePhotos.Any())
                         isMainPhoto = false;
@@ -210,7 +209,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var getRecipePhotosQuery = new GetRecipePhotosQuery() { RecipeId = recipeId };
+                var getRecipePhotosQuery = new GetPhotosListQuery() { RecipeId = recipeId };
                 var allRecipePhotos = await _mediator.Send(getRecipePhotosQuery);
                 if (!allRecipePhotos.Any())
                 {

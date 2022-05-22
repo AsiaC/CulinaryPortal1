@@ -32,12 +32,7 @@ namespace CulinaryPortal.Persistence.Repositories
         public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
-        }
-
-        public async virtual Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
-        {
-            return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
-        }
+        }               
 
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {

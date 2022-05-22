@@ -23,8 +23,17 @@ namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList
         }
         public async Task<List<RecipeDto>> Handle(GetRecipesListQuery request, CancellationToken cancellationToken)
         {
-            var allRecipes = (await _recipeRepository.GetRecipesWithDetailsAsync()).OrderBy(x => x.Id);
-            return _mapper.Map<List<RecipeDto>>(allRecipes);
+            //var allRecipes = (await _recipeRepository.GetRecipesWithDetailsAsync()).OrderBy(x => x.Id);
+            //return _mapper.Map<List<RecipeDto>>(allRecipes);
+            //
+            var list = (await _recipeRepository.GetRecipesWithDetailsAsync(request.Name, request.CategoryId, request.DifficultyLevelId, request.PreparationTimeId, request.UserId, request.Top)).OrderBy(x => x.Id);
+            var searchRecipesDto = _mapper.Map<List<RecipeDto>>(list);
+
+            if (request.Top != null)
+            {
+                searchRecipesDto = searchRecipesDto.OrderByDescending(r => r.TotalScore).ThenBy(x => x.Name).Take(request.Top ?? 0).ToList();
+            }
+            return searchRecipesDto;
         }
     }
 }

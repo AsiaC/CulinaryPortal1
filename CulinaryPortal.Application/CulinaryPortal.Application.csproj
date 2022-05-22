@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CulinaryPortal.Domain\CulinaryPortal.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Recipes\Queries\SearchRecipes\" />
+  </ItemGroup>
+
 </Project>

@@ -14,19 +14,7 @@ namespace CulinaryPortal.Persistence.Repositories
         public RecipeRepository(CulinaryPortalDbContext dbContext) : base(dbContext)
         { 
         }
-        public async Task<List<Recipe>> GetRecipesWithDetailsAsync()
-        {
-            var recipes = await _dbContext.Recipes
-                .Include(i => i.Instructions)
-                .Include(p => p.Photos)                                         
-                .Include(ing => ing.RecipeIngredients).ThenInclude(r => r.Ingredient)
-                .Include(ing => ing.RecipeIngredients).ThenInclude(m => m.Measure)
-                .Include(c => c.Category)
-                .Include(r => r.Rates)
-                .ToListAsync();
-
-            return recipes;
-        }
+        
 
         public async Task<Recipe> GetRecipeWithDetailsAsync(int recipeId)
         {
@@ -60,7 +48,7 @@ namespace CulinaryPortal.Persistence.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Recipe>> SearchRecipesAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)
+        public async Task<List<Recipe>> GetRecipesWithDetailsAsync(string name, int? categoryId, int? difficultyLevelId, int? preparationTimeId, int? userId, int? top)
         {
             IEnumerable<Recipe> query = await _dbContext.Recipes
                 .Include(i => i.Instructions)

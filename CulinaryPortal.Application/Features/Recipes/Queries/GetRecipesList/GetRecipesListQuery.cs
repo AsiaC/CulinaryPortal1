@@ -9,6 +9,12 @@ using MediatR;
 namespace CulinaryPortal.Application.Features.Recipes.Queries.GetRecipesList
 {
     public class GetRecipesListQuery : IRequest<List<RecipeDto>>
-    {//public class GetShoppingListsListQuery : IRequest<List<ShoppingListDto>>
+    {
+        public string Name { get; set; }
+        public int? CategoryId { get; set; }
+        public int? DifficultyLevelId { get; set; }
+        public int? PreparationTimeId { get; set; }
+        public int? UserId { get; set; }
+        public int? Top { get; set; }
     }
 }

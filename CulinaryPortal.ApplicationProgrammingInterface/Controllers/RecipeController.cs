@@ -124,7 +124,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface.Controllers
         {
             try
             {
-                var searchRecipesQuery = new SearchRecipesQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId, Top = top };
+                var searchRecipesQuery = new GetRecipesListQuery() { Name = name, CategoryId = categoryId, DifficultyLevelId = difficultyLevelId, PreparationTimeId = preparationTimeId, UserId = userId, Top = top };
                 var dtos = await _mediator.Send(searchRecipesQuery);
                 return Ok(dtos);
             }

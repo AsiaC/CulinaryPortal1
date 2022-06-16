@@ -19,8 +19,8 @@ import { AdminGuard } from './_guards/admin.guard';
 const routes: Routes = [
 {path: '', component: HomeComponent},
 {path: 'recipes', component: RecipeListComponent},
-{path: 'recipes/:id', component: RecipeDetailComponent}, //TODO PreventUnsavedChangesGuard
-{path: 'recipes/:id/photos', component: RecipePhotoComponent}, //TODO PreventUnsavedChangesGuard
+{path: 'recipes/:id', component: RecipeDetailComponent},
+{path: 'recipes/:id/photos', component: RecipePhotoComponent},
 {
   path: '',
   runGuardsAndResolvers: 'always',

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { AccountService } from '../_services/account.service';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '../_services/account.service';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminGuard implements CanActivate {
   constructor(private accountService: AccountService, private toastr: ToastrService) { }
 
@@ -17,9 +18,8 @@ export class AdminGuard implements CanActivate {
         if (user.roles.includes('Admin')) {
           return true;
         }
-        this.toastr.error('You cannot enter this area');
+        this.toastr.error('You do not have access to this area');
       })
     )
-  }
-  
+  }  
 }

@@ -1,13 +1,13 @@
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef  } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
+import { User } from '../_models/user';
 
 @Directive({
-  selector: '[appHasRole]' // appHasRole='["Admin"]'
+  selector: '[hasRole]' // hasRole='["Admin"]'
 })
 export class HasRoleDirective implements OnInit{
-  @Input() appHasRole: string[];
+  @Input() hasRole: string[];
   user: User;
   constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
@@ -21,7 +21,7 @@ export class HasRoleDirective implements OnInit{
       this.viewContainerRef.clear(); 
       return;
     }
-    if (this.user?.roles.some(r => this.appHasRole.includes(r))) {
+    if (this.user?.roles.some(role => this.hasRole.includes(role))) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);
     } else {
       this.viewContainerRef.clear();

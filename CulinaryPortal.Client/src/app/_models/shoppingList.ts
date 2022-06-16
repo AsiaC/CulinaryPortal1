@@ -4,6 +4,6 @@ export interface ShoppingList{
     id: number | null;
     name: string;
     items: ListItem[];
-    userId: number; //TODO CZY TEGO POTRZEBUJE?
+    userId: number;
     userName: string;
 }

@@ -31,7 +31,7 @@ export class CreateCookbookComponent implements OnInit {
     if(this.currentRecipe != null){
       recipes.push(this.currentRecipe);  
     }
-    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [], userName: ''};
+    var cookbookToCreate : Cookbook = {id: null, name: this.newCookbookName, userId: this.userId, cookbookRecipes: [] };
     
     this.cookbookService.addCookbook(cookbookToCreate).subscribe(userCookbook => {
       this.userCookbook = userCookbook;          

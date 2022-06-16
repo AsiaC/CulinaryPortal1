@@ -11,10 +11,16 @@
     </div>
     <div class="card-body p-1">
         <h6 class="card-title text-center mb-1" routerLink='/recipes/{{recipeFromList.id}}'>
-            {{recipeFromList.name}}
-            <!-- <button *appHasRole='["Admin"]'><i class="fa fa-trash" aria-hidden="true"></i></button>  -->
+            {{recipeFromList.name}}            
         </h6>  
-        <div *appHasRole='["Admin"]'><button class="btn btn-danger" id="removeRecipe" (click)="deleteRecipe(recipeFromList.id)">Remove recipe</button></div>          
+        <div *hasRole='["Admin"]'>
+            <button 
+                class="btn btn-danger" 
+                id="removeRecipe" 
+                (click)="deleteRecipe(recipeFromList.id)">
+                Remove recipe
+            </button>
+        </div>          
     </div>
     <div class="card-footer text-center" routerLink='/recipes/{{recipeFromList.id}}'>
         <p class="card-text text-muted text-center">{{recipeFromList.category}}</p>  

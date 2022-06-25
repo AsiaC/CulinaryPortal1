@@ -19,7 +19,7 @@ namespace CulinaryPortal.ApplicationProgrammingInterface
     {
         public async static Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();//.Run();
+            var host = CreateHostBuilder(args).Build();
             // migrate the database.  Best practice = in Main, using service scope
             using (var scope = host.Services.CreateScope())
             {
@@ -30,14 +30,15 @@ namespace CulinaryPortal.ApplicationProgrammingInterface
                     var roleManager = services.GetRequiredService<RoleManager<Role>>();
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     //// for demo purposes, delete the database & migrate on startup so we can start with a clean state
-                    //await context.Database.EnsureDeletedAsync(); // Drop the database if it exists
-                    //await context.Database.MigrateAsync();
+                    await context.Database.EnsureDeletedAsync(); // Drop the database if it exists
+                    await context.Database.MigrateAsync();
                     await Seed.SeedInitialDataAsync(userManager, roleManager, context);                    
                 }
-                catch (Exception ex) //TODO WYCZYSC
+                catch (Exception ex)
                 {
-                    //var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-                    //logger.LogError(ex, "An error occurred while migrating the database.");
+                    Console.WriteLine(ex);
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while migrating the database.");
                 }
             }
 

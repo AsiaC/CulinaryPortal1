@@ -54,7 +54,7 @@
         </div>
     </div>
     
-    <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
+    <div class="row mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
         <div *ngIf="canAddToCookbook === true">
             <button class="btn btn-success" (click)="addToCookbook()">Add recipe to cookbook</button>
         </div>
@@ -62,31 +62,47 @@
             <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from cookbook</button>
         </div>
     </div>
-
-    <h2>Ingredients</h2>
-    <ul>
-        <li class="mt-2" *ngFor="let ingred of currentRecipe.recipeIngredients">
-            {{ingred.ingredient.name}}: {{ingred.quantity}} [{{ingred.measure.name}}]               
-        </li>
-    </ul>
-
-    <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
-        <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
+    <div class="row">        
+        <div class="col mt-3">
+            <h2>Ingredients</h2>
+            <ul>
+                <li class="mt-2" *ngFor="let ingred of currentRecipe.recipeIngredients">
+                    {{ingred.ingredient.name}}: {{ingred.quantity}} [{{ingred.measure.name}}]               
+                </li>
+            </ul>
+            <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
+                <button class="btn btn-success" (click)="modalAddToShoppingList()">Add all ingredients to shopping list</button>     
+            </div>            
+        </div>
+        <div class="col">
+            <ol>
+                <ul class="mt-2" *ngFor="let photo of currentRecipe.photos">
+                    <ng-container *ngIf="photo.isMain === true">
+                        <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
+                    </ng-container>
+                </ul>
+            </ol> 
+        </div>        
     </div>
-    
-    <h2>Instructions</h2>
-    <ol>
-        <li class="mt-2" *ngFor="let instruction of currentRecipe.instructions">
-            <p *ngIf="instruction.name != ''">{{instruction.name}}: </p>
-            <p>{{instruction.description}} </p>
-        </li>
-    </ol>
-    
-    <ol>
-        <ul class="mt-2" *ngFor="let photo of currentRecipe.photos">
-            <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>
+
+    <div class="row">
+        <h2>Instructions</h2>
+        <ul>
+            <li class="mt-2" *ngFor="let instruction of currentRecipe.instructions">
+                <p *ngIf="instruction.name != ''">{{instruction.name}}: </p>
+                <p>{{instruction.description}} </p>
+            </li>
         </ul>
-    </ol> 
+    </div>
+    <div class="row">
+        <ol>
+            <ul class="mt-2" *ngFor="let photo of currentRecipe.photos">
+                <ng-container *ngIf="photo.isMain === false">                
+                    <img [src]="'data:image/jpeg;base64,'+photo.contentPhoto"/>            
+                </ng-container>                
+            </ul>
+        </ol> 
+    </div>
 </div>
 
 <div *ngIf="editRecipe === true">    

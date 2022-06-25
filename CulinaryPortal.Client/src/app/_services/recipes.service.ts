@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Recipe } from '../_models/recipe';
-import { Category } from '../_models/category';
 import { Ingredient } from '../_models/ingredient';
-import { Measure } from '../_models/measure';
-import { Photo } from '../_models/photo';
 import { Rate } from '../_models/rate';
 import { catchError } from 'rxjs/operators';
 

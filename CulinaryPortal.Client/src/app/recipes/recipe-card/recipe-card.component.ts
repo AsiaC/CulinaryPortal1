@@ -18,7 +18,7 @@ export class RecipeCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  deleteRecipe(recipeId){ debugger;
+  deleteRecipe(recipeId){
     const initialState = {  
       title: 'Are you sure that you would like to delete indicated recipe?',      
       idToRemove: recipeId,

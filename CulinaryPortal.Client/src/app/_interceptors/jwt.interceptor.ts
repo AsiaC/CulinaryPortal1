@@ -16,14 +16,15 @@ export class JwtInterceptor implements HttpInterceptor {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => currentUser = user);
 
     if (currentUser) {
-      // Clone the request and set the new  authorization header. https://angular.io/guide/http#intercepting-requests-and-responses
+      // Clone the request and set the new  authorization header. 
+      // https://angular.io/guide/http#intercepting-requests-and-responses
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${currentUser.token}`
         }
       })
     }
-    // Send cloned request with header to the next handler. https://angular.io/guide/http#intercepting-requests-and-responses
+    // Send cloned request with header to the next handler.
     return next.handle(request);
   }
 }

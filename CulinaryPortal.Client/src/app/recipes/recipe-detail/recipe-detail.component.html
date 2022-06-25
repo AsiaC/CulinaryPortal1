@@ -56,10 +56,10 @@
     
     <div class="mb-3" *ngIf="user !== undefined && user?.roles.includes('Member')">
         <div *ngIf="canAddToCookbook === true">
-            <button class="btn btn-success" (click)="addToCookbook()">Add recipe to Cookbook</button>
+            <button class="btn btn-success" (click)="addToCookbook()">Add recipe to cookbook</button>
         </div>
         <div *ngIf="canAddToCookbook === false">
-            <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from Cookbook</button>
+            <button class="btn btn-danger" (click)="removeFromCookbook()">Remove recipe from cookbook</button>
         </div>
     </div>
 

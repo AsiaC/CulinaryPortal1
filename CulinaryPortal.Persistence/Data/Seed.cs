@@ -12,21 +12,7 @@ namespace CulinaryPortal.Persistence.Data
     public class Seed
     {
         public static async Task SeedInitialDataAsync(UserManager<User> userManager, RoleManager<Role> roleManager, CulinaryPortalDbContext culinaryPortalContext)
-        {
-            //var applicationUser = new ApplicationUser
-            //{
-            //    FirstName = "John",
-            //    LastName = "Smith",
-            //    UserName = "johnsmith",
-            //    Email = "john@test.com",
-            //    EmailConfirmed = true
-            //};
-
-            //var user = await userManager.FindByEmailAsync(applicationUser.Email);
-            //if (user == null)
-            //{
-            //    await userManager.CreateAsync(applicationUser, "Plural&01?");
-            //}
+        {            
             try
             {
                 if (await userManager.Users.AnyAsync()) return;

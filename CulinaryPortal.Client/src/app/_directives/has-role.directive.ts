@@ -9,7 +9,9 @@ import { User } from '../_models/user';
 export class HasRoleDirective implements OnInit{
   @Input() hasRole: string[];
   user: User;
-  constructor(private viewContainerRef: ViewContainerRef, private templateRef: TemplateRef<any>, private accountService: AccountService) {
+  constructor(private viewContainerRef: ViewContainerRef, 
+    private templateRef: TemplateRef<any>, 
+    private accountService: AccountService) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
       this.user = user;
     })

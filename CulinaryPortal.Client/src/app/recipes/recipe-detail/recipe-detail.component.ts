@@ -50,7 +50,7 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.getRecipe(Number(this.route.snapshot.paramMap.get('id'))).subscribe(recipe => { 
       if(recipe?.id !== undefined){
         this.currentRecipe = recipe; 
-        debugger;
+        
         if(this.user !== undefined && this.user?.roles.includes('Member')){            
           this.loadUserCookbook();
           this.loadUserShoppingListsIds();   
@@ -105,7 +105,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   addToCookbook(){  
-    if(this.userCookbook === undefined){ debugger;
+    if(this.userCookbook === undefined){
         this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: 0, recipe: this.currentRecipe, isRecipeAdded: true}
         const initialState = {     
           title: 'Create cookbook and add indicated recipe', 
@@ -116,7 +116,7 @@ export class RecipeDetailComponent implements OnInit {
         this.bsModalRef.content.closeBtnName = 'Cancel';
         this.bsModalRef.content.submitBtnName = 'Confirm';
         this.canAddToCookbook = false;
-    } else {   debugger;    
+    } else {      
     this.cookbookRecipe = {recipeId: this.currentRecipe.id, userId: this.user.id, cookbookId: this.userCookbook.id, recipe: this.currentRecipe, isRecipeAdded: true}
     this.userCookbook.cookbookRecipes.push(this.cookbookRecipe);
     this.cookbookService.updateCookbook(this.userCookbook.id, this.cookbookRecipe).subscribe(response => {
@@ -128,7 +128,7 @@ export class RecipeDetailComponent implements OnInit {
         }   
         this.canAddToCookbook = false;
       }) 
-    } debugger;
+    }
   }
 
   removeFromCookbook(){

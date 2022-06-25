@@ -57,7 +57,7 @@ export class CreateCookbookComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  cancelCreatingCookbook(){debugger;
+  cancelCreatingCookbook(){
     window.location.reload();
     this.bsModalRef.hide()
   }

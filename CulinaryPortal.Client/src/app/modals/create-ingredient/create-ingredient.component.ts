@@ -27,7 +27,7 @@ export class CreateIngredientComponent implements OnInit {
   }
 
   //todo dodaj jak cancel to ustaw na Choose.....
-  cancelAddingNewIngredient(){ debugger;
+  cancelAddingNewIngredient(){
     this.bsModalRef.hide();
   }
 }

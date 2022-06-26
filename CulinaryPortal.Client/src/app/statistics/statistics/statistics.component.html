@@ -1,8 +1,7 @@
 <h4>Statistics</h4>
 <br/>
 
-<br/>
-<h5>Top 6 najwyżej ocenianych przepisów</h5>
+<h5>Top 3 highest rated recipes</h5>
 <div class="row" *ngIf="top6Recipes">
     <table class="table table-stripped">
         <thead>
@@ -38,7 +37,7 @@
 
 
 <br/>
-<h5>Liczba przepisów w serwisie w podziale na kategorie</h5>
+<h5>Number of recipes by category</h5>
 <div class="row" *ngIf="allCategories">
     <table class="table table-stripped">
         <thead>
@@ -56,9 +55,9 @@
     </table>
 </div>
 <br/>
-<h5>Liczba zarejestrowanych użytkowników: {{numberOfRegisteredUsers}}</h5>
+<h5>Number of registered users: {{numberOfRegisteredUsers}}</h5>
 <br/>
-<h5>Liczba dodanych przepisów przez poszczególnych użytkowników</h5>
+<h5>Number of recipes added by each user</h5>
 <div class="row" *ngIf="users">
     <table class="table table-stripped">
         <thead>

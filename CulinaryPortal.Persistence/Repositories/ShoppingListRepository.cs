@@ -22,7 +22,7 @@ namespace CulinaryPortal.Persistence.Repositories
                 .Include(u => u.User)
                 .ToListAsync();
 
-            if (userId != null)
+            if (userId != null && userId != 0)
             {
                 shoppingLists = shoppingLists.Where(r => r.UserId == userId);
             }

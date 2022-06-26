@@ -258,7 +258,7 @@ namespace CulinaryPortal.Persistence.Data
                     new Recipe{
                         Name = "Pancakes",
                         Description = null,
-                        CategoryId = 2,
+                        CategoryId = 1,
                         DifficultyLevel = Domain.Enums.DifficultyLevel.easy,
                         PreparationTime = Domain.Enums.PreparationTime.lessThan15,
                         UserId = 3,

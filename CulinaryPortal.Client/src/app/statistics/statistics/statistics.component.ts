@@ -26,7 +26,7 @@ export class StatisticsComponent implements OnInit {
   }  
   
   searchRecipes(){    
-    var dict = { top: 6 };    
+    var dict = { top: 3 };    
 
     this.recipeService.searchRecipes(dict).subscribe(recipesResponse => {
       if(recipesResponse?.length !== undefined){
